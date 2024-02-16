@@ -1,0 +1,20 @@
+# other
+log
+logs
+__pycache__
+.vscode 
+
+# python virtual environment
+.env
+
+### dataset
+
+### tests
+tests/cpputest-4.0
+tests/lib
+tests/objs
+tests/src
+tests/CorpusCleaner_tests
+
+### results
+results/*
