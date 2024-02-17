@@ -17,10 +17,10 @@ TEST(IsEvenTest, Positive) {
     EXPECT_TRUE(IsEven(2));
 }
 
-int main(int argc, char **argv)
-{
-	//Google Testの初期化
-	::testing::InitGoogleTest(&argc, argv);
-	//全テスト実行
-	return RUN_ALL_TESTS();
-}
+// int main(int argc, char **argv)
+// {
+// 	//Google Testの初期化
+// 	::testing::InitGoogleTest(&argc, argv);
+// 	//全テスト実行
+// 	return RUN_ALL_TESTS();
+// }

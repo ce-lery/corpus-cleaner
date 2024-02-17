@@ -16,6 +16,7 @@ tests/lib
 tests/objs
 tests/src
 tests/CorpusCleaner_tests
+tests/build/*
 
 ### results
 results/*
