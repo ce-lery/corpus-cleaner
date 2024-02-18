@@ -15,8 +15,18 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+# include_directories(${CMAKE_SOURCE_DIR}/../corpus_cleaner_cpp/)
+# add_subdirectory(corpus_cleaner_cpp)
+# add_subdirectory(tests)
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
-add_executable(${PROJECT_NAME}-googletest sample.cpp sample_test.cpp)
+add_executable(${PROJECT_NAME}-googletest 
+               CorpusCleaner_test.cpp 
+               ../corpus_cleaner_cpp/corpus_cleaner.cpp
+               ../corpus_cleaner_cpp/corpus_cleaner.hpp
+               ../corpus_cleaner_cpp/util.cpp
+               ../corpus_cleaner_cpp/util.hpp
+
+               )
 # Create an executable file called ${PROJECT_NAME}-googletes.out from main.cpp
 target_link_libraries(${PROJECT_NAME}-googletest gtest_main)
 # Link lib${CMAKE_CURRENT_SOURCE_DIR}.a when creating ${PROJECT_NAME}-googletes.out
