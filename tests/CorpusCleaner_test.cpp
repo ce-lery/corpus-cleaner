@@ -30,8 +30,8 @@ protected:
     virtual void TearDown() {
         // This code is placed immediately after each test (just before the destructor)
         // will be called.
-        string output_path = "../data/output/";
-        RemoveFolder(output_path);
+        // string output_path = "../data/output/";
+        // RemoveFolder(output_path);
     }
 
     // Objects declared here are available to all tests within the test case.
@@ -79,5 +79,38 @@ TEST_F(CorpusCleanerTest, URLRemover) {
     uint32_t max_length = 1000;
     CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
     corpus_cleaner.URLRemover(input_path,output_path);
+    ASSERT_TRUE(CompareFiles(output_path,answer_path));
+}
+
+TEST_F(CorpusCleanerTest, MakeStats) {
+    string input_path = "../data/input/test_URLRemover.txt";
+    double elapsed_time = 11.56;
+    string process_name = "URLRemover";
+    Stats stats = MakeStats(process_name,input_path,elapsed_time);
+    ASSERT_EQ("URLRemover",stats.process_name);
+    ASSERT_EQ("test_URLRemover.txt",stats.file_name);
+    ASSERT_EQ(elapsed_time,stats.elapsed_time);
+    ASSERT_EQ(filesystem::file_size(input_path),stats.result_file_size);
+}
+
+// TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
+//     string input_path = "../data/input/test_SpecialCharacterRemover.txt";
+//     string output_path = "../data/output/test_SpecialCharacterRemover.txt";
+//     string answer_path = "../data/answer/test_SpecialCharacterRemover.txt";
+//     uint32_t min_length=10;
+//     uint32_t max_length = 1000;
+//     CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
+//     corpus_cleaner.SpecialCharacterRemover(input_path,output_path);
+//     ASSERT_TRUE(CompareFiles(output_path,answer_path));
+// }
+
+TEST_F(CorpusCleanerTest, EmojiRemover) {
+    string input_path = "../data/input/test_EmojiRemover.txt";
+    string output_path = "../data/output/test_EmojiRemover.txt";
+    string answer_path = "../data/answer/test_EmojiRemover.txt";
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
+    corpus_cleaner.EmojiRemover(input_path,output_path);
     ASSERT_TRUE(CompareFiles(output_path,answer_path));
 }

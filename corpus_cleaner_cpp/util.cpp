@@ -45,3 +45,31 @@ void RemoveFolder(const std::string& path)
     }
     filesystem::remove(path);
 }
+
+/**
+ * @brief Derive the next emoji
+ * @details 
+ * @example
+ *   string emoji="🌀";
+ *   CalculateNextEmoji(emoji); //return:🌁
+ * @param string pre_emoji: emoji string
+ * @return string: next emoji (pre_emoji + 1)
+ * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
+ * @note 
+**/
+string CalculateNextEmoji(string pre_emoji)
+{
+    string emoji=pre_emoji;
+    //If pre_emoji[0]='\360', pre_emoji has 4 elements 
+    //and is determined by pre_emoji[1]='\237'
+    if(pre_emoji[0]=='\360'&&pre_emoji.size()!=4) return "";
+    //If pre_emoji[0]='\342' then pre_emoji is determined by three elements
+    if(pre_emoji[0]=='\342'&&pre_emoji.size()!=3) return "";
+
+    emoji[emoji.size()-1]++;
+    if(int(emoji[emoji.size()-1])>=-64){
+        emoji[emoji.size()-1]=-128;
+        emoji[emoji.size()-2]++;
+    }
+    return emoji;
+}
