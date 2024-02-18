@@ -1,0 +1,4 @@
+https://qiita.com/これはqiitaのURLです
+これはzennのURLですhttps://zenn.dev/
+https://zenn.dev/https://qiita.com/これはqiitaとzennのURLです
+https://zenn.dev/あhttps://qiita.com/いhttps://huggingface.co/う
