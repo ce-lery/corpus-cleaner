@@ -47,6 +47,51 @@ void RemoveFolder(const std::string& path)
 }
 
 /**
+ * @brief copy source_fileto target_file
+ * @details 
+ * @example
+ *   string source_path="data/source/a.txt";
+ *   string target_path="data/target/a.txt";
+ *   CopyFolder(source_path,target_path);
+ * @param string source_path: Copy source file path
+ * @param string target_path: Copy target file path
+ * @return None
+ * @attention 
+**/
+void CopyFile(string source_path, string target_path) 
+{
+    fs::path source = source_path;
+    fs::path destination = target_path;
+    fs::copy(source, destination, fs::copy_options::overwrite_existing);
+}
+
+
+/**
+ * @brief copy source_folder to target_folder
+ * @details 
+ * @example
+ *   string source_folder="data/source";
+ *   string target_folder="data/target";
+ *   CopyFolder(source_folder,target_folder);
+ * @param string source_folder: Copy source folder path
+ * @param string target_folder: Copy target folder path
+ * @return None
+ * @attention 
+**/
+void CopyFolder(string source_folder, string target_folder) 
+{
+    // copy source_folder to target_folder
+    fs::path sourceDir = source_folder;
+    fs::path destinationDir = target_folder;
+    for (const auto &file : fs::directory_iterator(sourceDir)) {
+        if (fs::is_regular_file(file.path())) {
+            fs::copy(file, destinationDir / file.path().filename(), fs::copy_options::overwrite_existing);
+        }
+    }
+}
+
+
+/**
  * @brief Derive the next emoji
  * @details 
  * @example
@@ -72,4 +117,27 @@ string CalculateNextEmoji(string pre_emoji)
         emoji[emoji.size()-2]++;
     }
     return emoji;
+}
+
+/**
+ * @brief Get filename list in folder_path
+ * @details 
+ * @example
+ *   string input_path = "../data/input/";
+ *   vector<string> file_list;
+ *   GetFileList(input_path, &file_list);
+ * @param string folder_path: folder path
+ * @param vector<string> *file_list: (return) filename list
+ * @return None
+ * @attention 
+**/
+void GetFileList(string folder_path, vector<string> *file_list)
+{
+    fs::path path = folder_path;
+    for (const auto &entry : fs::directory_iterator(path)) {
+        if (entry.is_regular_file()) {
+            file_list->push_back(string(entry.path().filename()));
+        }
+    }
+    return;
 }

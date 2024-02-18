@@ -59,5 +59,7 @@ public:
     Stats URLRemover(string input_path, string output_path);
     Stats SpecialCharacterRemover(string input_path, string output_path);
     Stats EmojiRemover(string input_path, string output_path);
+
+    Stats SentenceDeduplication(string input_folder_path,string output_folder_path);
     double CleanPipeline();
 };

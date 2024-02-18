@@ -114,3 +114,21 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
     corpus_cleaner.EmojiRemover(input_path,output_path);
     ASSERT_TRUE(CompareFiles(output_path,answer_path));
 }
+
+TEST_F(CorpusCleanerTest, SentenceDeduplication) {
+    string input_folder_path = "../data/input/sentence_deduplicate";
+    string output_folder_path = "../data/output/sentence_deduplicate";
+    string answer_folder_path = "../data/answer/sentence_deduplicate";
+
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    CorpusCleaner corpus_cleaner(input_folder_path,output_folder_path,min_length,max_length);
+    corpus_cleaner.SentenceDeduplication(input_folder_path,output_folder_path);
+
+    vector<string> file_list;
+    GetFileList(answer_folder_path,&file_list);
+    for (int i=0;i<(int)file_list.size();i++){
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i],answer_folder_path+"/"+file_list[i]));
+    }
+
+}

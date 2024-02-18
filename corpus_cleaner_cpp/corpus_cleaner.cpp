@@ -46,6 +46,7 @@ void OutputStats(Stats stats)
     cout << endl;
 }
 
+
 /***constructor***/
 CorpusCleaner::CorpusCleaner(string input_path,
                              string output_path,
@@ -251,6 +252,72 @@ Stats CorpusCleaner::EmojiRemover(string input_path, string output_path)
 
 
 /**
+ * @brief Sentence Deduplication files in the this->intermediate folder
+ * @details 
+ *  Follow the steps below to remove duplication between all lines of all files in the this->intermediate folder.
+ *  1. Get the list of files in this->intermediate_folder and set it to vector<string> file_list
+ *  2. Compare all lines of source_file and target_file in file_list.
+ *  3. Check duplication between all lines of souce file and all lines of target_file.
+ *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
+ *  I considered deduplication using set or multiset, 
+ *  but I did not use this method because the file size could exceed the memory capacity.
+ * @example TODO
+ * @param string input_folder_path: input folder path
+ * @param string output_folder_path: output folder path
+ * @return Stats: statics imformation of this function.
+ * @ref 
+ * @attention TODO: fix return stats.
+**/
+Stats CorpusCleaner::SentenceDeduplication(string input_folder_path, string output_folder_path)
+{
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now(); 
+
+    string target_line="",source_line="";
+    vector<string> file_list;
+    bool duplication=false;
+    // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
+    GetFileList(input_folder_path,&file_list);
+    // Compare all lines of source_file and target_file
+    for(int i=0;i<(int)file_list.size();i++){
+        for(int j=i;j<(int)file_list.size();j++){
+            ifstream target_file(input_folder_path+"/"+file_list[i]);
+            ofstream output_file(output_folder_path+"/"+file_list[i]);
+            uint32_t target_counter=0,source_counter=0;
+            while (getline(target_file, target_line)) {
+                target_counter++;
+                duplication=false;
+                source_counter=0;
+                ifstream source_file(input_folder_path+"/"+file_list[j]);
+                while(getline(source_file,source_line)){
+                    source_counter++;
+                    if(input_folder_path+"/"+file_list[i]==input_folder_path+"/"+file_list[j]
+                        &&target_counter>=source_counter)continue;
+                    // check duplication
+                    if(target_line==source_line){
+                        duplication=true;
+                        break;
+                    }
+                }
+                if(!duplication)   output_file << target_line << endl;
+            }
+            CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
+        }
+    }
+
+    end = chrono::system_clock::now(); 
+    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    //TODO: fix here.
+    Stats stats;
+    stats.elapsed_time=elapsed;
+    stats.file_name="";
+    stats.process_name=__func__;
+    stats.result_file_size=-1;
+    return stats;
+}
+
+
+/**
  * @brief Pipeline that sequentially executes the configured CorpusCleaner methods
  * @details 
  *  Perform the following steps in order.
@@ -281,38 +348,35 @@ double CorpusCleaner::CleanPipeline()
 {
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
-    vector<Stats (CorpusCleaner::*)(string,string)> cleaner_array = { 
+    vector<Stats (CorpusCleaner::*)(string,string)> cleaner_list = { 
         // &CorpusCleaner::URLRemover ,
         // &CorpusCleaner::ExcessFilter, 
         // &CorpusCleaner::EmojiRemover, 
-        &CorpusCleaner::SpecialCharacterRemover, 
+        // &CorpusCleaner::SpecialCharacterRemover, 
+        }; 
+    vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
+        &CorpusCleaner::SentenceDeduplication, 
         }; 
 
-    // cout << cleaner_array.size() << endl;
-    // Loop processing as many times as pipeline_list
-    for (const auto& step : cleaner_array) {
+
+    // Loop processing as many times as cleaner_list
+    for (const auto& step : cleaner_list) {
         vector<string> filename_list;
-    
         // copy output folder to intermediate folder
-        fs::path sourceDir = this->output_path;
-        fs::path destinationDir = this->intermediate_path;
-        for (const auto &file : fs::directory_iterator(sourceDir)) {
-            if (fs::is_regular_file(file.path())) {
-                fs::copy(file, destinationDir / file.path().filename(), fs::copy_options::overwrite_existing);
-            }
-        }
+        CopyFolder(this->output_path, this->intermediate_path); 
         // Get list of files in intermediate folder
-        fs::path path = this->intermediate_path;
-        for (const auto &entry : fs::directory_iterator(path)) {
-            if (entry.is_regular_file()) {
-                filename_list.push_back(string(entry.path().filename()));
-            }
-        }
+        GetFileList(this->intermediate_path,&filename_list);
         // Execute the each CorpusCleaner processing on all files in the intermediate folder.
         for (auto filename: filename_list){
             Stats stats = (this->*step)(this->intermediate_path+"/"+filename,this->output_path+"/"+filename);
             OutputStats(stats);
         }
+    }
+    // Loop processing as many times as deduplicate_list
+    for (const auto& step : deduplicate_list) {
+        CopyFolder(this->output_path, this->intermediate_path); 
+        Stats stats = (this->*step)(this->intermediate_path,this->output_path);
+        OutputStats(stats);
     }
     return 0;
 }
