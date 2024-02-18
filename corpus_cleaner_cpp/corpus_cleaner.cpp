@@ -154,23 +154,17 @@ Stats CorpusCleaner::URLRemover(string input_path, string output_path)
     return MakeStats(__func__,output_path,elapsed);
 }
 
-// static std::wstring ConvertUTF8ToWstring(const std::string& src)
-// {
-// 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-// 	return converter.from_bytes(src);
-// }
-// static std::string ConvertWstringToUTF8(const std::wstring& src)
-// {
-// 	std::wstring_convert<std::codecvt_utf8<wchar_t> > converter;
-// 	return converter.to_bytes(src);
-// }
+
 /**
  * @brief Remove special character. For example, ☀, ♡, ☆, and so on.
  * @details 
- *  Remove special characters matching regular expression.
- *  The regular expression is 
- *  ([\u00002600-\u000027FF]|[\u00002190-\u000021FF]|[\u00002300-\u000023FF]|
- *  [\u00002900-\u0000297F]|[\u00002b00-\u00002bFF]).
+ *  Remove emoji characters that is \U00002600(☀) to \U000027ff(⟿),
+ *  \U00002190(←) to \U000021ff(⇿),\U00002300(⌀) to \U000023ff(⏿)
+ *  \U00002900(⤀) to \U0000297f(⥿),\U00002b00(⬀) to \U00002bff(⯿), 
+ *  and \U0001f000(🀀) to \U0001f0ff(🃿).
+ *  The C++ regex library does not support 4-byte characters. 
+ *  Therefore, characters like 🀀 cannot be matched using regular expressions. 
+ *  So, in a full search, those that completely match the pictogram are searched and removed.
  * @example TODO
  * @param string input_path: The path of filterd file.
  * @param string output_path: The output path of results file.
@@ -178,38 +172,38 @@ Stats CorpusCleaner::URLRemover(string input_path, string output_path)
  * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
  * @attention 
 **/
-// Stats CorpusCleaner::SpecialCharacterRemover(string input_path, string output_path)
-// {
-//     chrono::system_clock::time_point start, end;
-//     start = chrono::system_clock::now(); 
+Stats CorpusCleaner::SpecialCharacterRemover(string input_path, string output_path)
+{
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now(); 
 
-//     ifstream input_file(input_path);
-//     ofstream output_file(output_path);
-//     string line="";
+    ifstream input_file(input_path);
+    ofstream output_file(output_path);
+    string line="";
 
-//     wregex emoji_regex(L"[\u2600-\u27ff]|[\u2190-\u21FF]|[\u2300-\u23FF]|[\u2900-\u297F]|[\u2b00-\u2bFF]");
-//     // #pragma omp parallel for ordered
-//     while (getline(input_file, line)) {
-//         cout << line << endl;
+    string special_character = "";
+    vector<string> start_character = {"☀","←","⌀","⤀","⬀","🀀"};
+    vector<int> character_range = {512,112,256,128,256,256}; 
+    // #pragma omp parallel for ordered
+    while (getline(input_file, line)) {
+        for(int i=0;i<(int)start_character.size();i++){
+            special_character = start_character[i];
+            //remove special_character that is ,for example, "☀" to "⟿"
+            for(int j=0;j<character_range[i];j++){
+                line = regex_replace(line,regex(special_character),"");
+                special_character = CalculateNextEmoji(special_character);
+            }
+        }
+        // #pragma omp ordered 
+        {output_file << line << endl;}
+    }
+    input_file.close();
+    output_file.close();
 
-//         wstring line_u16 = ConvertUTF8ToWstring(line);
-//         line_u16 =  regex_replace(
-//             line_u16, 
-//             emoji_regex,
-//             L"");
-
-//         // #pragma omp ordered 
-//         {output_file << ConvertWstringToUTF8(line_u16) << endl;}
-//         cout << ConvertWstringToUTF8(line_u16) << endl;
-//     }
-//     input_file.close();
-//     output_file.close();
-//     // cout << "Removing URL is completed." << endl;
-
-//     end = chrono::system_clock::now(); 
-//     double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-//     return MakeStats(__func__,output_path,elapsed);
-// }
+    end = chrono::system_clock::now(); 
+    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    return MakeStats(__func__,output_path,elapsed);
+}
 
 /**
  * @brief Remove emoji. For example, 🤗, 🐉, 📊, and so on.
@@ -290,8 +284,8 @@ double CorpusCleaner::CleanPipeline()
     vector<Stats (CorpusCleaner::*)(string,string)> cleaner_array = { 
         // &CorpusCleaner::URLRemover ,
         // &CorpusCleaner::ExcessFilter, 
-        &CorpusCleaner::EmojiRemover, 
-        // &CorpusCleaner::SpecialCharacterRemover, 
+        // &CorpusCleaner::EmojiRemover, 
+        &CorpusCleaner::SpecialCharacterRemover, 
         }; 
 
     // cout << cleaner_array.size() << endl;

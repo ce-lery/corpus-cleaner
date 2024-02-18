@@ -51,13 +51,13 @@ public:
                   string output_path,
                   uint32_t min_length,
                   uint32_t max_length);
-    /***deconstructor***/
+    /***destructor***/
     //TODO: remove intermediate_file
     ~CorpusCleaner();
     /***member function***/
     Stats ExcessFilter(string input_path, string output_path);
     Stats URLRemover(string input_path, string output_path);
-    // Stats SpecialCharacterRemover(string input_path, string output_path);
+    Stats SpecialCharacterRemover(string input_path, string output_path);
     Stats EmojiRemover(string input_path, string output_path);
     double CleanPipeline();
 };

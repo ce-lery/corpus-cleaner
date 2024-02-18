@@ -93,16 +93,16 @@ TEST_F(CorpusCleanerTest, MakeStats) {
     ASSERT_EQ(filesystem::file_size(input_path),stats.result_file_size);
 }
 
-// TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
-//     string input_path = "../data/input/test_SpecialCharacterRemover.txt";
-//     string output_path = "../data/output/test_SpecialCharacterRemover.txt";
-//     string answer_path = "../data/answer/test_SpecialCharacterRemover.txt";
-//     uint32_t min_length=10;
-//     uint32_t max_length = 1000;
-//     CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
-//     corpus_cleaner.SpecialCharacterRemover(input_path,output_path);
-//     ASSERT_TRUE(CompareFiles(output_path,answer_path));
-// }
+TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
+    string input_path = "../data/input/test_SpecialCharacterRemover.txt";
+    string output_path = "../data/output/test_SpecialCharacterRemover.txt";
+    string answer_path = "../data/answer/test_SpecialCharacterRemover.txt";
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
+    corpus_cleaner.SpecialCharacterRemover(input_path,output_path);
+    ASSERT_TRUE(CompareFiles(output_path,answer_path));
+}
 
 TEST_F(CorpusCleanerTest, EmojiRemover) {
     string input_path = "../data/input/test_EmojiRemover.txt";
