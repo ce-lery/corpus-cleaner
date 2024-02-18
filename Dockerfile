@@ -35,6 +35,7 @@ RUN apt-get update \
     fonts-powerline \
     autoconf \
     cmake \
+    gdb 
 
 RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
     echo 'eval "$(pyenv init --path)"' >> ~/.bashrc && \
