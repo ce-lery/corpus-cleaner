@@ -2,3 +2,4 @@
 これはzennのURLです
 これはqiitaとzennのURLです
 あいう
+URLに日本語が含まれる場合

@@ -2,3 +2,4 @@ https://qiita.com/これはqiitaのURLです
 これはzennのURLですhttps://zenn.dev/
 https://zenn.dev/https://qiita.com/これはqiitaとzennのURLです
 https://zenn.dev/あhttps://qiita.com/いhttps://huggingface.co/う
+URLに日本語が含まれる場合https://www.google.com/search?q=URL+%E6%97%A5%E6%9C%AC%E8%AA%9E&oq=URL+%E6%97%A5%E6%9C%AC%E8%AA%9E&aqs=chrome..69i57.3480j0j7&sourceid=chrome&ie=UTF-8
