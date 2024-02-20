@@ -132,3 +132,14 @@ TEST_F(CorpusCleanerTest, SentenceDeduplication) {
     }
 
 }
+
+TEST_F(CorpusCleanerTest, SentenceSegmenter) {
+    string input_path = "../data/input/test_SentenceSegmentater.txt";
+    string output_path = "../data/output/test_SentenceSegmentater.txt";
+    string answer_path = "../data/answer/test_SentenceSegmentater.txt";
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
+    corpus_cleaner.SentenceSegmenter(input_path,output_path);
+    ASSERT_TRUE(CompareFiles(output_path,answer_path));
+}

@@ -141,3 +141,89 @@ void GetFileList(string folder_path, vector<string> *file_list)
     }
     return;
 }
+
+static wstring ConvertUTF8ToWstring(const string& src)
+{
+  	wstring_convert<codecvt_utf8_utf16<wchar_t>> converter;
+  	return converter.from_bytes(src);
+}
+
+static string ConvertWstringToUTF8(const wstring& src)
+{
+  	wstring_convert<codecvt_utf8<wchar_t> > converter;
+  	return converter.to_bytes(src);
+}
+
+/**
+ * @brief Segmentation Sentence
+ * @details 
+ *  Segmentation sentence is following steps...
+ *      1. Check if there are sentences enclosed in quotation marks.
+ *      2. Puctuations enclosed in quotation marks are ignored.
+ *      3. Replace "。"(puctuation_list) to "。\n".
+ *      4. Remove the last character of the string.
+ * @example
+ *   string sentence = "../data/input/";
+ *   SegmentationSentence(sentence);
+ * @param string sentence: sentence
+ * @return string: segmentated sentence
+ * @note Be sure to use Normalizer to normalize your corpus before this process.
+ * @attention 
+ *  TODO: "." to be segmented. (ignore that "12.3", "wiki.txt". )
+ *  In the case of Japanese sentences, 
+ *  if you are talking about a full stop, there should be a space at the end, 
+ *  and the missing mark should be \n(at the end of the sentence). 
+ *  Only in that case should it be used as a full stop.
+**/
+string SegmentSentence(string sentence)
+{
+    wstring sentence_w = ConvertUTF8ToWstring(sentence);
+    wstring sentence_segmented=L"";
+    vector<wchar_t> quote_list     = {L'「',L'(',L'"',L'['};
+    vector<wchar_t> quote_end_list = {L'」',L')',L'"',L']'};
+    vector<wchar_t> puctuation_list={L'。',L'?',L'!'};
+
+    for (int i=0;i<(int)sentence_w.size();i++) {
+        bool found_quote=false;
+        int32_t quote_index = -1; 
+
+        //Check if there are sentences enclosed in quotation marks
+        for(int j=0;j<(int)quote_list.size();j++){
+            if(sentence_w[i]==quote_list[j]){
+                found_quote=true;
+                quote_index=j;
+            }
+        }
+
+        //Puctuations enclosed in quotation marks are ignored
+        if (found_quote) {
+            for(int j=i+1;j<(int)sentence_w.size();j++){
+                if(sentence_w[j]==quote_end_list[quote_index]){
+                    sentence_segmented+=sentence_w.substr(i,j-i+1);
+                    // cout << "「」:"<<ConvertWstringToUTF8(sentence_w.substr(i,j-i+1))<<endl;
+                    i=j;
+                    found_quote=false;
+                    break;
+                }
+            }
+            //If there is no end quote, the beginning quote is added to the "sentence_segmented".
+            if(found_quote) sentence_segmented += sentence_w[i];
+        } 
+        else{
+            sentence_segmented += sentence_w[i];
+            // replace "。"(puctuation_list) to "。\n"
+            for(auto puctuation: puctuation_list){
+                if(sentence_w[i]==puctuation) {
+                    sentence_segmented+=L'\n';
+                    break;
+                }
+            }
+        }
+    }
+    // remove the last character of the string
+    for(auto puctuation: puctuation_list){
+        if(!sentence_segmented.empty()&&sentence_segmented[(int)sentence_segmented.size()-1]==L'\n')
+        sentence_segmented.pop_back(); 
+    }
+    return ConvertWstringToUTF8(sentence_segmented);
+}

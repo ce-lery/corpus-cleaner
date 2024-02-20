@@ -63,13 +63,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     mkdir(this->output_path.c_str(), 0777);
 
     //copy input to output
-    fs::path sourceDir = input_path;
-    fs::path destinationDir = output_path;
-    for (const auto &file : fs::directory_iterator(sourceDir)) {
-        if (fs::is_regular_file(file.path())) {
-            fs::copy(file, destinationDir / file.path().filename(), fs::copy_options::overwrite_existing);
-        }
-    }
+    CopyFolder(this->input_path,this->output_path);
 }
 /***deconstructor***/
 CorpusCleaner::~CorpusCleaner()
@@ -316,6 +310,46 @@ Stats CorpusCleaner::SentenceDeduplication(string input_folder_path, string outp
     return stats;
 }
 
+/**
+ * @brief Simple sentence splitter for japanese text.
+ * @details 
+ *  I used Pragmatic Segmenter's Japanese rules as a reference for sentence separation rules.
+ *  The C++ regex library does not support 4-byte characters. 
+ *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
+ *  So, in a full search, those that completely match the pictogram are searched and removed.
+ * @example TODO
+ * @param string input_path: The path of filterd file.
+ * @param string output_path: The output path of results file.
+ * @return Stats: statics imformation of this function.
+ * @ref 
+ *  https://github.com/wwwcojp/ja_sentence_segmenter/blob/main/ja_sentence_segmenter/split/simple_splitter.py
+ *  https://github.com/diasks2/pragmatic_segmenter#golden-rules-japanese
+ * @attention 
+**/
+Stats CorpusCleaner::SentenceSegmenter(string input_path, string output_path)
+{
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now(); 
+
+    ifstream input_file(input_path);
+    ofstream output_file(output_path);
+    string line="";
+
+    string emoji = "";
+    // #pragma omp parallel for ordered
+    while (getline(input_file, line)) {
+        // #pragma omp ordered 
+        {output_file << SegmentSentence(line) << endl;}
+    }
+    input_file.close();
+    output_file.close();
+    // cout << "Removing URL is completed." << endl;
+
+    end = chrono::system_clock::now(); 
+    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    return MakeStats(__func__,output_path,elapsed);
+}
+
 
 /**
  * @brief Pipeline that sequentially executes the configured CorpusCleaner methods
@@ -353,6 +387,7 @@ double CorpusCleaner::CleanPipeline()
         // &CorpusCleaner::ExcessFilter, 
         // &CorpusCleaner::EmojiRemover, 
         // &CorpusCleaner::SpecialCharacterRemover, 
+        &CorpusCleaner::SpecialCharacterRemover, 
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
         &CorpusCleaner::SentenceDeduplication, 

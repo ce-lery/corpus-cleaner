@@ -1,11 +1,4 @@
-#include <regex>
-#include <string>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <sys/stat.h>
-#include <vector>
-#include <unistd.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 namespace fs = filesystem;
@@ -59,6 +52,7 @@ public:
     Stats URLRemover(string input_path, string output_path);
     Stats SpecialCharacterRemover(string input_path, string output_path);
     Stats EmojiRemover(string input_path, string output_path);
+    Stats SentenceSegmenter(string input_path, string output_path);
 
     Stats SentenceDeduplication(string input_folder_path,string output_folder_path);
     double CleanPipeline();
