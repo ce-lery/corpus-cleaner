@@ -129,6 +129,7 @@ Stats CorpusCleaner::URLRemover(string input_path, string output_path)
 {
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now(); 
+    static regex url_pattern(R"((https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+))");
 
     ifstream input_file(input_path);
     ofstream output_file(output_path);
@@ -136,7 +137,7 @@ Stats CorpusCleaner::URLRemover(string input_path, string output_path)
 
     // #pragma omp parallel for ordered
     while (getline(input_file, line)) {
-        line =  regex_replace(line, regex(R"((https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+))"), "");
+        line =  regex_replace(line,url_pattern,"");
         // #pragma omp ordered 
         {output_file << line << endl;}
     }
@@ -383,14 +384,14 @@ double CorpusCleaner::CleanPipeline()
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
     vector<Stats (CorpusCleaner::*)(string,string)> cleaner_list = { 
-        // &CorpusCleaner::URLRemover ,
+        &CorpusCleaner::URLRemover ,
         // &CorpusCleaner::ExcessFilter, 
         // &CorpusCleaner::EmojiRemover, 
         // &CorpusCleaner::SpecialCharacterRemover, 
-        &CorpusCleaner::SpecialCharacterRemover, 
+        // &CorpusCleaner::SpecialCharacterRemover, 
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
-        &CorpusCleaner::SentenceDeduplication, 
+        // &CorpusCleaner::SentenceDeduplication, 
         }; 
 
 
