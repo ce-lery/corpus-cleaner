@@ -15,4 +15,12 @@ cd tests
 mkdir -p build & cd build
 cmake ..
 make all
+
+ICUPATH=$PWD/../../scripts/icu/usr/local
+echo $ICUPATH
+export C_INCLUDE_PATH=$ICUPATH/include
+export CPLUS_INCLUDE_PATH=$ICUPATH/include
+export LIBRARY_PATH=$ICUPATH/lib
+export LD_LIBRARY_PATH=$ICUPATH/lib
+
 ./test_corpus_cleaner-googletest

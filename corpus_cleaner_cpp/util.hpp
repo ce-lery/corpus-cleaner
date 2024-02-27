@@ -10,6 +10,6 @@ string CalculateNextEmoji(string pre_emoji);
 void GetFileList(string folder_path, vector<string> *file_list);
 void CopyFolder(string source_folder, string target_folder);
 void CopyFile(string source_path, string target_path);
-// static wstring ConvertUTF8ToWstring(const string& src);
-// static string ConvertWstringToUTF8(const wstring& src);
+wstring ConvertUTF8ToWstring(const string& src);
+string ConvertWstringToUTF8(const wstring& src);
 string SegmentSentence(string sentence);

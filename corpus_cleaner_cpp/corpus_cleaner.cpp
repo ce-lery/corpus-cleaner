@@ -1,5 +1,6 @@
 #include "corpus_cleaner.hpp"
 #include "util.hpp"
+#include "normalizer.hpp"
 
 /**
  * @brief Format statistics
@@ -130,7 +131,6 @@ Stats CorpusCleaner::URLRemover(string input_path, string output_path)
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now(); 
     static regex url_pattern(R"((https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+))");
-
     ifstream input_file(input_path);
     ofstream output_file(output_path);
     string line="";
@@ -223,7 +223,6 @@ Stats CorpusCleaner::EmojiRemover(string input_path, string output_path)
     ifstream input_file(input_path);
     ofstream output_file(output_path);
     string line="";
-
     string emoji = "";
     // #pragma omp parallel for ordered
     while (getline(input_file, line)) {
@@ -353,6 +352,42 @@ Stats CorpusCleaner::SentenceSegmenter(string input_path, string output_path)
 
 
 /**
+ * @brief Neologd Normalize sentence
+ * @details 
+ *  Please Refer document of "NormalizeNeologd()"
+ * @example TODO
+ * @param string input_path: The path of filterd file.
+ * @param string output_path: The output path of results file.
+ * @return Stats: statics imformation of this function.
+ * @ref 
+ *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
+ * @attention 
+**/
+Stats CorpusCleaner::Normalizer(string input_path,string output_path)
+{
+
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now();
+
+    ifstream input_file(input_path);
+    ofstream output_file(output_path);
+    string line="";
+    // #pragma omp parallel for ordered
+    while (getline(input_file, line)) {
+        line = NormalizeNeologd(line);
+        {output_file << line << endl;}
+    }
+    input_file.close();
+    output_file.close();
+    // cout << "Normalizing Text is completed." << endl;
+
+    end = chrono::system_clock::now(); 
+    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    return MakeStats(__func__,output_path,elapsed);
+}
+
+
+/**
  * @brief Pipeline that sequentially executes the configured CorpusCleaner methods
  * @details 
  *  Perform the following steps in order.
@@ -386,9 +421,9 @@ double CorpusCleaner::CleanPipeline()
     vector<Stats (CorpusCleaner::*)(string,string)> cleaner_list = { 
         &CorpusCleaner::URLRemover ,
         // &CorpusCleaner::ExcessFilter, 
-        // &CorpusCleaner::EmojiRemover, 
-        // &CorpusCleaner::SpecialCharacterRemover, 
-        // &CorpusCleaner::SpecialCharacterRemover, 
+        &CorpusCleaner::EmojiRemover, 
+        &CorpusCleaner::SpecialCharacterRemover, 
+        // &CorpusCleaner::SentenceSegmenter, 
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
         // &CorpusCleaner::SentenceDeduplication, 

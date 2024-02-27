@@ -20,3 +20,6 @@ tests/build/*
 
 ### results
 results/*
+
+### scripts
+scripts/icu/*

@@ -16,6 +16,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # include_directories(${CMAKE_SOURCE_DIR}/../corpus_cleaner_cpp/)
+link_directories(/home/corpus-cleaner-cpp/scripts/icu/usr/local/lib)
+include_directories(/home/corpus-cleaner-cpp/scripts/icu/usr/local/include) 
 # add_subdirectory(corpus_cleaner_cpp)
 # add_subdirectory(tests)
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
@@ -25,10 +27,13 @@ add_executable(${PROJECT_NAME}-googletest
                ../corpus_cleaner_cpp/corpus_cleaner.hpp
                ../corpus_cleaner_cpp/util.cpp
                ../corpus_cleaner_cpp/util.hpp
-
+               ../corpus_cleaner_cpp/normalizer.cpp
+               ../corpus_cleaner_cpp/normalizer.hpp
                )
+# Option of optimization , warning, ...etc.
+target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)
 # Create an executable file called ${PROJECT_NAME}-googletes.out from main.cpp
-target_link_libraries(${PROJECT_NAME}-googletest gtest_main)
+target_link_libraries(${PROJECT_NAME}-googletest gtest_main icuio icui18n icutu icuuc icudata)
 # Link lib${CMAKE_CURRENT_SOURCE_DIR}.a when creating ${PROJECT_NAME}-googletes.out
 target_include_directories(${PROJECT_NAME}-googletest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

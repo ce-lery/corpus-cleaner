@@ -142,13 +142,33 @@ void GetFileList(string folder_path, vector<string> *file_list)
     return;
 }
 
-static wstring ConvertUTF8ToWstring(const string& src)
+/**
+ * @brief Convert string to Wstring
+ * @details
+ * @example
+ *   string input= "こんにちわ。";
+ *   wstring input_w  = ConvertUTF8ToWstring(input);
+ * @param const string& src: text sentence
+ * @return wstring: text sentence converted wstring
+ * @attention
+**/
+wstring ConvertUTF8ToWstring(const string& src)
 {
   	wstring_convert<codecvt_utf8_utf16<wchar_t>> converter;
   	return converter.from_bytes(src);
 }
 
-static string ConvertWstringToUTF8(const wstring& src)
+/**
+ * @brief Convert Wstring to string
+ * @details
+ * @example
+ *   wstring input_w = L"こんにちわ。";
+ *   string input  = ConvertWstringToUTF8(input_w);
+ * @param const string& src: text sentence
+ * @return wstring: text sentence converted wstring
+ * @attention
+**/
+string ConvertWstringToUTF8(const wstring& src)
 {
   	wstring_convert<codecvt_utf8<wchar_t> > converter;
   	return converter.to_bytes(src);
@@ -221,9 +241,7 @@ string SegmentSentence(string sentence)
         }
     }
     // remove the last character of the string
-    for(auto puctuation: puctuation_list){
-        if(!sentence_segmented.empty()&&sentence_segmented[(int)sentence_segmented.size()-1]==L'\n')
+    if(!sentence_segmented.empty()&&sentence_segmented[(int)sentence_segmented.size()-1]==L'\n')
         sentence_segmented.pop_back(); 
-    }
     return ConvertWstringToUTF8(sentence_segmented);
 }

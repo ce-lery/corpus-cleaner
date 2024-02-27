@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "../corpus_cleaner_cpp/corpus_cleaner.hpp"
 #include "../corpus_cleaner_cpp/util.hpp"
+#include "../corpus_cleaner_cpp/normalizer.hpp"
 
 // namespace {
 
@@ -143,3 +144,35 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
     corpus_cleaner.SentenceSegmenter(input_path,output_path);
     ASSERT_TRUE(CompareFiles(output_path,answer_path));
 }
+
+TEST_F(CorpusCleanerTest, Normalizer) {
+    //original
+    ASSERT_TRUE("Hello,C++!" == NormalizeNeologd("   Hello, C++!   "));// TODO: Write the comment that this normalizer is don't applied for English text. Because spaces are removed.
+    ASSERT_TRUE("-" == NormalizeNeologd("˗֊‐‑‒–⁃⁻₋−"));
+    ASSERT_TRUE("-" == NormalizeNeologd("－"));
+    ASSERT_TRUE("ー" == NormalizeNeologd("﹣—―─━ーｰ"));
+    ASSERT_TRUE("＝" == NormalizeNeologd("="));
+    ASSERT_TRUE("0123456789" == NormalizeNeologd("０１２３４５６７８９"));
+    ASSERT_TRUE("ABCDEFGHIJKLMNOPQRSTUVWXYZ" == NormalizeNeologd("ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"));
+    ASSERT_TRUE("abcdefghijklmnopqrstuvwxyz" == NormalizeNeologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"));
+    ASSERT_TRUE("!\"#$%&\'()*+,-./:;<>?@[¥]^_`{|}" == NormalizeNeologd("！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝"));
+    ASSERT_TRUE("＝。、・「」" == NormalizeNeologd("＝。、・「」"));
+    ASSERT_TRUE("ハンカク" == NormalizeNeologd("ﾊﾝｶｸ"));
+    ASSERT_TRUE("o-o" == NormalizeNeologd("o₋o"));
+    ASSERT_TRUE("majikaー" == NormalizeNeologd("majika━"));
+    ASSERT_TRUE("わい" == NormalizeNeologd("わ〰い"));
+    ASSERT_TRUE("スーパー" == NormalizeNeologd("スーパーーーー"));
+    ASSERT_TRUE("!#" == NormalizeNeologd("!#"));
+    ASSERT_TRUE("ゼンカクスペース" == NormalizeNeologd("ゼンカク　スペース"));
+    ASSERT_TRUE("おお" == NormalizeNeologd("お             お"));
+    ASSERT_TRUE("おお" == NormalizeNeologd("      おお"));
+    ASSERT_TRUE("おお" == NormalizeNeologd("おお      "));
+    ASSERT_TRUE("検索エンジン自作入門を買いました!!!" ==NormalizeNeologd("検索 エンジン 自作 入門 を 買い ました!!!"));
+    ASSERT_TRUE("アルゴリズムC" == NormalizeNeologd("アルゴリズム C"));
+    ASSERT_TRUE("PRML副読本" == NormalizeNeologd("　　　ＰＲＭＬ　　副　読　本　　　"));
+    ASSERT_TRUE("Coding the Matrix" == NormalizeNeologd("Coding the Matrix"));
+    ASSERT_TRUE("南アルプスの天然水Sparking Lemonレモン一絞り" == NormalizeNeologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"));
+    ASSERT_TRUE("南アルプスの天然水-Sparking*Lemon+レモン一絞り" == NormalizeNeologd("南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"));
+	// cout << "Normalizing Text is completed." << endl;
+}
+

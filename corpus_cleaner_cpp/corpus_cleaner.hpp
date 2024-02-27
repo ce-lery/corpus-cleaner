@@ -53,6 +53,7 @@ public:
     Stats SpecialCharacterRemover(string input_path, string output_path);
     Stats EmojiRemover(string input_path, string output_path);
     Stats SentenceSegmenter(string input_path, string output_path);
+    Stats Normalizer(string input_path,string output_path);
 
     Stats SentenceDeduplication(string input_folder_path,string output_folder_path);
     double CleanPipeline();
