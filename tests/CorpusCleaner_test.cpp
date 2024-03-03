@@ -2,6 +2,7 @@
 #include "../corpus_cleaner_cpp/corpus_cleaner.hpp"
 #include "../corpus_cleaner_cpp/util.hpp"
 #include "../corpus_cleaner_cpp/normalizer.hpp"
+#include "../corpus_cleaner_cpp/minhash.hpp"
 
 // namespace {
 
@@ -174,5 +175,24 @@ TEST_F(CorpusCleanerTest, Normalizer) {
     ASSERT_TRUE("南アルプスの天然水Sparking Lemonレモン一絞り" == NormalizeNeologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"));
     ASSERT_TRUE("南アルプスの天然水-Sparking*Lemon+レモン一絞り" == NormalizeNeologd("南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"));
 	// cout << "Normalizing Text is completed." << endl;
+}
+
+TEST_F(CorpusCleanerTest, NGramTokenize) {
+    GenerateDedupLSH generate_dedupe_lsh;
+
+    wstring text = L"おはようございます。";
+    vector<wstring> ret = generate_dedupe_lsh.NGramTokenize(text, 3);
+    for(int i=0;i<(int)ret.size()-3+1;i++)  ASSERT_TRUE(ret[i]==text.substr(i,3));
+    ASSERT_TRUE((int)ret.size()==8);
+
+    text = L"おはよ";
+    ret = generate_dedupe_lsh.NGramTokenize(text, 5);
+    ASSERT_TRUE(ret[0]==L"おはよ");
+    ASSERT_TRUE((int)ret.size()==1);
+
+    text = L"おはよう🤗ございます。Huggingface";
+    ret = generate_dedupe_lsh.NGramTokenize(text, 3);
+    for(int i=0;i<(int)ret.size()-3+1;i++)  ASSERT_TRUE(ret[i]==text.substr(i,3));
+    ASSERT_TRUE((int)ret.size()==20);
 }
 

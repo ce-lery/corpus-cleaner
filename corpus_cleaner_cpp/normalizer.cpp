@@ -29,6 +29,7 @@ using namespace std;
  * @param wregex word_pattern: Regular expression for string to be normalized
  * @param wstring: sentence
  * @return wstring: normalized sentence
+ * @ref https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
  * @attention
 **/
 wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)

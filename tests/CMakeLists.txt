@@ -29,6 +29,8 @@ add_executable(${PROJECT_NAME}-googletest
                ../corpus_cleaner_cpp/util.hpp
                ../corpus_cleaner_cpp/normalizer.cpp
                ../corpus_cleaner_cpp/normalizer.hpp
+               ../corpus_cleaner_cpp/minhash.cpp
+               ../corpus_cleaner_cpp/minhash.hpp
                )
 # Option of optimization , warning, ...etc.
 target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)
