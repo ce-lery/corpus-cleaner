@@ -13,3 +13,4 @@ void CopyFile(string source_path, string target_path);
 wstring ConvertUTF8ToWstring(const string& src);
 string ConvertWstringToUTF8(const wstring& src);
 string SegmentSentence(string sentence);
+string Strip(const string& sentence);

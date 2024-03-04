@@ -67,28 +67,7 @@ wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
     return sentence_w;
 }
 
-/**
- * @brief Remove leading and trailing white space
- * @details
- * @example
- *   string sentence= "  こんにちわ。  ";
- *   sentence  = Strip(sentence); //"こんにちは。"
- * @param const string& sentence: text sentence
- * @return string: sentence has been processed
- * @attention
-**/
-string Strip(const string& sentence)
-{
-	// Search for non-blank characters from the beginning
-    size_t start = sentence.find_first_not_of(" \t\n\r");
-	// Search for non-blank characters from the end
-    size_t end = sentence.find_last_not_of(" \t\n\r");
-	// For empty string
-    if (start == string::npos) return "";
 
-	// Return substring from beginning to end
-    return sentence.substr(start, end - start + 1);
-}
 
 
 /**
