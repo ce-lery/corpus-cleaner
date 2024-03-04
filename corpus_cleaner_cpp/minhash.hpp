@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 
+#define INF 1L<<30;
 using namespace std;
 
 /**
@@ -20,28 +21,40 @@ using namespace std;
 class GenerateDedupLSH
 {
 private:
+    uint32_t n_gram = 5;
+    uint32_t n_minhash = 200;
+    uint32_t n_buckets=20;
+    uint32_t bucket_size=10;
 public:
     /***constructor***/
-    GenerateDedupLSH();
+    GenerateDedupLSH(uint32_t n_gram,
+                     uint32_t n_minhash,
+                     uint32_t n_buckets,
+                     uint32_t bucket_size);
     /***destructor***/
     ~GenerateDedupLSH();
     vector<wstring>  NGramTokenize(wstring text, int32_t n);
     // int32_t HashfuncSigned32FromSeed(int32_t seed);
-    int32_t GetMinhash(int32_t seed);
-    wstring CalculateLSH(wstring text);
-    wstring Apply(wstring document);//TODO
+    uint64_t GetMinhash(vector<wstring> *tokens,uint32_t seed);
+    vector<string> CalculateLSH(wstring text);
+    // wstring Apply(wstring document);//TODO
 };
 
 class LSHDeduplicator
 {
 private:
-
+    bool online_dedup;
+    string blacklist_path;
+    bool store_blacklist;
+    set<string> seen,blacklist; // TODO: unordered_set is faster than set.
 public:
     /***constructor***/
-    LSHDeduplicator();
+    LSHDeduplicator(bool onlin_dedupe,
+                    string blacklist_path,
+                    bool store_blacklist);
     /***destructor***/
     ~LSHDeduplicator();
-    wstring Apply(wstring document);//TODO
+    bool Apply(const vector<string> *lshs);//TODO
 };
 /*
 ドキュメントの重複判定に使用可能なハッシュ値を生成します。

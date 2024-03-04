@@ -178,7 +178,7 @@ TEST_F(CorpusCleanerTest, Normalizer) {
 }
 
 TEST_F(CorpusCleanerTest, NGramTokenize) {
-    GenerateDedupLSH generate_dedupe_lsh;
+    GenerateDedupLSH generate_dedupe_lsh(3,200,20,10);
 
     wstring text = L"おはようございます。";
     vector<wstring> ret = generate_dedupe_lsh.NGramTokenize(text, 3);
@@ -194,5 +194,16 @@ TEST_F(CorpusCleanerTest, NGramTokenize) {
     ret = generate_dedupe_lsh.NGramTokenize(text, 3);
     for(int i=0;i<(int)ret.size()-3+1;i++)  ASSERT_TRUE(ret[i]==text.substr(i,3));
     ASSERT_TRUE((int)ret.size()==20);
+}
+
+TEST_F(CorpusCleanerTest, GetMinhash) {
+    GenerateDedupLSH generate_dedupe_lsh(3,200,20,10);
+
+    wstring text = L"おはようございます。";
+    vector<wstring> tokens = generate_dedupe_lsh.NGramTokenize(text, 3);
+    uint64_t minhash = generate_dedupe_lsh.GetMinhash(&tokens,0);
+
+    // cout << minhash<<endl;
+    ASSERT_TRUE(minhash==2147483647);
 }
 

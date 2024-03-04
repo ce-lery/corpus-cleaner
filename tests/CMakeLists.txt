@@ -31,7 +31,9 @@ add_executable(${PROJECT_NAME}-googletest
                ../corpus_cleaner_cpp/normalizer.hpp
                ../corpus_cleaner_cpp/minhash.cpp
                ../corpus_cleaner_cpp/minhash.hpp
-               )
+               ../scripts/smhasher/src/MurmurHash3.cpp
+               ../scripts/smhasher/src/MurmurHash3.h
+              )
 # Option of optimization , warning, ...etc.
 target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)
 # Create an executable file called ${PROJECT_NAME}-googletes.out from main.cpp
