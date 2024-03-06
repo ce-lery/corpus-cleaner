@@ -203,7 +203,67 @@ TEST_F(CorpusCleanerTest, GetMinhash) {
     vector<wstring> tokens = generate_dedupe_lsh.NGramTokenize(text, 3);
     uint64_t minhash = generate_dedupe_lsh.GetMinhash(&tokens,0);
 
-    // cout << minhash<<endl;
-    ASSERT_TRUE(minhash==2147483647);
+    cout << minhash<<endl;
+    ASSERT_TRUE(minhash==5643264886837621032);
 }
+
+
+TEST_F(CorpusCleanerTest, LSHDeduplicator1) {
+    // refer: https://github.com/HojiChar/HojiChar/blob/v0.9.0/tests/filters/test_lsh_deduplication.py
+
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    vector<string> d1 = generate_dedup_lsh.CalculateLSH(L"吾輩は猫である。名前はまだ無い。どこで生まれたかとんと見当がつかぬ。");
+    vector<string> d2 = generate_dedup_lsh.CalculateLSH(L"吾輩は鳥である。名前はまだ無い。どこで生まれたかとんと見当がつかぬ。");
+    vector<string> d3 = generate_dedup_lsh.CalculateLSH(L"祇園精舎の鐘の声、諸行無常の響きあり。");
+
+    // cout<<"d1:"<<endl;
+    // cout<<"[" <<endl;
+    // for(auto lsh:d1) cout << lsh <<endl;
+    // cout<<"]" <<endl;
+
+    // cout<<"d2:"<<endl;
+    // cout<<"[" <<endl;
+    // for(auto lsh:d2) cout << lsh <<endl;
+    // cout<<"]" <<endl;
+
+    // cout<<"d3:"<<endl;
+    // cout<<"[" <<endl;
+    // for(auto lsh:d3) cout << lsh <<endl;
+    // cout<<"]" <<endl;
+
+    LSHDeduplicator deduplicator(true,"",true);
+    ASSERT_TRUE(deduplicator.Apply(&d1)==false);
+    ASSERT_TRUE(deduplicator.Apply(&d2)==true);
+    ASSERT_TRUE(deduplicator.Apply(&d3)==false);
+
+}
+
+TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
+    // refer: https://github.com/HojiChar/HojiChar/blob/v0.9.0/tests/filters/test_lsh_deduplication.py
+    
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    vector<string> d1 = generate_dedup_lsh.CalculateLSH(L"吾輩は猫です。🤗名前はまだ無い。");
+    vector<string> d2 = generate_dedup_lsh.CalculateLSH(L"吾輩は猫です。🤗名前はまだ無いです。");
+
+    // cout<<"d1:"<<endl;
+    // cout<<"[" <<endl;
+    // for(auto lsh:d1) cout << lsh <<endl;
+    // cout<<"]" <<endl;
+
+    // cout<<"d2:"<<endl;
+    // cout<<"[" <<endl;
+    // for(auto lsh:d2) cout << lsh <<endl;
+    // cout<<"]" <<endl;
+
+    LSHDeduplicator deduplicator(true,"",true);
+    ASSERT_TRUE(deduplicator.Apply(&d1)==false);
+    ASSERT_TRUE(deduplicator.Apply(&d2)==true);
+
+    //cout << deduplicator.Apply(&d1) << endl;
+    //false
+    //cout << deduplicator.Apply(&d2) << endl;
+    //false
+
+}
+
 

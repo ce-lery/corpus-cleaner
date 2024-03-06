@@ -56,10 +56,3 @@ public:
     ~LSHDeduplicator();
     bool Apply(const vector<string> *lshs);//TODO
 };
-/*
-ドキュメントの重複判定に使用可能なハッシュ値を生成します。
-ハッシュ値は20個生成され、類似する(≒編集距離が近い)文章どうしのハッシュが似る性質を持ちます(Locality Sensitive Hashing)。
-2つの文書間で少なくとも1つのハッシュ値が一致する場合に重複として判定することができます。
-生成されたハッシュは `Document.dedup_lsh` 属性に文字列のリストとして保存されます。
-重複処理を実施する場合は、本フィルタを `hojichar.filters.deduplication.LSHDeduplicator` の前に適用します。
-*/
