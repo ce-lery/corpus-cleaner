@@ -51,6 +51,7 @@ public:
     Stats URLRemover(string input_path, string output_path);
     Stats SpecialCharacterRemover(string input_path, string output_path);
     Stats EmojiRemover(string input_path, string output_path);
+    string QuotesRemover(string sentence);
     Stats SentenceSegmenter(string input_path, string output_path);
     Stats Normalizer(string input_path,string output_path);
 

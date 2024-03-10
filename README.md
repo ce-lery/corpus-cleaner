@@ -118,7 +118,7 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Implement Minhash Deduplication
 - [x] Implement language filter
 - [x] Implement Test
-- [ ] remove quotes ("{1}", "{13}", and so on.)
+- [x] Imprement quotes Remover ("{1}", "{13}", and so on.)
 - [ ] refactor piplinestep (FILE read write only once at the beginning and end)
 - [ ] Implement analysys
 - [ ] Set Github Action's CI/CD

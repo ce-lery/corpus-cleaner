@@ -294,3 +294,21 @@ TEST_F(CorpusCleanerTest, LanguageFilter) {
 
 }
 
+TEST_F(CorpusCleanerTest,QuotesRemover) {
+    string sentence1 = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる[1]。";
+    string sentence2 = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる{2}。";
+    string sentence3 = "これは文献[123]{456}を参照ください。";
+    string sentence4 = "これは文献[a]を参照ください。";
+
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
+    ASSERT_TRUE(corpus_cleaner.QuotesRemover(sentence1)
+                =="自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる。");
+    ASSERT_TRUE(corpus_cleaner.QuotesRemover(sentence2)
+                =="自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる。");
+    ASSERT_TRUE(corpus_cleaner.QuotesRemover(sentence3)
+                =="これは文献を参照ください。");
+    ASSERT_TRUE(corpus_cleaner.QuotesRemover(sentence4)
+                =="これは文献[a]を参照ください。");
+}

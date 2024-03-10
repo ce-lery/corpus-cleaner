@@ -150,7 +150,6 @@ Stats CorpusCleaner::URLRemover(string input_path, string output_path)
     return MakeStats(__func__,output_path,elapsed);
 }
 
-
 /**
  * @brief Remove special character. For example, ☀, ♡, ☆, and so on.
  * @details 
@@ -242,6 +241,40 @@ Stats CorpusCleaner::EmojiRemover(string input_path, string output_path)
     end = chrono::system_clock::now(); 
     double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
     return MakeStats(__func__,output_path,elapsed);
+}
+
+/**
+ * @brief Remove remarks. For example, [1], {245}, and so on.
+ * @details 
+ *  Remove remarks matching regular expression.
+ *  The regular expression is "(\[([0-9]+)\]|\{([0-9]+)\})".
+ * @example TODO
+ * @param string sentence: Text to be filtered
+ * @return sentence: filtered text
+ * @attention Don't use this on corpus that contain formulas or programs.
+**/
+string CorpusCleaner::QuotesRemover(string sentence)
+{
+    // chrono::system_clock::time_point start, end;
+    // start = chrono::system_clock::now(); 
+    static regex remaks_pattern(R"((\[([0-9]+)\]|\{([0-9]+)\}))");
+    // ifstream input_file(input_path);
+    // ofstream output_file(output_path);
+    // string line="";
+
+    // #pragma omp parallel for ordered
+    // while (getline(input_file, line)) {
+        sentence =  regex_replace(sentence,remaks_pattern,"");
+        // #pragma omp ordered 
+        return sentence;
+        // {output_file << line << endl;}
+    // }
+    // input_file.close();
+    // output_file.close();
+
+    // end = chrono::system_clock::now(); 
+    // double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    // return MakeStats(__func__,output_path,elapsed);
 }
 
 
