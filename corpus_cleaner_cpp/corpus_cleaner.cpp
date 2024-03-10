@@ -262,7 +262,7 @@ Stats CorpusCleaner::EmojiRemover(string input_path, string output_path)
  * @ref 
  * @attention TODO: fix return stats.
 **/
-Stats CorpusCleaner::SentenceDeduplication(string input_folder_path, string output_folder_path)
+Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_folder_path)
 {
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now(); 
