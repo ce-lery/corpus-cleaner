@@ -119,8 +119,9 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Implement language filter
 - [x] Implement Test
 - [x] Imprement quotes Remover ("{1}", "{13}", and so on.)
-- [ ] refactor piplinestep (FILE read write only once at the beginning and end)
+- [ ] Refactor piplinestep (FILE read write only once at the beginning and end)
 - [ ] Implement analysys
+- [ ] Implement pybind & python code
 - [ ] Set Github Action's CI/CD
 
 ### ver.0.2.0
