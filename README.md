@@ -1,7 +1,7 @@
-# datatrove-cpp
+# corpus-cleaner
 
 <!-- ![](image/comparison.png) -->
-<img src="image/comparison.png" width="500">
+<!-- <img src="image/comparison.png" width="500"> -->
 
 ## Overview
 
@@ -106,18 +106,30 @@ We welcome your contributions to this repository. To contribute, please see [CON
 
 ## TODO
 
-- [ ] Implement normalizer
+### ver.0.1.0
+- [x] Implement normalizer
 - [x] Implement Remover emoji
 - [x] Implement Remover URL
-- [ ] Implement Remover kaomoji
+- [ ] ~~Implement Remover kaomoji~~
 - [x] Implement Remover special characters
-- [ ] Implement Sentence Segmentation 
+- [x] Implement Sentence Segmentation 
 - [x] Implement Excess Filtering
 - [x] Implement Sentence Deduplication
-- [ ] Implement Minhush Deduplication
-- [ ] Implement language filter
-- [ ] Implement analysys
+- [x] Implement Minhash Deduplication
+- [x] Implement language filter
 - [x] Implement Test
+- [ ] remove quotes ("{1}", "{13}", and so on.)
+- [ ] refactor piplinestep (FILE read write only once at the beginning and end)
+- [ ] Implement analysys
+- [ ] Set Github Action's CI/CD
+
+### ver.0.2.0
+- [ ] Implement loader json & jsonl
+- [ ] Implement NormalizeNeologdnFaster (Replace regular expressions except where necessary)
+- [ ] Remove ad header and footer
+- [ ] Remove HTML mark
+
+### ver.0.3.0
 
 <!-- - [x] Implement MinHash
 - [ ] Save removed file 
@@ -140,5 +152,4 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [ ] Graph step by step filtering
 - [ ] Write main.py (ALl in one.)
 - [ ] Example data download bash
-- [ ] Set Github Action's CI/CD
 - [ ] Filter of LLM perplexity (If I feel like it.) -->

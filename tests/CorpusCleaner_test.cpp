@@ -3,6 +3,7 @@
 #include "../corpus_cleaner_cpp/util.hpp"
 #include "../corpus_cleaner_cpp/normalizer.hpp"
 #include "../corpus_cleaner_cpp/minhash.hpp"
+#include "../corpus_cleaner_cpp/language_filter.hpp"
 
 // namespace {
 
@@ -203,7 +204,7 @@ TEST_F(CorpusCleanerTest, GetMinhash) {
     vector<wstring> tokens = generate_dedupe_lsh.NGramTokenize(text, 3);
     uint64_t minhash = generate_dedupe_lsh.GetMinhash(&tokens,0);
 
-    cout << minhash<<endl;
+    // cout << minhash<<endl;
     ASSERT_TRUE(minhash==5643264886837621032);
 }
 
@@ -266,4 +267,30 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
 
 }
 
+
+TEST_F(CorpusCleanerTest, LanguageFilter) {
+    // refer: https://github.com/HojiChar/HojiChar/blob/v0.9.0/tests/filters/test_lsh_deduplication.py
+    
+    string in = "吾輩は猫である。名前はまだ無い。";
+    string in2 = "I am a cat. No name yet.";
+    string in3 = "あああああああ";
+
+    LanguageFilter language_filter;
+    pair<float, string> score;
+    score = language_filter.filter(in);
+    // cout << score.first << " " << score.second << endl;
+    ASSERT_TRUE(score.first>0.3);
+    ASSERT_TRUE(score.second=="__label__ja");
+
+    score = language_filter.filter(in2);
+    // cout << score.first << " " << score.second << endl;
+    ASSERT_TRUE(score.first>0.3);
+    ASSERT_TRUE(score.second=="__label__en");
+
+    score = language_filter.filter(in3);
+    // cout << score.first << " " << score.second << endl;
+    // ASSERT_TRUE(score.first>0.3);
+    ASSERT_TRUE(score.second!="__label__ja");
+
+}
 

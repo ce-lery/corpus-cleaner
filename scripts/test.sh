@@ -13,6 +13,11 @@ fi
 
 cd tests
 mkdir -p build & cd build
+
+if [ ! -f "lid.176.bin" ];then
+    wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+fi
+
 cmake ..
 make all
 
