@@ -3,6 +3,26 @@
 using namespace std;
 namespace fs = filesystem;
 
+
+/**
+ * @brief   Structure for storing statistical information for each process of CorpusCleaner
+ * @details 
+ *      Each process of CorpusCleaner obtains the following specific information.
+ *       - text: one sentence of corpus
+ *       - id: text identification
+ *       - is_rejected: True if this text is eligible for deletion
+ *       - metadata: tags added during the filtering process
+ *
+ *       These will be used later for drawing processing, etc.
+ * @note    
+**/
+typedef struct _DOCUMENT {
+    string text="";
+    string id="";
+    bool is_rejected=false;
+    set<string> metadata;
+} Document;
+
 /**
  * @brief   Structure for storing statistical information for each process of CorpusCleaner
  * @details 
@@ -51,10 +71,10 @@ public:
     Stats URLRemover(string input_path, string output_path);
     Stats SpecialCharacterRemover(string input_path, string output_path);
     Stats EmojiRemover(string input_path, string output_path);
-    string QuotesRemover(string sentence);
+    void QuotesRemover(Document &document);
     Stats SentenceSegmenter(string input_path, string output_path);
     Stats Normalizer(string input_path,string output_path);
-
+    Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
     Stats ExactDeduplication(string input_folder_path,string output_folder_path);
     double CleanPipeline();
 };

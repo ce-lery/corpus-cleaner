@@ -74,6 +74,7 @@ CorpusCleaner::~CorpusCleaner()
 }
 /***member function***/
 
+
 /**
  * @brief Remove too long sentence and too short sentence.
  * @details 
@@ -253,28 +254,13 @@ Stats CorpusCleaner::EmojiRemover(string input_path, string output_path)
  * @return sentence: filtered text
  * @attention Don't use this on corpus that contain formulas or programs.
 **/
-string CorpusCleaner::QuotesRemover(string sentence)
+void CorpusCleaner::QuotesRemover(Document &document)
 {
-    // chrono::system_clock::time_point start, end;
-    // start = chrono::system_clock::now(); 
     static regex remaks_pattern(R"((\[([0-9]+)\]|\{([0-9]+)\}))");
-    // ifstream input_file(input_path);
-    // ofstream output_file(output_path);
-    // string line="";
+    string sentence =  regex_replace(document.text,remaks_pattern,"");
 
-    // #pragma omp parallel for ordered
-    // while (getline(input_file, line)) {
-        sentence =  regex_replace(sentence,remaks_pattern,"");
-        // #pragma omp ordered 
-        return sentence;
-        // {output_file << line << endl;}
-    // }
-    // input_file.close();
-    // output_file.close();
-
-    // end = chrono::system_clock::now(); 
-    // double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    // return MakeStats(__func__,output_path,elapsed);
+    if(sentence!=document.text) document.metadata.insert(__func__);
+    document.text = sentence;
 }
 
 
@@ -419,6 +405,19 @@ Stats CorpusCleaner::Normalizer(string input_path,string output_path)
     return MakeStats(__func__,output_path,elapsed);
 }
 
+Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &))
+{
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now();
+
+    // クラスメソッドを呼び出すためには、クラスのインスタンスを指定する必要がある
+    (this->*cleaner)(document);
+
+    end = chrono::system_clock::now(); 
+    double elapsed = chrono::duration_cast<chrono::duration<double>>(end - start).count(); 
+    // TODO: fix second parameters
+    return MakeStats(__func__,"",elapsed);
+}
 
 /**
  * @brief Pipeline that sequentially executes the configured CorpusCleaner methods
@@ -451,31 +450,51 @@ double CorpusCleaner::CleanPipeline()
 {
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
-    vector<Stats (CorpusCleaner::*)(string,string)> cleaner_list = { 
-        &CorpusCleaner::URLRemover ,
-        // &CorpusCleaner::ExcessFilter, 
-        &CorpusCleaner::EmojiRemover, 
-        &CorpusCleaner::SpecialCharacterRemover, 
-        // &CorpusCleaner::SentenceSegmenter, 
+    vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
+        //&CorpusCleaner::URLRemover ,
+        //&CorpusCleaner::ExcessFilter, 
+        //&CorpusCleaner::EmojiRemover, 
+        //&CorpusCleaner::SpecialCharacterRemover, 
+        //&CorpusCleaner::SentenceSegmenter, 
+        &CorpusCleaner::QuotesRemover, 
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
-        // &CorpusCleaner::SentenceDeduplication, 
+        // &CorpusCleaner::ExactDeduplication, 
         }; 
 
+    vector<string> filename_list;
+    // copy output folder to intermediate folder
+    CopyFolder(this->output_path, this->intermediate_path); 
+    // Get list of files in intermediate folder
+    GetFileList(this->intermediate_path,&filename_list);
 
-    // Loop processing as many times as cleaner_list
-    for (const auto& step : cleaner_list) {
-        vector<string> filename_list;
-        // copy output folder to intermediate folder
-        CopyFolder(this->output_path, this->intermediate_path); 
-        // Get list of files in intermediate folder
-        GetFileList(this->intermediate_path,&filename_list);
-        // Execute the each CorpusCleaner processing on all files in the intermediate folder.
-        for (auto filename: filename_list){
-            Stats stats = (this->*step)(this->intermediate_path+"/"+filename,this->output_path+"/"+filename);
-            OutputStats(stats);
+    // Execute the each CorpusCleaner processing on all files in the intermediate folder.
+    for (auto filename: filename_list){
+        // load data
+        ifstream input_file(this->intermediate_path+"/"+filename);
+        ofstream output_file(this->output_path+"/"+filename);
+        string line="";
+        while (getline(input_file, line)) {
+            Document document;
+            document.text = line;
+
+            // Loop processing as many times as cleaner_list
+            for (const auto& cleaner : cleaner_list) {     
+                Stats stats = PipelineStep(document,(cleaner));
+                //OutputStats(stats);
+                // if rejected, break and turn to next line.
+                if(document.is_rejected)    break;
+            }
+            
+            // dump data
+            output_file << document.text << endl; 
         }
+        
+        input_file.close();
+        output_file.close();
+        
     }
+    
     // Loop processing as many times as deduplicate_list
     for (const auto& step : deduplicate_list) {
         CopyFolder(this->output_path, this->intermediate_path); 
