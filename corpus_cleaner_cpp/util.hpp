@@ -12,5 +12,5 @@ void CopyFolder(string source_folder, string target_folder);
 void CopyFile(string source_path, string target_path);
 wstring ConvertUTF8ToWstring(const string& src);
 string ConvertWstringToUTF8(const wstring& src);
-string SegmentSentence(string sentence);
+void SegmentSentence(string sentence, vector<string> &segments);
 string Strip(const string& sentence);

@@ -195,13 +195,14 @@ string ConvertWstringToUTF8(const wstring& src)
  *  and the missing mark should be \n(at the end of the sentence). 
  *  Only in that case should it be used as a full stop.
 **/
-string SegmentSentence(string sentence)
+void SegmentSentence(string sentence, vector<string> &segments)
 {
     wstring sentence_w = ConvertUTF8ToWstring(sentence);
     wstring sentence_segmented=L"";
     vector<wchar_t> quote_list     = {L'「',L'(',L'"',L'['};
     vector<wchar_t> quote_end_list = {L'」',L')',L'"',L']'};
     vector<wchar_t> puctuation_list={L'。',L'?',L'!'};
+    wstring delimiter = L"<<<NEW_LINE>>>";
 
     for (int i=0;i<(int)sentence_w.size();i++) {
         bool found_quote=false;
@@ -234,16 +235,42 @@ string SegmentSentence(string sentence)
             // replace "。"(puctuation_list) to "。\n"
             for(auto puctuation: puctuation_list){
                 if(sentence_w[i]==puctuation) {
-                    sentence_segmented+=L'\n';
+                    sentence_segmented+=delimiter;
                     break;
                 }
             }
         }
     }
+
     // remove the last character of the string
-    if(!sentence_segmented.empty()&&sentence_segmented[(int)sentence_segmented.size()-1]==L'\n')
-        sentence_segmented.pop_back(); 
-    return ConvertWstringToUTF8(sentence_segmented);
+    if(!sentence_segmented.empty()){
+        size_t pos = sentence_segmented.find(delimiter);
+        if (pos != wstring::npos) {
+            sentence_segmented.erase(pos, delimiter.length());
+        }
+    }
+
+    size_t pos = 0;
+    size_t prevPos = 0;
+    
+    // segmented sentence push to  segments
+    while ((pos = sentence_segmented.find(delimiter, prevPos)) != wstring::npos) {
+        wstring sub = sentence_segmented.substr(prevPos, pos - prevPos);
+        segments.push_back(ConvertWstringToUTF8(sub));
+        prevPos = pos + delimiter.length();
+    }
+
+    // Add the last substring after the last delimiter
+    if (prevPos < sentence_segmented.length()) {
+        wstring sub = sentence_segmented.substr(prevPos);
+        segments.push_back(ConvertWstringToUTF8(sub));
+    }
+
+    // // Display the substrings in the vector
+    // for (const auto& sub : sentence_segmented) {
+    //     wcout << sub << endl;
+    // }
+    // return ConvertWstringToUTF8(sentence_segmented);
 }
 
 /**

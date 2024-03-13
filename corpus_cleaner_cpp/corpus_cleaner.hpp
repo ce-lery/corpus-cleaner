@@ -56,6 +56,7 @@ private:
     string output_path;
     uint32_t min_length=5;
     uint32_t max_length=1000;
+    set<string> accept_language{"__label__ja"};
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
 
 public:
@@ -63,18 +64,21 @@ public:
     CorpusCleaner(string input_path,
                   string output_path,
                   uint32_t min_length,
-                  uint32_t max_length);
+                  uint32_t max_length,
+                  set<string> accept_language);
     /***destructor***/
     ~CorpusCleaner();
     /***member function***/
-    Stats ExcessFilter(string input_path, string output_path);
-    Stats URLRemover(string input_path, string output_path);
-    Stats SpecialCharacterRemover(string input_path, string output_path);
-    Stats EmojiRemover(string input_path, string output_path);
+    void LengthFilter(Document &document);
+    void URLRemover(Document &document);
+    void SpecialCharacterRemover(Document &document);
+    void EmojiRemover(Document &document);
     void QuotesRemover(Document &document);
-    Stats SentenceSegmenter(string input_path, string output_path);
-    Stats Normalizer(string input_path,string output_path);
+    void Normalizer(Document &document);
+    void LanguageFilter(Document &document);
     Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
+    Stats SentenceSegmenter(string input_folder_path,string output_folder_path);
     Stats ExactDeduplication(string input_folder_path,string output_folder_path);
+    Stats MinhashDeduplication(string input_folder_path, string output_folder_path);
     double CleanPipeline();
 };

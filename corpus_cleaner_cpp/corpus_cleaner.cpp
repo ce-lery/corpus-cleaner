@@ -52,13 +52,15 @@ void OutputStats(Stats stats)
 CorpusCleaner::CorpusCleaner(string input_path,
                              string output_path,
                              uint32_t min_length,
-                             uint32_t max_length)
+                             uint32_t max_length,
+                             set<string> accept_language)
 {
     this->input_path = input_path;
     this->output_path = output_path;
     this->intermediate_path = "../results/intermediate/";
     this->min_length = min_length;
     this->max_length = max_length;
+    this->accept_language = accept_language;
 
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
@@ -82,39 +84,19 @@ CorpusCleaner::~CorpusCleaner()
  *  The length of too long sentence is more than "max_length".
  *  The length of too short sentence is lesser than "min_length".
  * @example TODO
- * @param string input_path: The path of filterd file.
- * @param string output_path: The output path of results file.
- * @param uint32_t min_length=5: Minimum threshold to count as 1 sentence.
- * @param uint32_t max_length=1000: Maximum threshold to count as 1 sentence.
- * @return double: elapsed time
+ * @param Document &document: single line text to clean be cleaned
+ * @return void: None
  * @attention 
 **/
-Stats CorpusCleaner::ExcessFilter(string input_path, string output_path)
+void CorpusCleaner::LengthFilter(Document &document)
 {  
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
-
-    ifstream input_file(input_path);
-    ofstream output_file(output_path);
-    string line="";
-
-    // #pragma omp parallel for ordered
-    while (getline(input_file, line)) {
-        uint32_t line_length = strlen_utf8(line);
-        if (this->min_length <= line_length && line_length <= this->max_length) {
-            // #pragma omp ordered 
-            {output_file << line << endl;}
-        }
+    uint32_t line_length = strlen_utf8(document.text);
+    if (line_length < this->min_length || this->max_length < line_length) {
+        // #pragma omp ordered 
+        document.is_rejected=true;
+        document.metadata.insert(__func__);
     }
-    input_file.close();
-    output_file.close();
-    // cout << "Excess filtering is completed." << endl;
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    return MakeStats(__func__,output_path,elapsed);
 }
-
 
 /**
  * @brief Remove URLs matching regular expression.
@@ -122,33 +104,17 @@ Stats CorpusCleaner::ExcessFilter(string input_path, string output_path)
  *  Remove URLs matching regular expression.
  *  The regular expression is "(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)".
  * @example TODO
- * @param string input_path: The path of filterd file.
- * @param string output_path: The output path of results file.
- * @return Stats: statics imformation of this function.
+ * @param Document &document: single line text to clean be cleaned
+ * @return void: None
  * @attention 
 **/
-Stats CorpusCleaner::URLRemover(string input_path, string output_path)
+void CorpusCleaner::URLRemover(Document &document)
 {
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
     static regex url_pattern(R"((https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+))");
-    ifstream input_file(input_path);
-    ofstream output_file(output_path);
-    string line="";
-
-    // #pragma omp parallel for ordered
-    while (getline(input_file, line)) {
-        line =  regex_replace(line,url_pattern,"");
-        // #pragma omp ordered 
-        {output_file << line << endl;}
-    }
-    input_file.close();
-    output_file.close();
-    // cout << "Removing URL is completed." << endl;
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    return MakeStats(__func__,output_path,elapsed);
+    string sentence =  regex_replace(document.text,url_pattern,"");
+ 
+    if(sentence!=document.text) document.metadata.insert(__func__);
+    document.text = sentence;
 }
 
 /**
@@ -168,37 +134,23 @@ Stats CorpusCleaner::URLRemover(string input_path, string output_path)
  * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
  * @attention 
 **/
-Stats CorpusCleaner::SpecialCharacterRemover(string input_path, string output_path)
+void CorpusCleaner::SpecialCharacterRemover(Document &document)
 {
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
-
-    ifstream input_file(input_path);
-    ofstream output_file(output_path);
-    string line="";
-
     string special_character = "";
     vector<string> start_character = {"☀","←","⌀","⤀","⬀","🀀"};
     vector<int> character_range = {512,112,256,128,256,256}; 
-    // #pragma omp parallel for ordered
-    while (getline(input_file, line)) {
-        for(int i=0;i<(int)start_character.size();i++){
-            special_character = start_character[i];
-            //remove special_character that is ,for example, "☀" to "⟿"
-            for(int j=0;j<character_range[i];j++){
-                line = regex_replace(line,regex(special_character),"");
-                special_character = CalculateNextEmoji(special_character);
-            }
+    string sentence="";
+    for(int i=0;i<(int)start_character.size();i++){
+        special_character = start_character[i];
+        //remove special_character that is ,for example, "☀" to "⟿"
+        for(int j=0;j<character_range[i];j++){
+            sentence = regex_replace(document.text,regex(special_character),"");
+            special_character = CalculateNextEmoji(special_character);
         }
-        // #pragma omp ordered 
-        {output_file << line << endl;}
     }
-    input_file.close();
-    output_file.close();
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    return MakeStats(__func__,output_path,elapsed);
+    
+    if(sentence!=document.text) document.metadata.insert(__func__);
+    document.text = sentence;
 }
 
 /**
@@ -209,39 +161,23 @@ Stats CorpusCleaner::SpecialCharacterRemover(string input_path, string output_pa
  *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
  *  So, in a full search, those that completely match the pictogram are searched and removed.
  * @example TODO
- * @param string input_path: The path of filterd file.
- * @param string output_path: The output path of results file.
- * @return Stats: statics imformation of this function.
+ * @param Document &document: single line text to be cleaned
+ * @return void: None
  * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
  * @attention 
 **/
-Stats CorpusCleaner::EmojiRemover(string input_path, string output_path)
+void CorpusCleaner::EmojiRemover(Document &document)
 {
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
-
-    ifstream input_file(input_path);
-    ofstream output_file(output_path);
-    string line="";
-    string emoji = "";
-    // #pragma omp parallel for ordered
-    while (getline(input_file, line)) {
-        emoji = "🌀";
-        //remove emoji that is "🌀" to "🧿"
-        for(int i=0;i<1792;i++){
-            line = regex_replace(line,regex(emoji),"");
-            emoji = CalculateNextEmoji(emoji);
-        }
-        // #pragma omp ordered 
-        {output_file << line << endl;}
+    string sentence = "";
+    string emoji ="🌀";
+    //remove emoji that is "🌀" to "🧿"
+    for(int i=0;i<1792;i++){
+        sentence = regex_replace(document.text,regex(emoji),"");
+        emoji = CalculateNextEmoji(emoji);
     }
-    input_file.close();
-    output_file.close();
-    // cout << "Removing URL is completed." << endl;
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    return MakeStats(__func__,output_path,elapsed);
+    
+    if(sentence!=document.text) document.metadata.insert(__func__);
+    document.text = sentence;
 }
 
 /**
@@ -250,8 +186,8 @@ Stats CorpusCleaner::EmojiRemover(string input_path, string output_path)
  *  Remove remarks matching regular expression.
  *  The regular expression is "(\[([0-9]+)\]|\{([0-9]+)\})".
  * @example TODO
- * @param string sentence: Text to be filtered
- * @return sentence: filtered text
+ * @param Document &document: single line text to be cleaned
+ * @return void: None
  * @attention Don't use this on corpus that contain formulas or programs.
 **/
 void CorpusCleaner::QuotesRemover(Document &document)
@@ -263,6 +199,69 @@ void CorpusCleaner::QuotesRemover(Document &document)
     document.text = sentence;
 }
 
+
+
+/**
+ * @brief Neologd Normalize sentence
+ * @details 
+ *  Please Refer document of "NormalizeNeologd()"
+ * @example TODO
+ * @param string input_path: The path of filterd file.
+ * @param string output_path: The output path of results file.
+ * @return Stats: statics imformation of this function.
+ * @ref 
+ *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
+ * @attention 
+**/
+void CorpusCleaner::Normalizer(Document &document)
+{
+    string sentence = NormalizeNeologd(document.text);
+    
+    if(sentence!=document.text) document.metadata.insert(__func__);
+    document.text = sentence; 
+}
+
+
+/**
+ * @brief Simple sentence splitter for japanese text.
+ * @details 
+ *  I used Pragmatic Segmenter's Japanese rules as a reference for sentence separation rules.
+ *  The C++ regex library does not support 4-byte characters. 
+ *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
+ *  So, in a full search, those that completely match the pictogram are searched and removed.
+ * @example TODO
+ * @param string input_path: The path of filterd file.
+ * @param string output_path: The output path of results file.
+ * @return Stats: statics imformation of this function.
+ * @ref 
+ *  https://github.com/wwwcojp/ja_sentence_segmenter/blob/main/ja_sentence_segmenter/split/simple_splitter.py
+ *  https://github.com/diasks2/pragmatic_segmenter#golden-rules-japanese
+ * @attention 
+**/
+Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_folder_path)
+{
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now();
+
+    ifstream input_file(input_path);
+    ofstream output_file(output_path);
+    string line="";
+
+    // #pragma omp parallel for ordered
+    while (getline(input_file, line)) {
+        vector<string> segments;
+        SegmentSentence(line, segments);
+        for(auto sentence:segments) output_file << line << endl;
+       
+    }
+    input_file.close();
+    output_file.close();
+    // cout << "Normalizing Text is completed." << endl;
+
+    end = chrono::system_clock::now(); 
+    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    return MakeStats(__func__,output_path,elapsed);
+}
 
 /**
  * @brief Sentence Deduplication files in the this->intermediate folder
@@ -329,81 +328,6 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
     return stats;
 }
 
-/**
- * @brief Simple sentence splitter for japanese text.
- * @details 
- *  I used Pragmatic Segmenter's Japanese rules as a reference for sentence separation rules.
- *  The C++ regex library does not support 4-byte characters. 
- *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
- *  So, in a full search, those that completely match the pictogram are searched and removed.
- * @example TODO
- * @param string input_path: The path of filterd file.
- * @param string output_path: The output path of results file.
- * @return Stats: statics imformation of this function.
- * @ref 
- *  https://github.com/wwwcojp/ja_sentence_segmenter/blob/main/ja_sentence_segmenter/split/simple_splitter.py
- *  https://github.com/diasks2/pragmatic_segmenter#golden-rules-japanese
- * @attention 
-**/
-Stats CorpusCleaner::SentenceSegmenter(string input_path, string output_path)
-{
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
-
-    ifstream input_file(input_path);
-    ofstream output_file(output_path);
-    string line="";
-
-    string emoji = "";
-    // #pragma omp parallel for ordered
-    while (getline(input_file, line)) {
-        // #pragma omp ordered 
-        {output_file << SegmentSentence(line) << endl;}
-    }
-    input_file.close();
-    output_file.close();
-    // cout << "Removing URL is completed." << endl;
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    return MakeStats(__func__,output_path,elapsed);
-}
-
-
-/**
- * @brief Neologd Normalize sentence
- * @details 
- *  Please Refer document of "NormalizeNeologd()"
- * @example TODO
- * @param string input_path: The path of filterd file.
- * @param string output_path: The output path of results file.
- * @return Stats: statics imformation of this function.
- * @ref 
- *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
- * @attention 
-**/
-Stats CorpusCleaner::Normalizer(string input_path,string output_path)
-{
-
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now();
-
-    ifstream input_file(input_path);
-    ofstream output_file(output_path);
-    string line="";
-    // #pragma omp parallel for ordered
-    while (getline(input_file, line)) {
-        line = NormalizeNeologd(line);
-        {output_file << line << endl;}
-    }
-    input_file.close();
-    output_file.close();
-    // cout << "Normalizing Text is completed." << endl;
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    return MakeStats(__func__,output_path,elapsed);
-}
 
 Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &))
 {
@@ -459,6 +383,7 @@ double CorpusCleaner::CleanPipeline()
         &CorpusCleaner::QuotesRemover, 
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
+        // &CorpusCleaner::MinhashDeduplication, 
         // &CorpusCleaner::ExactDeduplication, 
         }; 
 
@@ -470,13 +395,18 @@ double CorpusCleaner::CleanPipeline()
 
     // Execute the each CorpusCleaner processing on all files in the intermediate folder.
     for (auto filename: filename_list){
+    
+        //TODO: treat segment sentence
+           
         // load data
         ifstream input_file(this->intermediate_path+"/"+filename);
         ofstream output_file(this->output_path+"/"+filename);
         string line="";
+        uint64_t line_count=0;
         while (getline(input_file, line)) {
             Document document;
             document.text = line;
+            document.id = filename+to_string((unsigned long long)line_count);
 
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
@@ -488,6 +418,7 @@ double CorpusCleaner::CleanPipeline()
             
             // dump data
             output_file << document.text << endl; 
+            line_count++;
         }
         
         input_file.close();
