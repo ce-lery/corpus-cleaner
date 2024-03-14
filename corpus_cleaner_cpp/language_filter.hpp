@@ -15,7 +15,7 @@ using namespace fasttext;
 using namespace std;
 namespace fasttext {
 
-class LanguageFilter: public FastText
+class FastTextEx: public FastText
 {
 public:
     void predictOneLine(string sentence,

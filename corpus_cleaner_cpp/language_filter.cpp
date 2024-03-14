@@ -12,7 +12,7 @@
  * @ref https://fasttext.cc/docs/en/supervised-tutorial.html
  * @attention
 **/
-void LanguageFilter::predictOneLine(string sentence,
+void FastTextEx::predictOneLine(string sentence,
                              vector<pair<real, string>>& predictions,
                              int32_t k,
                              real threshold) const
@@ -35,7 +35,7 @@ void LanguageFilter::predictOneLine(string sentence,
  * @details 
  * @example
  *  string in = "吾輩は猫である。名前はまだ無い。";
- *  LanguageFilter language_filter;
+ *  FastTextEx language_filter;
  *  pair<float, string> score;
  *  score = language_filter.filter(in);
  *  // score.first ==1.00005, score.second ==__label__ja
@@ -49,11 +49,11 @@ void LanguageFilter::predictOneLine(string sentence,
  * @ref https://fasttext.cc/docs/en/supervised-tutorial.html
  * @attention
 **/
-pair<float, string> LanguageFilter::filter(string sentence) 
+pair<float, string> FastTextEx::filter(string sentence) 
 {
     int32_t k = 1;
     real threshold = 0.0;
-    LanguageFilter fasttext;
+    FastTextEx fasttext;
     fasttext.loadModel("lid.176.bin");
 
     vector<pair<real, string>> predictions;

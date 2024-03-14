@@ -1,6 +1,7 @@
 #include "corpus_cleaner.hpp"
 #include "util.hpp"
 #include "normalizer.hpp"
+#include "language_filter.hpp"
 
 /**
  * @brief Format statistics
@@ -53,7 +54,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
                              string output_path,
                              uint32_t min_length,
                              uint32_t max_length,
-                             set<string> accept_language)
+                             set<string> accept_language,
+                             bool sentence_segment)
 {
     this->input_path = input_path;
     this->output_path = output_path;
@@ -61,6 +63,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->min_length = min_length;
     this->max_length = max_length;
     this->accept_language = accept_language;
+    this->sentence_segment = sentence_segment;
 
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
@@ -97,6 +100,37 @@ void CorpusCleaner::LengthFilter(Document &document)
         document.metadata.insert(__func__);
     }
 }
+
+using namespace fasttext;
+
+/**
+ * @brief Language filtering 
+ * @details 
+ *  Please Refer document of "LanguageFilter::filter"
+ * @example TODO
+ * @param Document &document: single line text to be cleaned
+ * @return void: None
+ * @ref 
+ *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
+ * @attention 
+**/
+// void CorpusCleaner::LanguageFilter(Document &document)
+// {
+//     FastTextEx language_filter;
+//     pair<float,string> result = language_filter.filter(document.text)
+    
+//     document.language = result.second;
+//     document.language_score = result.first;
+     
+//     document.is_rejected=true;
+//     if(acceppt_language.find(language)!=acceppt_language.end()){
+//         // If fasttext's score is less than threshold, the text to be rejected.
+//         if(document.language_score>=language_threshold){
+//             document.is_rejected=false;
+//         }
+//     }
+// }
+
 
 /**
  * @brief Remove URLs matching regular expression.
@@ -239,27 +273,61 @@ void CorpusCleaner::Normalizer(Document &document)
 **/
 Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_folder_path)
 {
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now();
+    // chrono::system_clock::time_point start, end;
+    // start = chrono::system_clock::now();
 
-    ifstream input_file(input_path);
-    ofstream output_file(output_path);
-    string line="";
+    // ifstream input_file(input_path);
+    // ofstream output_file(output_path);
+    // string line="";
 
-    // #pragma omp parallel for ordered
-    while (getline(input_file, line)) {
-        vector<string> segments;
-        SegmentSentence(line, segments);
-        for(auto sentence:segments) output_file << line << endl;
+    // // #pragma omp parallel for ordered
+    // while (getline(input_file, line)) {
+    //     vector<string> segments;
+    //     SegmentSentence(line, segments);
+    //     for(auto sentence:segments) output_file << line << endl;
        
+    // }
+    // input_file.close();
+    // output_file.close();
+    // // cout << "Normalizing Text is completed." << endl;
+
+    // end = chrono::system_clock::now(); 
+    // double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    // return MakeStats(__func__,output_path,elapsed);
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now(); 
+
+    string target_line="",source_line="";
+    vector<string> file_list;
+    bool duplication=false;
+    // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
+    GetFileList(input_folder_path,&file_list);
+    // Compare all lines of source_file and target_file
+    for(int i=0;i<(int)file_list.size();i++){
+        for(int j=i;j<(int)file_list.size();j++){
+            ifstream target_file(input_folder_path+"/"+file_list[i]);
+            ofstream output_file(output_folder_path+"/"+file_list[i]);
+            uint32_t target_counter=0,source_counter=0;
+            while (getline(target_file, target_line)) {
+                //
+                vector<string> segments;
+                SegmentSentence(target_line, segments);
+                for(auto sentence:segments) output_file << sentence << endl;
+                //
+            }
+            CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
+        }
     }
-    input_file.close();
-    output_file.close();
-    // cout << "Normalizing Text is completed." << endl;
 
     end = chrono::system_clock::now(); 
     double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    return MakeStats(__func__,output_path,elapsed);
+    //TODO: fix here.
+    Stats stats;
+    stats.elapsed_time=elapsed;
+    stats.file_name="";
+    stats.process_name=__func__;
+    stats.result_file_size=-1;
+    return stats;
 }
 
 /**
@@ -385,7 +453,14 @@ double CorpusCleaner::CleanPipeline()
         // &CorpusCleaner::MinhashDeduplication, 
         // &CorpusCleaner::ExactDeduplication, 
         }; 
-
+    
+    if(this->sentence_segment==true){
+        // Loop processing as many times as deduplicate_list
+        CopyFolder(this->output_path, this->intermediate_path); 
+        Stats stats = SentenceSegmenter(this->intermediate_path,this->output_path);
+        OutputStats(stats);
+    }
+    
     vector<string> filename_list;
     // copy output folder to intermediate folder
     CopyFolder(this->output_path, this->intermediate_path); 
@@ -395,8 +470,6 @@ double CorpusCleaner::CleanPipeline()
     // Execute the each CorpusCleaner processing on all files in the intermediate folder.
     for (auto filename: filename_list){
     
-        //TODO: treat segment sentence
-           
         // load data
         ifstream input_file(this->intermediate_path+"/"+filename);
         ofstream output_file(this->output_path+"/"+filename);
@@ -409,6 +482,7 @@ double CorpusCleaner::CleanPipeline()
 
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
+                //TODO: Exclude strings that cannot be executed
                 Stats stats = PipelineStep(document,(cleaner));
                 //OutputStats(stats);
                 // if rejected, break and turn to next line.

@@ -67,7 +67,12 @@ TEST_F(CorpusCleanerTest, LengthFilter) {
     uint32_t max_length = 1000;
     set<string> accept_language{"__label__ja"};
     Document document;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length,accept_language);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true);
 
     string sentence="";
     document.is_rejected=false;
@@ -108,7 +113,12 @@ TEST_F(CorpusCleanerTest, URLRemover) {
     uint32_t max_length = 1000;
     set<string> accept_language{"__label__ja"};
     Document document;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length,accept_language);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true);
 
     document.is_rejected=false;
     document.text = "https://qiita.com/これはqiitaのURLです";
@@ -153,7 +163,8 @@ TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
                                  "../data/output/",
                                  min_length,
                                  max_length,
-                                 accept_language);
+                                 accept_language,
+                                 true);
                                  
     Document document;  
     document.text = "☀あ←い⌚う⤲え⭐お🀀";
@@ -192,7 +203,8 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
                                  "../data/output/",
                                  min_length,
                                  max_length,
-                                 accept_language);
+                                 accept_language,
+                                 true);
                                  
     Document document;  
     document.text = "よろしくお願いします😎";
@@ -221,7 +233,7 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
     corpus_cleaner.EmojiRemover(document);
     ASSERT_TRUE(document.text == "境界値２"); 
 }
-/*
+
 TEST_F(CorpusCleanerTest, ExactDeduplication) {
     string input_folder_path = "../data/input/sentence_deduplicate";
     string output_folder_path = "../data/output/sentence_deduplicate";
@@ -229,7 +241,13 @@ TEST_F(CorpusCleanerTest, ExactDeduplication) {
 
     uint32_t min_length=10;
     uint32_t max_length = 1000;
-    CorpusCleaner corpus_cleaner(input_folder_path,output_folder_path,min_length,max_length);
+    set<string> accept_language{"__label__ja"};
+    CorpusCleaner corpus_cleaner(input_folder_path,
+                                 output_folder_path,
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true);
     corpus_cleaner.ExactDeduplication(input_folder_path,output_folder_path);
 
     vector<string> file_list;
@@ -240,17 +258,27 @@ TEST_F(CorpusCleanerTest, ExactDeduplication) {
 
 }
 
-TEST_F(CorpusCleanerTest, SentenceSegmenter) {
-    string input_path = "../data/input/test_SentenceSegmentater.txt";
-    string output_path = "../data/output/test_SentenceSegmentater.txt";
-    string answer_path = "../data/answer/test_SentenceSegmentater.txt";
-    uint32_t min_length=10;
-    uint32_t max_length = 1000;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
-    corpus_cleaner.SentenceSegmenter(input_path,output_path);
-    ASSERT_TRUE(CompareFiles(output_path,answer_path));
-}
-*/
+// TEST_F(CorpusCleanerTest, SentenceSegmenter) {
+//     string input_folder_path = "../data/input/sentence_segment";
+//     string output_folder_path = "../data/output/sentence_segment";
+//     string answer_folder_path = "../data/answer/sentence_segment";
+//     uint32_t min_length=10;
+//     uint32_t max_length = 1000;
+//     set<string> accept_language{"__label__ja"};
+//     CorpusCleaner corpus_cleaner(input_folder_path,
+//                                  output_folder_path,
+//                                  min_length,
+//                                  max_length,
+//                                  accept_language,
+//                                  true);
+//     corpus_cleaner.SentenceSegmenter(input_folder_path,output_folder_path);
+//     vector<string> file_list;
+//     GetFileList(answer_folder_path,&file_list);
+//     for (int i=0;i<(int)file_list.size();i++){
+//         ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i],answer_folder_path+"/"+file_list[i]));
+//     }
+// }
+
 
 TEST_F(CorpusCleanerTest, Normalizer) {
     //original
@@ -373,26 +401,26 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
 }
 
 
-TEST_F(CorpusCleanerTest, LanguageFilter) {
+TEST_F(CorpusCleanerTest, FastTextEx) {
     // refer: https://github.com/HojiChar/HojiChar/blob/v0.9.0/tests/filters/test_lsh_deduplication.py
     
     string in = "吾輩は猫である。名前はまだ無い。";
     string in2 = "I am a cat. No name yet.";
     string in3 = "あああああああ";
 
-    LanguageFilter language_filter;
+    FastTextEx fasttext;
     pair<float, string> score;
-    score = language_filter.filter(in);
+    score = fasttext.filter(in);
     // cout << score.first << " " << score.second << endl;
     ASSERT_TRUE(score.first>0.3);
     ASSERT_TRUE(score.second=="__label__ja");
 
-    score = language_filter.filter(in2);
+    score = fasttext.filter(in2);
     // cout << score.first << " " << score.second << endl;
     ASSERT_TRUE(score.first>0.3);
     ASSERT_TRUE(score.second=="__label__en");
 
-    score = language_filter.filter(in3);
+    score = fasttext.filter(in3);
     // cout << score.first << " " << score.second << endl;
     // ASSERT_TRUE(score.first>0.3);
     ASSERT_TRUE(score.second!="__label__ja");
@@ -409,7 +437,8 @@ TEST_F(CorpusCleanerTest,QuotesRemover)
                                  "../data/output/",
                                  min_length,
                                  max_length,
-                                 accept_language);
+                                 accept_language,
+                                 true);
 
     document.text = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる[1]。";
     corpus_cleaner.QuotesRemover(document);

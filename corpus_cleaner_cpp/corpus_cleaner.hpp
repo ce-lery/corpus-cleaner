@@ -60,6 +60,7 @@ private:
     uint32_t min_length=5;
     uint32_t max_length=1000;
     set<string> accept_language{"__label__ja"};
+    bool sentence_segment=true;
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
 
 public:
@@ -68,7 +69,8 @@ public:
                   string output_path,
                   uint32_t min_length,
                   uint32_t max_length,
-                  set<string> accept_language);
+                  set<string> accept_language,
+                  bool sentence_segment);
     /***destructor***/
     ~CorpusCleaner();
     /***member function***/

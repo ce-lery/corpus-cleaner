@@ -266,7 +266,7 @@ void SegmentSentence(string sentence, vector<string> &segments)
         segments.push_back(ConvertWstringToUTF8(sub));
     }
 
-    // // Display the substrings in the vector
+    // Display the substrings in the vector
     // for (const auto& sub : sentence_segmented) {
     //     wcout << sub << endl;
     // }
@@ -294,4 +294,13 @@ string Strip(const string& sentence)
 
 	// Return substring from beginning to end
     return sentence.substr(start, end - start + 1);
+}
+
+void ReplaceSubstring(string& sentence, const string& target, const string& replacement) 
+{
+    size_t pos = 0;
+    while ((pos = sentence.find(target, pos)) != string::npos) {
+        sentence.replace(pos, target.length(), replacement);
+        pos += replacement.length();
+    }
 }

@@ -14,3 +14,4 @@ wstring ConvertUTF8ToWstring(const string& src);
 string ConvertWstringToUTF8(const wstring& src);
 void SegmentSentence(string sentence, vector<string> &segments);
 string Strip(const string& sentence);
+void ReplaceSubstring(string& sentence, const string& target, const string& replacement);
