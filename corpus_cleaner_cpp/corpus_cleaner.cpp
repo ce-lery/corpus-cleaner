@@ -178,7 +178,7 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
         special_character = start_character[i];
         //remove special_character that is ,for example, "☀" to "⟿"
         for(int j=0;j<character_range[i];j++){
-            sentence = regex_replace(sentence,regex(special_character),"");
+            ReplaceSubstring(sentence,special_character,"");
             special_character = CalculateNextEmoji(special_character);
         }
     }
@@ -206,7 +206,7 @@ void CorpusCleaner::EmojiRemover(Document &document)
     string emoji ="🌀";
     //remove emoji that is "🌀" to "🧿"
     for(int i=0;i<1792;i++){
-        sentence = regex_replace(sentence,regex(emoji),"");
+        ReplaceSubstring(sentence,emoji,"");
         emoji = CalculateNextEmoji(emoji);
     }
     if(sentence!=document.text) document.metadata.insert(__func__);
