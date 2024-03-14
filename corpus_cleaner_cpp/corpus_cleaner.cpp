@@ -139,12 +139,12 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
     string special_character = "";
     vector<string> start_character = {"☀","←","⌀","⤀","⬀","🀀"};
     vector<int> character_range = {512,112,256,128,256,256}; 
-    string sentence="";
+    string sentence=document.text;
     for(int i=0;i<(int)start_character.size();i++){
         special_character = start_character[i];
         //remove special_character that is ,for example, "☀" to "⟿"
         for(int j=0;j<character_range[i];j++){
-            sentence = regex_replace(document.text,regex(special_character),"");
+            sentence = regex_replace(sentence,regex(special_character),"");
             special_character = CalculateNextEmoji(special_character);
         }
     }
@@ -168,14 +168,13 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
 **/
 void CorpusCleaner::EmojiRemover(Document &document)
 {
-    string sentence = "";
+    string sentence = document.text;
     string emoji ="🌀";
     //remove emoji that is "🌀" to "🧿"
     for(int i=0;i<1792;i++){
-        sentence = regex_replace(document.text,regex(emoji),"");
+        sentence = regex_replace(sentence,regex(emoji),"");
         emoji = CalculateNextEmoji(emoji);
     }
-    
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence;
 }

@@ -21,7 +21,10 @@ typedef struct _DOCUMENT {
     string id="";
     bool is_rejected=false;
     set<string> metadata;
+    string language;
+    float language_score;
 } Document;
+
 
 /**
  * @brief   Structure for storing statistical information for each process of CorpusCleaner

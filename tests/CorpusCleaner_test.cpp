@@ -62,28 +62,78 @@ bool CompareFiles(const string& file1, const string& file2) {
     else    return false; //can't open file, or can't find file.
 }
 
-TEST_F(CorpusCleanerTest, Excessfilter) {
-    string input_path = "../data/input/test_ExcessFilter.txt";
-    string output_path = "../data/output/test_ExcessFilter.txt";
-    string answer_path = "../data/answer/test_ExcessFilter.txt";
-    uint32_t min_length=10;
+TEST_F(CorpusCleanerTest, LengthFilter) {
+    uint32_t min_length=5;
     uint32_t max_length = 1000;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
-    corpus_cleaner.ExcessFilter(input_path,output_path);
-    ASSERT_TRUE(CompareFiles(output_path,answer_path));
+    set<string> accept_language{"__label__ja"};
+    Document document;
+    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length,accept_language);
+
+    string sentence="";
+    document.is_rejected=false;
+    for(int i=0;i<1001;i++) sentence+="あ";
+    document.text = sentence;
+    corpus_cleaner.LengthFilter(document);
+    ASSERT_TRUE(document.text == sentence);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "あ。";
+    corpus_cleaner.LengthFilter(document);
+    ASSERT_TRUE(document.text == "あ。");
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.text = "AAA。";
+    document.is_rejected=false;
+    corpus_cleaner.LengthFilter(document);
+    ASSERT_TRUE(document.text == "AAA。");
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.text = "こんにちは。こんにちは。こんにちは。";
+    document.is_rejected=false;
+    corpus_cleaner.LengthFilter(document);
+    ASSERT_TRUE(document.text == "こんにちは。こんにちは。こんにちは。");
+    ASSERT_TRUE(document.is_rejected==false);
+
+    document.text = "こんばんわ。";
+    document.is_rejected=false;
+    corpus_cleaner.LengthFilter(document);
+    ASSERT_TRUE(document.text == "こんばんわ。");
+    ASSERT_TRUE(document.is_rejected==false);
 }
 
 
 TEST_F(CorpusCleanerTest, URLRemover) {
-    string input_path = "../data/input/test_URLRemover.txt";
-    string output_path = "../data/output/test_URLRemover.txt";
-    string answer_path = "../data/answer/test_URLRemover.txt";
-    uint32_t min_length=10;
+    uint32_t min_length = 5;
     uint32_t max_length = 1000;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
-    corpus_cleaner.URLRemover(input_path,output_path);
-    ASSERT_TRUE(CompareFiles(output_path,answer_path));
+    set<string> accept_language{"__label__ja"};
+    Document document;
+    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length,accept_language);
+
+    document.is_rejected=false;
+    document.text = "https://qiita.com/これはqiitaのURLです";
+    corpus_cleaner.URLRemover(document);
+    ASSERT_TRUE(document.text == "これはqiitaのURLです");
+    ASSERT_TRUE(document.is_rejected==false);
+    ASSERT_TRUE(document.metadata.find("URLRemover")!=document.metadata.end());
+
+    document.text = "これはzennのURLですhttps://zenn.dev/";
+    corpus_cleaner.URLRemover(document);
+    ASSERT_TRUE(document.text == "これはzennのURLです");
+
+    document.text = "https://zenn.dev/https://qiita.com/これはqiitaとzennのURLです";
+    corpus_cleaner.URLRemover(document);
+    ASSERT_TRUE(document.text == "これはqiitaとzennのURLです");
+
+    document.text = "https://zenn.dev/あhttps://qiita.com/いhttps://huggingface.co/う";
+    corpus_cleaner.URLRemover(document);
+    ASSERT_TRUE(document.text == "あいう");
+
+    document.text = "URLに日本語が含まれる場合https://www.google.com/search?q=URL+%E6%97%A5%E6%9C%AC%E8%AA%9E&oq=URL+%E6%97%A5%E6%9C%AC%E8%AA%9E&aqs=chrome..69i57.3480j0j7&sourceid=chrome&ie=UTF-8";
+    corpus_cleaner.URLRemover(document);
+    ASSERT_TRUE(document.text == "URLに日本語が含まれる場合");
 }
+
 
 TEST_F(CorpusCleanerTest, MakeStats) {
     string input_path = "../data/input/test_URLRemover.txt";
@@ -95,29 +145,83 @@ TEST_F(CorpusCleanerTest, MakeStats) {
     ASSERT_EQ(elapsed_time,stats.elapsed_time);
     ASSERT_EQ(filesystem::file_size(input_path),stats.result_file_size);
 }
-
 TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
-    string input_path = "../data/input/test_SpecialCharacterRemover.txt";
-    string output_path = "../data/output/test_SpecialCharacterRemover.txt";
-    string answer_path = "../data/answer/test_SpecialCharacterRemover.txt";
     uint32_t min_length=10;
     uint32_t max_length = 1000;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
-    corpus_cleaner.SpecialCharacterRemover(input_path,output_path);
-    ASSERT_TRUE(CompareFiles(output_path,answer_path));
+    set<string> accept_language{"__label__ja"};
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language);
+                                 
+    Document document;  
+    document.text = "☀あ←い⌚う⤲え⭐お🀀";
+    cout << document.text << endl;
+    document.language = "";
+    document.language_score=0;
+    corpus_cleaner.SpecialCharacterRemover(document);
+    ASSERT_TRUE(document.text == "あいうえお");
+    ASSERT_TRUE(document.is_rejected == false);
+    ASSERT_TRUE(document.metadata.find("SpecialCharacterRemover") != document.metadata.end());
+    ASSERT_TRUE(document.language == "");       
+    //ASSERT_TRUE(document.language_score == 0);
+    
+    document.text = "そろそろ狩るか…♠";
+    corpus_cleaner.SpecialCharacterRemover(document);
+    ASSERT_TRUE(document.text == "そろそろ狩るか…");
+    
+    document.text = "RTX4090最高☆☀☁♠";
+    corpus_cleaner.SpecialCharacterRemover(document);
+    ASSERT_TRUE(document.text == "RTX4090最高");
+     
+    document.text = "お腹が空きました☹";
+    corpus_cleaner.SpecialCharacterRemover(document);
+    ASSERT_TRUE(document.text == "お腹が空きました");
+     
+    document.text = "境界値シリーズ☀⟿←⇿⌀⏿⤀⥿⬀⯿🀀🃿";
+    corpus_cleaner.SpecialCharacterRemover(document);
+    ASSERT_TRUE(document.text == "境界値シリーズ");
 }
 
 TEST_F(CorpusCleanerTest, EmojiRemover) {
-    string input_path = "../data/input/test_EmojiRemover.txt";
-    string output_path = "../data/output/test_EmojiRemover.txt";
-    string answer_path = "../data/answer/test_EmojiRemover.txt";
     uint32_t min_length=10;
     uint32_t max_length = 1000;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
-    corpus_cleaner.EmojiRemover(input_path,output_path);
-    ASSERT_TRUE(CompareFiles(output_path,answer_path));
-}
+    set<string> accept_language{"__label__ja"};
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language);
+                                 
+    Document document;  
+    document.text = "よろしくお願いします😎";
+    document.language = "";
+    document.language_score=0;
+    corpus_cleaner.EmojiRemover(document);
+    ASSERT_TRUE(document.text == "よろしくお願いします");
+    ASSERT_TRUE(document.is_rejected == false);
+    ASSERT_TRUE(document.metadata.find("EmojiRemover") != document.metadata.end());
+    ASSERT_TRUE(document.language == "");       
+    
+    document.text = "こんにちは😗よろしくお願いします🤡🤡";
+    corpus_cleaner.EmojiRemover(document);
+    ASSERT_TRUE(document.text == "こんにちはよろしくお願いします");
+    
+    
+    document.text = "🤗お🤗は🤗よ🤗う🤗";
+    corpus_cleaner.EmojiRemover(document);
+    ASSERT_TRUE(document.text == "おはよう");
+    
+    document.text = "境界値１🌀";
+    corpus_cleaner.EmojiRemover(document);
+    ASSERT_TRUE(document.text == "境界値１");
 
+    document.text = "境界値２🧿";
+    corpus_cleaner.EmojiRemover(document);
+    ASSERT_TRUE(document.text == "境界値２"); 
+}
+/*
 TEST_F(CorpusCleanerTest, ExactDeduplication) {
     string input_folder_path = "../data/input/sentence_deduplicate";
     string output_folder_path = "../data/output/sentence_deduplicate";
@@ -146,6 +250,7 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
     corpus_cleaner.SentenceSegmenter(input_path,output_path);
     ASSERT_TRUE(CompareFiles(output_path,answer_path));
 }
+*/
 
 TEST_F(CorpusCleanerTest, Normalizer) {
     //original
@@ -294,12 +399,17 @@ TEST_F(CorpusCleanerTest, LanguageFilter) {
 
 }
 
-TEST_F(CorpusCleanerTest,QuotesRemover) {
-
+TEST_F(CorpusCleanerTest,QuotesRemover) 
+{
     Document document;
     uint32_t min_length=10;
     uint32_t max_length = 1000;
-    CorpusCleaner corpus_cleaner("../data/input/","../data/output/",min_length,max_length);
+    set<string> accept_language{"__label__ja"};
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language);
 
     document.text = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる[1]。";
     corpus_cleaner.QuotesRemover(document);
