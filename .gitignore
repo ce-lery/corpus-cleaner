@@ -25,4 +25,4 @@ results/*
 scripts/icu/*
 
 ## src
-corpus_cleaner_cpp/lid.176.bin
+corpus_cleaner/lid.176.bin

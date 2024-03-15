@@ -19,8 +19,8 @@ export C_INCLUDE_PATH=$ICUPATH/include
 export CPLUS_INCLUDE_PATH=$ICUPATH/include
 export LIBRARY_PATH=$ICUPATH/lib
 export LD_LIBRARY_PATH=$ICUPATH/lib
-# clang++ -licuio -licui18n -licutu -licuuc -licudata -std=c++1z ../corpus_cleaner_cpp/normalizer.cpp
-g++ ../corpus_cleaner_cpp/normalizer.cpp -licuio -licui18n -licutu -licuuc -licudata # どちらでも可
+# clang++ -licuio -licui18n -licutu -licuuc -licudata -std=c++1z ../corpus_cleaner/normalizer.cpp
+g++ ../corpus_cleaner/normalizer.cpp -licuio -licui18n -licutu -licuuc -licudata # どちらでも可
 # g++ normalizer.cpp -licuio -licui18n -licutu -licuuc -licudata
 ./a.out
 rm -r icu4c-74_2-Ubuntu22.04-x64.tgz

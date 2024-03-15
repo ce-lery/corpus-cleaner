@@ -5,6 +5,6 @@ mkdir build && cd build && cmake ..
 make && make install
 cd ../../../
 
-cd corpus_cleaner_cpp
+cd corpus_cleaner
 wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
 cd ../

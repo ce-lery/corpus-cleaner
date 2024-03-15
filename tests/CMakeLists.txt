@@ -15,28 +15,28 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# include_directories(${CMAKE_SOURCE_DIR}/../corpus_cleaner_cpp/)
+# include_directories(${CMAKE_SOURCE_DIR}/../corpus_cleaner/)
 link_directories(/home/corpus-cleaner-cpp/scripts/icu/usr/local/lib)
 include_directories(/home/corpus-cleaner-cpp/scripts/icu/usr/local/include) 
 link_directories(/home/corpus-cleaner-cpp/scripts/fastText/build/)
 include_directories(/home/corpus-cleaner-cpp/scripts/fastText/src) 
-# add_subdirectory(corpus_cleaner_cpp)
+# add_subdirectory(corpus_cleaner)
 # add_subdirectory(tests)
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
 add_executable(${PROJECT_NAME}-googletest 
                CorpusCleaner_test.cpp 
-               ../corpus_cleaner_cpp/corpus_cleaner.cpp
-               ../corpus_cleaner_cpp/corpus_cleaner.hpp
-               ../corpus_cleaner_cpp/util.cpp
-               ../corpus_cleaner_cpp/util.hpp
-               ../corpus_cleaner_cpp/normalizer.cpp
-               ../corpus_cleaner_cpp/normalizer.hpp
-               ../corpus_cleaner_cpp/minhash.cpp
-               ../corpus_cleaner_cpp/minhash.hpp
+               ../corpus_cleaner/corpus_cleaner.cpp
+               ../corpus_cleaner/corpus_cleaner.hpp
+               ../corpus_cleaner/util.cpp
+               ../corpus_cleaner/util.hpp
+               ../corpus_cleaner/normalizer.cpp
+               ../corpus_cleaner/normalizer.hpp
+               ../corpus_cleaner/minhash.cpp
+               ../corpus_cleaner/minhash.hpp
                ../scripts/smhasher/src/MurmurHash3.cpp
                ../scripts/smhasher/src/MurmurHash3.h
-               ../corpus_cleaner_cpp/language_filter.cpp
-               ../corpus_cleaner_cpp/language_filter.hpp
+               ../corpus_cleaner/language_filter.cpp
+               ../corpus_cleaner/language_filter.hpp
               )
 # Option of optimization , warning, ...etc.
 target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)

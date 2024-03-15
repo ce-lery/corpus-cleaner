@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include "../corpus_cleaner_cpp/corpus_cleaner.hpp"
-#include "../corpus_cleaner_cpp/util.hpp"
-#include "../corpus_cleaner_cpp/normalizer.hpp"
-#include "../corpus_cleaner_cpp/minhash.hpp"
-#include "../corpus_cleaner_cpp/language_filter.hpp"
+#include "../corpus_cleaner/corpus_cleaner.hpp"
+#include "../corpus_cleaner/util.hpp"
+#include "../corpus_cleaner/normalizer.hpp"
+#include "../corpus_cleaner/minhash.hpp"
+#include "../corpus_cleaner/language_filter.hpp"
 
 // namespace {
 
