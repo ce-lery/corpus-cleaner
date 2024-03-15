@@ -242,14 +242,6 @@ void SegmentSentence(string sentence, vector<string> &segments)
         }
     }
 
-    // remove the last character of the string
-    if(!sentence_segmented.empty()){
-        size_t pos = sentence_segmented.find(delimiter);
-        if (pos != wstring::npos) {
-            sentence_segmented.erase(pos, delimiter.length());
-        }
-    }
-
     size_t pos = 0;
     size_t prevPos = 0;
     
@@ -265,12 +257,6 @@ void SegmentSentence(string sentence, vector<string> &segments)
         wstring sub = sentence_segmented.substr(prevPos);
         segments.push_back(ConvertWstringToUTF8(sub));
     }
-
-    // Display the substrings in the vector
-    // for (const auto& sub : sentence_segmented) {
-    //     wcout << sub << endl;
-    // }
-    // return ConvertWstringToUTF8(sentence_segmented);
 }
 
 /**

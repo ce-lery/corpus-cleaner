@@ -233,7 +233,6 @@ void CorpusCleaner::QuotesRemover(Document &document)
 }
 
 
-
 /**
  * @brief Neologd Normalize sentence
  * @details 
@@ -273,33 +272,11 @@ void CorpusCleaner::Normalizer(Document &document)
 **/
 Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_folder_path)
 {
-    // chrono::system_clock::time_point start, end;
-    // start = chrono::system_clock::now();
-
-    // ifstream input_file(input_path);
-    // ofstream output_file(output_path);
-    // string line="";
-
-    // // #pragma omp parallel for ordered
-    // while (getline(input_file, line)) {
-    //     vector<string> segments;
-    //     SegmentSentence(line, segments);
-    //     for(auto sentence:segments) output_file << line << endl;
-       
-    // }
-    // input_file.close();
-    // output_file.close();
-    // // cout << "Normalizing Text is completed." << endl;
-
-    // end = chrono::system_clock::now(); 
-    // double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    // return MakeStats(__func__,output_path,elapsed);
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now(); 
 
     string target_line="",source_line="";
     vector<string> file_list;
-    bool duplication=false;
     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
     GetFileList(input_folder_path,&file_list);
     // Compare all lines of source_file and target_file
@@ -307,13 +284,11 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
         for(int j=i;j<(int)file_list.size();j++){
             ifstream target_file(input_folder_path+"/"+file_list[i]);
             ofstream output_file(output_folder_path+"/"+file_list[i]);
-            uint32_t target_counter=0,source_counter=0;
             while (getline(target_file, target_line)) {
                 //
                 vector<string> segments;
                 SegmentSentence(target_line, segments);
                 for(auto sentence:segments) output_file << sentence << endl;
-                //
             }
             CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
         }
