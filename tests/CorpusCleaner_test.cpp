@@ -72,7 +72,8 @@ TEST_F(CorpusCleanerTest, LengthFilter) {
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true);
+                                 true,
+                                 0.3);
 
     string sentence="";
     document.is_rejected=false;
@@ -118,7 +119,8 @@ TEST_F(CorpusCleanerTest, URLRemover) {
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true);
+                                 true,
+                                 0.3);
 
     document.is_rejected=false;
     document.text = "https://qiita.com/これはqiitaのURLです";
@@ -164,7 +166,8 @@ TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true);
+                                 true,
+                                 0.3);
                                  
     Document document;  
     document.text = "☀あ←い⌚う⤲え⭐お🀀";
@@ -204,7 +207,8 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true);
+                                 true,
+                                 0.3);
                                  
     Document document;  
     document.text = "よろしくお願いします😎";
@@ -247,7 +251,8 @@ TEST_F(CorpusCleanerTest, ExactDeduplication) {
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true);
+                                 true,
+                                 0.3);
     corpus_cleaner.ExactDeduplication(input_folder_path,output_folder_path);
 
     vector<string> file_list;
@@ -270,7 +275,8 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true);
+                                 true,
+                                 0.3);
     corpus_cleaner.SentenceSegmenter(input_folder_path,output_folder_path);
     vector<string> file_list;
     GetFileList(answer_folder_path,&file_list);
@@ -426,6 +432,60 @@ TEST_F(CorpusCleanerTest, FastTextEx) {
 
 }
 
+TEST_F(CorpusCleanerTest,LanguageFilter) 
+{
+    Document document;
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    set<string> accept_language{"__label__ja"};
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 0.3);
+
+    document.text = "吾輩は猫である。名前はまだ無い。";
+    corpus_cleaner.LanguageFilter(document);
+    //document.text isn't changed.
+    ASSERT_TRUE(document.text == "吾輩は猫である。名前はまだ無い。"); 
+    ASSERT_TRUE(document.is_rejected==false);
+    ASSERT_TRUE(document.metadata.find("LanguageFilter")==document.metadata.end());
+
+    document.text = "I am a cat. No name yet.";
+    corpus_cleaner.LanguageFilter(document);
+    ASSERT_TRUE(document.language=="__label__en");
+    ASSERT_TRUE(document.is_rejected==true);
+    ASSERT_TRUE(document.metadata.find("LanguageFilter")!=document.metadata.end());
+}
+
+TEST_F(CorpusCleanerTest,LanguageFilter2) 
+{
+    Document document;
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    set<string> accept_language{ "__label__ja","__label__en" };
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 0.3);
+    document.text = "I am a cat. No name yet.";
+    corpus_cleaner.LanguageFilter(document);
+    ASSERT_TRUE(document.language=="__label__en");
+    ASSERT_TRUE(document.is_rejected==false);
+
+    //under.threshold
+    document.text = "ぎぎgugu";
+    corpus_cleaner.LanguageFilter(document);
+    ASSERT_TRUE(document.language=="__label__en");
+    ASSERT_TRUE(document.language_score<0.3);
+    ASSERT_TRUE(document.is_rejected==true);
+}
+
 TEST_F(CorpusCleanerTest,QuotesRemover) 
 {
     Document document;
@@ -437,7 +497,8 @@ TEST_F(CorpusCleanerTest,QuotesRemover)
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true);
+                                 true,
+                                 0.3);
 
     document.text = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる[1]。";
     corpus_cleaner.QuotesRemover(document);

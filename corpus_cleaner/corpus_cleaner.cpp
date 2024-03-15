@@ -55,7 +55,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
                              uint32_t min_length,
                              uint32_t max_length,
                              set<string> accept_language,
-                             bool sentence_segment)
+                             bool sentence_segment,
+                             float language_threshold)
 {
     this->input_path = input_path;
     this->output_path = output_path;
@@ -64,6 +65,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->max_length = max_length;
     this->accept_language = accept_language;
     this->sentence_segment = sentence_segment;
+    this->language_threshold = language_threshold;
 
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
@@ -101,7 +103,6 @@ void CorpusCleaner::LengthFilter(Document &document)
     }
 }
 
-using namespace fasttext;
 
 /**
  * @brief Language filtering 
@@ -114,22 +115,22 @@ using namespace fasttext;
  *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
  * @attention 
 **/
-// void CorpusCleaner::LanguageFilter(Document &document)
-// {
-//     FastTextEx language_filter;
-//     pair<float,string> result = language_filter.filter(document.text)
-    
-//     document.language = result.second;
-//     document.language_score = result.first;
+void CorpusCleaner::LanguageFilter(Document &document)
+{
+    FastTextEx language_filter;
+    pair<float,string> result = language_filter.filter(document.text);
+    document.language = result.second;
+    document.language_score = result.first;
      
-//     document.is_rejected=true;
-//     if(acceppt_language.find(language)!=acceppt_language.end()){
-//         // If fasttext's score is less than threshold, the text to be rejected.
-//         if(document.language_score>=language_threshold){
-//             document.is_rejected=false;
-//         }
-//     }
-// }
+    document.is_rejected=true;
+    if(accept_language.find(document.language)!=accept_language.end()){
+        // If fasttext's score is less than threshold, the text to be rejected.
+        if(document.language_score>=this->language_threshold){
+            document.is_rejected=false;
+        }
+    }
+    if(document.is_rejected)    document.metadata.insert(__func__);
+}
 
 
 /**
@@ -182,7 +183,7 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
             special_character = CalculateNextEmoji(special_character);
         }
     }
-    
+
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence;
 }
