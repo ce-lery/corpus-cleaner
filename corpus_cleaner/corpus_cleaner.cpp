@@ -2,11 +2,48 @@
 #include "util.hpp"
 #include "normalizer.hpp"
 #include "language_filter.hpp"
+#include "perplexity_filter.hh"
 
 /**
  * @brief Format statistics
  * @details 
- * @example
+ * The usage is following.
+ *   string input_path = "../data/input/test_URLRemover.txt";
+ *   double elapsed_time = 11.56;
+ *   string process_name = "URLRemover";
+ *   Stats stats = MakeStats(process_name,input_path,elapsed_time);
+ * @param string process_name: Cleaning filter name.
+ * @param string output_path: Path of file for statistics.
+ * @param double elapsed_time: elapsed process time.
+ * @return Stats: statistics
+ * @attention 
+**/
+void WriteDocumentToFile(Document &document,
+                         string output_file_path)
+{
+    ofstream output_file(output_file_path, ios::app);
+    
+    output_file << "{" ;
+    output_file << "\"text\":\"" <<document.text << "\",";
+    output_file << "\"id\":\"" << document.id << "\","; 
+    output_file << "\"is_rejected\":\"" << document.is_rejected << ",";
+    output_file << "\"metadata\":\"";
+    for (auto iter = document.metadata.begin(); iter != document.metadata.end(); ++iter) {
+        output_file << *iter << ",";
+    }
+    output_file << "\",";
+    output_file << "\"language\":\"" <<document.language << "\",";
+    output_file << "\"language_score\":\"" <<document.language_score << "\",";
+    output_file << "\"perplexity\":\"" <<document.perplexity << "\"";
+    output_file <<"}"<< endl;
+}   
+
+
+/**
+ * @brief Format statistics
+ * @details 
+ * 
+ * The usage is following.
  *   string input_path = "../data/input/test_URLRemover.txt";
  *   double elapsed_time = 11.56;
  *   string process_name = "URLRemover";
@@ -48,7 +85,6 @@ void OutputStats(Stats stats)
     cout << endl;
 }
 
-
 /***constructor***/
 CorpusCleaner::CorpusCleaner(string input_path,
                              string output_path,
@@ -56,7 +92,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
                              uint32_t max_length,
                              set<string> accept_language,
                              bool sentence_segment,
-                             float language_threshold)
+                             float language_threshold,
+                             double perplexity_threshold)
 {
     this->input_path = input_path;
     this->output_path = output_path;
@@ -66,6 +103,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->accept_language = accept_language;
     this->sentence_segment = sentence_segment;
     this->language_threshold = language_threshold;
+    this->perplexity_threshold = perplexity_threshold;
 
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
@@ -103,6 +141,38 @@ void CorpusCleaner::LengthFilter(Document &document)
     }
 }
 
+
+/**
+ * @brief KenLM's Perplexity Quality filtering 
+ * @details 
+ *  Please Refer document of "TODO"
+ *  1. 
+ *  2. If the perplexity is less than "threshold", the "document" is to be rejected.
+ *  
+ *  The usage is following.
+ *  
+ * @param Document &document: single line text to be cleaned
+ * @return void: None
+ * @ref TODO
+ * @attention 
+**/
+void CorpusCleaner::PerplexityFilter(Document &document)
+{
+    //FastTextEx language_filter;
+    //pair<float,string> result = language_filter.filter(document.text);
+    //document.language = result.second;
+    //document.language_score = result.first;
+     
+    document.perplexity = KenLMPerplexity(ConvertUTF8ToWstring(document.text));
+    
+    // If kenlm's perplexity is less than threshold, the text is to be rejected.
+    document.is_rejected=true;
+    if(document.perplexity<=this->perplexity_threshold){
+        document.is_rejected=false;
+    }
+
+    if(document.is_rejected)    document.metadata.insert(__func__);
+}
 
 /**
  * @brief Language filtering 
@@ -418,12 +488,13 @@ double CorpusCleaner::CleanPipeline()
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
     vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
+        &CorpusCleaner::LanguageFilter,
         //&CorpusCleaner::URLRemover ,
-        //&CorpusCleaner::ExcessFilter, 
         //&CorpusCleaner::EmojiRemover, 
         //&CorpusCleaner::SpecialCharacterRemover, 
-        //&CorpusCleaner::SentenceSegmenter, 
+        //&CorpusCleaner::LengthFilter, 
         &CorpusCleaner::QuotesRemover, 
+        &CorpusCleaner::PerplexityFilter
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
         // &CorpusCleaner::MinhashDeduplication, 
@@ -483,6 +554,5 @@ double CorpusCleaner::CleanPipeline()
     }
     return 0;
 }
-
 
 

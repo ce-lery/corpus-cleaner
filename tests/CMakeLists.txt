@@ -15,11 +15,16 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+add_subdirectory(kenlm)
+
 # include_directories(${CMAKE_SOURCE_DIR}/../corpus_cleaner/)
-link_directories(/home/corpus-cleaner-cpp/scripts/icu/usr/local/lib)
-include_directories(/home/corpus-cleaner-cpp/scripts/icu/usr/local/include) 
-link_directories(/home/corpus-cleaner-cpp/scripts/fastText/build/)
-include_directories(/home/corpus-cleaner-cpp/scripts/fastText/src) 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/kenlm/lm) 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/kenlm/util) 
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/lib)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/include) 
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/build/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/src) 
 # add_subdirectory(corpus_cleaner)
 # add_subdirectory(tests)
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
@@ -37,11 +42,16 @@ add_executable(${PROJECT_NAME}-googletest
                ../scripts/smhasher/src/MurmurHash3.h
                ../corpus_cleaner/language_filter.cpp
                ../corpus_cleaner/language_filter.hpp
+               ../corpus_cleaner/perplexity_filter.cc
+               ../corpus_cleaner/perplexity_filter.hh
               )
 # Option of optimization , warning, ...etc.
 target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)
 # Create an executable file called ${PROJECT_NAME}-googletes.out from main.cpp
-target_link_libraries(${PROJECT_NAME}-googletest gtest_main icuio icui18n icutu icuuc icudata fasttext)
+target_link_libraries(${PROJECT_NAME}-googletest PUBLIC gtest_main icuio icui18n icutu icuuc icudata fasttext kenlm_util kenlm)
+# target_link_libraries(${PROJECT_NAME}-googletest PUBLIC )
+target_compile_definitions(${PROJECT_NAME}-googletest PUBLIC -DKENLM_MAX_ORDER=${KENLM_MAX_ORDER})
+
 # Link lib${CMAKE_CURRENT_SOURCE_DIR}.a when creating ${PROJECT_NAME}-googletes.out
 target_include_directories(${PROJECT_NAME}-googletest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

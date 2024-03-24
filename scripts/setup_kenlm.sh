@@ -10,9 +10,13 @@ log=results/log/$(basename "$0" .sh)/$(date +%Y%m%d_%H%M%S).log
 exec &> >(tee -a $log)
 set -x
 
-cd scripts
-git clone https://github.com/aappleby/smhasher.git
+git clone https://github.com/kpu/kenlm.git
+wget -c -P ../corpus_cleaner http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
 
-cd ../
+mkdir -p ../tests/build
+cp ../corpus_cleaner/ja.arpa.bin ../tests/build/
+
+cd ../tests/
+git clone https://github.com/kpu/kenlm.git
 
 set +x

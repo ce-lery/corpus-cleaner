@@ -17,3 +17,5 @@ make install    # Install in /usr/local/ by default
 
 cd ../../
 cd ../
+
+set +x

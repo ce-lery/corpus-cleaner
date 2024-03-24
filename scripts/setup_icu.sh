@@ -26,3 +26,5 @@ g++ ../corpus_cleaner/normalizer.cpp -licuio -licui18n -licutu -licuuc -licudata
 rm -r icu4c-74_2-Ubuntu22.04-x64.tgz
 
 cd ../
+
+set +x

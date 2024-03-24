@@ -12,7 +12,9 @@ namespace fs = filesystem;
  *       - id: text identification
  *       - is_rejected: True if this text is eligible for deletion
  *       - metadata: tags added during the filtering process
- *
+ *       - language: Language determined by LanguageFilter 
+ *       - language_score: Language score calculated by LanguageFilter
+ *       - perplexity: perplexity calculated by PerplexityFilter
  *       These will be used later for drawing processing, etc.
  * @note    
 **/
@@ -23,6 +25,7 @@ typedef struct _DOCUMENT {
     set<string> metadata;
     string language;
     float language_score;
+    double perplexity=999999;
 } Document;
 
 
@@ -62,6 +65,7 @@ private:
     set<string> accept_language{"__label__ja"};
     bool sentence_segment=true;
     float language_threshold=0.3;
+    double perplexity_threshold=999999;
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
 
 public:
@@ -72,7 +76,8 @@ public:
                   uint32_t max_length,
                   set<string> accept_language,
                   bool sentence_segment,
-                  float language_threshold);
+                  float language_threshold,
+                  double perplexity_threshold);
     /***destructor***/
     ~CorpusCleaner();
     /***member function***/
@@ -83,6 +88,7 @@ public:
     void QuotesRemover(Document &document);
     void Normalizer(Document &document);
     void LanguageFilter(Document &document);
+    void PerplexityFilter(Document &document);
     Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
     Stats SentenceSegmenter(string input_folder_path,string output_folder_path);
     Stats ExactDeduplication(string input_folder_path,string output_folder_path);

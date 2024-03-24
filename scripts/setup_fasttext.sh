@@ -7,4 +7,8 @@ cd ../../../
 
 cd corpus_cleaner
 wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+
+mkdir -p ../scripts/build/
+cp lid.176.bin ../scripts/build/
+
 cd ../

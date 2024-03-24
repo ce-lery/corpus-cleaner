@@ -4,6 +4,7 @@
 #include "../corpus_cleaner/normalizer.hpp"
 #include "../corpus_cleaner/minhash.hpp"
 #include "../corpus_cleaner/language_filter.hpp"
+#include "../corpus_cleaner/perplexity_filter.hh"
 
 // namespace {
 
@@ -73,7 +74,8 @@ TEST_F(CorpusCleanerTest, LengthFilter) {
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
 
     string sentence="";
     document.is_rejected=false;
@@ -120,7 +122,8 @@ TEST_F(CorpusCleanerTest, URLRemover) {
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
 
     document.is_rejected=false;
     document.text = "https://qiita.com/これはqiitaのURLです";
@@ -167,7 +170,8 @@ TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
                                  
     Document document;  
     document.text = "☀あ←い⌚う⤲え⭐お🀀";
@@ -208,7 +212,8 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
                                  
     Document document;  
     document.text = "よろしくお願いします😎";
@@ -252,7 +257,8 @@ TEST_F(CorpusCleanerTest, ExactDeduplication) {
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
     corpus_cleaner.ExactDeduplication(input_folder_path,output_folder_path);
 
     vector<string> file_list;
@@ -276,7 +282,8 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
     corpus_cleaner.SentenceSegmenter(input_folder_path,output_folder_path);
     vector<string> file_list;
     GetFileList(answer_folder_path,&file_list);
@@ -444,7 +451,8 @@ TEST_F(CorpusCleanerTest,LanguageFilter)
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
 
     document.text = "吾輩は猫である。名前はまだ無い。";
     corpus_cleaner.LanguageFilter(document);
@@ -472,7 +480,8 @@ TEST_F(CorpusCleanerTest,LanguageFilter2)
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
     document.text = "I am a cat. No name yet.";
     corpus_cleaner.LanguageFilter(document);
     ASSERT_TRUE(document.language=="__label__en");
@@ -498,7 +507,8 @@ TEST_F(CorpusCleanerTest,QuotesRemover)
                                  max_length,
                                  accept_language,
                                  true,
-                                 0.3);
+                                 0.3,
+                                 15000);
 
     document.text = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる[1]。";
     corpus_cleaner.QuotesRemover(document);
@@ -519,4 +529,86 @@ TEST_F(CorpusCleanerTest,QuotesRemover)
     corpus_cleaner.QuotesRemover(document);
     ASSERT_TRUE(document.text
                 =="これは文献[a]を参照ください。");
+}
+
+TEST_F(CorpusCleanerTest,KenLMPerplexity) 
+{
+    vector<wstring> sentence_list;
+	sentence_list.push_back(L"東京はッ晴れ");
+	sentence_list.push_back(L"東京は元気です");
+	sentence_list.push_back(L"吾輩は猫である。名前はまだない。");
+	sentence_list.push_back(L"東京は晴れ");
+	sentence_list.push_back(L"東京 大阪 名古屋 秋田 千葉");
+	sentence_list.push_back(L"あああああああ");
+	sentence_list.push_back(L"assdofiuslkあｓｋｄｈｊｋ");
+
+    vector<double> perplexity_list;
+    for (wstring sentence:sentence_list) {
+        perplexity_list.push_back(KenLMPerplexity(sentence));
+	}
+    // cout << perplexity_list[6]<<endl;
+    ASSERT_TRUE(perplexity_list[0]<=15000);//東京はッ晴れ
+    ASSERT_TRUE(perplexity_list[1]<=15000);//東京は元気です
+    ASSERT_TRUE(perplexity_list[2]<=15000);//吾輩は猫である。名前はまだない。
+    ASSERT_TRUE(perplexity_list[3]<=15000);//東京は晴れ
+    ASSERT_TRUE(perplexity_list[4]>15000);//東京 大阪 名古屋 秋田 千葉
+    ASSERT_TRUE(perplexity_list[5]>15000);//あああああああ
+    ASSERT_TRUE(perplexity_list[6]>15000);//assdofiuslkあｓｋｄｈｊｋ
+
+    ASSERT_TRUE(perplexity_list[0]>perplexity_list[3]);//東京はッ晴れ>東京は晴れ
+    ASSERT_TRUE(perplexity_list[1]>perplexity_list[3]);//東京は元気です>東京は晴れ
+}
+
+TEST_F(CorpusCleanerTest,PerplexityFilter) 
+{
+    Document document;
+    uint32_t min_length=10;
+    uint32_t max_length = 1000;
+    set<string> accept_language{"__label__ja"};
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 0.3,
+                                 15000);
+    document.text = "東京はッ晴れ";
+    corpus_cleaner.PerplexityFilter(document);
+    ASSERT_TRUE(document.perplexity<=15000);
+    ASSERT_TRUE(document.is_rejected==false);
+    ASSERT_TRUE(document.metadata.find("PerplexityFilter")==document.metadata.end());
+
+    document.text = "東京は元気です";
+    corpus_cleaner.PerplexityFilter(document);
+    ASSERT_TRUE(document.perplexity<=15000);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    document.text = "吾輩は猫である。名前はまだない。";
+    corpus_cleaner.PerplexityFilter(document);
+    ASSERT_TRUE(document.perplexity<=15000);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    document.text = "東京は晴れ";
+    corpus_cleaner.PerplexityFilter(document);
+    ASSERT_TRUE(document.perplexity<=15000);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    document.text = "東京 大阪 名古屋 秋田 千葉";
+    corpus_cleaner.PerplexityFilter(document);
+    ASSERT_TRUE(document.perplexity>15000);
+    ASSERT_TRUE(document.is_rejected==true);
+    ASSERT_TRUE(document.metadata.find("PerplexityFilter")!=document.metadata.end());
+
+    document.text = "あああああああ";
+    corpus_cleaner.PerplexityFilter(document);
+    ASSERT_TRUE(document.perplexity>15000);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.text = "assdofiuslkあｓｋｄｈｊｋ";
+    corpus_cleaner.PerplexityFilter(document);
+    ASSERT_TRUE(document.perplexity>15000);
+    ASSERT_TRUE(document.is_rejected==true);
+
+
 }
