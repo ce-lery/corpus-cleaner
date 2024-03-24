@@ -595,20 +595,43 @@ TEST_F(CorpusCleanerTest,PerplexityFilter)
     ASSERT_TRUE(document.is_rejected==false);
 
     document.text = "東京 大阪 名古屋 秋田 千葉";
+    document.is_rejected=false;
     corpus_cleaner.PerplexityFilter(document);
     ASSERT_TRUE(document.perplexity>15000);
     ASSERT_TRUE(document.is_rejected==true);
     ASSERT_TRUE(document.metadata.find("PerplexityFilter")!=document.metadata.end());
 
     document.text = "あああああああ";
+    document.is_rejected=false;
     corpus_cleaner.PerplexityFilter(document);
     ASSERT_TRUE(document.perplexity>15000);
     ASSERT_TRUE(document.is_rejected==true);
 
     document.text = "assdofiuslkあｓｋｄｈｊｋ";
+    document.is_rejected=false;
     corpus_cleaner.PerplexityFilter(document);
     ASSERT_TRUE(document.perplexity>15000);
     ASSERT_TRUE(document.is_rejected==true);
 
 
 }
+
+// TEST_F(CorpusCleanerTest,LogDocumentToFile) 
+// {
+//     Document document;
+//     uint32_t min_length=10;
+//     uint32_t max_length = 1000;
+//     set<string> accept_language{"__label__ja"};
+//     CorpusCleaner corpus_cleaner("../data/input/",
+//                                  "../data/output/",
+//                                  min_length,
+//                                  max_length,
+//                                  accept_language,
+//                                  true,
+//                                  0.3,
+//                                  15000);
+//     document.is_rejected=false;
+//     document.text = "https://qiita.com/これはqiitaのURLです";
+//     corpus_cleaner.URLRemover(document);
+//     LogDocumentToFile(document,"../data/output/document.jsonl");
+// }

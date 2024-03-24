@@ -5,20 +5,14 @@
 #include "perplexity_filter.hh"
 
 /**
- * @brief Format statistics
+ * @brief Loggging Document to output_file_path
  * @details 
- * The usage is following.
- *   string input_path = "../data/input/test_URLRemover.txt";
- *   double elapsed_time = 11.56;
- *   string process_name = "URLRemover";
- *   Stats stats = MakeStats(process_name,input_path,elapsed_time);
- * @param string process_name: Cleaning filter name.
- * @param string output_path: Path of file for statistics.
- * @param double elapsed_time: elapsed process time.
- * @return Stats: statistics
+ * @param Document document: document
+ * @param string output_file_path: Path of file for statistics.
+ * @return void: None
  * @attention 
 **/
-void WriteDocumentToFile(Document &document,
+void LogDocumentToFile(Document &document,
                          string output_file_path)
 {
     ofstream output_file(output_file_path, ios::app);
@@ -26,7 +20,7 @@ void WriteDocumentToFile(Document &document,
     output_file << "{" ;
     output_file << "\"text\":\"" <<document.text << "\",";
     output_file << "\"id\":\"" << document.id << "\","; 
-    output_file << "\"is_rejected\":\"" << document.is_rejected << ",";
+    output_file << "\"is_rejected\":\"" << document.is_rejected << "\",";
     output_file << "\"metadata\":\"";
     for (auto iter = document.metadata.begin(); iter != document.metadata.end(); ++iter) {
         output_file << *iter << ",";
@@ -158,11 +152,6 @@ void CorpusCleaner::LengthFilter(Document &document)
 **/
 void CorpusCleaner::PerplexityFilter(Document &document)
 {
-    //FastTextEx language_filter;
-    //pair<float,string> result = language_filter.filter(document.text);
-    //document.language = result.second;
-    //document.language_score = result.first;
-     
     document.perplexity = KenLMPerplexity(ConvertUTF8ToWstring(document.text));
     
     // If kenlm's perplexity is less than threshold, the text is to be rejected.

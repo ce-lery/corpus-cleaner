@@ -24,7 +24,7 @@ typedef struct _DOCUMENT {
     bool is_rejected=false;
     set<string> metadata;
     string language;
-    float language_score;
+    float language_score=0;
     double perplexity=999999;
 } Document;
 
@@ -47,7 +47,8 @@ typedef struct _STATS {
     double elapsed_time;
     uint32_t result_file_size;
 } Stats;
-
+void LogDocumentToFile(Document &document,
+                         string output_file_path);
 Stats MakeStats(string process_name,
                 string output_path,
                 double elapsed_time);

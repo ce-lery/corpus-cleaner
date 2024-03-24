@@ -119,16 +119,20 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Implement language filter
 - [x] Implement Test
 - [x] Imprement quotes Remover ("{1}", "{13}", and so on.)
-- [ ] Refactor piplinestep (FILE read write only once at the beginning and end)
+- [x] Refactor piplinestep (FILE read write only once at the beginning and end)
+- [ ] Implement minhash
+- [ ] Implement 
+- [ ] Write document & create doxygen
 - [ ] Implement analysys
-- [ ] Implement pybind & python code
-- [ ] Set Github Action's CI/CD
 
 ### ver.0.2.0
+
+- [ ] Implement pybind & python code
+- [ ] Speedup
 - [ ] Implement loader json & jsonl
-- [ ] Implement NormalizeNeologdnFaster (Replace regular expressions except where necessary)
 - [ ] Remove ad header and footer
 - [ ] Remove HTML mark
+- [ ] Set Github Action's CI/CD
 
 ### ver.0.3.0
 
