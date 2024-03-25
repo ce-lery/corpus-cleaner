@@ -3,7 +3,6 @@
 #include "../corpus_cleaner/util.hpp"
 #include "../corpus_cleaner/normalizer.hpp"
 #include "../corpus_cleaner/minhash.hpp"
-#include "../corpus_cleaner/language_filter.hpp"
 #include "../corpus_cleaner/perplexity_filter.hh"
 
 // namespace {
@@ -410,33 +409,6 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
     //false
     //cout << deduplicator.Apply(&d2) << endl;
     //false
-}
-
-
-TEST_F(CorpusCleanerTest, FastTextEx) {
-    // refer: https://github.com/HojiChar/HojiChar/blob/v0.9.0/tests/filters/test_lsh_deduplication.py
-    
-    string in = "吾輩は猫である。名前はまだ無い。";
-    string in2 = "I am a cat. No name yet.";
-    string in3 = "あああああああ";
-
-    FastTextEx fasttext;
-    pair<float, string> score;
-    score = fasttext.filter(in);
-    // cout << score.first << " " << score.second << endl;
-    ASSERT_TRUE(score.first>0.3);
-    ASSERT_TRUE(score.second=="__label__ja");
-
-    score = fasttext.filter(in2);
-    // cout << score.first << " " << score.second << endl;
-    ASSERT_TRUE(score.first>0.3);
-    ASSERT_TRUE(score.second=="__label__en");
-
-    score = fasttext.filter(in3);
-    // cout << score.first << " " << score.second << endl;
-    // ASSERT_TRUE(score.first>0.3);
-    ASSERT_TRUE(score.second!="__label__ja");
-
 }
 
 TEST_F(CorpusCleanerTest,LanguageFilter) 

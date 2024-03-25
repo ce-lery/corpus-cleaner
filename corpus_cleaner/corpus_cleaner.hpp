@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "language_filter.hpp"
 
 using namespace std;
 namespace fs = filesystem;
@@ -67,6 +68,7 @@ private:
     bool sentence_segment=true;
     float language_threshold=0.3;
     double perplexity_threshold=999999;
+    fasttext::FastTextEx language_filter;
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
 
 public:

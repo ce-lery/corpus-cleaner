@@ -14,6 +14,8 @@
 #include "util.hpp"
 
 using namespace std;
+using namespace lm::ngram;
+const static Model model("ja.arpa.bin"); //TODO: Refactor. Don't use global parameter.
 
 /**
  * @brief Score sentence by KenLM.
@@ -33,15 +35,13 @@ using namespace std;
 **/
 double KenLMScore(const wstring sentence)
 {
-  using namespace lm::ngram;
-  Model model("ja.arpa.bin");
-  State state(model.BeginSentenceState()), out_state;
-  const Vocabulary &vocab = model.GetVocabulary();
+
   double total_score=0,score=0;
   
   wstring word_w =L"";
   // cout << ConvertWstringToUTF8(sentence) << endl;
-
+	State state(model.BeginSentenceState()), out_state;
+	const Vocabulary &vocab = model.GetVocabulary();
   for (int i=0;i<(int)sentence.size();i++) {
     // Split sentence into single characters.
     word_w=sentence.substr(i,1);

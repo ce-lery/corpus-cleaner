@@ -1,7 +1,7 @@
 #include "corpus_cleaner.hpp"
 #include "util.hpp"
 #include "normalizer.hpp"
-#include "language_filter.hpp"
+// #include "language_filter.hpp"
 #include "perplexity_filter.hh"
 
 /**
@@ -166,21 +166,35 @@ void CorpusCleaner::PerplexityFilter(Document &document)
 /**
  * @brief Language filtering 
  * @details 
- *  Please Refer document of "LanguageFilter::filter"
- * @example TODO
+ *  string in = "吾輩は猫である。名前はまだ無い。";
+ *  FastTextEx language_filter;
+ *  pair<float, string> score;
+ *  score = language_filter.filter(in);
+ *  // score.first ==1.00005, score.second ==__label__ja
+ * 
+ *  string in2 = "I am a cat. No name yet.";
+ *  score = language_filter.filter(in2);
+ *  // score.first ==0.75237, score.second ==__label__en 
  * @param Document &document: single line text to be cleaned
  * @return void: None
  * @ref 
  *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
+ *  https://fasttext.cc/docs/en/supervised-tutorial.html
  * @attention 
 **/
 void CorpusCleaner::LanguageFilter(Document &document)
 {
-    FastTextEx language_filter;
-    pair<float,string> result = language_filter.filter(document.text);
+    vector<pair<float, string>> predictions;
+    int32_t k = 1;
+    float threshold = 0.0;
+
+    language_filter.predictOneLine(document.text, predictions, k, threshold);
+    //return pair<float, string> : float:　Language assessment score, string: Language determination results
+    pair<float,string> result = make_pair((float)predictions[0].first,predictions[0].second);
+
     document.language = result.second;
     document.language_score = result.first;
-     
+
     document.is_rejected=true;
     if(accept_language.find(document.language)!=accept_language.end()){
         // If fasttext's score is less than threshold, the text to be rejected.
