@@ -121,6 +121,7 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Imprement quotes Remover ("{1}", "{13}", and so on.)
 - [x] Refactor piplinestep (FILE read write only once at the beginning and end)
 - [ ] Implement minhash
+- [ ] Implement json read & write
 - [ ] Implement 
 - [ ] Write document & create doxygen
 - [ ] Implement analysys

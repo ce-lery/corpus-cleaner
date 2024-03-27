@@ -89,6 +89,60 @@ double KenLMFilter::Score(const wstring sentence)
 }
 
 /**
+ * @brief Score sentence by KenLM.
+ * @details
+ * The step is...
+ * 1. Split sentence into single characters.
+ * 2. 
+ * 
+ * The usage is following.
+ * 
+ *    wstring sentence = L"吾輩は猫である.名前はまだない.";
+ *    cout << KenLMScore(sentence) << endl;
+ *    // -60.5849
+ * @param const wstring &sentence: text sentence
+ * @return double: score by KenLM
+ * @ref
+ * https://github.com/google/sentencepiece/blob/master/doc/api.md
+ * https://github.com/google/sentencepiece
+ * @attention
+**/
+double KenLMFilter::ScoreWithSentencePiece(const wstring sentence)
+{
+
+	double total_score=0,score=0;
+	
+	string word_w ="";
+	vector<string> pieces;
+	processor.Encode(ConvertWstringToUTF8(sentence), &pieces);
+	// string sentence_tokenized = "";
+	// for (auto piece:pieces) sentence_tokenized += piece+" ";
+	// sentence_tokenized.pop_back();
+	// cout << sentence_tokenized << endl;
+	// wstring sentence_w = ConvertUTF8ToWstring(sentence_tokenized);
+
+	// wstring sentence_w = sentence;
+	lm::ngram::State state(model.BeginSentenceState()), out_state;
+	const lm::ngram::Vocabulary &vocab = model.GetVocabulary();
+	for (int i=0;i<(int)pieces.size();i++) {
+		// Split sentence into single characters.
+		// wstring word_w=sentence_w.substr(i,1);
+		// string word=ConvertWstringToUTF8(word_w);
+		string word = pieces[i];
+		cout << word << endl;
+		score=model.BaseScore(&state, vocab.Index(word), &out_state);
+		cout << score << endl;
+		total_score += score;
+		state = out_state;
+  	}
+	//eos
+	score=model.BaseScore(&state, vocab.EndSentence(), &out_state);
+	total_score += score;
+
+  	return total_score;
+}
+
+/**
  * @brief Perplexity sentence by KenLM.
  * @details
  * The step is...
@@ -110,19 +164,20 @@ double KenLMFilter::Score(const wstring sentence)
 **/
 double KenLMFilter::Perplexity(const wstring sentence)
 {
-	// vector<string> pieces;
-	// processor.Encode(ConvertWstringToUTF8(sentence), &pieces);
-	// string sentence_tokenized = "";
-	// for (auto piece:pieces) sentence_tokenized += piece+" ";
-	// sentence_tokenized.pop_back();
-	// cout << sentence_tokenized << endl;
-	// wstring sentence_w = ConvertUTF8ToWstring(sentence_tokenized);
-	wstring sentence_w = sentence;
+	vector<string> pieces;
+	processor.Encode(ConvertWstringToUTF8(sentence), &pieces);
+	string sentence_tokenized = "";
+	for (auto piece:pieces) sentence_tokenized += piece+" ";
+	sentence_tokenized.pop_back();
+	cout << sentence_tokenized << endl;
+	wstring sentence_w = ConvertUTF8ToWstring(sentence_tokenized);
+	// wstring sentence_w = sentence;
 
 	// words = len(as_str(sentence).split()) + 1 // For </s>
-	double words = (double)(sentence_w.size()+1);
-	cout << "sentence.size:"<<sentence_w.size()<<endl;
-	return pow(10.0,(-this->Score(sentence_w) / words));
+	// double words = (double)(sentence_w.size()+1);
+	double words = (double)pieces.size()+1;
+	cout << "sentence.size:"<<words<<endl;
+	return pow(10.0,(-this->ScoreWithSentencePiece(sentence) / words));
 }
 
 /*

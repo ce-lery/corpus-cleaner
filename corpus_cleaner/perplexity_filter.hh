@@ -37,5 +37,6 @@ public:
 		
     KenLMFilter();
     double Score(const wstring sentence);
+    double ScoreWithSentencePiece(const wstring sentence);
     double Perplexity(const wstring sentence);
 };

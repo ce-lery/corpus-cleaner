@@ -507,7 +507,7 @@ TEST_F(CorpusCleanerTest,KenLMPerplexity)
     vector<wstring> sentence_list;
 	sentence_list.push_back(L"東京はッ晴れ");
 	sentence_list.push_back(L"東京は元気です");
-	sentence_list.push_back(L"吾輩は猫である.名前はまだない.");
+	sentence_list.push_back(L"吾輩は猫である. 名前はまだない.");
 	sentence_list.push_back(L"東京は晴れ");
 	sentence_list.push_back(L"東京 大阪 名古屋 秋田 千葉");
 	sentence_list.push_back(L"あああああああ");
