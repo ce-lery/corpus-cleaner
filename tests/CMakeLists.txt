@@ -25,6 +25,8 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/lib)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/include) 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/build/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/src) 
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/sentencepiece/build/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/sentencepiece/src) 
 # add_subdirectory(corpus_cleaner)
 # add_subdirectory(tests)
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
@@ -48,7 +50,16 @@ add_executable(${PROJECT_NAME}-googletest
 # Option of optimization , warning, ...etc.
 target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)
 # Create an executable file called ${PROJECT_NAME}-googletes.out from main.cpp
-target_link_libraries(${PROJECT_NAME}-googletest PUBLIC gtest_main icuio icui18n icutu icuuc icudata fasttext kenlm_util kenlm)
+target_link_libraries(${PROJECT_NAME}-googletest PUBLIC gtest_main 
+                      icuio 
+                      icui18n 
+                      icutu 
+                      icuuc 
+                      icudata 
+                      fasttext
+                      kenlm_util 
+                      kenlm
+                      sentencepiece)
 # target_link_libraries(${PROJECT_NAME}-googletest PUBLIC )
 target_compile_definitions(${PROJECT_NAME}-googletest PUBLIC -DKENLM_MAX_ORDER=${KENLM_MAX_ORDER})
 

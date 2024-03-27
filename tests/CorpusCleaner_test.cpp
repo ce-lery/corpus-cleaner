@@ -3,7 +3,6 @@
 #include "../corpus_cleaner/util.hpp"
 #include "../corpus_cleaner/normalizer.hpp"
 #include "../corpus_cleaner/minhash.hpp"
-#include "../corpus_cleaner/perplexity_filter.hh"
 
 // namespace {
 
@@ -508,15 +507,17 @@ TEST_F(CorpusCleanerTest,KenLMPerplexity)
     vector<wstring> sentence_list;
 	sentence_list.push_back(L"東京はッ晴れ");
 	sentence_list.push_back(L"東京は元気です");
-	sentence_list.push_back(L"吾輩は猫である。名前はまだない。");
+	sentence_list.push_back(L"吾輩は猫である.名前はまだない.");
 	sentence_list.push_back(L"東京は晴れ");
 	sentence_list.push_back(L"東京 大阪 名古屋 秋田 千葉");
 	sentence_list.push_back(L"あああああああ");
 	sentence_list.push_back(L"assdofiuslkあｓｋｄｈｊｋ");
 
     vector<double> perplexity_list;
+    KenLMFilter kenlm_filter;
     for (wstring sentence:sentence_list) {
-        perplexity_list.push_back(KenLMPerplexity(sentence));
+        perplexity_list.push_back(kenlm_filter.Perplexity(sentence));
+        cout << ConvertWstringToUTF8(sentence) << "perplexity:"<<perplexity_list[(int)perplexity_list.size()-1]<<endl;
 	}
     // cout << perplexity_list[6]<<endl;
     ASSERT_TRUE(perplexity_list[0]<=15000);//東京はッ晴れ

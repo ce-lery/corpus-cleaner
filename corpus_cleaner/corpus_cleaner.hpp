@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 #include "language_filter.hpp"
+#include "perplexity_filter.hh"
+
 
 using namespace std;
 namespace fs = filesystem;
@@ -69,6 +71,7 @@ private:
     float language_threshold=0.3;
     double perplexity_threshold=999999;
     fasttext::FastTextEx language_filter;
+    KenLMFilter kenlm_filter;
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
 
 public:

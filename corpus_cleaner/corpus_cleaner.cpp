@@ -1,8 +1,6 @@
 #include "corpus_cleaner.hpp"
 #include "util.hpp"
 #include "normalizer.hpp"
-// #include "language_filter.hpp"
-#include "perplexity_filter.hh"
 
 /**
  * @brief Loggging Document to output_file_path
@@ -152,7 +150,7 @@ void CorpusCleaner::LengthFilter(Document &document)
 **/
 void CorpusCleaner::PerplexityFilter(Document &document)
 {
-    document.perplexity = KenLMPerplexity(ConvertUTF8ToWstring(document.text));
+    document.perplexity = this->kenlm_filter.Perplexity(ConvertUTF8ToWstring(document.text));
     
     // If kenlm's perplexity is less than threshold, the text is to be rejected.
     document.is_rejected=true;
@@ -188,7 +186,7 @@ void CorpusCleaner::LanguageFilter(Document &document)
     int32_t k = 1;
     float threshold = 0.0;
 
-    language_filter.predictOneLine(document.text, predictions, k, threshold);
+    this->language_filter.predictOneLine(document.text, predictions, k, threshold);
     //return pair<float, string> : float:　Language assessment score, string: Language determination results
     pair<float,string> result = make_pair((float)predictions[0].first,predictions[0].second);
 
@@ -557,5 +555,4 @@ double CorpusCleaner::CleanPipeline()
     }
     return 0;
 }
-
 

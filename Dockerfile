@@ -43,7 +43,10 @@ RUN apt-get update \
     libeigen3-dev \
     zlib1g-dev \
     libbz2-dev \
-    liblzma-dev
+    liblzma-dev \
+    pkg-config \
+    libgoogle-perftools-dev
+
 
 RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
     echo 'eval "$(pyenv init --path)"' >> ~/.bashrc && \

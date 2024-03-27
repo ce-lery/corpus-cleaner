@@ -27,3 +27,4 @@ scripts/icu/*
 ## src
 corpus_cleaner/lid.176.bin
 corpus_cleaner/ja.arpa.bin
+corpus_cleaner/ja.sp.model
