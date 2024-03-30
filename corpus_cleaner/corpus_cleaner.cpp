@@ -150,7 +150,7 @@ void CorpusCleaner::LengthFilter(Document &document)
 **/
 void CorpusCleaner::PerplexityFilter(Document &document)
 {
-    document.perplexity = this->kenlm_filter.Perplexity(ConvertUTF8ToWstring(document.text));
+    document.perplexity = this->kenlm_filter.PerplexityWithSentencePiece(ConvertUTF8ToWstring(document.text));
     
     // If kenlm's perplexity is less than threshold, the text is to be rejected.
     document.is_rejected=true;
@@ -555,4 +555,3 @@ double CorpusCleaner::CleanPipeline()
     }
     return 0;
 }
-

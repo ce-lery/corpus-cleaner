@@ -39,4 +39,5 @@ public:
     double Score(const wstring sentence);
     double ScoreWithSentencePiece(const wstring sentence);
     double Perplexity(const wstring sentence);
+    double PerplexityWithSentencePiece(const wstring sentence);
 };
