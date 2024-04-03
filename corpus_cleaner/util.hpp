@@ -15,3 +15,4 @@ string ConvertWstringToUTF8(const wstring& src);
 void SegmentSentence(string sentence, vector<string> &segments);
 string Strip(const string& sentence);
 void ReplaceSubstring(string& sentence, const string& target, const string& replacement);
+string GetFileNameWithoutExtention(const string& file_path);

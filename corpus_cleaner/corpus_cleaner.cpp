@@ -1,6 +1,64 @@
 #include "corpus_cleaner.hpp"
 #include "util.hpp"
 #include "normalizer.hpp"
+#include "simdjson.h"
+
+//using namespace simdjson;
+
+/**
+ * @brief Loggging Document to output_file_path
+ * @details 
+ *
+ * Example:
+ *
+ * string input_file_path = "./input.jsonl";
+ * ifstream ifs(input_file_path);
+ * Document document;
+ * string line = "";
+ * while(getline(ifs,line)){
+ *     ReadDocumentFromJsonl(document,line);  
+ *     // Write process for document.
+ * } 
+ *
+ * @param Document document: document
+ * @param string output_file_path: Path of file for statistics.
+ * @return void: None
+ * @attention 
+**/
+void ReadDocumentFromJsonl(Document &document,
+                           string input_jsonl_line)
+{
+    simdjson::ondemand::parser parser;
+    simdjson::ondemand::document jsonl_line = parser.iterate(input_jsonl_line);   
+    string_view line_view;
+    
+    jsonl_line["text"].get(line_view);
+    document.text = string(line_view);
+    
+    jsonl_line["id"].get(line_view); 
+    document.id  = string(line_view); 
+    
+    jsonl_line["is_rejected"].get(line_view);
+    document.is_rejected = stoi(string(line_view));
+    
+    //split metadata to ,
+    jsonl_line["metadata"].get(line_view);
+    string tmp = string(line_view);
+    stringstream ss(tmp);
+    string token;
+    while(getline(ss, token, ',')){
+        document.metadata.insert(token);
+    } 
+
+    jsonl_line["language"].get(line_view);
+    document.language=string(line_view);
+
+    jsonl_line["language_score"].get(line_view);
+    document.language_score=stod(string(line_view));
+    
+    jsonl_line["perplexity"].get(line_view);
+    document.perplexity=stod(string(line_view));
+}   
 
 /**
  * @brief Loggging Document to output_file_path
@@ -10,7 +68,7 @@
  * @return void: None
  * @attention 
 **/
-void LogDocumentToFile(Document &document,
+void WriteDocumentToJsonl(Document &document,
                          string output_file_path)
 {
     ofstream output_file(output_file_path, ios::app);
@@ -30,6 +88,65 @@ void LogDocumentToFile(Document &document,
     output_file <<"}"<< endl;
 }   
 
+
+/**
+ * @brief Convert input files to jsonl that has Document's element.
+ * @details 
+ *  * @param Document document: document
+ * @param Document document: document
+ * @param Document document: document
+ * @param Document document: output document
+ * @param string output_file_path: Path of file for statistics.
+ * @return void: None
+ * @attention 
+**/
+void ConvertTextToDocument(string line, 
+                           string filename, 
+                           string file_line_count,
+                           Document &document)
+{
+    document.text = line;
+    document.id  = filename+"_"+file_line_count; 
+    document.is_rejected = false;
+    // document.metadata;
+    document.language="";
+    document.language_score=-1;
+    document.perplexity=-1;
+}
+
+/**
+ * @brief Convert input files to jsonl that has Document's element.
+ * @details 
+ * @param Document document: document
+ * @param string output_file_path: Path of file for statistics.
+ * @return void: None
+ * @attention 
+**/
+void ConvertInputFilesToJsonl(string input_folder_path,
+                              string output_folder_path)
+{
+
+    string target_line="",source_line="";
+    vector<string> file_list,file_name_list;
+    // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
+    GetFileList(input_folder_path,&file_list);
+    //TODO: Get the list of files name.
+    GetFileNameList(file_list,file_name_list);
+ 
+    Document document; 
+    string line;
+    // Compare all lines of source_file and target_file
+    for(int i=0;i<(int)file_list.size();i++){
+        ifstream input_file(input_folder_path+"/"+file_list[i]); 
+        string output_file_path(output_folder_path+"/"+file_name_list[i]+".jsonl");
+        uint64_t line_count =0;
+        while(getline(input_file, line)){
+            ConvertTextToDocument(line,file_name_list[i],line_count,document);
+            WriteDocumentToJsonl(document,output_file_path);
+            line_count++;
+        }
+    } 
+}   
 
 /**
  * @brief Format statistics
@@ -101,7 +218,9 @@ CorpusCleaner::CorpusCleaner(string input_path,
     mkdir(this->output_path.c_str(), 0777);
 
     //copy input to output
-    CopyFolder(this->input_path,this->output_path);
+    //TODO: Read from input_path's files, and write to output_path in jsonl format.
+    ConvertInputFilesToJsonl(this->input_path,this->output_path);
+    //CopyFolder(this->input_path,this->output_path);
 }
 /***deconstructor***/
 CorpusCleaner::~CorpusCleaner()
@@ -442,6 +561,80 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
     return stats;
 }
 
+// /**
+//  * @brief MinHashLSH Deduplication files in the this->intermediate folder
+//  * @details 
+//  *  Follow the steps below to remove duplication between all lines of all files in the this->intermediate folder.
+//  *  1. Get the list of files in this->intermediate_folder and set it to vector<string> file_list
+//  *  2. Compare all lines of source_file and target_file in file_list.
+//  *  3. Check duplication between all lines of souce file and all lines of target_file.
+//  *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
+//  *  I considered deduplication using set or multiset, 
+//  *  but I did not use this method because the file size could exceed the memory capacity.
+//  * 
+//  * The usage is following.
+//  * 
+//  * @param string input_folder_path: input folder path
+//  * @param string output_folder_path: output folder path
+//  * @return Stats: statics imformation of this function.
+//  * @ref 
+//  * @attention TODO: fix return stats.
+// **/
+// Stats CorpusCleaner::MinhashDeduplication(string input_folder_path, string output_folder_path)
+// {
+//     chrono::system_clock::time_point start, end;
+//     start = chrono::system_clock::now(); 
+
+//     string target_line="",source_line="";
+//     vector<string> file_list;
+//     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
+//     GetFileList(input_folder_path,&file_list);
+//     GenerateDedupeLSH generate_dedup_lsh;  
+//     LSHDeduplicator deduplicator(online_dedup=false,
+//                              blacklist_path=this->blacklist_path,
+//                              store_blacklist=this->store_blacklist); 
+//     // Compare all lines of source_file and target_file
+//     for(int i=0;i<(int)file_list.size();i++){
+//         //for(int j=i;j<(int)file_list.size();j++){
+//             ifstream target_file(input_folder_path+"/"+file_list[i]);
+//             ofstream output_file(output_folder_path+"/"+file_list[i]);
+//             while (getline(target_file, target_line)){
+            
+//                 // Read Document from jsonl
+//                 // TODO:
+//                 Document document;
+//                 ReadDocumentFromJsonl(document,target_file)
+                
+//                 lshs = generate_dedup_lsh.CalculateLSH(target_line);
+//                 deduplicator.Apply(lshs);
+                
+//                 // output document
+//                 DumpDocumentToJsonl(document,output_file_path)
+//                 //もしgenerateがbucket_size以上になったら、一旦LSHDeduplicatorを削除し、再生成する
+//                 if(){
+//                     //もしseenがbucket_size以上なら(black_listがbucket_size以上)seenを初期化 
+//                     if()
+//                 }
+                
+                
+//                 //vector<string> segments;
+//                 //SegmentSentence(target_line, segments);
+
+//             }
+//             CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
+//        //}
+//     }
+
+//     end = chrono::system_clock::now(); 
+//     double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+//     //TODO: fix here.
+//     Stats stats;
+//     stats.elapsed_time=elapsed;
+//     stats.file_name="";
+//     stats.process_name=__func__;
+//     stats.result_file_size=-1;
+//     return stats;
+// }
 
 Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &))
 {
@@ -524,6 +717,8 @@ double CorpusCleaner::CleanPipeline()
         string line="";
         uint64_t line_count=0;
         while (getline(input_file, line)) {
+        
+            // TODO: ReadDocumentFromJsonl();
             Document document;
             document.text = line;
             document.id = filename+to_string((unsigned long long)line_count);
@@ -538,6 +733,7 @@ double CorpusCleaner::CleanPipeline()
             }
             
             // dump data
+            WriteDocumentToJsonl(document,output_file_path);
             output_file << document.text << endl; 
             line_count++;
         }
@@ -555,3 +751,4 @@ double CorpusCleaner::CleanPipeline()
     }
     return 0;
 }
+

@@ -507,7 +507,7 @@ TEST_F(CorpusCleanerTest,KenLMPerplexity)
     vector<wstring> sentence_list;
 	sentence_list.push_back(L"東京はッ晴れ");
 	sentence_list.push_back(L"東京は元気です");
-	sentence_list.push_back(L"吾輩は猫である.名前はまだない.");
+	sentence_list.push_back(L"吾輩は猫である. 名前はまだない.");
 	sentence_list.push_back(L"東京は晴れ");
 	//sentence_list.push_back(L"東京 大阪 名古屋 秋田 千葉");
 	//sentence_list.push_back(L"あああああああ");
@@ -517,14 +517,14 @@ TEST_F(CorpusCleanerTest,KenLMPerplexity)
     KenLMFilter kenlm_filter;
     for (wstring sentence:sentence_list) {
         perplexity_list.push_back(kenlm_filter.Perplexity(sentence));
-        // cout << ConvertWstringToUTF8(sentence) << "perplexity:"<<perplexity_list[(int)perplexity_list.size()-1]<<endl;
+        cout << ConvertWstringToUTF8(sentence) << "perplexity:"<<perplexity_list[(int)perplexity_list.size()-1]<<endl;
 	}
     // cout << perplexity_list[6]<<endl;
     //ref: https://google.github.io/googletest/reference/assertions.html
-    EXPECT_NEAR(perplexity_list[0],21879.531940405483,0.1);//東京はッ晴れ
-    EXPECT_NEAR(perplexity_list[1],24128.70574300623,0.1);//東京は元気です
-    EXPECT_NEAR(perplexity_list[2],4117.138960278464,0.1);//吾輩は猫である。名前はまだない。
-    EXPECT_NEAR(perplexity_list[3],17809.198147089162,0.1);//東京は晴れ
+    ASSERT_DOUBLE_EQ(perplexity_list[0],21879.531940405483);//東京はッ晴れ
+    ASSERT_DOUBLE_EQ(perplexity_list[1],24128.70574300623);//東京は元気です
+    ASSERT_DOUBLE_EQ(perplexity_list[2],4117.138960278464);//吾輩は猫である。名前はまだない。
+    ASSERT_DOUBLE_EQ(perplexity_list[3],17809.198147089162);//東京は晴れ
     //ASSERT_TRUE(perplexity_list[4]>15000);//東京 大阪 名古屋 秋田 千葉
     //ASSERT_TRUE(perplexity_list[5]>15000);//あああああああ
     //ASSERT_TRUE(perplexity_list[6]>15000);//assdofiuslkあｓｋｄｈｊｋ
@@ -548,17 +548,17 @@ TEST_F(CorpusCleanerTest,KenLMPerplexityWithSentencePiece)
     KenLMFilter kenlm_filter;
     for (wstring sentence:sentence_list) {
         perplexity_list.push_back(kenlm_filter.PerplexityWithSentencePiece(sentence));
-        // cout << ConvertWstringToUTF8(sentence) << "perplexity:"<<perplexity_list[(int)perplexity_list.size()-1]<<endl;
+        cout << ConvertWstringToUTF8(sentence) << "perplexity:"<<perplexity_list[(int)perplexity_list.size()-1]<<endl;
 	}
     // cout << perplexity_list[6]<<endl;
     //ref: https://google.github.io/googletest/reference/assertions.html
-    EXPECT_NEAR(perplexity_list[0],10808.5765564708846,0.1);//東京はッ晴れ
-    EXPECT_NEAR(perplexity_list[1],14207.90466675276,0.1);//東京は元気です
-    EXPECT_NEAR(perplexity_list[2],677.481230499526,0.1);//吾輩は猫である。名前はまだない。
-    EXPECT_NEAR(perplexity_list[3],3340.487952615284,0.1);//東京は晴れ
-    // ASSERT_TRUE(perplexity_list[4]>15000);//東京 大阪 名古屋 秋田 千葉
-    // ASSERT_TRUE(perplexity_list[5]>15000);//あああああああ
-    // ASSERT_TRUE(perplexity_list[6]>15000);//assdofiuslkあｓｋｄｈｊｋ
+    ASSERT_DOUBLE_EQ(perplexity_list[0],10808.575564708846);//東京はッ晴れ
+    ASSERT_DOUBLE_EQ(perplexity_list[1],14207.90466675276);//東京は元気です
+    ASSERT_DOUBLE_EQ(perplexity_list[2],677.481230499526);//吾輩は猫である。名前はまだない。
+    ASSERT_DOUBLE_EQ(perplexity_list[3],3340.487952615284);//東京は晴れ
+    //ASSERT_TRUE(perplexity_list[4]>15000);//東京 大阪 名古屋 秋田 千葉
+    //ASSERT_TRUE(perplexity_list[5]>15000);//あああああああ
+    //ASSERT_TRUE(perplexity_list[6]>15000);//assdofiuslkあｓｋｄｈｊｋ
 
     ASSERT_TRUE(perplexity_list[0]>perplexity_list[3]);//東京はッ晴れ>東京は晴れ
     ASSERT_TRUE(perplexity_list[1]>perplexity_list[3]);//東京は元気です>東京は晴れ
@@ -580,33 +580,28 @@ TEST_F(CorpusCleanerTest,PerplexityFilter)
                                  15000);
     document.text = "東京はッ晴れ";
     corpus_cleaner.PerplexityFilter(document);
-    // cout << document.perplexity << endl;
     ASSERT_TRUE(document.perplexity<=15000);
     ASSERT_TRUE(document.is_rejected==false);
     ASSERT_TRUE(document.metadata.find("PerplexityFilter")==document.metadata.end());
 
     document.text = "東京は元気です";
     corpus_cleaner.PerplexityFilter(document);
-    // cout << document.perplexity << endl;
     ASSERT_TRUE(document.perplexity<=15000);
     ASSERT_TRUE(document.is_rejected==false);
 
     document.text = "吾輩は猫である。名前はまだない。";
     corpus_cleaner.PerplexityFilter(document);
-    // cout << document.perplexity << endl;
     ASSERT_TRUE(document.perplexity<=15000);
     ASSERT_TRUE(document.is_rejected==false);
 
     document.text = "東京は晴れ";
     corpus_cleaner.PerplexityFilter(document);
-    // cout << document.perplexity << endl;
     ASSERT_TRUE(document.perplexity<=15000);
     ASSERT_TRUE(document.is_rejected==false);
 
     document.text = "東京 大阪 名古屋 秋田 千葉";
     document.is_rejected=false;
     corpus_cleaner.PerplexityFilter(document);
-    // cout << document.perplexity << endl;
     ASSERT_TRUE(document.perplexity>15000);
     ASSERT_TRUE(document.is_rejected==true);
     ASSERT_TRUE(document.metadata.find("PerplexityFilter")!=document.metadata.end());
@@ -614,16 +609,16 @@ TEST_F(CorpusCleanerTest,PerplexityFilter)
     document.text = "あああああああ";
     document.is_rejected=false;
     corpus_cleaner.PerplexityFilter(document);
-    // cout << document.perplexity << endl;
-    ASSERT_TRUE(document.perplexity<15000);
-    ASSERT_TRUE(document.is_rejected==false);
+    ASSERT_TRUE(document.perplexity>15000);
+    ASSERT_TRUE(document.is_rejected==true);
 
     document.text = "assdofiuslkあｓｋｄｈｊｋ";
     document.is_rejected=false;
     corpus_cleaner.PerplexityFilter(document);
-    // cout << document.perplexity << endl;
-    ASSERT_TRUE(document.perplexity<15000);
-    ASSERT_TRUE(document.is_rejected==false);
+    ASSERT_TRUE(document.perplexity>15000);
+    ASSERT_TRUE(document.is_rejected==true);
+
+
 }
 
 // TEST_F(CorpusCleanerTest,LogDocumentToFile) 
@@ -645,3 +640,25 @@ TEST_F(CorpusCleanerTest,PerplexityFilter)
 //     corpus_cleaner.URLRemover(document);
 //     LogDocumentToFile(document,"../data/output/document.jsonl");
 // }
+
+TEST_F(CorpusCleanerTest,GetFileNameList) 
+{
+}
+
+
+
+TEST_F(CorpusCleanerTest,GetFileNameList) 
+{
+}
+
+TEST_F(CorpusCleanerTest,ConvertTextToDocument) 
+{
+}
+
+TEST_F(CorpusCleanerTest,WriteDocumentToJsonl) 
+{
+}
+
+TEST_F(CorpusCleanerTest,ReadDocumentFromJsonl) 
+{
+}

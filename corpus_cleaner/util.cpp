@@ -290,3 +290,48 @@ void ReplaceSubstring(string& sentence, const string& target, const string& repl
         pos += replacement.length();
     }
 }
+
+/**
+ * @brief Get file name from path without file extention (.txt).
+ * @details
+ * Example:
+ * 
+ *   string path = "/path/to/input.txt";
+ *   cout << GetFileName(path)<< endl; // /path/to/input
+ * @param const string& sentence: text sentence
+ * @return string: sentence has been processed
+ * @attention
+**/
+string GetFilePathWithoutExtention(const string& file_path) 
+{  
+    fs::path path_object(file_path);
+    // Get file name (without extension)
+    fs::path  fs_file_path_witout_extention = path_object.parent_path() / path_object.stem();
+    string file_path_witout_extention = fs_file_path_witout_extention.string();
+    return file_path_witout_extention;    
+}
+
+
+/**
+ * @brief Extract file name list from file path list and add .jsonl extention
+ * @details
+ * Example:
+ *   vector<string> path_list,filename_list;
+ *   path_list.push_back("/path/to/input.txt");
+ *   path_list.push_back("/path/to/input2.txt");
+ *   GetFileNameListAddedJsonl(pathlist,filename_list)
+ *   for(auto filename:filename_list)cout << filename << endl;
+ *   // /path/to/input.jsonl /path/to/input2.jsonl
+ * @param const vector<string> &file_path_list: original file path list
+ * @param vector<string> &jsonl_file_path_list: (output) file path list added jsonl extention
+ * @return void: None
+ * @attention
+**/
+void GetFileNameListAddedJsonl(const vector<string> &file_path_list,
+                               vector<string> &jsonl_file_path_list) 
+{  
+    for(auto file_path:file_path_list){
+        string filepath_witout_extention = GetFilePathWithoutExtention(file_path);
+        jsonl_file_path_list.push_back(filepath_witout_extention+".jsonl");
+    }
+}

@@ -28,3 +28,5 @@ scripts/icu/*
 corpus_cleaner/lid.176.bin
 corpus_cleaner/ja.arpa.bin
 corpus_cleaner/ja.sp.model
+corpus_cleaner/simdjson.h
+corpus_cleaner/simdjson.cpp
