@@ -46,6 +46,8 @@ add_executable(${PROJECT_NAME}-googletest
                ../corpus_cleaner/language_filter.hpp
                ../corpus_cleaner/perplexity_filter.cc
                ../corpus_cleaner/perplexity_filter.hh
+               ../corpus_cleaner/simdjson.cpp
+               ../corpus_cleaner/simdjson.h
               )
 # Option of optimization , warning, ...etc.
 target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)

@@ -131,12 +131,12 @@ string CalculateNextEmoji(string pre_emoji)
  * @return None
  * @attention 
 **/
-void GetFileList(string folder_path, vector<string> *file_list)
+void GetFileNameListWithoutExtention(const string folder_path, vector<string> *file_list)
 {
     fs::path path = folder_path;
     for (const auto &entry : fs::directory_iterator(path)) {
         if (entry.is_regular_file()) {
-            file_list->push_back(string(entry.path().filename()));
+            file_list->push_back(string(entry.path().stem()));
         }
     }
     return;

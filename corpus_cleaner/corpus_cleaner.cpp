@@ -3,7 +3,7 @@
 #include "normalizer.hpp"
 #include "simdjson.h"
 
-//using namespace simdjson;
+using namespace simdjson;
 
 /**
  * @brief Loggging Document to output_file_path
@@ -25,8 +25,8 @@
  * @return void: None
  * @attention 
 **/
-void ReadDocumentFromJsonl(Document &document,
-                           string input_jsonl_line)
+void ReadDocumentFromJsonlOneLine(Document &document,
+                                  string input_jsonl_line)
 {
     simdjson::ondemand::parser parser;
     simdjson::ondemand::document jsonl_line = parser.iterate(input_jsonl_line);   
@@ -86,6 +86,7 @@ void WriteDocumentToJsonl(Document &document,
     output_file << "\"language_score\":\"" <<document.language_score << "\",";
     output_file << "\"perplexity\":\"" <<document.perplexity << "\"";
     output_file <<"}"<< endl;
+    output_file.close();
 }   
 
 
@@ -100,12 +101,12 @@ void WriteDocumentToJsonl(Document &document,
  * @return void: None
  * @attention 
 **/
-void ConvertTextToDocument(string line, 
+void ConvertTextToDocument(string sentence, 
                            string filename, 
                            string file_line_count,
                            Document &document)
 {
-    document.text = line;
+    document.text = sentence;
     document.id  = filename+"_"+file_line_count; 
     document.is_rejected = false;
     // document.metadata;
@@ -122,29 +123,28 @@ void ConvertTextToDocument(string line,
  * @return void: None
  * @attention 
 **/
-void ConvertInputFilesToJsonl(string input_folder_path,
-                              string output_folder_path)
+void ConvertInputFilesToJsonl(const string input_folder_path,
+                              const string output_folder_path)
 {
 
     string target_line="",source_line="";
-    vector<string> file_list,file_name_list;
+    vector<string> file_list;
     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-    GetFileList(input_folder_path,&file_list);
-    //TODO: Get the list of files name.
-    GetFileNameList(file_list,file_name_list);
- 
+    GetFileNameListWithoutExtention(input_folder_path,&file_list);
     Document document; 
     string line;
     // Compare all lines of source_file and target_file
     for(int i=0;i<(int)file_list.size();i++){
-        ifstream input_file(input_folder_path+"/"+file_list[i]); 
-        string output_file_path(output_folder_path+"/"+file_name_list[i]+".jsonl");
+        ifstream input_file(input_folder_path+"/"+file_list[i]+".txt"); 
+        string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
         uint64_t line_count =0;
         while(getline(input_file, line)){
-            ConvertTextToDocument(line,file_name_list[i],line_count,document);
+            ConvertTextToDocument(line,file_list[i],to_string(line_count),document);
             WriteDocumentToJsonl(document,output_file_path);
             line_count++;
         }
+        input_file.close();
+
     } 
 }   
 
@@ -220,7 +220,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     //copy input to output
     //TODO: Read from input_path's files, and write to output_path in jsonl format.
     ConvertInputFilesToJsonl(this->input_path,this->output_path);
-    //CopyFolder(this->input_path,this->output_path);
+
 }
 /***deconstructor***/
 CorpusCleaner::~CorpusCleaner()
@@ -469,12 +469,12 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
     string target_line="",source_line="";
     vector<string> file_list;
     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-    GetFileList(input_folder_path,&file_list);
+    GetFileNameListWithoutExtention(input_folder_path,&file_list);
     // Compare all lines of source_file and target_file
     for(int i=0;i<(int)file_list.size();i++){
         for(int j=i;j<(int)file_list.size();j++){
-            ifstream target_file(input_folder_path+"/"+file_list[i]);
-            ofstream output_file(output_folder_path+"/"+file_list[i]);
+            ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
+            ofstream output_file(output_folder_path+"/"+file_list[i]+".jsonl");
             while (getline(target_file, target_line)) {
                 //
                 vector<string> segments;
@@ -522,7 +522,7 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
     vector<string> file_list;
     bool duplication=false;
     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-    GetFileList(input_folder_path,&file_list);
+    GetFileNameListWithoutExtention(input_folder_path,&file_list);
     // Compare all lines of source_file and target_file
     for(int i=0;i<(int)file_list.size();i++){
         for(int j=i;j<(int)file_list.size();j++){
@@ -588,7 +588,7 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
 //     string target_line="",source_line="";
 //     vector<string> file_list;
 //     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-//     GetFileList(input_folder_path,&file_list);
+//     GetFileNameListWithoutExtention(input_folder_path,&file_list);
 //     GenerateDedupeLSH generate_dedup_lsh;  
 //     LSHDeduplicator deduplicator(online_dedup=false,
 //                              blacklist_path=this->blacklist_path,
@@ -706,22 +706,24 @@ double CorpusCleaner::CleanPipeline()
     // copy output folder to intermediate folder
     CopyFolder(this->output_path, this->intermediate_path); 
     // Get list of files in intermediate folder
-    GetFileList(this->intermediate_path,&filename_list);
+    GetFileNameListWithoutExtention(this->intermediate_path,&filename_list);
 
+    // const string input_file_extension = ".txt";
     // Execute the each CorpusCleaner processing on all files in the intermediate folder.
     for (auto filename: filename_list){
     
         // load data
-        ifstream input_file(this->intermediate_path+"/"+filename);
-        ofstream output_file(this->output_path+"/"+filename);
+        ifstream input_file(this->intermediate_path+"/"+filename+".jsonl");
+        string  output_file_path(this->output_path+"/"+filename+".jsonl");
         string line="";
         uint64_t line_count=0;
+        Document document;
         while (getline(input_file, line)) {
         
             // TODO: ReadDocumentFromJsonl();
-            Document document;
-            document.text = line;
-            document.id = filename+to_string((unsigned long long)line_count);
+            ReadDocumentFromJsonlOneLine(document,line);
+            // document.text = line;
+            // document.id = filename+to_string((unsigned long long)line_count);
 
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
@@ -734,12 +736,10 @@ double CorpusCleaner::CleanPipeline()
             
             // dump data
             WriteDocumentToJsonl(document,output_file_path);
-            output_file << document.text << endl; 
             line_count++;
         }
         
         input_file.close();
-        output_file.close();
         
     }
     

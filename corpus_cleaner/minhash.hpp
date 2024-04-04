@@ -55,4 +55,5 @@ public:
     /***destructor***/
     ~LSHDeduplicator();
     bool Apply(const vector<string> *lshs);//TODO
+    size_t SizeOfBlacklist(void);
 };

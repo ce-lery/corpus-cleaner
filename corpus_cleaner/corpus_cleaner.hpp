@@ -50,10 +50,13 @@ typedef struct _STATS {
     double elapsed_time;
     uint32_t result_file_size;
 } Stats;
-void ConvertTextToDocument(string line, Document &docuemnt);
+void ConvertTextToDocument(string sentence, 
+                           string filename, 
+                           string file_line_count,
+                           Document &document);
 void ConvertInputFilesToJsonl(string input_folder_path,
                          string output_folder_path);
-void ReadDocumentFromJsonl(Document &document,
+void ReadDocumentFromJsonlOneLine(Document &document,
                            string input_jsonl_line);
 void WriteDocumentToJsonl(Document &document,
                          string output_file_path);
