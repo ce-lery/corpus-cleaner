@@ -47,13 +47,19 @@ private:
     string blacklist_path;
     bool store_blacklist;
     set<string> seen,blacklist; // TODO: unordered_set is faster than set.
+    size_t total_backet_size_mb=5000;
 public:
     /***constructor***/
     LSHDeduplicator(bool onlin_dedupe,
                     string blacklist_path,
-                    bool store_blacklist);
+                    bool store_blacklist,
+                    size_t total_backet_size_mb);
     /***destructor***/
     ~LSHDeduplicator();
     bool Apply(const vector<string> *lshs);//TODO
-    size_t SizeOfBlacklist(void);
+    size_t SizeOfSeen(void);
+    void InitializeSeen(void);
+    void StoreBlacklist(void);
+    void LoadBlacklistToSeen(void);
+    size_t GetTotalBucketSize(void);
 };

@@ -2,7 +2,6 @@
 #include "util.hpp"
 #include "normalizer.hpp"
 #include "simdjson.h"
-
 using namespace simdjson;
 
 /**
@@ -202,7 +201,9 @@ CorpusCleaner::CorpusCleaner(string input_path,
                              set<string> accept_language,
                              bool sentence_segment,
                              float language_threshold,
-                             double perplexity_threshold)
+                             double perplexity_threshold,
+                             GenerateDedupLSH *generate_dedup_lsh,
+                             LSHDeduplicator *deduplicator)
 {
     this->input_path = input_path;
     this->output_path = output_path;
@@ -213,6 +214,12 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->sentence_segment = sentence_segment;
     this->language_threshold = language_threshold;
     this->perplexity_threshold = perplexity_threshold;
+    // this->blacklist_path =  "../results/others/blacklist.jsonl";
+    // this->store_blacklist = true;
+    this->generate_dedup_lsh=generate_dedup_lsh;
+    this->deduplicator=deduplicator;
+
+    // this->deduplicator = deduplicator; 
 
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
@@ -446,6 +453,40 @@ void CorpusCleaner::Normalizer(Document &document)
 
 
 /**
+ * @brief MinHashLSH Deduplication files in the this->intermediate folder
+ * @details 
+ *  Follow the steps below to remove duplication between all lines of all files in the this->intermediate folder.
+ *  1. Get the list of files in this->intermediate_folder and set it to vector<string> file_list
+ *  2. Compare all lines of source_file and target_file in file_list.
+ *  3. Check duplication between all lines of souce file and all lines of target_file.
+ *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
+ *  I considered deduplication using set or multiset, 
+ *  but I did not use this method because the file size could exceed the memory capacity.
+ * 
+ * The usage is following.
+ * 
+ * @param string input_folder_path: input folder path
+ * @param string output_folder_path: output folder path
+ * @return Stats: statics imformation of this function.
+ * @ref 
+ * @attention TODO: fix return stats.
+**/
+void CorpusCleaner::MinhashDeduplication(Document &document)
+{
+    // Read Document from jsonl
+    vector<string> lshs = this->generate_dedup_lsh->CalculateLSH(ConvertUTF8ToWstring(document.text));
+    if(this->deduplicator->Apply(&lshs)){
+        document.is_rejected = true;
+        document.metadata.insert(__func__);
+    }
+
+    //If seen is greater than or equal to bucket_size, clear seen to 0
+    if(this->deduplicator->SizeOfSeen()>=this->deduplicator->GetTotalBucketSize()){
+        this->deduplicator->InitializeSeen();
+    }
+}
+
+/**
  * @brief Simple sentence splitter for japanese text.
  * @details 
  *  I used Pragmatic Segmenter's Japanese rules as a reference for sentence separation rules.
@@ -474,12 +515,23 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
     for(int i=0;i<(int)file_list.size();i++){
         for(int j=i;j<(int)file_list.size();j++){
             ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
-            ofstream output_file(output_folder_path+"/"+file_list[i]+".jsonl");
+            string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
             while (getline(target_file, target_line)) {
-                //
                 vector<string> segments;
+                Document document;
+                ReadDocumentFromJsonlOneLine(document,target_line);
                 SegmentSentence(target_line, segments);
-                for(auto sentence:segments) output_file << sentence << endl;
+                uint64_t sentence_count=0;
+                if((int64_t)segments.size()!=1){
+                    for(auto sentence:segments){
+                        Document document_segmented = document;
+                        document_segmented.text = sentence;
+                        document_segmented.id = document.id+"_"+to_string(sentence_count);
+                        document_segmented.metadata.insert(__func__);
+                        WriteDocumentToJsonl(document_segmented,output_file_path);
+                    }
+                }
+                else    WriteDocumentToJsonl(document,output_file_path);
             }
             CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
         }
@@ -525,28 +577,41 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
     GetFileNameListWithoutExtention(input_folder_path,&file_list);
     // Compare all lines of source_file and target_file
     for(int i=0;i<(int)file_list.size();i++){
-        for(int j=i;j<(int)file_list.size();j++){
-            ifstream target_file(input_folder_path+"/"+file_list[i]);
-            ofstream output_file(output_folder_path+"/"+file_list[i]);
-            uint32_t target_counter=0,source_counter=0;
-            while (getline(target_file, target_line)) {
-                target_counter++;
-                duplication=false;
-                source_counter=0;
-                ifstream source_file(input_folder_path+"/"+file_list[j]);
+        ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
+        string  output_file_path(this->output_path+"/"+file_list[i]+".jsonl");
+        uint32_t target_counter=0,source_counter=0;
+        while (getline(target_file, target_line)) {
+            duplication=false;
+            source_counter=0;
+            Document target_document;
+            target_counter++;
+            ReadDocumentFromJsonlOneLine(target_document,target_line);
+            for(int j=i;j<(int)file_list.size();j++){
+                ifstream source_file(input_folder_path+"/"+file_list[j]+".jsonl"); 
                 while(getline(source_file,source_line)){
+                    Document source_document;
                     source_counter++;
-                    if(input_folder_path+"/"+file_list[i]==input_folder_path+"/"+file_list[j]
-                        &&target_counter>=source_counter)continue;
+                    ReadDocumentFromJsonlOneLine(source_document,source_line);
+                    // cout << "target:"<<file_list[i]+".jsonl line:"<<target_counter<<" text"<<target_document.text<<" ";
+                    // cout << "source:"<<file_list[j]+".jsonl line:"<<source_counter<<" text"<<source_document.text<<endl;
+                    if(input_folder_path+"/"+file_list[i]+".jsonl"==input_folder_path+"/"+file_list[j]+".jsonl"&&target_counter>=source_counter)continue;
+
                     // check duplication
-                    if(target_line==source_line){
+                    if(target_document.is_rejected||source_document.is_rejected) continue;
+                    // deduplicate
+                    if(target_document.text==source_document.text){
                         duplication=true;
+                        // cout << "Deduplicated." << endl;
+                        target_document.is_rejected=true;
+                        // cout <<target_document.is_rejected<<endl;
+                        target_document.metadata.insert(__func__);
                         break;
                     }
                 }
-                if(!duplication)   output_file << target_line << endl;
+                if(duplication)break;
             }
-            CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
+            WriteDocumentToJsonl(target_document,output_file_path);
+            // CopyFile(output_folder_path+"/"+file_list[i]+".jsonl",input_folder_path+"/"+file_list[i]+".jsonl");
         }
     }
 
@@ -561,80 +626,7 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
     return stats;
 }
 
-// /**
-//  * @brief MinHashLSH Deduplication files in the this->intermediate folder
-//  * @details 
-//  *  Follow the steps below to remove duplication between all lines of all files in the this->intermediate folder.
-//  *  1. Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-//  *  2. Compare all lines of source_file and target_file in file_list.
-//  *  3. Check duplication between all lines of souce file and all lines of target_file.
-//  *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
-//  *  I considered deduplication using set or multiset, 
-//  *  but I did not use this method because the file size could exceed the memory capacity.
-//  * 
-//  * The usage is following.
-//  * 
-//  * @param string input_folder_path: input folder path
-//  * @param string output_folder_path: output folder path
-//  * @return Stats: statics imformation of this function.
-//  * @ref 
-//  * @attention TODO: fix return stats.
-// **/
-// Stats CorpusCleaner::MinhashDeduplication(string input_folder_path, string output_folder_path)
-// {
-//     chrono::system_clock::time_point start, end;
-//     start = chrono::system_clock::now(); 
 
-//     string target_line="",source_line="";
-//     vector<string> file_list;
-//     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-//     GetFileNameListWithoutExtention(input_folder_path,&file_list);
-//     GenerateDedupeLSH generate_dedup_lsh;  
-//     LSHDeduplicator deduplicator(online_dedup=false,
-//                              blacklist_path=this->blacklist_path,
-//                              store_blacklist=this->store_blacklist); 
-//     // Compare all lines of source_file and target_file
-//     for(int i=0;i<(int)file_list.size();i++){
-//         //for(int j=i;j<(int)file_list.size();j++){
-//             ifstream target_file(input_folder_path+"/"+file_list[i]);
-//             ofstream output_file(output_folder_path+"/"+file_list[i]);
-//             while (getline(target_file, target_line)){
-            
-//                 // Read Document from jsonl
-//                 // TODO:
-//                 Document document;
-//                 ReadDocumentFromJsonl(document,target_file)
-                
-//                 lshs = generate_dedup_lsh.CalculateLSH(target_line);
-//                 deduplicator.Apply(lshs);
-                
-//                 // output document
-//                 DumpDocumentToJsonl(document,output_file_path)
-//                 //もしgenerateがbucket_size以上になったら、一旦LSHDeduplicatorを削除し、再生成する
-//                 if(){
-//                     //もしseenがbucket_size以上なら(black_listがbucket_size以上)seenを初期化 
-//                     if()
-//                 }
-                
-                
-//                 //vector<string> segments;
-//                 //SegmentSentence(target_line, segments);
-
-//             }
-//             CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
-//        //}
-//     }
-
-//     end = chrono::system_clock::now(); 
-//     double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-//     //TODO: fix here.
-//     Stats stats;
-//     stats.elapsed_time=elapsed;
-//     stats.file_name="";
-//     stats.process_name=__func__;
-//     stats.result_file_size=-1;
-//     return stats;
-// }
 
 Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &))
 {
@@ -688,10 +680,10 @@ double CorpusCleaner::CleanPipeline()
         //&CorpusCleaner::SpecialCharacterRemover, 
         //&CorpusCleaner::LengthFilter, 
         &CorpusCleaner::QuotesRemover, 
-        &CorpusCleaner::PerplexityFilter
+        &CorpusCleaner::PerplexityFilter,
+        //&CorpusCleaner::MinhashDeduplication,
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
-        // &CorpusCleaner::MinhashDeduplication, 
         // &CorpusCleaner::ExactDeduplication, 
         }; 
     
@@ -708,10 +700,8 @@ double CorpusCleaner::CleanPipeline()
     // Get list of files in intermediate folder
     GetFileNameListWithoutExtention(this->intermediate_path,&filename_list);
 
-    // const string input_file_extension = ".txt";
     // Execute the each CorpusCleaner processing on all files in the intermediate folder.
     for (auto filename: filename_list){
-    
         // load data
         ifstream input_file(this->intermediate_path+"/"+filename+".jsonl");
         string  output_file_path(this->output_path+"/"+filename+".jsonl");
@@ -719,12 +709,7 @@ double CorpusCleaner::CleanPipeline()
         uint64_t line_count=0;
         Document document;
         while (getline(input_file, line)) {
-        
-            // TODO: ReadDocumentFromJsonl();
             ReadDocumentFromJsonlOneLine(document,line);
-            // document.text = line;
-            // document.id = filename+to_string((unsigned long long)line_count);
-
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
                 //TODO: Exclude strings that cannot be executed
@@ -733,14 +718,11 @@ double CorpusCleaner::CleanPipeline()
                 // if rejected, break and turn to next line.
                 if(document.is_rejected)    break;
             }
-            
             // dump data
             WriteDocumentToJsonl(document,output_file_path);
             line_count++;
         }
-        
-        input_file.close();
-        
+        input_file.close();   
     }
     
     // Loop processing as many times as deduplicate_list

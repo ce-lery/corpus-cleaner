@@ -16,9 +16,7 @@ GenerateDedupLSH::GenerateDedupLSH(uint32_t n_gram=5,
 }
 
 /***destructor***/
-GenerateDedupLSH::~GenerateDedupLSH()
-{
-}
+GenerateDedupLSH::~GenerateDedupLSH(){}
 
 /**
  * @brief Tokenize a string into n-gram tokens.
@@ -137,31 +135,22 @@ vector<string> GenerateDedupLSH::CalculateLSH(wstring text)
 /***constructor***/
 LSHDeduplicator::LSHDeduplicator(bool online_dedup=true,
                                 string blacklist_path="",
-                                bool store_blacklist=false)
+                                bool store_blacklist=false,
+                                size_t total_backet_size_mb = 5120)
 {
     this->online_dedup = online_dedup;
     this->blacklist_path = blacklist_path;
+    this->store_blacklist = store_blacklist;
     string line="";
-    if(this->blacklist_path!=""){
-        //load blacklist from blacklist_path
-        ifstream blacklist_file(this->blacklist_path);
-        //insert seen
-        while (getline(blacklist_file, line)) {
-            Strip(line);
-            this->seen.insert(line);
-        }
-    }
-    if(store_blacklist)     this->blacklist=this->seen;
+    this->total_backet_size_mb=total_backet_size_mb;
+    if(this->blacklist_path!="")    this->LoadBlacklistToSeen();
+    if(this->store_blacklist)     this->blacklist=this->seen;
 }
 
 /***destructor***/
 LSHDeduplicator::~LSHDeduplicator()
 {
-    if(this->store_blacklist){
-        // output blacklist
-        ofstream blacklist_file(this->blacklist_path);
-        for(auto lsh: this->blacklist)   blacklist_file<<lsh<<endl;
-    }
+    this->StoreBlacklist();
 }
 
 /**
@@ -229,44 +218,26 @@ bool LSHDeduplicator::Apply(const vector<string> *lshs)
 /**
  * @brief Calculate size of blacklist (rough estimate)
  * @details
- * Caluclate size of blacklist. The step is following.
- * 1. Get first element of blacklist
- * 2. Calculate element size by "element_unit_size * blacklist.size()", because all elements of blacklist are same size.
- * 3. Calculate size of node's overhead (sizeof(void*)*2*blacklist.size()). 
- * 4. Calculate size of std::string overhead (sizeof(std::string)*blacklist.size()).
- * 5. Calculate size of container_overhead (64).
- * 6. Summation of element size, node overhead, std::string overhead, and container_overhead. And return this. 
- *
- * The example of usage is following.
- *   GenerateDedupLSH generate_dedupe_lsh(3);
- *   wstring text = L"おはようございます。";
- *   vector<wstring> tokens = generate_dedupe_lsh.NGramTokenize(text, 3);
- *   uint64_t minhash = generate_dedupe_lsh.GetMinhash(&tokens,0);
- *   //minhash == 2147483647
+
  * @param void: None
  * @return size_t : size of  blacklist
  * @attention
 **/
-size_t LSHDeduplicator::SizeOfBlacklist(void)
+size_t LSHDeduplicator::SizeOfSeen(void)
 {
-        
-    // Get first element of blacklist
-    auto itr = this->blacklist.begin();
-    string blacklist_first_element = *itr;
-    size_t element_unit_size = blacklist_first_element.length();//TODO:check this size
-    // All elements of blacklist are same size.
-    size_t element_size = element_unit_size * this->blacklist.size();
-    
+    // Get first element of seen
+    auto itr = this->seen.begin();
+    string seen_first_element = *itr;
+    size_t element_unit_size = seen_first_element.length();//TODO:check this size
+    // All elements of seen are same size.
+    size_t element_size = element_unit_size * this->seen.size();
     
     // overhead of node
-    size_t node_overhead = sizeof(void*) * 2 * this->blacklist.size();
-
+    size_t node_overhead = sizeof(void*) * 2 * this->seen.size();
     // overhead of std::string
-    size_t string_overhead = sizeof(std::string) * this->blacklist.size();
-
+    size_t string_overhead = sizeof(std::string) * this->seen.size();
     // overhead of container structure (rough estimate)
     size_t container_overhead = 64;
-
     size_t total_size = element_size + node_overhead + string_overhead + container_overhead;
 
     //printf("要素のサイズ: %zu バイト\n", element_size);
@@ -274,8 +245,82 @@ size_t LSHDeduplicator::SizeOfBlacklist(void)
     //printf("std::stringのオーバーヘッド: %zu バイト\n", string_overhead);
     //printf("コンテナ構造のオーバーヘッド: %zu バイト\n", container_overhead);
     //printf("合計のメモリ使用量の概算: %zu バイト\n", total_size);
-   
 
     return total_size;
 
 }
+
+/**
+ * @brief Initialize seen parameter
+ * @details
+ * Caluclate size of seen. The step is following.
+ * Example:
+ *   GenerateDedupLSH generate_dedupe_lsh(3);
+ * @param void: None
+ * @return size_t : size of  seen
+ * @attention
+**/
+void LSHDeduplicator::InitializeSeen(void)
+{
+    if(this->store_blacklist)   this->StoreBlacklist();
+    this->seen.clear();
+    if(this->blacklist_path!="")    this->LoadBlacklistToSeen();
+
+    // this->seen is include this->blacklist. 
+    // So blacklist size is more than total_bucket_size_mb,
+    // seen size is also more than total_bucket_size_mb.
+    if(this->SizeOfSeen()>=this->total_backet_size_mb)   this->seen.clear();
+
+}   
+
+/**
+ * @brief Save Blacklist to file
+ * @details
+ * 
+ *   
+ * @param void: None
+ * @return size_t : size of  blacklist
+ * @attention
+**/
+void LSHDeduplicator::StoreBlacklist(void)
+{
+    if(this->store_blacklist){
+        // output blacklist
+        ofstream blacklist_file(this->blacklist_path);
+        for(auto lsh: this->blacklist)   blacklist_file<<lsh<<endl;
+    }
+}   
+
+/**
+ * @brief Read Blacklist from file
+ * @details
+ * 
+ * @param void: None
+ * @return size_t : size of  blacklist
+ * @attention
+**/
+void LSHDeduplicator::LoadBlacklistToSeen(void)
+{
+    string line="";
+    //load blacklist from blacklist_path
+    ifstream blacklist_file(this->blacklist_path);
+    //insert seen
+    while (getline(blacklist_file, line)) {
+        Strip(line);
+        this->seen.insert(line);
+    }
+}   
+
+/**
+ * @brief Read Blacklist from file
+ * @details
+ * 
+ * @param void: None
+ * @return size_t : size of  blacklist
+ * @attention
+**/
+size_t LSHDeduplicator::GetTotalBucketSize(void)
+{
+    return this->total_backet_size_mb;
+}   
+

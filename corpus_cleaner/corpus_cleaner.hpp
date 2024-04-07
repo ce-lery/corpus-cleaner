@@ -1,8 +1,7 @@
 #include <bits/stdc++.h>
 #include "language_filter.hpp"
 #include "perplexity_filter.hh"
-
-
+#include "minhash.hpp"
 using namespace std;
 namespace fs = filesystem;
 
@@ -81,7 +80,10 @@ private:
     fasttext::FastTextEx language_filter;
     KenLMFilter kenlm_filter;
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
-
+    string blacklist_path="blacklist.jsonl";
+    bool store_blacklist=true;
+    GenerateDedupLSH *generate_dedup_lsh;  
+    LSHDeduplicator *deduplicator; 
 public:
     /***constructor***/
     CorpusCleaner(string input_path,
@@ -91,7 +93,9 @@ public:
                   set<string> accept_language,
                   bool sentence_segment,
                   float language_threshold,
-                  double perplexity_threshold);
+                  double perplexity_threshold,
+                  GenerateDedupLSH *generate_dedup_lsh,
+                  LSHDeduplicator *deduplicator);
     /***destructor***/
     ~CorpusCleaner();
     /***member function***/
@@ -103,9 +107,9 @@ public:
     void Normalizer(Document &document);
     void LanguageFilter(Document &document);
     void PerplexityFilter(Document &document);
+    void MinhashDeduplication(Document &document);
     Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
     Stats SentenceSegmenter(string input_folder_path,string output_folder_path);
     Stats ExactDeduplication(string input_folder_path,string output_folder_path);
-    Stats MinhashDeduplication(string input_folder_path, string output_folder_path);
     double CleanPipeline();
 };

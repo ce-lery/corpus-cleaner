@@ -65,11 +65,30 @@ void CopyFile(string source_path, string target_path)
     fs::copy(source, destination, fs::copy_options::overwrite_existing);
 }
 
+/**
+ * @brief copy source_fileto target_file
+ * @details 
+ * @example
+ *   string source_path="data/source/a.txt";
+ *   string target_path="data/target/a.txt";
+ *   CopyFolder(source_path,target_path);
+ * @param string source_path: Copy source file path
+ * @param string target_path: Copy target file path
+ * @return None
+ * @attention 
+**/
+void MoveFile(string source_path, string target_folder) 
+{
+    fs::path source = source_path;
+    fs::path destination = target_folder;
+    fs::path new_path = destination / source.filename();
+    fs::rename(source, new_path);
+}
 
 /**
  * @brief copy source_folder to target_folder
  * @details 
- * @example
+ * Example:
  *   string source_folder="data/source";
  *   string target_folder="data/target";
  *   CopyFolder(source_folder,target_folder);
@@ -89,6 +108,40 @@ void CopyFolder(string source_folder, string target_folder)
         }
     }
 }
+
+/**
+ * @brief copy source_folder to target_folder
+ * @details 
+ * Example:
+ *   string source_folder="data/source";
+ *   string target_folder="data/target";
+ *   MoveFolder(source_folder,target_folder);
+ * @param string source_folder: Copy source folder path
+ * @param string target_folder: Copy target folder path
+ * @return None
+ * @attention 
+**/
+void MoveFolder(string source_folder, string target_folder) 
+{
+    // Check the file that is existed.
+    if (!fs::exists(source_folder)) {
+        std::cerr << "Source directory does not exist: " << source_folder << std::endl;
+        return;
+    }
+    if (!fs::exists(target_folder)) fs::create_directory(target_folder);
+
+    // Move file and folder
+    for (const auto& entry : fs::directory_iterator(source_folder)) {
+        try {
+            fs::path newPath = target_folder / entry.path().filename();
+            fs::rename(entry.path(), newPath);
+            std::cout << "Moved: " << entry.path().filename() << std::endl;
+        } catch (const fs::filesystem_error& e) {
+            std::cerr << "Error moving " << entry.path() << ": " << e.what() << std::endl;
+        }
+    }
+}
+
 
 
 /**

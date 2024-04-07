@@ -1,0 +1,10 @@
+{"text":"私の名前はアイアンマンです。こんにちわ。","id":"test_SentenceDeduplication_0","is_rejected":"1","metadata":"ExactDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"私の名前はアイアンマンです。こんにちわ。","id":"test_SentenceDeduplication_1","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"私の名前はアイアンマンです。こんにちわ。こんばんわ","id":"test_SentenceDeduplication_2","is_rejected":"1","metadata":"ExactDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"こんばんわ。私の名前アイアンマンです。こんにちわ。","id":"test_SentenceDeduplication_3","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"私の名前アイアンマンです。こんにちわ。","id":"test_SentenceDeduplication_4","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"こんにちわ。","id":"test_SentenceDeduplication_5","is_rejected":"1","metadata":"ExactDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"こんにちわ。","id":"test_SentenceDeduplication_6","is_rejected":"1","metadata":"ExactDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"こんにちは。","id":"test_SentenceDeduplication_7","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"A.","id":"test_SentenceDeduplication_8","is_rejected":"1","metadata":"ExactDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"おはようございます。","id":"test_SentenceDeduplication_9","is_rejected":"1","metadata":"ExactDeduplication,","language":"","language_score":"-1","perplexity":"-1"}

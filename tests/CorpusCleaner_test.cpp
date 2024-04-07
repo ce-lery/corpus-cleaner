@@ -2,14 +2,18 @@
 #include "../corpus_cleaner/corpus_cleaner.hpp"
 #include "../corpus_cleaner/util.hpp"
 #include "../corpus_cleaner/normalizer.hpp"
-#include "../corpus_cleaner/minhash.hpp"
+// #include "../corpus_cleaner/minhash.hpp"
 
 // namespace {
 
 class CorpusCleanerTest : public ::testing::Test {
 protected:
     // You can freely delete empty functions in the following functions.
-
+    uint32_t min_length=5;
+    uint32_t max_length = 1000;
+    set<string> accept_language{"__label__ja"};
+    Document document;
+    string sentence="";
     CorpusCleanerTest() {
         // Write the setup that will be executed for each test here.
     }
@@ -26,7 +30,9 @@ protected:
         // This code is right after the constructor (just before each test)
         // will be called.
         string output_path = "../data/output/";
+        string intermediate_path = "../data/intermediate/";
         mkdir(output_path.c_str(), 0777);
+        mkdir(intermediate_path.c_str(), 0777);
     }
 
     virtual void TearDown() {
@@ -62,20 +68,19 @@ bool CompareFiles(const string& file1, const string& file2) {
 }
 
 TEST_F(CorpusCleanerTest, LengthFilter) {
-    uint32_t min_length=5;
-    uint32_t max_length = 1000;
-    set<string> accept_language{"__label__ja"};
-    Document document;
-    CorpusCleaner corpus_cleaner("../data/input/temp",
-                                 "../data/output/temp",
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
                                  min_length,
                                  max_length,
                                  accept_language,
                                  true,
                                  0.3,
-                                 15000);
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
 
-    string sentence="";
     document.is_rejected=false;
     for(int i=0;i<1001;i++) sentence+="あ";
     document.text = sentence;
@@ -110,10 +115,8 @@ TEST_F(CorpusCleanerTest, LengthFilter) {
 
 
 TEST_F(CorpusCleanerTest, URLRemover) {
-    uint32_t min_length = 5;
-    uint32_t max_length = 1000;
-    set<string> accept_language{"__label__ja"};
-    Document document;
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  min_length,
@@ -121,8 +124,9 @@ TEST_F(CorpusCleanerTest, URLRemover) {
                                  accept_language,
                                  true,
                                  0.3,
-                                 15000);
-
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     document.is_rejected=false;
     document.text = "https://qiita.com/これはqiitaのURLです";
     corpus_cleaner.URLRemover(document);
@@ -147,7 +151,6 @@ TEST_F(CorpusCleanerTest, URLRemover) {
     ASSERT_TRUE(document.text == "URLに日本語が含まれる場合");
 }
 
-
 TEST_F(CorpusCleanerTest, MakeStats) {
     string input_path = "../data/input/test_URLRemover.txt";
     double elapsed_time = 11.56;
@@ -162,6 +165,8 @@ TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
     uint32_t min_length=10;
     uint32_t max_length = 1000;
     set<string> accept_language{"__label__ja"};
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  min_length,
@@ -169,7 +174,9 @@ TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
                                  accept_language,
                                  true,
                                  0.3,
-                                 15000);
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
                                  
     Document document;  
     document.text = "☀あ←い⌚う⤲え⭐お🀀";
@@ -201,9 +208,8 @@ TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
 }
 
 TEST_F(CorpusCleanerTest, EmojiRemover) {
-    uint32_t min_length=10;
-    uint32_t max_length = 1000;
-    set<string> accept_language{"__label__ja"};
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  min_length,
@@ -211,9 +217,9 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
                                  accept_language,
                                  true,
                                  0.3,
-                                 15000);
-                                 
-    Document document;  
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     document.text = "よろしくお願いします😎";
     document.language = "";
     document.language_score=0;
@@ -241,31 +247,39 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
     ASSERT_TRUE(document.text == "境界値２"); 
 }
 
-// TEST_F(CorpusCleanerTest, ExactDeduplication) {
-//     string input_folder_path = "../data/input/sentence_deduplicate";
-//     string output_folder_path = "../data/output/sentence_deduplicate";
-//     string answer_folder_path = "../data/answer/sentence_deduplicate";
+TEST_F(CorpusCleanerTest, ExactDeduplication) {
+    string input_folder_path = "../data/input/sentence_deduplicate";
+    string output_folder_path = "../data/output/sentence_deduplicate";
+    string intermediate_folder_path = "../data/intermediate/sentence_deduplicate";
+    string answer_folder_path = "../data/answer/sentence_deduplicate";
 
-//     uint32_t min_length=10;
-//     uint32_t max_length = 1000;
-//     set<string> accept_language{"__label__ja"};
-//     CorpusCleaner corpus_cleaner(input_folder_path,
-//                                  output_folder_path,
-//                                  min_length,
-//                                  max_length,
-//                                  accept_language,
-//                                  true,
-//                                  0.3,
-//                                  15000);
-//     corpus_cleaner.ExactDeduplication(input_folder_path,output_folder_path);
+    RemoveFolder(intermediate_folder_path);
+    RemoveFolder(output_folder_path);
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner(input_folder_path,
+                                 output_folder_path,
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
 
-//     vector<string> file_list;
-//     GetFileNameListWithoutExtention(answer_folder_path,&file_list);
-//     for (int i=0;i<(int)file_list.size();i++){
-//         ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
-//     }
+    mkdir(intermediate_folder_path.c_str(), 0777);
+    MoveFolder(output_folder_path, intermediate_folder_path); 
+    corpus_cleaner.ExactDeduplication(intermediate_folder_path,output_folder_path);
 
-// }
+    // cout << "ExactDeduplication Completed" << endl;
+    vector<string> file_list;
+    GetFileNameListWithoutExtention(answer_folder_path,&file_list);
+    for (int i=0;i<(int)file_list.size();i++){
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
+    }
+
+}
 
 // TEST_F(CorpusCleanerTest, SentenceSegmenter) {
 //     string input_folder_path = "../data/input/sentence_segment";
@@ -376,7 +390,7 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator1) {
     // for(auto lsh:d3) cout << lsh <<endl;
     // cout<<"]" <<endl;
 
-    LSHDeduplicator deduplicator(true,"",true);
+    LSHDeduplicator deduplicator(true,"",true,5120);
     ASSERT_TRUE(deduplicator.Apply(&d1)==false);
     ASSERT_TRUE(deduplicator.Apply(&d2)==true);
     ASSERT_TRUE(deduplicator.Apply(&d3)==false);
@@ -400,7 +414,7 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
     // for(auto lsh:d2) cout << lsh <<endl;
     // cout<<"]" <<endl;
 
-    LSHDeduplicator deduplicator(true,"",true);
+    LSHDeduplicator deduplicator(true,"",true,5120);
     ASSERT_TRUE(deduplicator.Apply(&d1)==false);
     ASSERT_TRUE(deduplicator.Apply(&d2)==true);
 
@@ -412,10 +426,8 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
 
 TEST_F(CorpusCleanerTest,LanguageFilter) 
 {
-    Document document;
-    uint32_t min_length=10;
-    uint32_t max_length = 1000;
-    set<string> accept_language{"__label__ja"};
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  min_length,
@@ -423,8 +435,9 @@ TEST_F(CorpusCleanerTest,LanguageFilter)
                                  accept_language,
                                  true,
                                  0.3,
-                                 15000);
-
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     document.text = "吾輩は猫である。名前はまだ無い。";
     corpus_cleaner.LanguageFilter(document);
     //document.text isn't changed.
@@ -441,18 +454,18 @@ TEST_F(CorpusCleanerTest,LanguageFilter)
 
 TEST_F(CorpusCleanerTest,LanguageFilter2) 
 {
-    Document document;
-    uint32_t min_length=10;
-    uint32_t max_length = 1000;
-    set<string> accept_language{ "__label__ja","__label__en" };
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  min_length,
                                  max_length,
-                                 accept_language,
+                                 {"__label__en"},
                                  true,
                                  0.3,
-                                 15000);
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     document.text = "I am a cat. No name yet.";
     corpus_cleaner.LanguageFilter(document);
     ASSERT_TRUE(document.language=="__label__en");
@@ -468,10 +481,8 @@ TEST_F(CorpusCleanerTest,LanguageFilter2)
 
 TEST_F(CorpusCleanerTest,QuotesRemover) 
 {
-    Document document;
-    uint32_t min_length=10;
-    uint32_t max_length = 1000;
-    set<string> accept_language{"__label__ja"};
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  min_length,
@@ -479,8 +490,9 @@ TEST_F(CorpusCleanerTest,QuotesRemover)
                                  accept_language,
                                  true,
                                  0.3,
-                                 15000);
-
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     document.text = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる[1]。";
     corpus_cleaner.QuotesRemover(document);
     ASSERT_TRUE(document.text
@@ -566,10 +578,9 @@ TEST_F(CorpusCleanerTest,KenLMPerplexityWithSentencePiece)
 
 TEST_F(CorpusCleanerTest,PerplexityFilter) 
 {
-    Document document;
-    uint32_t min_length=10;
-    uint32_t max_length = 1000;
-    set<string> accept_language{"__label__ja"};
+
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  min_length,
@@ -577,7 +588,10 @@ TEST_F(CorpusCleanerTest,PerplexityFilter)
                                  accept_language,
                                  true,
                                  0.3,
-                                 15000);
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+    Document document;
     document.text = "東京はッ晴れ";
     corpus_cleaner.PerplexityFilter(document);
     ASSERT_TRUE(document.perplexity<=15000);
