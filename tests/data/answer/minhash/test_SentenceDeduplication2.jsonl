@@ -1,0 +1,4 @@
+{"text":"私の名前はアイアンマンです。こんにちわ。こんばんわ","id":"test_SentenceDeduplication2_0","is_rejected":"1","metadata":"MinhashDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"Hello.","id":"test_SentenceDeduplication2_1","is_rejected":"0","metadata":"MinhashDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"A.","id":"test_SentenceDeduplication2_2","is_rejected":"0","metadata":"MinhashDeduplication,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"おはようございます。","id":"test_SentenceDeduplication2_3","is_rejected":"0","metadata":"MinhashDeduplication,","language":"","language_score":"-1","perplexity":"-1"}

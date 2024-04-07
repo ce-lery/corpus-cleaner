@@ -434,6 +434,59 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
     //false
 }
 
+
+TEST_F(CorpusCleanerTest, MinhashDeduplication) {
+    string input_folder_path = "../data/input/sentence_deduplicate";
+    string output_folder_path = "../data/output/minhash";
+    string intermediate_folder_path = "../data/intermediate/minhash";
+    string answer_folder_path = "../data/answer/minhash";
+
+    RemoveFolder(intermediate_folder_path);
+    RemoveFolder(output_folder_path);
+    GenerateDedupLSH generate_dedup_lsh(2,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/minhash/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner(input_folder_path,
+                                 output_folder_path,
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+
+    mkdir(intermediate_folder_path.c_str(), 0777);
+    MoveFolder(output_folder_path, intermediate_folder_path); 
+
+    vector<string> filename_list;
+    GetFileNameListWithoutExtention(intermediate_folder_path,&filename_list);
+    // Execute the each CorpusCleaner processing on all files in the intermediate folder.
+    for (auto filename: filename_list){
+        // load data
+        ifstream input_file(intermediate_folder_path+"/"+filename+".jsonl");
+        string  output_file_path(output_folder_path+"/"+filename+".jsonl");
+        string line="";
+        uint64_t line_count=0;
+        Document document;
+        while (getline(input_file, line)) {
+            ReadDocumentFromJsonlOneLine(document,line);
+            // Loop processing as many times as cleaner_list
+            corpus_cleaner.MinhashDeduplication(document);
+            // dump data
+            WriteDocumentToJsonl(document,output_file_path);
+            line_count++;
+        }
+        input_file.close();   
+    }
+
+    vector<string> file_list;
+    GetFileNameListWithoutExtention(answer_folder_path,&file_list);
+    for (int i=0;i<(int)file_list.size();i++){
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
+    }
+}
+
 TEST_F(CorpusCleanerTest,LanguageFilter) 
 {
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);

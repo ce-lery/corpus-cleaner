@@ -120,12 +120,14 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Implement Test
 - [x] Imprement quotes Remover ("{1}", "{13}", and so on.)
 - [x] Refactor piplinestep (FILE read write only once at the beginning and end)
-- [ ] Implement minhash
+- [x] Implement minhash
 - [x] Implement json read & write
-- [ ] Implement "," filter
+- [ ] Exception handling
+- [ ] Test Clean pipeline
 - [ ] Implement tqdm.
 - [ ] Write document & create doxygen
-- [ ] Exception handling
+- [ ] Implement "," filter
+
 
 ### ver.0.2.0
 

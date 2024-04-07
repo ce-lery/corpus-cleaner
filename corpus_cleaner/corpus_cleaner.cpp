@@ -519,17 +519,11 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
         while (getline(target_file, target_line)) {
             vector<string> segments;
             Document document;
-            // cout << "read from jsonl" << endl;
             ReadDocumentFromJsonlOneLine(document,target_line);
-            // cout << "segment sentence" << endl;
             SegmentSentence(document.text, segments);
             uint64_t sentence_count=0;
-            // cout << "segments[0]: "<<segments[0] << endl;
-            // cout << "target:"<<file_list[i] << " text:" << document.text<<" " ;
-            for(auto segment:segments)  cout << segment <<" , ";
-            // cout << endl;
+            // for(auto segment:segments)  cout << segment <<" , ";
             if((int64_t)segments.size()!=1){
-                // cout << "sentence segmented" << endl;
                 for(auto sentence:segments){
                     Document document_segmented = document;
                     document_segmented.text = sentence;
@@ -540,7 +534,6 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
             }
             else    WriteDocumentToJsonl(document,output_file_path);
         }
-        // CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
     }
 
     end = chrono::system_clock::now(); 
@@ -680,17 +673,18 @@ double CorpusCleaner::CleanPipeline()
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
     vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
+        &CorpusCleaner::Normalizer,
         &CorpusCleaner::LanguageFilter,
-        //&CorpusCleaner::URLRemover ,
-        //&CorpusCleaner::EmojiRemover, 
-        //&CorpusCleaner::SpecialCharacterRemover, 
-        //&CorpusCleaner::LengthFilter, 
+        &CorpusCleaner::URLRemover ,
+        &CorpusCleaner::EmojiRemover, 
+        &CorpusCleaner::SpecialCharacterRemover, 
+        &CorpusCleaner::LengthFilter, 
         &CorpusCleaner::QuotesRemover, 
+        &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,
-        //&CorpusCleaner::MinhashDeduplication,
         }; 
     vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
-        // &CorpusCleaner::ExactDeduplication, 
+        &CorpusCleaner::ExactDeduplication, 
         }; 
     
     if(this->sentence_segment==true){
