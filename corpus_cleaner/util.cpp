@@ -36,6 +36,12 @@ uint32_t strlen_utf8(string input)
 **/
 void RemoveFolder(const std::string& path) 
 {
+    filesystem::path source_path = path;
+    // Check the file that is existed.
+    if (!filesystem::exists(source_path)) {
+        // cerr << "Source directory does not exist: " << source_path << endl;
+        return;
+    }
     for (const auto& entry : filesystem::directory_iterator(path)) {
         if (entry.is_directory()) {
             RemoveFolder(entry.path().string());

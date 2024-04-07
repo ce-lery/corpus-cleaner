@@ -281,28 +281,38 @@ TEST_F(CorpusCleanerTest, ExactDeduplication) {
 
 }
 
-// TEST_F(CorpusCleanerTest, SentenceSegmenter) {
-//     string input_folder_path = "../data/input/sentence_segment";
-//     string output_folder_path = "../data/output/sentence_segment";
-//     string answer_folder_path = "../data/answer/sentence_segment";
-//     uint32_t min_length=10;
-//     uint32_t max_length = 1000;
-//     set<string> accept_language{"__label__ja"};
-//     CorpusCleaner corpus_cleaner(input_folder_path,
-//                                  output_folder_path,
-//                                  min_length,
-//                                  max_length,
-//                                  accept_language,
-//                                  true,
-//                                  0.3,
-//                                  15000);
-//     corpus_cleaner.SentenceSegmenter(input_folder_path,output_folder_path);
-//     vector<string> file_list;
-//     GetFileNameListWithoutExtention(answer_folder_path,&file_list);
-//     for (int i=0;i<(int)file_list.size();i++){
-//         ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
-//     }
-// }
+TEST_F(CorpusCleanerTest, SentenceSegmenter) {
+    string input_folder_path = "../data/input/sentence_segment";
+    string output_folder_path = "../data/output/sentence_segment";
+    string intermediate_folder_path = "../data/intermediate/sentence_segment";
+    string answer_folder_path = "../data/answer/sentence_segment";
+
+    RemoveFolder(intermediate_folder_path);
+    RemoveFolder(output_folder_path);
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner(input_folder_path,
+                                 output_folder_path,
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+
+    MoveFolder(output_folder_path, intermediate_folder_path); 
+    cout << "MoveFolder Completed" << endl;
+
+    corpus_cleaner.SentenceSegmenter(intermediate_folder_path,output_folder_path);
+    cout << "SentenceSegmentation Completed" << endl;
+    vector<string> file_list;
+    GetFileNameListWithoutExtention(answer_folder_path,&file_list);
+    for (int i=0;i<(int)file_list.size();i++){
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
+    }
+}
 
 
 TEST_F(CorpusCleanerTest, Normalizer) {

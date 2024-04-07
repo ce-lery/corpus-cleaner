@@ -138,6 +138,7 @@ void ConvertInputFilesToJsonl(const string input_folder_path,
         string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
         uint64_t line_count =0;
         while(getline(input_file, line)){
+            // AddEscapeSequence(line);
             ConvertTextToDocument(line,file_list[i],to_string(line_count),document);
             WriteDocumentToJsonl(document,output_file_path);
             line_count++;
@@ -513,28 +514,33 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
     GetFileNameListWithoutExtention(input_folder_path,&file_list);
     // Compare all lines of source_file and target_file
     for(int i=0;i<(int)file_list.size();i++){
-        for(int j=i;j<(int)file_list.size();j++){
-            ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
-            string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
-            while (getline(target_file, target_line)) {
-                vector<string> segments;
-                Document document;
-                ReadDocumentFromJsonlOneLine(document,target_line);
-                SegmentSentence(target_line, segments);
-                uint64_t sentence_count=0;
-                if((int64_t)segments.size()!=1){
-                    for(auto sentence:segments){
-                        Document document_segmented = document;
-                        document_segmented.text = sentence;
-                        document_segmented.id = document.id+"_"+to_string(sentence_count);
-                        document_segmented.metadata.insert(__func__);
-                        WriteDocumentToJsonl(document_segmented,output_file_path);
-                    }
+        ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
+        string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
+        while (getline(target_file, target_line)) {
+            vector<string> segments;
+            Document document;
+            // cout << "read from jsonl" << endl;
+            ReadDocumentFromJsonlOneLine(document,target_line);
+            // cout << "segment sentence" << endl;
+            SegmentSentence(document.text, segments);
+            uint64_t sentence_count=0;
+            // cout << "segments[0]: "<<segments[0] << endl;
+            // cout << "target:"<<file_list[i] << " text:" << document.text<<" " ;
+            for(auto segment:segments)  cout << segment <<" , ";
+            // cout << endl;
+            if((int64_t)segments.size()!=1){
+                // cout << "sentence segmented" << endl;
+                for(auto sentence:segments){
+                    Document document_segmented = document;
+                    document_segmented.text = sentence;
+                    document_segmented.id = document.id+"_"+to_string(sentence_count);
+                    document_segmented.metadata.insert(__func__);
+                    WriteDocumentToJsonl(document_segmented,output_file_path);
                 }
-                else    WriteDocumentToJsonl(document,output_file_path);
             }
-            CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
+            else    WriteDocumentToJsonl(document,output_file_path);
         }
+        // CopyFile(output_folder_path+"/"+file_list[i],input_folder_path+"/"+file_list[i]);
     }
 
     end = chrono::system_clock::now(); 

@@ -125,9 +125,11 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [ ] Implement "," filter
 - [ ] Implement tqdm.
 - [ ] Write document & create doxygen
+- [ ] Exception handling
 
 ### ver.0.2.0
 
+- [ ] Convert original file's " to \".
 - [ ] Implement pybind & python code
 - [ ] Speedup
 - [ ] Implement loader json & jsonl
