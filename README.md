@@ -122,7 +122,7 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Refactor piplinestep (FILE read write only once at the beginning and end)
 - [x] Implement minhash
 - [x] Implement json read & write
-- [ ] Exception handling
+- [x] Exception handling
 - [ ] Test Clean pipeline
 - [ ] Implement tqdm.
 - [ ] Write document & create doxygen

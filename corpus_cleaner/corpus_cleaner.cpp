@@ -27,36 +27,43 @@ using namespace simdjson;
 void ReadDocumentFromJsonlOneLine(Document &document,
                                   string input_jsonl_line)
 {
-    simdjson::ondemand::parser parser;
-    simdjson::ondemand::document jsonl_line = parser.iterate(input_jsonl_line);   
-    string_view line_view;
-    
-    jsonl_line["text"].get(line_view);
-    document.text = string(line_view);
-    
-    jsonl_line["id"].get(line_view); 
-    document.id  = string(line_view); 
-    
-    jsonl_line["is_rejected"].get(line_view);
-    document.is_rejected = stoi(string(line_view));
-    
-    //split metadata to ,
-    jsonl_line["metadata"].get(line_view);
-    string tmp = string(line_view);
-    stringstream ss(tmp);
-    string token;
-    while(getline(ss, token, ',')){
-        document.metadata.insert(token);
-    } 
+    try{
+        simdjson::ondemand::parser parser;
+        simdjson::ondemand::document jsonl_line = parser.iterate(input_jsonl_line);   
+        string_view line_view;
+        
+        jsonl_line["text"].get(line_view);
+        document.text = string(line_view);
+        
+        jsonl_line["id"].get(line_view); 
+        document.id  = string(line_view); 
+        
+        jsonl_line["is_rejected"].get(line_view);
+        document.is_rejected = stoi(string(line_view));
+        
+        //split metadata to ,
+        jsonl_line["metadata"].get(line_view);
+        string tmp = string(line_view);
+        stringstream ss(tmp);
+        string token;
+        while(getline(ss, token, ',')){
+            document.metadata.insert(token);
+        } 
 
-    jsonl_line["language"].get(line_view);
-    document.language=string(line_view);
+        jsonl_line["language"].get(line_view);
+        document.language=string(line_view);
 
-    jsonl_line["language_score"].get(line_view);
-    document.language_score=stod(string(line_view));
-    
-    jsonl_line["perplexity"].get(line_view);
-    document.perplexity=stod(string(line_view));
+        jsonl_line["language_score"].get(line_view);
+        document.language_score=stod(string(line_view));
+        
+        jsonl_line["perplexity"].get(line_view);
+        document.perplexity=stod(string(line_view));    
+    }
+    catch(...){ 
+        cout << "Exeption("<<__func__<<"): input_jsonl_line "<<input_jsonl_line<< endl;
+        StoreException(__func__,"input_jsonl_line{"+input_jsonl_line+"}");
+        throw;
+    }
 }   
 
 /**
@@ -70,33 +77,40 @@ void ReadDocumentFromJsonlOneLine(Document &document,
 void WriteDocumentToJsonl(Document &document,
                          string output_file_path)
 {
-    ofstream output_file(output_file_path, ios::app);
-    
-    output_file << "{" ;
-    output_file << "\"text\":\"" <<document.text << "\",";
-    output_file << "\"id\":\"" << document.id << "\","; 
-    output_file << "\"is_rejected\":\"" << document.is_rejected << "\",";
-    output_file << "\"metadata\":\"";
-    for (auto iter = document.metadata.begin(); iter != document.metadata.end(); ++iter) {
-        output_file << *iter << ",";
+    try{
+        ofstream output_file(output_file_path, ios::app);
+        
+        output_file << "{" ;
+        output_file << "\"text\":\"" <<document.text << "\",";
+        output_file << "\"id\":\"" << document.id << "\","; 
+        output_file << "\"is_rejected\":\"" << document.is_rejected << "\",";
+        output_file << "\"metadata\":\"";
+        for (auto iter = document.metadata.begin(); iter != document.metadata.end(); ++iter) {
+            output_file << *iter << ",";
+        }
+        output_file << "\",";
+        output_file << "\"language\":\"" <<document.language << "\",";
+        output_file << "\"language_score\":\"" <<document.language_score << "\",";
+        output_file << "\"perplexity\":\"" <<document.perplexity << "\"";
+        output_file <<"}"<< endl;
+        output_file.close();
     }
-    output_file << "\",";
-    output_file << "\"language\":\"" <<document.language << "\",";
-    output_file << "\"language_score\":\"" <<document.language_score << "\",";
-    output_file << "\"perplexity\":\"" <<document.perplexity << "\"";
-    output_file <<"}"<< endl;
-    output_file.close();
+    catch(...){ 
+        string exception_detail = "document.text: "+document.text+" document.id: "+document.id;
+        cout << "Exeption("<<__func__<<"): "<< exception_detail << endl;
+        StoreException(__func__,"input_jsonl_line{"+exception_detail+"}");
+        throw;
+    }
 }   
 
 
 /**
  * @brief Convert input files to jsonl that has Document's element.
  * @details 
- *  * @param Document document: document
- * @param Document document: document
- * @param Document document: document
- * @param Document document: output document
- * @param string output_file_path: Path of file for statistics.
+ * @param string sentence: sentence
+ * @param string filename: filename without file extention 
+ * @param string file_line_count: the line number of sentence in "filename"
+ * @param Document document: document converted
  * @return void: None
  * @attention 
 **/
@@ -192,6 +206,26 @@ void OutputStats(Stats stats)
     cout << "elapsed_time[s]:"<< stats.elapsed_time << endl;
     cout << "result file size[Byte]:"<<stats.result_file_size<<endl;
     cout << endl;
+}
+
+
+/**
+ * @brief Save exception in file 
+ * @details 
+ * @param string reference: reference infomation. For example, sentence.
+ * @param string function_name: function name cause exeption
+ * @return None
+ * @attention 
+**/
+void StoreException(string function_name, string reference)
+{
+    string filename = "../results/exception/exception.txt";
+    ofstream output_file(filename, ios::app);
+    
+    output_file << "Function Name: "<< function_name << " , ";
+    output_file << "Reference:" << reference << " , ";
+    output_file << endl;
+    output_file.close();
 }
 
 /***constructor***/
@@ -360,7 +394,9 @@ void CorpusCleaner::URLRemover(Document &document)
  *  The C++ regex library does not support 4-byte characters. 
  *  Therefore, characters like 🀀 cannot be matched using regular expressions. 
  *  So, in a full search, those that completely match the pictogram are searched and removed.
- * @example TODO
+ * 
+ * Example:
+ * TODO.
  * @param string input_path: The path of filterd file.
  * @param string output_path: The output path of results file.
  * @return Stats: statics imformation of this function.
@@ -632,9 +668,15 @@ Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*clea
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now();
 
-    // クラスメソッドを呼び出すためには、クラスのインスタンスを指定する必要がある
-    (this->*cleaner)(document);
-
+    // Execute filtering function
+    try{ (this->*cleaner)(document); }
+    catch(...){
+        cout << "Exeption(PipelineStep): "<<document.id <<" "<<document.text << endl;
+        StoreException(__func__, "document.text{"+document.text+"}");
+        throw;
+        return MakeStats(__func__,"",0);
+    }
+    
     end = chrono::system_clock::now(); 
     double elapsed = chrono::duration_cast<chrono::duration<double>>(end - start).count(); 
     // TODO: fix second parameters
@@ -689,14 +731,14 @@ double CorpusCleaner::CleanPipeline()
     
     if(this->sentence_segment==true){
         // Loop processing as many times as deduplicate_list
-        CopyFolder(this->output_path, this->intermediate_path); 
+        MoveFolder(this->output_path, this->intermediate_path); 
         Stats stats = SentenceSegmenter(this->intermediate_path,this->output_path);
         OutputStats(stats);
     }
     
     vector<string> filename_list;
     // copy output folder to intermediate folder
-    CopyFolder(this->output_path, this->intermediate_path); 
+    MoveFolder(this->output_path, this->intermediate_path); 
     // Get list of files in intermediate folder
     GetFileNameListWithoutExtention(this->intermediate_path,&filename_list);
 
@@ -706,10 +748,14 @@ double CorpusCleaner::CleanPipeline()
         ifstream input_file(this->intermediate_path+"/"+filename+".jsonl");
         string  output_file_path(this->output_path+"/"+filename+".jsonl");
         string line="";
-        uint64_t line_count=0;
+        uint64_t line_count=-1;
         Document document;
         while (getline(input_file, line)) {
-            ReadDocumentFromJsonlOneLine(document,line);
+            line_count++;   
+            // load data
+            try{ReadDocumentFromJsonlOneLine(document,line);}
+            catch(...){continue;}
+            
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
                 //TODO: Exclude strings that cannot be executed
@@ -718,16 +764,17 @@ double CorpusCleaner::CleanPipeline()
                 // if rejected, break and turn to next line.
                 if(document.is_rejected)    break;
             }
+            
             // dump data
-            WriteDocumentToJsonl(document,output_file_path);
-            line_count++;
+            try{WriteDocumentToJsonl(document,output_file_path);}
+            catch(...){continue;}
         }
         input_file.close();   
     }
     
     // Loop processing as many times as deduplicate_list
     for (const auto& step : deduplicate_list) {
-        CopyFolder(this->output_path, this->intermediate_path); 
+        MoveFolder(this->output_path, this->intermediate_path); 
         Stats stats = (this->*step)(this->intermediate_path,this->output_path);
         OutputStats(stats);
     }

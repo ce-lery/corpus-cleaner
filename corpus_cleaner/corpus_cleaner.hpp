@@ -63,6 +63,7 @@ Stats MakeStats(string process_name,
                 string output_path,
                 double elapsed_time);
 void OutputStats(Stats stats);
+void StoreException(string fuction_name, string reference);
 
 class CorpusCleaner
 {

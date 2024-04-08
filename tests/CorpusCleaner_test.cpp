@@ -761,7 +761,6 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
 
 TEST_F(CorpusCleanerTest,ReadDocumentFromJsonlOneLine) 
 {
-
     Document document;
     string jsonl_line = "{\"text\":\"『覚悟』とは!! 暗闇の荒野に!! 進むべき道を切り開く事だッ!\",\"id\":\"jorno_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"perplexity\":\"1.692\"}";
     ReadDocumentFromJsonlOneLine(document,jsonl_line);
@@ -773,7 +772,10 @@ TEST_F(CorpusCleanerTest,ReadDocumentFromJsonlOneLine)
     EXPECT_NEAR(document.perplexity,1.692,0.0001);    
 }
 
-// TEST_F(CorpusCleanerTest,ConvertInputFilesToJsonl) 
-// {
-
-// }
+TEST_F(CorpusCleanerTest,ExceptionReadDocumentFromJsonlOneLine)
+{
+    Document document;
+    // jsonl_line without data
+    string jsonl_line = "{}";
+    EXPECT_ANY_THROW(ReadDocumentFromJsonlOneLine(document,jsonl_line));
+}
