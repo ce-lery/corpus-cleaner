@@ -110,7 +110,10 @@ public:
     void PerplexityFilter(Document &document);
     void MinhashDeduplication(Document &document);
     Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
-    Stats SentenceSegmenter(string input_folder_path,string output_folder_path);
-    Stats ExactDeduplication(string input_folder_path,string output_folder_path);
-    double CleanPipeline();
+    Stats PipelineStepForFoldersAll(string input_folder_path, 
+                                    string output_folder_path,
+                                    void (CorpusCleaner::*cleaner)(string ,string ));
+    void SentenceSegmenter(string input_folder_path,string output_folder_path);
+    void ExactDeduplication(string input_folder_path,string output_folder_path);
+    int32_t CleanPipeline(void);
 };

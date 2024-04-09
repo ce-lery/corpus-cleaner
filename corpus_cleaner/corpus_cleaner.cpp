@@ -219,7 +219,7 @@ void OutputStats(Stats stats)
 **/
 void StoreException(string function_name, string reference)
 {
-    string filename = "../results/exception/exception.txt";
+    string filename = "../results/data/exception/exception.txt";
     ofstream output_file(filename, ios::app);
     
     output_file << "Function Name: "<< function_name << " , ";
@@ -242,7 +242,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
 {
     this->input_path = input_path;
     this->output_path = output_path;
-    this->intermediate_path = "../results/intermediate/";
+    this->intermediate_path = "../results/data/intermediate/";
     this->min_length = min_length;
     this->max_length = max_length;
     this->accept_language = accept_language;
@@ -259,8 +259,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
 
-    //copy input to output
-    //TODO: Read from input_path's files, and write to output_path in jsonl format.
+    //Read from input_path's files, and write to output_path in jsonl format.
     ConvertInputFilesToJsonl(this->input_path,this->output_path);
 
 }
@@ -287,13 +286,11 @@ CorpusCleaner::~CorpusCleaner()
 void CorpusCleaner::LengthFilter(Document &document)
 {  
     uint32_t line_length = strlen_utf8(document.text);
-    if (line_length < this->min_length || this->max_length < line_length) {
-        // #pragma omp ordered 
+    if (line_length < this->min_length || this->max_length < line_length) {     
         document.is_rejected=true;
         document.metadata.insert(__func__);
     }
 }
-
 
 /**
  * @brief KenLM's Perplexity Quality filtering 
@@ -539,11 +536,8 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
  *  https://github.com/diasks2/pragmatic_segmenter#golden-rules-japanese
  * @attention 
 **/
-Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_folder_path)
+void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_folder_path)
 {
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
-
     string target_line="",source_line="";
     vector<string> file_list;
     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
@@ -555,32 +549,32 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
         while (getline(target_file, target_line)) {
             vector<string> segments;
             Document document;
-            ReadDocumentFromJsonlOneLine(document,target_line);
-            SegmentSentence(document.text, segments);
-            uint64_t sentence_count=0;
-            // for(auto segment:segments)  cout << segment <<" , ";
-            if((int64_t)segments.size()!=1){
-                for(auto sentence:segments){
-                    Document document_segmented = document;
-                    document_segmented.text = sentence;
-                    document_segmented.id = document.id+"_"+to_string(sentence_count);
-                    document_segmented.metadata.insert(__func__);
-                    WriteDocumentToJsonl(document_segmented,output_file_path);
-                }
+            try{ReadDocumentFromJsonlOneLine(document,target_line);}
+            catch(...){continue;}
+            
+            try{SegmentSentence(document.text, segments);}
+            catch(...){
+                StoreException(__func__, "target_line:{"+target_line+"}");
+                continue;
             }
-            else    WriteDocumentToJsonl(document,output_file_path);
+            
+            try{    
+                uint64_t sentence_count=0;
+                // for(auto segment:segments)  cout << segment <<" , ";
+                if((int64_t)segments.size()!=1){
+                    for(auto sentence:segments){
+                        Document document_segmented = document;
+                        document_segmented.text = sentence;
+                        document_segmented.id = document.id+"_"+to_string(sentence_count);
+                        document_segmented.metadata.insert(__func__);
+                        WriteDocumentToJsonl(document_segmented,output_file_path);
+                    }
+                }
+                else    WriteDocumentToJsonl(document,output_file_path);
+            }
+            catch(...){continue;}
         }
     }
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    //TODO: fix here.
-    Stats stats;
-    stats.elapsed_time=elapsed;
-    stats.file_name="";
-    stats.process_name=__func__;
-    stats.result_file_size=-1;
-    return stats;
 }
 
 /**
@@ -600,11 +594,8 @@ Stats CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_f
  * @ref 
  * @attention TODO: fix return stats.
 **/
-Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_folder_path)
+void CorpusCleaner::ExactDeduplication(string input_folder_path, string output_folder_path)
 {
-    chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
-
     string target_line="",source_line="";
     vector<string> file_list;
     bool duplication=false;
@@ -614,6 +605,7 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
     for(int i=0;i<(int)file_list.size();i++){
         ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
         string  output_file_path(this->output_path+"/"+file_list[i]+".jsonl");
+
         uint32_t target_counter=0,source_counter=0;
         while (getline(target_file, target_line)) {
             duplication=false;
@@ -624,45 +616,52 @@ Stats CorpusCleaner::ExactDeduplication(string input_folder_path, string output_
             for(int j=i;j<(int)file_list.size();j++){
                 ifstream source_file(input_folder_path+"/"+file_list[j]+".jsonl"); 
                 while(getline(source_file,source_line)){
-                    Document source_document;
-                    source_counter++;
-                    ReadDocumentFromJsonlOneLine(source_document,source_line);
-                    // cout << "target:"<<file_list[i]+".jsonl line:"<<target_counter<<" text"<<target_document.text<<" ";
-                    // cout << "source:"<<file_list[j]+".jsonl line:"<<source_counter<<" text"<<source_document.text<<endl;
-                    if(input_folder_path+"/"+file_list[i]+".jsonl"==input_folder_path+"/"+file_list[j]+".jsonl"&&target_counter>=source_counter)continue;
+                    try{
+                        Document source_document;
+                        source_counter++;
+                        ReadDocumentFromJsonlOneLine(source_document,source_line);
+                        // cout << "target:"<<file_list[i]+".jsonl line:"<<target_counter<<" text"<<target_document.text<<" ";
+                        // cout << "source:"<<file_list[j]+".jsonl line:"<<source_counter<<" text"<<source_document.text<<endl;
+                        if(input_folder_path+"/"+file_list[i]+".jsonl"==input_folder_path+"/"+file_list[j]+".jsonl"&&target_counter>=source_counter)continue;
 
-                    // check duplication
-                    if(target_document.is_rejected||source_document.is_rejected) continue;
-                    // deduplicate
-                    if(target_document.text==source_document.text){
-                        duplication=true;
-                        // cout << "Deduplicated." << endl;
-                        target_document.is_rejected=true;
-                        // cout <<target_document.is_rejected<<endl;
-                        target_document.metadata.insert(__func__);
-                        break;
+                        // check duplication
+                        if(target_document.is_rejected||source_document.is_rejected) continue;
+                        // deduplicate
+                        if(target_document.text==source_document.text){
+                            duplication=true;
+                            // cout << "Deduplicated." << endl;
+                            target_document.is_rejected=true;
+                            // cout <<target_document.is_rejected<<endl;
+                            target_document.metadata.insert(__func__);
+                            break;
+                        }
+                    }
+                    catch(...){
+                        cout << "exception" << endl;
+                        source_counter++;
+                        StoreException(__func__, 
+                                      "source_file{"+input_folder_path+"/"+file_list[j]+".jsonl"+"},source_counter{"+to_string(source_counter)+"}");
+                        
                     }
                 }
                 if(duplication)break;
             }
             WriteDocumentToJsonl(target_document,output_file_path);
+            // cout << "WriteDocumentToJsonl" << endl;
             // CopyFile(output_folder_path+"/"+file_list[i]+".jsonl",input_folder_path+"/"+file_list[i]+".jsonl");
         }
     }
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    //TODO: fix here.
-    Stats stats;
-    stats.elapsed_time=elapsed;
-    stats.file_name="";
-    stats.process_name=__func__;
-    stats.result_file_size=-1;
-    return stats;
 }
 
 
-
+/**
+ * @brief PipelineStep
+ * @details 
+ * @param Document &document: document is to be filtered
+ * @param void (CorpusCleaner::*cleaner)(Document &): filter function list
+ * @return Stats: statics imformation of this function.
+ * @ref 
+**/
 Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &))
 {
     chrono::system_clock::time_point start, end;
@@ -681,6 +680,40 @@ Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*clea
     double elapsed = chrono::duration_cast<chrono::duration<double>>(end - start).count(); 
     // TODO: fix second parameters
     return MakeStats(__func__,"",elapsed);
+}
+
+/**
+ * @brief PipelineStep for all files in folder
+ * @details 
+ * @param Document &document: document is to be filtered
+ * @param void (CorpusCleaner::*cleaner)(Document &): filter function list
+ * @return Stats: statics imformation of this function.
+ * @ref 
+**/
+Stats CorpusCleaner::PipelineStepForFoldersAll(string input_folder_path, 
+                                               string output_folder_path,
+                                               void (CorpusCleaner::*cleaner)(string ,string ))
+{
+   chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now(); 
+
+    try{ (this->*cleaner)(input_folder_path, output_folder_path); }
+    catch(...){
+        //cout << "Exeption(PipelineStepForFoldersAll): "<<document.id <<" "<<document.text << endl;
+        //StoreException(__func__, "document.text{"+document.text+"}");
+        throw;
+        return MakeStats(__func__,"",0);
+    }
+
+    end = chrono::system_clock::now(); 
+    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
+    //TODO: fix here.
+    Stats stats;
+    stats.elapsed_time=elapsed;
+    stats.file_name="";
+    stats.process_name=__func__;
+    stats.result_file_size=-1;
+    return stats;
 }
 
 /**
@@ -710,7 +743,7 @@ Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*clea
  *  At this time, processing is performed in the order of 
  *  1. URLRemover, 2. ExcessFilter, and 3. SpecialCharacterRemover.
 **/
-double CorpusCleaner::CleanPipeline()
+int32_t CorpusCleaner::CleanPipeline(void)
 {
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
@@ -725,15 +758,16 @@ double CorpusCleaner::CleanPipeline()
         &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,
         }; 
-    vector<Stats (CorpusCleaner::*)(string,string)> deduplicate_list = { 
+    vector<void (CorpusCleaner::*)(string,string)> deduplicate_list = { 
         &CorpusCleaner::ExactDeduplication, 
         }; 
     
     if(this->sentence_segment==true){
+        cout << "### Execute Sentence Segmenter. ###" << endl;
         // Loop processing as many times as deduplicate_list
         MoveFolder(this->output_path, this->intermediate_path); 
-        Stats stats = SentenceSegmenter(this->intermediate_path,this->output_path);
-        OutputStats(stats);
+        SentenceSegmenter(this->intermediate_path,this->output_path);
+        // OutputStats(stats);
     }
     
     vector<string> filename_list;
@@ -742,13 +776,15 @@ double CorpusCleaner::CleanPipeline()
     // Get list of files in intermediate folder
     GetFileNameListWithoutExtention(this->intermediate_path,&filename_list);
 
-    // Execute the each CorpusCleaner processing on all files in the intermediate folder.
+    cout << "### Excecute CleanPipeline. ###" << endl;
+    // Execute the each CorpusCleaner processing on all files in the intermediate folder. 
     for (auto filename: filename_list){
         // load data
+        cout << "Start Cleaning "+this->intermediate_path+"/"+filename+".jsonl" << endl;
         ifstream input_file(this->intermediate_path+"/"+filename+".jsonl");
-        string  output_file_path(this->output_path+"/"+filename+".jsonl");
+        string  output_file_path(this->output_path+"/"+filename+".jsonl"); 
         string line="";
-        uint64_t line_count=-1;
+        uint64_t line_count=-1; 
         Document document;
         while (getline(input_file, line)) {
             line_count++;   
@@ -772,10 +808,13 @@ double CorpusCleaner::CleanPipeline()
         input_file.close();   
     }
     
+    cout << "### Execute ExactDeduplication. ###" << endl;
     // Loop processing as many times as deduplicate_list
     for (const auto& step : deduplicate_list) {
         MoveFolder(this->output_path, this->intermediate_path); 
-        Stats stats = (this->*step)(this->intermediate_path,this->output_path);
+        Stats stats = PipelineStepForFoldersAll(this->intermediate_path,
+                                                this->output_path,
+                                                step);  
         OutputStats(stats);
     }
     return 0;
