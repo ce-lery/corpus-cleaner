@@ -10,7 +10,8 @@ log=results/log/$(basename "$0" .sh)/$(date +%Y%m%d_%H%M%S).log
 exec &> >(tee -a $log)
 set -x
 
-git clone https://github.com/kpu/kenlm.git
+mkdir -p ../corpus_cleaner/kenlm
+git clone https://github.com/kpu/kenlm.git ../corpus_cleaner/kenlm
 wget -c -P ../corpus_cleaner http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
 
 mkdir -p ../tests/build

@@ -6,26 +6,29 @@
 ## Overview
 
 Welcome to my repository!   
-This repository is a library for quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus. This library wraps around [huggingface/datatrove](https://github.com/huggingface/datatrove).  
+This repository is a library for quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus. 
 
 The features are following table.
 
-<!-- |Features|Examples|Details|Remarks|
-|:--|:--|:--|:--|
-|[Normalizer](corpus_cleaner/normalizer.py#L6)|[here](examples/example_normalizer.py)|Normalize sentences using [neologdn](https://github.com/ikegami-yukino/neologdn). Neologdn's normalization contents include, for example, "replace half-width katakana with full-width" and "replace full-width spaces with half-width spaces."|See [here](https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja) for details on normalization contents.|
-|[Remove emoji](corpus_cleaner/remover.py#L8)|[here](examples/example_remover.py)|Remove emojis using [emoji](https://pypi.org/project/emoji/) library.||
-|[Remove URL](corpus_cleaner/remover.py#L22)|[here](examples/example_remover.py)|Remove URLs matching regular expression.||
-|[Remove kaomoji](corpus_cleaner/remover.py#L39)|[here](examples/example_remover.py)|Remove emoticons that exactly match the list in kaomoji.txt.<br>Approximately 1,400 types of emoticons will be removed.|Before using this feature, we recommend normalizing the text using TxtNormalizer().|
-|[Remove special characters](corpus_cleaner/remover.py#L61)|[here](examples/example_remover.py)|Remove special character.<br> For example, ☀, ♡, ☆, and so on.<br>Removes special characters within a specific Unicode range.|Please refer [this URL](https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html).<br>Special characters to be removed include some emojis.|
-|[ftfy Fixer](corpus_cleaner/fixer.py#L6)|[here](examples/example_fixer.py)|Fix broken Unicode using [ftfy](https://ftfy.readthedocs.io/en/latest/).|Inspired by [NVIDIA NeMo Data Curator](https://docs.nvidia.com/nemo-framework/user-guide/latest/modelguide/pretrainingdatasets/index.html).|
-|[Sentence Segmentation](corpus_cleaner/splitter.py)|[here](examples/example_splitter.py)|Execute Rule-based sentence separation (sentence segmentation) using [ja_sentence_segmenter](https://github.com/wwwcojp/ja_sentence_segmenter).|Please refer this [article](https://qiita.com/heimaru1231/items/b6ed09d4787e4e28175a).|
-|[Excess Filtering](corpus_cleaner/excess_filter.py)|[here](examples/example_excess_filter.py)|Remove too long sentence and too short sentence.||
-|[Sentence Deduplication](https://github.com/huggingface/datatrove/blob/main/src/datatrove/pipeline/dedup/sentence_dedup.py)|[here](examples/example_sentence_deduplication.py)|Remove sentences that match exactly.|This function's implementation is in the [huggingface/datatrove](https://github.com/huggingface/datatrove).|
-|[Minhash Deduplication](corpus_cleaner/minhash.py)|[here](examples/example_minhash.py)|Deduplicate sentence using minhash.<br>Unlike the default minhash, Mecab is used when tokenizing sentences.||
-|[Txt Reader](corpus_cleaner/txt_reader.py)|[here](examples/example_txt_reader.py)|BaseDiskReader that reads .txt file. |[Datatrove Readers](https://github.com/huggingface/datatrove/tree/main/src/datatrove/pipeline/readers) can read other formats (.csv,.json, ...etc.). Please read [here](https://github.com/huggingface/datatrove?tab=readme-ov-file).|
-|[Txt Writer](corpus_cleaner/txt_writer.py)|[here](examples/example_remover.py)|DiskWriter that writes .txt file.|[Datatrove](https://github.com/huggingface/datatrove/tree/main/src/datatrove/pipeline/writers) can write other formats (.csv,.json, ...etc.). Please read [here](https://github.com/huggingface/datatrove?tab=readme-ov-file).|
-|[Language filter](https://github.com/huggingface/datatrove/blob/main/src/datatrove/pipeline/filters/language_filter.py)|[here](examples/example_language_filter.py)|Classify sentence composition language and quality using fastText.|This function's implementation is in the huggingface/datatrove. Please refer [fastText](https://fasttext.cc/docs/en/crawl-vectors.html).|
-|[Cleaned Analysys](corpus_cleaner/analysis.py)|[here](examples/example_analysis.py)|Visualize the file size of the dataset before and after corpus cleaning.|| -->
+|Features|Details|Remarks|
+|:--|:--|:--|
+|[Normalizer](corpus_cleaner/normalizer.py#L6)|Normalize sentences using [neologdn](https://github.com/ikegami-yukino/neologdn). Neologdn's normalization contents include, for example, "replace half-width katakana with full-width" and "replace full-width spaces with half-width spaces."|See [here](https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja) for details on normalization contents.|
+|[Emoji Remover](corpus_cleaner/remover.py#L8)|Remove emojis using [emoji](https://pypi.org/project/emoji/) library.||
+|[URL Remover](corpus_cleaner/remover.py#L22)|Remove URLs matching regular expression.||
+|[Quotes Remover](corpus_cleaner/remover.py#L22)|Remove quotes. For example, [1], {245}, and so on.||
+|[Special Characters Remover](corpus_cleaner/remover.py#L61)|Remove special character.<br> For example, ☀, ♡, ☆, and so on.<br>Removes special characters within a specific Unicode range.|Please refer [this URL](https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html).<br>Special characters to be removed include some emojis.|
+|[Sentence Segmenter](corpus_cleaner/splitter.py)|Execute Rule-based sentence separation (sentence segmentation) using [ja_sentence_segmenter](https://github.com/wwwcojp/ja_sentence_segmenter).|Please refer this [article](https://qiita.com/heimaru1231/items/b6ed09d4787e4e28175a).|
+|[Length Filter](corpus_cleaner/excess_filter.py)|Remove too long sentence and too short sentence.||
+|[Sentence Deduplicater](https://github.com/huggingface/datatrove/blob/main/src/datatrove/pipeline/dedup/sentence_dedup.py)|Remove sentences that match exactly.|This function's implementation is in the [huggingface/datatrove](https://github.com/huggingface/datatrove).|
+|[Minhash Deduplicater](corpus_cleaner/minhash.py)|Deduplicate sentence using minhash.<br>Unlike the default minhash, Mecab is used when tokenizing sentences.||
+|[Language Filter](https://github.com/huggingface/datatrove/blob/main/src/datatrove/pipeline/filters/language_filter.py)|Classify sentence composition language and quality using fastText.<br> This function is applied to japanese and english.|This function's implementation is in the huggingface/datatrove. Please refer [fastText](https://fasttext.cc/docs/en/crawl-vectors.html).|
+|[Perplexity Filter](https://github.com/huggingface/datatrove/blob/main/src/datatrove/pipeline/filters/language_filter.py)|Classify sentence composition language and quality using fastText.|This function's implementation is in the huggingface/datatrove. Please refer [fastText](https://fasttext.cc/docs/en/crawl-vectors.html).|
+
+
+<!-- |[Remove kaomoji](corpus_cleaner/remover.py#L39)|Remove emoticons that exactly match the list in kaomoji.txt.<br>Approximately 1,400 types of emoticons will be removed.|Before using this feature, we recommend normalizing the text using TxtNormalizer().|
+|[ftfy Fixer](corpus_cleaner/fixer.py#L6)|Fix broken Unicode using [ftfy](https://ftfy.readthedocs.io/en/latest/).|Inspired by [NVIDIA NeMo Data Curator](https://docs.nvidia.com/nemo-framework/user-guide/latest/modelguide/pretrainingdatasets/index.html).|
+|[Txt Reader](corpus_cleaner/txt_reader.py)|BaseDiskReader that reads .txt file. |[Datatrove Readers](https://github.com/huggingface/datatrove/tree/main/src/datatrove/pipeline/readers) can read other formats (.csv,.json, ...etc.). Please read [here](https://github.com/huggingface/datatrove?tab=readme-ov-file).|
+|[Txt Writer](corpus_cleaner/txt_writer.py)|DiskWriter that writes .txt file.|[Datatrove](https://github.com/huggingface/datatrove/tree/main/src/datatrove/pipeline/writers) can write other formats (.csv,.json, ...etc.). Please read [here](https://github.com/huggingface/datatrove?tab=readme-ov-file).|-->
 
 ## Quick Started
 
@@ -37,21 +40,72 @@ If you want to try out the contents of this repository quickly and easily, pleas
 Build a python environment using Docker files.
 
 ```bash
-git clone https://github.com/ce-lery/corpus-cleaner-cpp.git
-cd corpus-cleaner-cpp
-docker build -t corpus-cleaner-cpp-image ./
-docker run -v ./:/home/corpus-cleaner-cpp/ -it --gpus all corpus-cleaner-cpp-image
+git clone https://github.com/ce-lery/corpus-cleaner.git
+cd corpus-cleaner
+docker build -t corpus-cleaner-image ./
+docker run -v ./:/home/corpus-cleaner/ -it --gpus all corpus-cleaner-image
 ```
 
 Run the shell script with the following command.  
-Execute python virtual environment construction, pretrain, and fine tuning in order.  
 
 ```bash
-bash run_all.sh
+bash scripts/setup.sh
 ```
 
+Build source code of corpus-cleaner.
+
+```bash
+bash scripts/build.sh
+```
+
+Run corpus_cleaner.
+
+```bash
+./corpus_cleaner/build/corpus_cleaner
+```
+
+
 ## Usage
-TBD.
+
+### Basic usage
+
+The basic usage of corpus-cleaner is same as [Getting Started](#Getting_Started).
+
+### Select Filtering feature
+
+If you want to disable Sentence Segmenter, please set "bool sentence_segment=false", and create instance of CorpusCleaner class.
+
+```bash
+```
+
+If you want to disable filter, please Comment out the corresponding filter function in the variable TODO:. 
+
+
+
+
+Maybe, this step will be changed in the future.
+
+### Add new filtering feature
+
+You can add your original filtering feature. Please do the following steps.
+
+1. Write the Filtering function in corpus_cleaner.cpp.  
+    ```cpp
+    aa
+    aa
+    ```
+2. Define the prototype declaration in corpus_cleaner.hpp.  
+    ```cpp
+    ```
+3. Build source code of corpus-cleaner.  
+    ```bash
+    bash scripts/build.sh
+    ```
+4. Run corpus_cleaner.
+    ```bash
+    ./corpus_cleaner/build/corpus_cleaner
+    ```
+
 <!-- The basic flow is as follows.
 
 1. Download dataset.

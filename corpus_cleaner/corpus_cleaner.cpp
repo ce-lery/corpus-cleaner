@@ -219,7 +219,7 @@ void OutputStats(Stats stats)
 **/
 void StoreException(string function_name, string reference)
 {
-    string filename = "../results/data/exception/exception.txt";
+    string filename = "../../results/dataset/exception/exception.txt";
     ofstream output_file(filename, ios::app);
     
     output_file << "Function Name: "<< function_name << " , ";
@@ -242,14 +242,14 @@ CorpusCleaner::CorpusCleaner(string input_path,
 {
     this->input_path = input_path;
     this->output_path = output_path;
-    this->intermediate_path = "../results/data/intermediate/";
+    this->intermediate_path = "../../results/dataset/intermediate/";
     this->min_length = min_length;
     this->max_length = max_length;
     this->accept_language = accept_language;
     this->sentence_segment = sentence_segment;
     this->language_threshold = language_threshold;
     this->perplexity_threshold = perplexity_threshold;
-    // this->blacklist_path =  "../results/others/blacklist.jsonl";
+    // this->blacklist_path =  "../../results/others/blacklist.jsonl";
     // this->store_blacklist = true;
     this->generate_dedup_lsh=generate_dedup_lsh;
     this->deduplicator=deduplicator;
@@ -278,7 +278,6 @@ CorpusCleaner::~CorpusCleaner()
  *  Remove too long sentence that is length is more thanand too short sentence.
  *  The length of too long sentence is more than "max_length".
  *  The length of too short sentence is lesser than "min_length".
- * @example TODO
  * @param Document &document: single line text to clean be cleaned
  * @return void: None
  * @attention 
@@ -367,7 +366,6 @@ void CorpusCleaner::LanguageFilter(Document &document)
  * @details 
  *  Remove URLs matching regular expression.
  *  The regular expression is "(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)".
- * @example TODO
  * @param Document &document: single line text to clean be cleaned
  * @return void: None
  * @attention 
@@ -426,7 +424,6 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
  *  The C++ regex library does not support 4-byte characters. 
  *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
  *  So, in a full search, those that completely match the pictogram are searched and removed.
- * @example TODO
  * @param Document &document: single line text to be cleaned
  * @return void: None
  * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
@@ -446,11 +443,10 @@ void CorpusCleaner::EmojiRemover(Document &document)
 }
 
 /**
- * @brief Remove remarks. For example, [1], {245}, and so on.
+ * @brief Remove quotes. For example, [1], {245}, and so on.
  * @details 
  *  Remove remarks matching regular expression.
  *  The regular expression is "(\[([0-9]+)\]|\{([0-9]+)\})".
- * @example TODO
  * @param Document &document: single line text to be cleaned
  * @return void: None
  * @attention Don't use this on corpus that contain formulas or programs.
@@ -469,7 +465,6 @@ void CorpusCleaner::QuotesRemover(Document &document)
  * @brief Neologd Normalize sentence
  * @details 
  *  Please Refer document of "NormalizeNeologd()"
- * @example TODO
  * @param string input_path: The path of filterd file.
  * @param string output_path: The output path of results file.
  * @return Stats: statics imformation of this function.
@@ -761,7 +756,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
     vector<void (CorpusCleaner::*)(string,string)> deduplicate_list = { 
         &CorpusCleaner::ExactDeduplication, 
         }; 
-    
+    cout << "### Start Clean Pipeline. ###" << endl;
     if(this->sentence_segment==true){
         cout << "### Execute Sentence Segmenter. ###" << endl;
         // Loop processing as many times as deduplicate_list
