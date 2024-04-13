@@ -1,7 +1,7 @@
 {"text":"自民党税制調査会の幹部は、「引き下げ幅は３．２９％以上を目指すことになる。」と指摘していて、今後、公明党と合意したうえで、３０日に決定する与党税制改正大綱に盛り込むことにしています。","id":"test_SentenceSegmentater2_0","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
 {"text":"自民党税制調査会の幹部は、 [引き下げ幅は３．２９％以上を目指すことになる。]と指摘した。","id":"test_SentenceSegmentater2_1","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
 {"text":"自民党税制調査会の幹部は、 (引き下げ幅は３．２９％以上を目指すことになる。)と指摘した。","id":"test_SentenceSegmentater2_2","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
-{"text":"自民党税制調査会の幹部は、 "引き下げ幅は３．２９％以上を目指すことになる。"と指摘した。","id":"test_SentenceSegmentater2_3","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"自民党税制調査会の幹部は、 \\\"引き下げ幅は３．２９％以上を目指すことになる。\\\"と指摘した。","id":"test_SentenceSegmentater2_3","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
 {"text":"自民党税制調査会の幹部は、 「引き下げ幅は３．２９％以上を目指すことになる。","id":"test_SentenceSegmentater2_4_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
 {"text":"と指摘した。","id":"test_SentenceSegmentater2_4_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
-{"text":"自民党税制調査会の幹部は、 「引き下げ幅は"３．２９％!"以上を目指すことになる。」と指摘した。","id":"test_SentenceSegmentater2_5","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"自民党税制調査会の幹部は、 「引き下げ幅は\\\"３．２９％!\\\"以上を目指すことになる。」と指摘した。","id":"test_SentenceSegmentater2_5","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}

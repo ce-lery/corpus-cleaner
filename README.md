@@ -181,6 +181,7 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [ ] Implement tqdm.
 - [ ] Write document & create doxygen
 - [ ] Implement "," filter
+- [ ] Implement dump .txt format file(only is_removed=false).
 
 
 ### ver.0.2.0

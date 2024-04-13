@@ -10,9 +10,9 @@ int main(void)
     uint32_t max_length = 1000;
     set<string> accept_language{"__label__ja"};
 //  RemoveFolder(output_folder_path);
-    bool execute_sentence_segment = true;
+    bool execute_sentence_segment = false; // TODO: switch true
     double language_threshold = 0.3;
-    double perplexity_threshold = 15000;
+    double perplexity_threshold = 23000;
     
     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
     LSHDeduplicator deduplicator(true,"../../results/dataset/blacklist.txt",true,5120);

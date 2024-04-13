@@ -202,6 +202,43 @@ void GetFileNameListWithoutExtention(const string folder_path, vector<string> *f
 }
 
 /**
+ * @brief Get file line number list
+ * @details 
+ * @example
+ *   string folder_path = "../data/input/";
+ *   vector<string> file_list;
+ *   GetFileNameListWithoutExtention(folder_path,&file_list);
+ *   vector<string> file_line_number_list;
+ *   GetFileLineNumberList(folder_path,&file_list,&file_line_number_list);
+ * @param const string folder_path: folder path
+ * @param const vector<string> *file_list: (return) filename list
+ * @param const string file_extention: file extention of file_list (".json",".txt", and so on.)
+ * @param vector<uint64_t> *file_line_number_list: (return) file line number list
+ * @return None
+ * @attention 
+**/
+void GetFileLineNumberList(const string folder_path, 
+                           const vector<string> *file_list,
+                           const string file_extention,
+                           vector<uint64_t> *file_line_number_list)
+{
+    uint64_t line_count=0;
+    for(int i=0;i<(int)file_list->size();i++){
+        ifstream input_file(folder_path+(*file_list)[i]+file_extention);
+        cout << folder_path+(*file_list)[i]+file_extention << endl;
+        string line="";
+        line_count=0;
+        while(getline(input_file,line)) line_count++;
+        
+        file_line_number_list->push_back(line_count);
+        cout << "file_name:"<<(*file_list)[i]+file_extention<<endl;
+        cout << "file_lines:"<<(*file_line_number_list)[i]<<endl;
+        input_file.close();
+    }
+    return;
+}
+
+/**
  * @brief Convert string to Wstring
  * @details
  * @example
@@ -393,4 +430,61 @@ void GetFileNameListAddedJsonl(const vector<string> &file_path_list,
         string filepath_witout_extention = GetFilePathWithoutExtention(file_path);
         jsonl_file_path_list.push_back(filepath_witout_extention+".jsonl");
     }
+}
+
+/**
+ * @brief Escape word
+ * @details
+ * If " or ' or \, replace to \", \', and \\.
+ *
+ * Example:
+ * 
+ *   string input = """;
+ *   string output =  EscapeWord(input);
+ *   // output == "\""
+ * @param const string& sentence: text sentence
+ * @return string: converted sentence
+ * @attention
+**/
+string EscapeWord(const string& input) 
+{
+    string output="";
+    for(char word: input){
+        if(word == L'\"') output+= "\\\"";
+        else if(word == '\\') output+="\\\\";
+        else if(word == '\'') output+="\\\'";
+        else if(word == '\t') output+="\\\t";
+        else output+=word;
+    } 
+    return output;
+    // else if(word == '　') output+="\\u3000";
+}
+
+/**
+ * @brief Update progress bar
+ * @details 
+ * @example
+ * @param uint64_t line_count
+ * @param uint64_t file_line_number
+ * @return None
+ * @attention 
+**/
+void ProceedProgressBar(unsigned long long line_count,unsigned long long file_line_number,uint32_t elapsed_time_ms)
+{
+    if(file_line_number==0) return;
+
+    unsigned long long progress_percentage = (unsigned long long)((double(line_count))/double(file_line_number)*100);
+    printf("\r%llu%% |",progress_percentage);
+    for(int i=0;i<int(progress_percentage/5);i++) printf("█");
+    for(int i=0;i<int(20-progress_percentage/5);i++) printf(" ");
+    printf("| %llu/%llu",line_count,file_line_number);
+
+    uint32_t hours = elapsed_time_ms / (1000 * 60 * 60);
+    uint32_t minutes = (elapsed_time_ms / (1000 * 60)) % 60;
+    uint32_t seconds = (elapsed_time_ms / (1000)) % 60;
+
+    printf(" [%02d:%02d:%02d",hours,minutes,seconds);
+    printf("<XX:XX:XX, Xit/s");
+    printf("]");
+    if (progress_percentage==100)   printf("\n");
 }

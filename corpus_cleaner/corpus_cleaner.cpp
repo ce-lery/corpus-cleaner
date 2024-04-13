@@ -78,6 +78,8 @@ void WriteDocumentToJsonl(Document &document,
                          string output_file_path)
 {
     try{
+        document.text = EscapeWord(document.text);
+  
         ofstream output_file(output_file_path, ios::app);
         
         output_file << "{" ;
@@ -141,24 +143,37 @@ void ConvertInputFilesToJsonl(const string input_folder_path,
 {
 
     string target_line="",source_line="";
-    vector<string> file_list;
+    cout << "### Convert input file(.txt) to .jsonl. ###" << endl;
+
+    vector<string> filename_list;
+    vector<uint64_t> file_line_number_list;
+
     // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-    GetFileNameListWithoutExtention(input_folder_path,&file_list);
-    Document document; 
+    GetFileNameListWithoutExtention(input_folder_path,&filename_list);
+    GetFileLineNumberList(input_folder_path,&filename_list,".txt",&file_line_number_list);
+    
     string line;
     // Compare all lines of source_file and target_file
-    for(int i=0;i<(int)file_list.size();i++){
-        ifstream input_file(input_folder_path+"/"+file_list[i]+".txt"); 
-        string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
-        uint64_t line_count =0;
+    for(int i=0;i<(int)filename_list.size();i++){
+        string filename = filename_list[i];
+        uint64_t file_line_number = file_line_number_list[i];
+        ifstream input_file(input_folder_path+"/"+filename+".txt"); 
+        string output_file_path(output_folder_path+"/"+filename+".jsonl");
+        uint64_t line_count = 0;
+        chrono::system_clock::time_point start, end;
+        start = chrono::system_clock::now();
+
         while(getline(input_file, line)){
-            // AddEscapeSequence(line);
-            ConvertTextToDocument(line,file_list[i],to_string(line_count),document);
+            Document document; 
+            end = std::chrono::system_clock::now();
+            uint32_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+            ProceedProgressBar(line_count+1,file_line_number,elapsed_time);
+            ConvertTextToDocument(line,filename,to_string(line_count),document);
             WriteDocumentToJsonl(document,output_file_path);
             line_count++;
         }
         input_file.close();
-
     } 
 }   
 
@@ -183,11 +198,13 @@ Stats MakeStats(string process_name,
 {
     Stats stats;
 
-    int index_filename = output_path.find_last_of("/")+1;
+    // int index_filename = output_path.find_last_of("/")+1;
     stats.process_name=process_name;
-    stats.file_name=output_path.substr(index_filename);
+    // stats.file_name=output_path.substr(index_filename);
+    stats.file_name="";
     stats.elapsed_time=elapsed_time;
-    stats.result_file_size=filesystem::file_size(output_path);
+    // stats.result_file_size=filesystem::file_size(output_path);
+    stats.result_file_size=0;
     return stats;
 }   
 
@@ -254,12 +271,16 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->generate_dedup_lsh=generate_dedup_lsh;
     this->deduplicator=deduplicator;
 
-    // this->deduplicator = deduplicator; 
+
+    // TODO: remove intermediate,output,exception
 
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
+    mkdir("../../results/dataset/exception/", 0777);
+    // TODO: mkdir black list path 
 
     //Read from input_path's files, and write to output_path in jsonl format.
+    // TODO: uncommentout next line
     ConvertInputFilesToJsonl(this->input_path,this->output_path);
 
 }
@@ -267,7 +288,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
 CorpusCleaner::~CorpusCleaner()
 {
     //remove intermediate folder
-    RemoveFolder(this->intermediate_path);
+    // TODO: uncommentout next line
+    // RemoveFolder(this->intermediate_path);
 }
 /***member function***/
 
@@ -284,6 +306,8 @@ CorpusCleaner::~CorpusCleaner()
 **/
 void CorpusCleaner::LengthFilter(Document &document)
 {  
+    // cout << __func__ << endl;
+
     uint32_t line_length = strlen_utf8(document.text);
     if (line_length < this->min_length || this->max_length < line_length) {     
         document.is_rejected=true;
@@ -308,7 +332,8 @@ void CorpusCleaner::LengthFilter(Document &document)
 void CorpusCleaner::PerplexityFilter(Document &document)
 {
     document.perplexity = this->kenlm_filter.PerplexityWithSentencePiece(ConvertUTF8ToWstring(document.text));
-    
+    // cout << __func__ << endl;
+
     // If kenlm's perplexity is less than threshold, the text is to be rejected.
     document.is_rejected=true;
     if(document.perplexity<=this->perplexity_threshold){
@@ -342,21 +367,32 @@ void CorpusCleaner::LanguageFilter(Document &document)
     vector<pair<float, string>> predictions;
     int32_t k = 1;
     float threshold = 0.0;
+    // cout << __func__ << endl;
 
-    this->language_filter.predictOneLine(document.text, predictions, k, threshold);
-    //return pair<float, string> : float:　Language assessment score, string: Language determination results
-    pair<float,string> result = make_pair((float)predictions[0].first,predictions[0].second);
+    try{
+        this->language_filter.predictOneLine(document.text, predictions, k, threshold);
+        //return pair<float, string> : float:　Language assessment score, string: Language determination results
+        pair<float,string> result;
+        if((int)predictions.size()==0)   result=make_pair(0.0,"other"); //Remove. This case often applies to lines containing only spaces.
+        else    result = make_pair((float)predictions[0].first,predictions[0].second);
 
-    document.language = result.second;
-    document.language_score = result.first;
+        document.language = result.second;
+        document.language_score = result.first;
 
-    document.is_rejected=true;
-    if(accept_language.find(document.language)!=accept_language.end()){
-        // If fasttext's score is less than threshold, the text to be rejected.
-        if(document.language_score>=this->language_threshold){
-            document.is_rejected=false;
+        document.is_rejected=true;
+        if(accept_language.find(document.language)!=accept_language.end()){
+            // If fasttext's score is less than threshold, the text to be rejected.
+            if(document.language_score>=this->language_threshold){
+                document.is_rejected=false;
+            }
         }
     }
+    catch(...){
+        cout << "Exception:LanguageFilter" << endl;
+        throw;
+    }
+    // cout << __func__ << " completed."<< endl;
+
     if(document.is_rejected)    document.metadata.insert(__func__);
 }
 
@@ -374,7 +410,8 @@ void CorpusCleaner::URLRemover(Document &document)
 {
     static regex url_pattern(R"((https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+))");
     string sentence =  regex_replace(document.text,url_pattern,"");
- 
+    // cout << __func__ << endl;
+
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence;
 }
@@ -404,6 +441,9 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
     vector<string> start_character = {"☀","←","⌀","⤀","⬀","🀀"};
     vector<int> character_range = {512,112,256,128,256,256}; 
     string sentence=document.text;
+
+    // cout << __func__ << endl;
+
     for(int i=0;i<(int)start_character.size();i++){
         special_character = start_character[i];
         //remove special_character that is ,for example, "☀" to "⟿"
@@ -434,6 +474,9 @@ void CorpusCleaner::EmojiRemover(Document &document)
     string sentence = document.text;
     string emoji ="🌀";
     //remove emoji that is "🌀" to "🧿"
+
+    // cout << __func__ << endl;
+
     for(int i=0;i<1792;i++){
         ReplaceSubstring(sentence,emoji,"");
         emoji = CalculateNextEmoji(emoji);
@@ -456,6 +499,8 @@ void CorpusCleaner::QuotesRemover(Document &document)
     static regex remaks_pattern(R"((\[([0-9]+)\]|\{([0-9]+)\}))");
     string sentence =  regex_replace(document.text,remaks_pattern,"");
 
+    // cout << __func__ << endl;
+
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence;
 }
@@ -476,8 +521,12 @@ void CorpusCleaner::Normalizer(Document &document)
 {
     string sentence = NormalizeNeologd(document.text);
     
+    // cout << __func__ << endl;
+
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence; 
+    // cout << __func__ <<" completed"<< endl;
+
 }
 
 
@@ -504,14 +553,28 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
 {
     // Read Document from jsonl
     vector<string> lshs = this->generate_dedup_lsh->CalculateLSH(ConvertUTF8ToWstring(document.text));
-    if(this->deduplicator->Apply(&lshs)){
-        document.is_rejected = true;
-        document.metadata.insert(__func__);
-    }
+    
+    // cout << __func__ << endl;
 
-    //If seen is greater than or equal to bucket_size, clear seen to 0
-    if(this->deduplicator->SizeOfSeen()>=this->deduplicator->GetTotalBucketSize()){
-        this->deduplicator->InitializeSeen();
+    try{
+        // cout <<1<<endl;
+        if(this->deduplicator->Apply(&lshs)){
+            document.is_rejected = true;
+            document.metadata.insert(__func__);
+        }
+        // cout <<2<<endl;
+
+        //If seen is greater than or equal to bucket_size, clear seen to 0
+        if(this->deduplicator->SizeOfSeen()>=this->deduplicator->GetTotalBucketSize()){
+            // cout <<4<<endl;
+            this->deduplicator->InitializeSeen();
+        }
+        // cout <<3<<endl;
+
+    }
+    catch(...){
+        cout << "Exception:MinhashDeduplication" << endl;
+        throw;
     }
 }
 
@@ -587,7 +650,7 @@ void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_fo
  * @param string output_folder_path: output folder path
  * @return Stats: statics imformation of this function.
  * @ref 
- * @attention TODO: fix return stats.
+ * @attention This filter's speed is too late!!! Don't use!
 **/
 void CorpusCleaner::ExactDeduplication(string input_folder_path, string output_folder_path)
 {
@@ -636,7 +699,6 @@ void CorpusCleaner::ExactDeduplication(string input_folder_path, string output_f
                         source_counter++;
                         StoreException(__func__, 
                                       "source_file{"+input_folder_path+"/"+file_list[j]+".jsonl"+"},source_counter{"+to_string(source_counter)+"}");
-                        
                     }
                 }
                 if(duplication)break;
@@ -662,6 +724,7 @@ Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*clea
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now();
 
+    // cout << "PiepilieStep function" << endl;
     // Execute filtering function
     try{ (this->*cleaner)(document); }
     catch(...){
@@ -744,19 +807,21 @@ int32_t CorpusCleaner::CleanPipeline(void)
     // They will be executed in the order you set them.
     vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
         &CorpusCleaner::Normalizer,
+        &CorpusCleaner::LengthFilter, 
         &CorpusCleaner::LanguageFilter,
         &CorpusCleaner::URLRemover ,
         &CorpusCleaner::EmojiRemover, 
         &CorpusCleaner::SpecialCharacterRemover, 
-        &CorpusCleaner::LengthFilter, 
         &CorpusCleaner::QuotesRemover, 
         &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,
-        }; 
+    }; 
     vector<void (CorpusCleaner::*)(string,string)> deduplicate_list = { 
-        &CorpusCleaner::ExactDeduplication, 
-        }; 
+        // &CorpusCleaner::ExactDeduplication, 
+    }; 
+    
     cout << "### Start Clean Pipeline. ###" << endl;
+
     if(this->sentence_segment==true){
         cout << "### Execute Sentence Segmenter. ###" << endl;
         // Loop processing as many times as deduplicate_list
@@ -766,31 +831,46 @@ int32_t CorpusCleaner::CleanPipeline(void)
     }
     
     vector<string> filename_list;
+    vector<uint64_t> file_line_number_list;
     // copy output folder to intermediate folder
     MoveFolder(this->output_path, this->intermediate_path); 
     // Get list of files in intermediate folder
     GetFileNameListWithoutExtention(this->intermediate_path,&filename_list);
+    GetFileLineNumberList(this->intermediate_path,&filename_list,".jsonl",&file_line_number_list);
 
     cout << "### Excecute CleanPipeline. ###" << endl;
     // Execute the each CorpusCleaner processing on all files in the intermediate folder. 
-    for (auto filename: filename_list){
+    for (int i=0;i<(int)filename_list.size();i++){
         // load data
-        cout << "Start Cleaning "+this->intermediate_path+"/"+filename+".jsonl" << endl;
-        ifstream input_file(this->intermediate_path+"/"+filename+".jsonl");
-        string  output_file_path(this->output_path+"/"+filename+".jsonl"); 
+        string filename = filename_list[i];
+        uint64_t file_line_number = file_line_number_list[i];
+        cout << "Start Cleaning "+this->intermediate_path+filename+".jsonl" << endl;
+
+        ifstream input_file(this->intermediate_path+filename+".jsonl");
+        string  output_file_path(this->output_path+filename+".jsonl"); 
         string line="";
-        uint64_t line_count=-1; 
-        Document document;
+        uint64_t line_count=-1; // The fist incrementation is overflow.
+        chrono::system_clock::time_point start, end;
+        start = chrono::system_clock::now();
+    
         while (getline(input_file, line)) {
+            Document document;
             line_count++;   
             // load data
+            // cout << "read document" << endl;
+            end = std::chrono::system_clock::now();
+            uint32_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+            ProceedProgressBar(line_count+1,file_line_number,elapsed_time);
             try{ReadDocumentFromJsonlOneLine(document,line);}
             catch(...){continue;}
-            
+
+            // cout << "pipeline step" << endl;
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
                 //TODO: Exclude strings that cannot be executed
-                Stats stats = PipelineStep(document,(cleaner));
+                try{Stats stats = PipelineStep(document,(cleaner));}
+                catch(...){continue;}
                 //OutputStats(stats);
                 // if rejected, break and turn to next line.
                 if(document.is_rejected)    break;
@@ -800,6 +880,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
             try{WriteDocumentToJsonl(document,output_file_path);}
             catch(...){continue;}
         }
+        cout << endl;
         input_file.close();   
     }
     
@@ -812,6 +893,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
                                                 step);  
         OutputStats(stats);
     }
+
     return 0;
 }
 

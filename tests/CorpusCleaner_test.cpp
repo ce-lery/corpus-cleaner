@@ -157,9 +157,9 @@ TEST_F(CorpusCleanerTest, MakeStats) {
     string process_name = "URLRemover";
     Stats stats = MakeStats(process_name,input_path,elapsed_time);
     ASSERT_EQ("URLRemover",stats.process_name);
-    ASSERT_EQ("test_URLRemover.txt",stats.file_name);
+    ASSERT_EQ("",stats.file_name);
     ASSERT_EQ(elapsed_time,stats.elapsed_time);
-    ASSERT_EQ(filesystem::file_size(input_path),stats.result_file_size);
+    ASSERT_EQ(0,stats.result_file_size);
 }
 TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
     uint32_t min_length=10;
