@@ -306,8 +306,6 @@ CorpusCleaner::~CorpusCleaner()
 **/
 void CorpusCleaner::LengthFilter(Document &document)
 {  
-    // cout << __func__ << endl;
-
     uint32_t line_length = strlen_utf8(document.text);
     if (line_length < this->min_length || this->max_length < line_length) {     
         document.is_rejected=true;
@@ -332,7 +330,6 @@ void CorpusCleaner::LengthFilter(Document &document)
 void CorpusCleaner::PerplexityFilter(Document &document)
 {
     document.perplexity = this->kenlm_filter.PerplexityWithSentencePiece(ConvertUTF8ToWstring(document.text));
-    // cout << __func__ << endl;
 
     // If kenlm's perplexity is less than threshold, the text is to be rejected.
     document.is_rejected=true;
@@ -367,7 +364,6 @@ void CorpusCleaner::LanguageFilter(Document &document)
     vector<pair<float, string>> predictions;
     int32_t k = 1;
     float threshold = 0.0;
-    // cout << __func__ << endl;
 
     try{
         this->language_filter.predictOneLine(document.text, predictions, k, threshold);
@@ -410,7 +406,6 @@ void CorpusCleaner::URLRemover(Document &document)
 {
     static regex url_pattern(R"((https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+))");
     string sentence =  regex_replace(document.text,url_pattern,"");
-    // cout << __func__ << endl;
 
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence;
@@ -441,8 +436,6 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
     vector<string> start_character = {"☀","←","⌀","⤀","⬀","🀀"};
     vector<int> character_range = {512,112,256,128,256,256}; 
     string sentence=document.text;
-
-    // cout << __func__ << endl;
 
     for(int i=0;i<(int)start_character.size();i++){
         special_character = start_character[i];
@@ -475,8 +468,6 @@ void CorpusCleaner::EmojiRemover(Document &document)
     string emoji ="🌀";
     //remove emoji that is "🌀" to "🧿"
 
-    // cout << __func__ << endl;
-
     for(int i=0;i<1792;i++){
         ReplaceSubstring(sentence,emoji,"");
         emoji = CalculateNextEmoji(emoji);
@@ -499,8 +490,6 @@ void CorpusCleaner::QuotesRemover(Document &document)
     static regex remaks_pattern(R"((\[([0-9]+)\]|\{([0-9]+)\}))");
     string sentence =  regex_replace(document.text,remaks_pattern,"");
 
-    // cout << __func__ << endl;
-
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence;
 }
@@ -520,12 +509,9 @@ void CorpusCleaner::QuotesRemover(Document &document)
 void CorpusCleaner::Normalizer(Document &document)
 {
     string sentence = NormalizeNeologd(document.text);
-    
-    // cout << __func__ << endl;
 
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence; 
-    // cout << __func__ <<" completed"<< endl;
 
 }
 
@@ -553,9 +539,6 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
 {
     // Read Document from jsonl
     vector<string> lshs = this->generate_dedup_lsh->CalculateLSH(ConvertUTF8ToWstring(document.text));
-    
-    // cout << __func__ << endl;
-
     try{
         // cout <<1<<endl;
         if(this->deduplicator->Apply(&lshs)){
@@ -887,7 +870,6 @@ int32_t CorpusCleaner::CleanPipeline(void)
     cout << "### Execute ExactDeduplication. ###" << endl;
     // Loop processing as many times as deduplicate_list
     for (const auto& step : deduplicate_list) {
-        MoveFolder(this->output_path, this->intermediate_path); 
         Stats stats = PipelineStepForFoldersAll(this->intermediate_path,
                                                 this->output_path,
                                                 step);  

@@ -471,7 +471,9 @@ string EscapeWord(const string& input)
 **/
 void ProceedProgressBar(unsigned long long line_count,unsigned long long file_line_number,uint32_t elapsed_time_ms)
 {
-    if(file_line_number==0) return;
+    //Division by 0 occurs
+    if(file_line_number==0) return; 
+    if(line_count==0) return;
 
     unsigned long long progress_percentage = (unsigned long long)((double(line_count))/double(file_line_number)*100);
     printf("\r%llu%% |",progress_percentage);
@@ -479,12 +481,23 @@ void ProceedProgressBar(unsigned long long line_count,unsigned long long file_li
     for(int i=0;i<int(20-progress_percentage/5);i++) printf(" ");
     printf("| %llu/%llu",line_count,file_line_number);
 
+    //passed time
     uint32_t hours = elapsed_time_ms / (1000 * 60 * 60);
     uint32_t minutes = (elapsed_time_ms / (1000 * 60)) % 60;
     uint32_t seconds = (elapsed_time_ms / (1000)) % 60;
-
     printf(" [%02d:%02d:%02d",hours,minutes,seconds);
-    printf("<XX:XX:XX, Xit/s");
+
+    //Remaining time
+    uint32_t remaining_time = uint32_t(double(elapsed_time_ms)/line_count*(file_line_number-line_count));
+    hours = remaining_time / (1000 * 60 * 60);
+    minutes = (remaining_time / (1000 * 60)) % 60;
+    seconds = (remaining_time / (1000)) % 60;
+    printf("<%02d:%02d:%02d",hours,minutes,seconds);
+
+    //second per iteration
+    double msecond_per_iter = double(elapsed_time_ms)/line_count;
+    printf(", %.2fms/it",msecond_per_iter);
     printf("]");
+    fflush(stdout);
     if (progress_percentage==100)   printf("\n");
 }

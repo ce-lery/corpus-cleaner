@@ -177,44 +177,21 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Implement minhash
 - [x] Implement json read & write
 - [x] Exception handling
-- [ ] Test Clean pipeline
-- [ ] Implement tqdm.
+- [x] Test Clean pipeline
+- [x] Implement tqdm.
 - [ ] Write document & create doxygen
 - [ ] Implement "," filter
 - [ ] Implement dump .txt format file(only is_removed=false).
 
-
 ### ver.0.2.0
 
-- [ ] Convert original file's " to \".
 - [ ] Implement pybind & python code
-- [ ] Speedup
 - [ ] Implement loader json & jsonl
 - [ ] Remove ad header and footer
 - [ ] Remove HTML mark
+- [ ] Remove repeated expressions
 - [ ] Set Github Action's CI/CD
 
 ### ver.0.3.0
 
-<!-- - [x] Implement MinHash
-- [ ] Save removed file 
-- [x] Normalize setence
-- [x] Execute ftfy
-- [x] Remove URL, emoji, kaomoji
-- [x] Remove special characters
-- [x] Split Sentence(textformatting, [ja_sentence_segmenter](https://github.com/wwwcojp/ja_sentence_segmenter))
-- [x] Graph the number of file lines reduced between the original data and the removed data
-- [x] test code
-- [x] Write README.md
-- [ ] check txt_reader.py (Is it not being processed due to high memory consumption?)
-- [ ] datatrove log output
-- [ ] datatrove stats output of pipeline1
-- [ ] fix dataset path of examples (due to move dataset folder)
-- [ ] Remove the trailing \ or \n. (Remove them by executed .strip? Test it. )
-- [ ] At the end. 。, Delete lines other than.
-- [ ] parallel execute for sentence segmentation
-- [ ] Write quick_start.ipynb
-- [ ] Graph step by step filtering
-- [ ] Write main.py (ALl in one.)
-- [ ] Example data download bash
-- [ ] Filter of LLM perplexity (If I feel like it.) -->
+- [ ] Speedup?
