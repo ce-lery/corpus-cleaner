@@ -250,6 +250,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
                              uint32_t min_length,
                              uint32_t max_length,
                              set<string> accept_language,
+                             bool store_rejected,
                              bool sentence_segment,
                              float language_threshold,
                              double perplexity_threshold,
@@ -259,24 +260,32 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->input_path = input_path;
     this->output_path = output_path;
     this->intermediate_path = "../../results/dataset/intermediate/";
+    this->rejected_path = "../../results/dataset/rejected/";
     this->min_length = min_length;
     this->max_length = max_length;
     this->accept_language = accept_language;
+    this->store_rejected = store_rejected;
     this->sentence_segment = sentence_segment;
     this->language_threshold = language_threshold;
     this->perplexity_threshold = perplexity_threshold;
-    // this->blacklist_path =  "../../results/others/blacklist.jsonl";
-    // this->store_blacklist = true;
     this->generate_dedup_lsh=generate_dedup_lsh;
     this->deduplicator=deduplicator;
 
+    if(filesystem::exists(this->output_path) | 
+       filesystem::exists(this->rejected_path)) {
+        cout << "ERROR: output_path or rejected_path folder already exists. ";
+        cout << "Please RENAME to delete the selection." << endl;
+        exit(EXIT_FAILURE);
+    }
 
-    // TODO: remove intermediate,output,exception
+    RemoveFolder(this->intermediate_path);
+    RemoveFolder("../../results/dataset/exception/");
+
 
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
     mkdir("../../results/dataset/exception/", 0777);
-    // TODO: mkdir black list path 
+    mkdir(this->rejected_path.c_str(), 0777);
 
     //Read from input_path's files, and write to output_path in jsonl format.
     // TODO: uncommentout next line
@@ -816,6 +825,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
 
         ifstream input_file(this->intermediate_path+filename+".jsonl");
         string  output_file_path(this->output_path+filename+".jsonl"); 
+        string  rejected_file_path(this->rejected_path+filename+".jsonl"); 
         string line="";
         uint64_t line_count=-1; // The fist incrementation is overflow.
         uint64_t removed_line_count = 0;
@@ -845,7 +855,12 @@ int32_t CorpusCleaner::CleanPipeline(void)
             }
             
             // dump data
-            try{WriteDocumentToJsonl(document,output_file_path);}
+            try{
+                if(document.is_rejected){
+                    if(this->store_rejected) WriteDocumentToJsonl(document,rejected_file_path);
+                }
+                else    WriteDocumentToJsonl(document,output_file_path);
+            }
             catch(...){continue;}
         }
 

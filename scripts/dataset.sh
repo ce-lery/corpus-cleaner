@@ -13,10 +13,10 @@ cd results/dataset
 ### japanese wikipedia 
 ###
 
-GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/datasets/graelo/wikipedia.git
-cd wikipedia/data/20230601/ja/
-git lfs pull --include "train-*-of-0015.parquet"
-cd ../../../../
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/datasets/singletongue/wikipedia-utils.git
+cd wikipedia-utils/corpus-jawiki-20230403/
+git lfs pull --include "train-*-of-00008.parquet"
+cd ../../
 
 source ../../.env/bin/activate
 python ../../python/util/parquet2txt.py
@@ -35,42 +35,43 @@ head -n $TRAIN_DATA_LINES wiki.txt > wiki_train.txt
 tail -n $TEST_DATA_LINES wiki.txt > wiki_test.txt
 
 rm -r wiki.txt
+# rm -r wikipedia-utils
 mkdir -p input
 mv wiki_train.txt input/
 mv wiki_test.txt input/
 
-###
-### japanese CC-100 
-###
+# ###
+# ### japanese CC-100 
+# ###
 
-# 0.069TB
-echo "# download japanese CC-100"
-wget http://data.statmt.org/cc-100/ja.txt.xz
-unxz -v ja.txt.xz
-# remove white space line 
-sed -i '/^$/d' ja.txt
-head -n15 ja.txt
+# # 0.069TB
+# echo "# download japanese CC-100"
+# wget http://data.statmt.org/cc-100/ja.txt.xz
+# unxz -v ja.txt.xz
+# # remove white space line 
+# sed -i '/^$/d' ja.txt
+# head -n15 ja.txt
 
-# cleaning
-# https://www.gnu.org/software/parallel/parallel_tutorial.html
+# # cleaning
+# # https://www.gnu.org/software/parallel/parallel_tutorial.html
 
-# train test split (train:test = 95:5)
-echo "# train test split cc100_mrph.txt"
-LINES=`wc -l ja.txt | awk '{print $1}'`
-echo $LINES
+# # train test split (train:test = 95:5)
+# echo "# train test split cc100_mrph.txt"
+# LINES=`wc -l ja.txt | awk '{print $1}'`
+# echo $LINES
 
-TRAIN_DATA_LINES=$(($LINES*95/100))
-TEST_DATA_LINES=$(($LINES-$TRAIN_DATA_LINES))
-echo $TRAIN_DATA_LINES
-echo $TEST_DATA_LINES
+# TRAIN_DATA_LINES=$(($LINES*95/100))
+# TEST_DATA_LINES=$(($LINES-$TRAIN_DATA_LINES))
+# echo $TRAIN_DATA_LINES
+# echo $TEST_DATA_LINES
 
-head -n $TRAIN_DATA_LINES ja.txt > cc100_train.txt
-tail -n $TEST_DATA_LINES ja.txt > cc100_test.txt
+# head -n $TRAIN_DATA_LINES ja.txt > cc100_train.txt
+# tail -n $TEST_DATA_LINES ja.txt > cc100_test.txt
 
-rm -r ja.txt
-mkdir -p input
-mv cc100_train.txt input/
-mv cc100_test.txt input/
+# rm -r ja.txt
+# mkdir -p input
+# mv cc100_train.txt input/
+# mv cc100_test.txt input/
 
 ###
 ### OSCAR

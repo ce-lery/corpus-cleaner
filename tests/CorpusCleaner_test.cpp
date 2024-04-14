@@ -2,7 +2,6 @@
 #include "../corpus_cleaner/corpus_cleaner.hpp"
 #include "../corpus_cleaner/util.hpp"
 #include "../corpus_cleaner/normalizer.hpp"
-// #include "../corpus_cleaner/minhash.hpp"
 
 // namespace {
 
@@ -14,6 +13,8 @@ protected:
     set<string> accept_language{"__label__ja"};
     Document document;
     string sentence="";
+    const string output_path = "../data/output/";
+    const string intermediate_path = "../data/intermediate/"; 
     CorpusCleanerTest() {
         // Write the setup that will be executed for each test here.
     }
@@ -29,8 +30,6 @@ protected:
     virtual void SetUp() {
         // This code is right after the constructor (just before each test)
         // will be called.
-        string output_path = "../data/output/";
-        string intermediate_path = "../data/intermediate/";
         mkdir(output_path.c_str(), 0777);
         mkdir(intermediate_path.c_str(), 0777);
     }
@@ -38,8 +37,8 @@ protected:
     virtual void TearDown() {
         // This code is placed immediately after each test (just before the destructor)
         // will be called.
-        // string output_path = "../data/output/";
-        // RemoveFolder(output_path);
+        RemoveFolder(output_path);
+        RemoveFolder(intermediate_path);
     }
 
     // Objects declared here are available to all tests within the test case.
@@ -75,6 +74,7 @@ TEST_F(CorpusCleanerTest, LengthFilter) {
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 true,
                                  true,
                                  0.3,
                                  15000,
@@ -114,6 +114,52 @@ TEST_F(CorpusCleanerTest, LengthFilter) {
 }
 
 
+TEST_F(CorpusCleanerTest, ZeroPunctuationFilter) {
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+
+    document.is_rejected=false;
+    document.text = "東京　大阪　名古屋　横浜";
+    corpus_cleaner.ZeroPunctuationFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "こんにちわ。";
+    corpus_cleaner.ZeroPunctuationFilter(document);
+    ASSERT_TRUE(document.is_rejected==false);
+    
+    document.is_rejected=false;
+    document.text = "1972年5月：大韓航空がソウル線で就航 ";
+    corpus_cleaner.ZeroPunctuationFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);    
+    
+    document.is_rejected=false;
+    document.text = "「勝てばよかろうなのだァァァァッ!!」";
+    corpus_cleaner.ZeroPunctuationFilter(document);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    document.is_rejected=false;
+    document.text = "「おまえは……自分が『悪』だと気づいていない…もっともドス黒い『悪』だ」";
+    corpus_cleaner.ZeroPunctuationFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);    
+
+    document.is_rejected=false;
+    document.text = "https://github.com/";
+    corpus_cleaner.ZeroPunctuationFilter(document);
+    ASSERT_TRUE(document.is_rejected==false);
+}
+
 TEST_F(CorpusCleanerTest, URLRemover) {
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
@@ -122,6 +168,7 @@ TEST_F(CorpusCleanerTest, URLRemover) {
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 true,
                                  true,
                                  0.3,
                                  15000,
@@ -161,8 +208,9 @@ TEST_F(CorpusCleanerTest, MakeStats) {
     ASSERT_EQ(elapsed_time,stats.elapsed_time);
     ASSERT_EQ(0,stats.result_file_size);
 }
+
 TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
-    uint32_t min_length=10;
+    uint32_t min_length = 10;
     uint32_t max_length = 1000;
     set<string> accept_language{"__label__ja"};
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
@@ -172,6 +220,7 @@ TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 true,
                                  true,
                                  0.3,
                                  15000,
@@ -215,6 +264,7 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 true,
                                  true,
                                  0.3,
                                  15000,
@@ -263,6 +313,7 @@ TEST_F(CorpusCleanerTest, ExactDeduplication) {
                                  max_length,
                                  accept_language,
                                  true,
+                                 true,
                                  0.3,
                                  15000,
                                  &generate_dedup_lsh,
@@ -296,6 +347,7 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 true,
                                  true,
                                  0.3,
                                  15000,
@@ -451,6 +503,7 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
                                  max_length,
                                  accept_language,
                                  true,
+                                 true,
                                  0.3,
                                  15000,
                                  &generate_dedup_lsh,
@@ -497,6 +550,7 @@ TEST_F(CorpusCleanerTest,LanguageFilter)
                                  max_length,
                                  accept_language,
                                  true,
+                                 true,
                                  0.3,
                                  15000,
                                  &generate_dedup_lsh,
@@ -525,6 +579,7 @@ TEST_F(CorpusCleanerTest,LanguageFilter2)
                                  max_length,
                                  {"__label__en"},
                                  true,
+                                 true,
                                  0.3,
                                  15000,
                                  &generate_dedup_lsh,
@@ -551,6 +606,7 @@ TEST_F(CorpusCleanerTest,QuotesRemover)
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 true,
                                  true,
                                  0.3,
                                  15000,
@@ -649,6 +705,7 @@ TEST_F(CorpusCleanerTest,PerplexityFilter)
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 true,
                                  true,
                                  0.3,
                                  15000,

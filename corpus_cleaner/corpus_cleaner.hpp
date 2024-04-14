@@ -72,19 +72,20 @@ private:
     string input_path;
     string intermediate_path;
     string output_path;
+    string rejected_path;
     uint32_t min_length=5;
     uint32_t max_length=1000;
     set<string> accept_language{"__label__ja"};
     bool sentence_segment=true;
+    bool store_rejected=true;
     float language_threshold=0.3;
     double perplexity_threshold=999999;
     fasttext::FastTextEx language_filter;
     KenLMFilter kenlm_filter;
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
-    string blacklist_path="blacklist.jsonl";
-    bool store_blacklist=true;
     GenerateDedupLSH *generate_dedup_lsh;  
     LSHDeduplicator *deduplicator; 
+
 public:
     /***constructor***/
     CorpusCleaner(string input_path,
@@ -92,6 +93,7 @@ public:
                   uint32_t min_length,
                   uint32_t max_length,
                   set<string> accept_language,
+                  bool store_rejected,
                   bool sentence_segment,
                   float language_threshold,
                   double perplexity_threshold,

@@ -10,12 +10,13 @@ int main(void)
     uint32_t max_length = 5000;
     set<string> accept_language{"__label__ja"};
 //  RemoveFolder(output_folder_path);
+    bool store_rejected = true; 
     bool execute_sentence_segment = false; // TODO: switch true
     double language_threshold = 0.3;
     double perplexity_threshold = 40000;
-    
+
     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
-    LSHDeduplicator deduplicator(true,"../../results/dataset/blacklist.txt",true,5120);
+    LSHDeduplicator deduplicator(true,"../../results/dataset/blacklist.txt",true,5120000000);
     
     // create instance
     CorpusCleaner corpus_cleaner(input_folder_path,
@@ -23,6 +24,7 @@ int main(void)
                                  min_length,
                                  max_length,
                                  accept_language,
+                                 store_rejected,
                                  execute_sentence_segment,
                                  language_threshold,
                                  perplexity_threshold,
