@@ -100,20 +100,18 @@ public:
     /***destructor***/
     ~CorpusCleaner();
     /***member function***/
-    void LengthFilter(Document &document);
+    void Normalizer(Document &document);
     void URLRemover(Document &document);
     void SpecialCharacterRemover(Document &document);
     void EmojiRemover(Document &document);
     void QuotesRemover(Document &document);
-    void Normalizer(Document &document);
+    void LengthFilter(Document &document);
     void LanguageFilter(Document &document);
     void PerplexityFilter(Document &document);
     void MinhashDeduplication(Document &document);
-    Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
-    Stats PipelineStepForFoldersAll(string input_folder_path, 
-                                    string output_folder_path,
-                                    void (CorpusCleaner::*cleaner)(string ,string ));
+    void ZeroPunctuationFilter(Document &document);
     void SentenceSegmenter(string input_folder_path,string output_folder_path);
     void ExactDeduplication(string input_folder_path,string output_folder_path);
+    Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
     int32_t CleanPipeline(void);
 };

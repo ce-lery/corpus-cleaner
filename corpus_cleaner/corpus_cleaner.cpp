@@ -225,7 +225,6 @@ void OutputStats(Stats stats)
     cout << endl;
 }
 
-
 /**
  * @brief Save exception in file 
  * @details 
@@ -284,16 +283,17 @@ CorpusCleaner::CorpusCleaner(string input_path,
     ConvertInputFilesToJsonl(this->input_path,this->output_path);
 
 }
-/***deconstructor***/
+
+/***destructor***/
 CorpusCleaner::~CorpusCleaner()
 {
     //remove intermediate folder
     // TODO: uncommentout next line
     // RemoveFolder(this->intermediate_path);
 }
+
+
 /***member function***/
-
-
 /**
  * @brief Remove too long sentence and too short sentence.
  * @details 
@@ -387,7 +387,6 @@ void CorpusCleaner::LanguageFilter(Document &document)
         cout << "Exception:LanguageFilter" << endl;
         throw;
     }
-    // cout << __func__ << " completed."<< endl;
 
     if(document.is_rejected)    document.metadata.insert(__func__);
 }
@@ -494,23 +493,35 @@ void CorpusCleaner::QuotesRemover(Document &document)
     document.text = sentence;
 }
 
-// /**
-//  * @brief Remove quotes. For example, [1], {245}, and so on.
-//  * @details 
-//  *  Remove remarks matching regular expression.
-//  *  The regular expression is "(\[([0-9]+)\]|\{([0-9]+)\})".
-//  * @param Document &document: single line text to be cleaned
-//  * @return void: None
-//  * @attention Don't use this on corpus that contain formulas or programs.
-// **/
-// void CorpusCleaner::QuotesRemover(Document &document)
-// {
-//     static regex remaks_pattern(R"((\[([0-9]+)\]|\{([0-9]+)\}))");
-//     string sentence =  regex_replace(document.text,remaks_pattern,"");
+/**
+ * @brief Remove sentence without punctuation.
+ * @details 
+ * Remove sentence without punctuation that is "、","､","。","｡","．",".","？","?","！","!".
+ * 
+ * Example:
+ * 
+ * @param Document &document: single line text to be cleaned
+ * @return void: None
+ * @note 
+ * This filter is heuristic. 
+ * For example, a sentence that "https://github.com/" is not removed because it includes '.'.
+**/
+void CorpusCleaner::ZeroPunctuationFilter(Document &document)
+{
+    vector<string> punctures = {"、","､","。","｡","．",".","？","?","！","!"};
+    string sentence = document.text;
 
-//     if(sentence!=document.text) document.metadata.insert(__func__);
-//     document.text = sentence;
-// }
+    document.is_rejected = true;
+    for(auto puncture: punctures){
+        // If there is no puncture in sentence, the return of .find() is string::npos 
+        if(document.text.find(puncture)!=string::npos){
+            document.is_rejected = false;
+            break;
+        }
+    }
+
+    if(document.is_rejected)    document.metadata.insert(__func__);
+}
 
 /**
  * @brief Neologd Normalize sentence
@@ -557,19 +568,15 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
     // Read Document from jsonl
     vector<string> lshs = this->generate_dedup_lsh->CalculateLSH(ConvertUTF8ToWstring(document.text));
     try{
-        // cout <<1<<endl;
         if(this->deduplicator->Apply(&lshs)){
             document.is_rejected = true;
             document.metadata.insert(__func__);
         }
-        // cout <<2<<endl;
 
         //If seen is greater than or equal to bucket_size, clear seen to 0
         if(this->deduplicator->SizeOfSeen()>=this->deduplicator->GetTotalBucketSize()){
-            // cout <<4<<endl;
             this->deduplicator->InitializeSeen();
         }
-        // cout <<3<<endl;
 
     }
     catch(...){
@@ -618,7 +625,6 @@ void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_fo
             
             try{    
                 uint64_t sentence_count=0;
-                // for(auto segment:segments)  cout << segment <<" , ";
                 if((int64_t)segments.size()!=1){
                     for(auto sentence:segments){
                         Document document_segmented = document;
@@ -704,7 +710,6 @@ void CorpusCleaner::ExactDeduplication(string input_folder_path, string output_f
                 if(duplication)break;
             }
             WriteDocumentToJsonl(target_document,output_file_path);
-            // cout << "WriteDocumentToJsonl" << endl;
             // CopyFile(output_folder_path+"/"+file_list[i]+".jsonl",input_folder_path+"/"+file_list[i]+".jsonl");
         }
     }
@@ -724,7 +729,6 @@ Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*clea
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now();
 
-    // cout << "PiepilieStep function" << endl;
     // Execute filtering function
     try{ (this->*cleaner)(document); }
     catch(...){
@@ -774,18 +778,18 @@ int32_t CorpusCleaner::CleanPipeline(void)
     // They will be executed in the order you set them.
     vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
         &CorpusCleaner::Normalizer,
-        &CorpusCleaner::LengthFilter, 
-        &CorpusCleaner::LanguageFilter,
         &CorpusCleaner::URLRemover ,
         &CorpusCleaner::EmojiRemover, 
         &CorpusCleaner::SpecialCharacterRemover, 
         &CorpusCleaner::QuotesRemover, 
+        &CorpusCleaner::LengthFilter, 
+        &CorpusCleaner::ZeroPunctuationFilter,
+        &CorpusCleaner::LanguageFilter,
         &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,
     }; 
     
     cout << "### Start Clean Pipeline. ###" << endl;
-
     if(this->sentence_segment==true){
         cout << "### Execute Sentence Segmenter. ###" << endl;
         // Loop processing as many times as deduplicate_list
@@ -847,8 +851,9 @@ int32_t CorpusCleaner::CleanPipeline(void)
 
         // output removed results
         printf("Removed line number: %ld\n",removed_line_count);
-        printf("Removed ratio: %.2f%%\n",double(removed_line_count/file_line_number)*100);
-        printf("Remaining ratio: %.2f%%\n",100-double(removed_line_count/file_line_number)*100);
+        printf("Remaining line number: %ld\n",file_line_number - removed_line_count);
+        printf("Removed ratio: %.2f%%\n",double(removed_line_count) / file_line_number * 100);
+        printf("Remaining ratio: %.2f%%\n",100 - double(removed_line_count) / file_line_number * 100);
         input_file.close();   
     }
     

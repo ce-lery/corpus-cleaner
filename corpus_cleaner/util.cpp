@@ -66,9 +66,9 @@ void RemoveFolder(const std::string& path)
 **/
 void CopyFile(string source_path, string target_path) 
 {
-    fs::path source = source_path;
-    fs::path destination = target_path;
-    fs::copy(source, destination, fs::copy_options::overwrite_existing);
+    filesystem::path source = source_path;
+    filesystem::path destination = target_path;
+    filesystem::copy(source, destination, filesystem::copy_options::overwrite_existing);
 }
 
 /**
@@ -85,10 +85,10 @@ void CopyFile(string source_path, string target_path)
 **/
 void MoveFile(string source_path, string target_folder) 
 {
-    fs::path source = source_path;
-    fs::path destination = target_folder;
-    fs::path new_path = destination / source.filename();
-    fs::rename(source, new_path);
+    filesystem::path source = source_path;
+    filesystem::path destination = target_folder;
+    filesystem::path new_path = destination / source.filename();
+    filesystem::rename(source, new_path);
 }
 
 /**
@@ -106,11 +106,11 @@ void MoveFile(string source_path, string target_folder)
 void CopyFolder(string source_folder, string target_folder) 
 {
     // copy source_folder to target_folder
-    fs::path sourceDir = source_folder;
-    fs::path destinationDir = target_folder;
-    for (const auto &file : fs::directory_iterator(sourceDir)) {
-        if (fs::is_regular_file(file.path())) {
-            fs::copy(file, destinationDir / file.path().filename(), fs::copy_options::overwrite_existing);
+    filesystem::path sourceDir = source_folder;
+    filesystem::path destinationDir = target_folder;
+    for (const auto &file : filesystem::directory_iterator(sourceDir)) {
+        if (filesystem::is_regular_file(file.path())) {
+            filesystem::copy(file, destinationDir / file.path().filename(), filesystem::copy_options::overwrite_existing);
         }
     }
 }
@@ -130,24 +130,23 @@ void CopyFolder(string source_folder, string target_folder)
 void MoveFolder(string source_folder, string target_folder) 
 {
     // Check the file that is existed.
-    if (!fs::exists(source_folder)) {
+    if (!filesystem::exists(source_folder)) {
         std::cerr << "Source directory does not exist: " << source_folder << std::endl;
         return;
     }
-    if (!fs::exists(target_folder)) fs::create_directory(target_folder);
+    if (!filesystem::exists(target_folder)) filesystem::create_directory(target_folder);
 
     // Move file and folder
-    for (const auto& entry : fs::directory_iterator(source_folder)) {
+    for (const auto& entry : filesystem::directory_iterator(source_folder)) {
         try {
-            fs::path newPath = target_folder / entry.path().filename();
-            fs::rename(entry.path(), newPath);
+            filesystem::path newPath = target_folder / entry.path().filename();
+            filesystem::rename(entry.path(), newPath);
             std::cout << "Moved: " << entry.path().filename() << std::endl;
-        } catch (const fs::filesystem_error& e) {
+        } catch (const filesystem::filesystem_error& e) {
             std::cerr << "Error moving " << entry.path() << ": " << e.what() << std::endl;
         }
     }
 }
-
 
 
 /**
@@ -192,8 +191,8 @@ string CalculateNextEmoji(string pre_emoji)
 **/
 void GetFileNameListWithoutExtention(const string folder_path, vector<string> *file_list)
 {
-    fs::path path = folder_path;
-    for (const auto &entry : fs::directory_iterator(path)) {
+    filesystem::path path = folder_path;
+    for (const auto &entry : filesystem::directory_iterator(path)) {
         if (entry.is_regular_file()) {
             file_list->push_back(string(entry.path().stem()));
         }
@@ -248,10 +247,10 @@ void GetFileLineNumberList(const string folder_path,
  * @return wstring: text sentence converted wstring
  * @attention
 **/
-wstring ConvertUTF8ToWstring(const string& src)
+wstring ConvertUTF8ToWstring(const string& sentence)
 {
   	wstring_convert<codecvt_utf8_utf16<wchar_t>> converter;
-  	return converter.from_bytes(src);
+  	return converter.from_bytes(sentence);
 }
 
 /**
@@ -264,10 +263,10 @@ wstring ConvertUTF8ToWstring(const string& src)
  * @return wstring: text sentence converted wstring
  * @attention
 **/
-string ConvertWstringToUTF8(const wstring& src)
+string ConvertWstringToUTF8(const wstring& sentence)
 {
   	wstring_convert<codecvt_utf8<wchar_t> > converter;
-  	return converter.to_bytes(src);
+  	return converter.to_bytes(sentence);
 }
 
 /**
@@ -297,7 +296,7 @@ void SegmentSentence(string sentence, vector<string> &segments)
     wstring sentence_segmented=L"";
     vector<wchar_t> quote_list     = {L'「',L'(',L'"',L'['};
     vector<wchar_t> quote_end_list = {L'」',L')',L'"',L']'};
-    vector<wchar_t> puctuation_list={L'。',L'?',L'!'};
+    vector<wchar_t> punctuation_list={L'。',L'｡',L'？',L'?',L'！',L'!'};
     wstring delimiter = L"<<<NEW_LINE>>>";
 
     for (int i=0;i<(int)sentence_w.size();i++) {
@@ -328,9 +327,9 @@ void SegmentSentence(string sentence, vector<string> &segments)
         } 
         else{
             sentence_segmented += sentence_w[i];
-            // replace "。"(puctuation_list) to "。\n"
-            for(auto puctuation: puctuation_list){
-                if(sentence_w[i]==puctuation) {
+            // replace "。"(punctuation_list) to "。\n"
+            for(auto punctuation: punctuation_list){
+                if(sentence_w[i]==punctuation) {
                     sentence_segmented+=delimiter;
                     break;
                 }
@@ -400,9 +399,9 @@ void ReplaceSubstring(string& sentence, const string& target, const string& repl
 **/
 string GetFilePathWithoutExtention(const string& file_path) 
 {  
-    fs::path path_object(file_path);
+    filesystem::path path_object(file_path);
     // Get file name (without extension)
-    fs::path  fs_file_path_witout_extention = path_object.parent_path() / path_object.stem();
+    filesystem::path  fs_file_path_witout_extention = path_object.parent_path() / path_object.stem();
     string file_path_witout_extention = fs_file_path_witout_extention.string();
     return file_path_witout_extention;    
 }

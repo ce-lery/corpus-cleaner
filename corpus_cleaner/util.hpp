@@ -15,8 +15,8 @@ void GetFileLineNumberList(const string folder_path,
 void CopyFolder(string source_folder, string target_folder);
 void CopyFile(string source_path, string target_path);
 void MoveFolder(string source_folder, string target_folder);
-wstring ConvertUTF8ToWstring(const string& src);
-string ConvertWstringToUTF8(const wstring& src);
+wstring ConvertUTF8ToWstring(const string& sentence);
+string ConvertWstringToUTF8(const wstring& sentence);
 void SegmentSentence(string sentence, vector<string> &segments);
 string Strip(const string& sentence);
 void ReplaceSubstring(string& sentence, const string& target, const string& replacement);
