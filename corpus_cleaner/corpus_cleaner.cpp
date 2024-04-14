@@ -494,6 +494,23 @@ void CorpusCleaner::QuotesRemover(Document &document)
     document.text = sentence;
 }
 
+// /**
+//  * @brief Remove quotes. For example, [1], {245}, and so on.
+//  * @details 
+//  *  Remove remarks matching regular expression.
+//  *  The regular expression is "(\[([0-9]+)\]|\{([0-9]+)\})".
+//  * @param Document &document: single line text to be cleaned
+//  * @return void: None
+//  * @attention Don't use this on corpus that contain formulas or programs.
+// **/
+// void CorpusCleaner::QuotesRemover(Document &document)
+// {
+//     static regex remaks_pattern(R"((\[([0-9]+)\]|\{([0-9]+)\}))");
+//     string sentence =  regex_replace(document.text,remaks_pattern,"");
+
+//     if(sentence!=document.text) document.metadata.insert(__func__);
+//     document.text = sentence;
+// }
 
 /**
  * @brief Neologd Normalize sentence
@@ -723,39 +740,6 @@ Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*clea
     return MakeStats(__func__,"",elapsed);
 }
 
-/**
- * @brief PipelineStep for all files in folder
- * @details 
- * @param Document &document: document is to be filtered
- * @param void (CorpusCleaner::*cleaner)(Document &): filter function list
- * @return Stats: statics imformation of this function.
- * @ref 
-**/
-Stats CorpusCleaner::PipelineStepForFoldersAll(string input_folder_path, 
-                                               string output_folder_path,
-                                               void (CorpusCleaner::*cleaner)(string ,string ))
-{
-   chrono::system_clock::time_point start, end;
-    start = chrono::system_clock::now(); 
-
-    try{ (this->*cleaner)(input_folder_path, output_folder_path); }
-    catch(...){
-        //cout << "Exeption(PipelineStepForFoldersAll): "<<document.id <<" "<<document.text << endl;
-        //StoreException(__func__, "document.text{"+document.text+"}");
-        throw;
-        return MakeStats(__func__,"",0);
-    }
-
-    end = chrono::system_clock::now(); 
-    double elapsed = chrono::duration_cast<chrono::seconds>(end - start).count(); 
-    //TODO: fix here.
-    Stats stats;
-    stats.elapsed_time=elapsed;
-    stats.file_name="";
-    stats.process_name=__func__;
-    stats.result_file_size=-1;
-    return stats;
-}
 
 /**
  * @brief Pipeline that sequentially executes the configured CorpusCleaner methods
@@ -799,9 +783,6 @@ int32_t CorpusCleaner::CleanPipeline(void)
         &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,
     }; 
-    vector<void (CorpusCleaner::*)(string,string)> deduplicate_list = { 
-        // &CorpusCleaner::ExactDeduplication, 
-    }; 
     
     cout << "### Start Clean Pipeline. ###" << endl;
 
@@ -833,6 +814,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
         string  output_file_path(this->output_path+filename+".jsonl"); 
         string line="";
         uint64_t line_count=-1; // The fist incrementation is overflow.
+        uint64_t removed_line_count = 0;
         chrono::system_clock::time_point start, end;
         start = chrono::system_clock::now();
     
@@ -840,42 +822,36 @@ int32_t CorpusCleaner::CleanPipeline(void)
             Document document;
             line_count++;   
             // load data
-            // cout << "read document" << endl;
             end = std::chrono::system_clock::now();
             uint32_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-
             ProceedProgressBar(line_count+1,file_line_number,elapsed_time);
             try{ReadDocumentFromJsonlOneLine(document,line);}
             catch(...){continue;}
 
-            // cout << "pipeline step" << endl;
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
-                //TODO: Exclude strings that cannot be executed
                 try{Stats stats = PipelineStep(document,(cleaner));}
                 catch(...){continue;}
                 //OutputStats(stats);
                 // if rejected, break and turn to next line.
-                if(document.is_rejected)    break;
+                if(document.is_rejected){
+                    removed_line_count++;
+                    break;
+                }
             }
             
             // dump data
             try{WriteDocumentToJsonl(document,output_file_path);}
             catch(...){continue;}
         }
-        cout << endl;
+
+        // output removed results
+        printf("Removed line number: %ld\n",removed_line_count);
+        printf("Removed ratio: %.2f%%\n",double(removed_line_count/file_line_number)*100);
+        printf("Remaining ratio: %.2f%%\n",100-double(removed_line_count/file_line_number)*100);
         input_file.close();   
     }
     
-    cout << "### Execute ExactDeduplication. ###" << endl;
-    // Loop processing as many times as deduplicate_list
-    for (const auto& step : deduplicate_list) {
-        Stats stats = PipelineStepForFoldersAll(this->intermediate_path,
-                                                this->output_path,
-                                                step);  
-        OutputStats(stats);
-    }
-
     return 0;
 }
 
