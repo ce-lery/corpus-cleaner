@@ -8,7 +8,8 @@ set -x
 
 
 cd corpus_cleaner
-mkdir -p build & cd build
+mkdir -p build 
+cd build
 
 cmake ..
 make all

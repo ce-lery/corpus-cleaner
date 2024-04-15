@@ -5,13 +5,10 @@
 
 ## Overview
 
-**This repository is under development and the features may contain bugs.**   
-**If you find any bugs, please post an issue.**
-
 Welcome to my repository!   
+This repository is a library for quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus. 
 
-This repository is a C++ library for Japanese corpus cleaning.   
-The features are following table.  
+The features are following table.
 
 |Features|Details|Remarks|
 |:--|:--|:--|
@@ -19,7 +16,6 @@ The features are following table.
 |[Emoji Remover](corpus_cleaner/remover.py#L8)|Remove emojis using [emoji](https://pypi.org/project/emoji/) library.||
 |[URL Remover](corpus_cleaner/remover.py#L22)|Remove URLs matching regular expression.||
 |[Quotes Remover](corpus_cleaner/remover.py#L22)|Remove quotes. For example, [1], {245}, and so on.||
-|[Zero Punctuation Filter](corpus_cleaner/remover.py#L22)|Remove sentence without punctuation that is "、", "､", "。", "｡", "．", ".", "？", "?", "！", "!".||
 |[Special Characters Remover](corpus_cleaner/remover.py#L61)|Remove special character.<br> For example, ☀, ♡, ☆, and so on.<br>Removes special characters within a specific Unicode range.|Please refer [this URL](https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html).<br>Special characters to be removed include some emojis.|
 |[Sentence Segmenter](corpus_cleaner/splitter.py)|Execute Rule-based sentence separation (sentence segmentation) using [ja_sentence_segmenter](https://github.com/wwwcojp/ja_sentence_segmenter).|Please refer this [article](https://qiita.com/heimaru1231/items/b6ed09d4787e4e28175a).|
 |[Length Filter](corpus_cleaner/excess_filter.py)|Remove too long sentence and too short sentence.||
@@ -41,6 +37,7 @@ If you want to try out the contents of this repository quickly and easily, pleas
 
 ## Getting Started
 
+### Docker
 Build a python environment using Docker files.
 
 ```bash
@@ -49,6 +46,17 @@ cd corpus-cleaner
 docker build -t corpus-cleaner-image ./
 docker run -v ./:/home/corpus-cleaner/ -it --gpus all corpus-cleaner-image
 ```
+
+### Other (Local Install)
+
+```bash
+sudo apt upgrade
+sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  libgoogle-perftools-dev curl wget build-essential nano
+```
+
+### 
+
+### Common  Install Step
 
 Run the shell script with the following command.  
 
@@ -71,10 +79,6 @@ Run corpus_cleaner.
 
 ## Usage
 
-### Document
-
-API document is [here](). Prease refer it.  
-
 ### Basic usage
 
 The basic usage of corpus-cleaner is same as [Getting Started](#Getting_Started).
@@ -88,9 +92,10 @@ If you want to disable Sentence Segmenter, please set "bool sentence_segment=fal
 
 If you want to disable filter, please Comment out the corresponding filter function in the variable TODO:. 
 
-Maybe, this step will be changed in the future.
 
-## Development
+
+
+Maybe, this step will be changed in the future.
 
 ### Add new filtering feature
 
@@ -186,10 +191,9 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Exception handling
 - [x] Test Clean pipeline
 - [x] Implement tqdm.
-- [x] Implement Zero punctuation filter
-- [ ] Implement dump .txt format file(only is_removed=false).
-- [ ] Download [OSCAR](https://huggingface.co/datasets/oscar) dataset.
 - [ ] Write document & create doxygen
+- [ ] Implement "," filter
+- [ ] Implement dump .txt format file(only is_removed=false).
 
 ### ver.0.2.0
 

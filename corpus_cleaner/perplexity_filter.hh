@@ -7,19 +7,19 @@
 #include <cmath>
 #include <vector>
 #ifdef WIN32
-#include "../scripts/kenlm/util/getopt.hh"
+#include "./kenlm/util/getopt.hh"
 #else
 #include <unistd.h>
 #endif
 #include <bits/stdc++.h>
 
-#include "../scripts/kenlm/lm/model.hh"
-#include "../scripts/kenlm/lm/sizes.hh"
-#include "../scripts/kenlm/util/file_piece.hh"
-#include "../scripts/kenlm/util/usage.hh"
+#include "./kenlm/lm/model.hh"
+#include "./kenlm/lm/sizes.hh"
+#include "./kenlm/util/file_piece.hh"
+#include "./kenlm/util/usage.hh"
 
 #ifdef WIN32
-#include "../scripts/kenlm/util/getopt.hh"
+#include "./kenlm/util/getopt.hh"
 #else
 #include <unistd.h>
 #endif

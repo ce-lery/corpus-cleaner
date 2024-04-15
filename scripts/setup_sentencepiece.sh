@@ -10,6 +10,8 @@ log=results/log/$(basename "$0" .sh)/$(date +%Y%m%d_%H%M%S).log
 exec &> >(tee -a $log)
 set -x
 
+cd scripts
+
 git clone https://github.com/google/sentencepiece.git 
 cd sentencepiece
 mkdir build
@@ -27,5 +29,5 @@ wget http://dl.fbaipublicfiles.com/cc_net/lm/ja.sp.model
 mkdir -p ../tests/build/
 cp ja.sp.model ../tests/build/
 
-
+cd ../
 set +x

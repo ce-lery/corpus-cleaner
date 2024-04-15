@@ -10,6 +10,8 @@ log=results/log/$(basename "$0" .sh)/$(date +%Y%m%d_%H%M%S).log
 exec &> >(tee -a $log)
 set -x
 
+cd scripts
+
 wget https://github.com/unicode-org/icu/releases/download/release-74-2/icu4c-74_2-Ubuntu22.04-x64.tgz
 gunzip -d < icu4c-74_2-Ubuntu22.04-x64.tgz | tar xvf -
 
