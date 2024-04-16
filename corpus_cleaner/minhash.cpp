@@ -262,14 +262,20 @@ size_t LSHDeduplicator::SizeOfSeen(void)
 **/
 void LSHDeduplicator::InitializeSeen(void)
 {
+
     if(this->store_blacklist)   this->StoreBlacklist();
     this->seen.clear();
+    this->blacklist.clear();
     if(this->blacklist_path!="")    this->LoadBlacklistToSeen();
+    if(this->store_blacklist)     this->blacklist=this->seen;
 
     // this->seen is include this->blacklist. 
     // So blacklist size is more than total_bucket_size_mb,
     // seen size is also more than total_bucket_size_mb.
-    if(this->SizeOfSeen()>=this->total_backet_size_mb)   this->seen.clear();
+    if(this->SizeOfSeen()>=this->total_backet_size_mb){
+        this->seen.clear();
+        this->blacklist.clear();
+    }
 
 }   
 

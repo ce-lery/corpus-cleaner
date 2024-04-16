@@ -584,6 +584,8 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
 
         //If seen is greater than or equal to bucket_size, clear seen to 0
         if(this->deduplicator->SizeOfSeen()>=this->deduplicator->GetTotalBucketSize()){
+            cout << "MinhashDeduplicator: The size of Seen is more than total_bucket_size." << endl;
+            cout << "Now, clear seen and blacklist." << endl;
             this->deduplicator->InitializeSeen();
         }
 
