@@ -37,7 +37,10 @@ If you want to try out the contents of this repository quickly and easily, pleas
 
 ## Getting Started
 
-### Docker
+### Install Step
+
+#### Docker
+
 Build a python environment using Docker files.
 
 ```bash
@@ -47,18 +50,17 @@ docker build -t corpus-cleaner-image ./
 docker run -v ./:/home/corpus-cleaner/ -it --gpus all corpus-cleaner-image
 ```
 
-### Other (Local Install)
+#### Other (Local Install)
 
 ```bash
 sudo apt upgrade
 sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  libgoogle-perftools-dev curl wget build-essential nano
 ```
 
-### 
-
-### Common  Install Step
+### Common Step
 
 Run the shell script with the following command.  
+In this script, you install third party library.
 
 ```bash
 bash scripts/setup.sh
@@ -70,12 +72,22 @@ Build source code of corpus-cleaner.
 bash scripts/build.sh
 ```
 
-Run corpus_cleaner.
+Please place the files to be cleaned in "./results/data/input".
+The file format is ".txt". For example, "wiki.txt", "cc100_train.txt", and so on.
 
 ```bash
-./corpus_cleaner/build/corpus_cleaner
+mkdir -p results/data/input/
+# Please place the files to be cleaned in "./results/data/input".
 ```
 
+Run corpus_cleaner. Please wait a minute.  
+
+```bash
+bash scripts/run.sh
+```
+
+The cleaning result files will be created in "results/data/output".  
+The file format is jsonl.  
 
 ## Usage
 
