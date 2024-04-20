@@ -13,11 +13,12 @@ set -x
 cd scripts/
 
 mkdir -p ../corpus_cleaner/kenlm
+mkdir -p ../corpus_cleaner/build
 git clone https://github.com/kpu/kenlm.git ../corpus_cleaner/kenlm
-wget -c -P ../corpus_cleaner http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
+wget -c -P ../corpus_cleaner/build http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
 
 mkdir -p ../tests/build
-cp ../corpus_cleaner/ja.arpa.bin ../tests/build/
+cp ../corpus_cleaner/build/ja.arpa.bin ../tests/build/
 
 cd ../tests/
 git clone https://github.com/kpu/kenlm.git

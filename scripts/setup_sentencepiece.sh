@@ -23,11 +23,12 @@ ldconfig -v
 
 cd ../../../
 
-cd corpus_cleaner
+mkdir -p corpus_cleaner/build/
+cd corpus_cleaner/build/
 wget http://dl.fbaipublicfiles.com/cc_net/lm/ja.sp.model
 
-mkdir -p ../tests/build/
-cp ja.sp.model ../tests/build/
+mkdir -p ../../tests/build/
+cp ja.sp.model ../../tests/build/
 
 cd ../
 set +x
