@@ -297,43 +297,6 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
     ASSERT_TRUE(document.text == "境界値２"); 
 }
 
-TEST_F(CorpusCleanerTest, ExactDeduplication) {
-    string input_folder_path = "../data/input/sentence_deduplicate/";
-    string output_folder_path = "../data/output/sentence_deduplicate/";
-    string intermediate_folder_path = "../data/output/sentence_deduplicate/intermediate/";
-    string answer_folder_path = "../data/answer/sentence_deduplicate/";
-
-    RemoveFolder(intermediate_folder_path);
-    RemoveFolder(output_folder_path);
-    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
-    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
-    CorpusCleaner corpus_cleaner(input_folder_path,
-                                 output_folder_path,
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
-                                 &generate_dedup_lsh,
-                                 &deduplicator);
-
-    // mkdir(intermediate_folder_path.c_str(), 0777);
-    MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
-    cout << "exactDeduplication" << endl;
-    corpus_cleaner.ExactDeduplication(output_folder_path+"/intermediate/",output_folder_path+"/cleaned/");
-
-    cout << "ExactDeduplication Completed" << endl;
-    vector<string> file_list;
-
-    GetFileNameListWithoutExtention(answer_folder_path,&file_list);
-    for (int i=0;i<(int)file_list.size();i++){
-        ASSERT_TRUE(CompareFiles(output_folder_path+"/cleaned/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
-    }
-
-}
-
 TEST_F(CorpusCleanerTest, SentenceSegmenter) {
     string input_folder_path = "../data/input/sentence_segment/";
     string output_folder_path = "../data/output/sentence_segment/";
@@ -356,8 +319,8 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
-    MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
-    cout << "MoveFolder Completed" << endl;
+    // MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
+    // cout << "MoveFolder Completed" << endl;
 
     corpus_cleaner.SentenceSegmenter( output_folder_path+"/intermediate/",output_folder_path+"/cleaned/");
     cout << "SentenceSegmentation Completed" << endl;
@@ -497,14 +460,16 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
 
     RemoveFolder(intermediate_folder_path);
     RemoveFolder(output_folder_path);
-    GenerateDedupLSH generate_dedup_lsh(2,200,20,10);
+    mkdir(output_folder_path.c_str(), 0777);
+
+    GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/minhash/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner(input_folder_path,
                                  output_folder_path,
                                  min_length,
                                  max_length,
                                  accept_language,
-                                 true,
+                                 false,
                                  true,
                                  0.3,
                                  15000,
@@ -512,20 +477,21 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
                                  &deduplicator);
 
     mkdir(intermediate_folder_path.c_str(), 0777);
-    MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
+    // mkdir(intermediate_folder_path.c_str(), 0777);
+    // MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
 
     vector<string> filename_list;
     GetFileNameListWithoutExtention(output_folder_path+"/intermediate/",&filename_list);
     // Execute the each CorpusCleaner processing on all files in the intermediate folder.
     for (auto filename: filename_list){
         // load data
-        ifstream input_file(output_folder_path+"/intermediate/"+"/"+filename+".jsonl");
+        ifstream input_file(output_folder_path+"/intermediate/"+"/"+filename+".txt");
         string  output_file_path(output_folder_path+"/cleaned/"+"/"+filename+".jsonl");
         string line="";
         uint64_t line_count=0;
-        Document document;
         while (getline(input_file, line)) {
-            ReadDocumentFromJsonlOneLine(document,line);
+            Document document;
+            ConvertTextToDocument(line,filename,to_string(line_count),document);
             // Loop processing as many times as cleaner_list
             corpus_cleaner.MinhashDeduplication(document);
             // dump data

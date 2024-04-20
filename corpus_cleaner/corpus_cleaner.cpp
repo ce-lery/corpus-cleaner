@@ -617,7 +617,7 @@ void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_fo
     GetFileNameListWithoutExtention(input_folder_path,&file_list);
     // Compare all lines of source_file and target_file
     for(int i=0;i<(int)file_list.size();i++){
-        ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
+        ifstream target_file(input_folder_path+"/"+file_list[i]+".txt");
         string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
         int64_t line_count =-1;
         while (getline(target_file, target_line)) {

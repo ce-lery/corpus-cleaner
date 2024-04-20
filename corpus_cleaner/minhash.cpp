@@ -226,12 +226,18 @@ bool LSHDeduplicator::Apply(const vector<string> *lshs)
 size_t LSHDeduplicator::SizeOfSeen(void)
 {
     // Get first element of seen
-    auto itr = this->seen.begin();
-    string seen_first_element = *itr;
-    size_t element_unit_size = seen_first_element.length();//TODO:check this size
-    // All elements of seen are same size.
-    size_t element_size = element_unit_size * this->seen.size();
-    
+
+    size_t element_size=0;  
+    if(this->seen.empty())element_size=0;
+    else{
+        auto itr = this->seen.begin();
+        // cout << *itr<<endl;
+
+        string seen_first_element = *itr;
+        size_t element_unit_size = seen_first_element.length();//TODO:check this size
+        // All elements of seen are same size.
+        size_t element_size = element_unit_size * this->seen.size();
+    }
     // overhead of node
     size_t node_overhead = sizeof(void*) * 2 * this->seen.size();
     // overhead of std::string
@@ -266,12 +272,17 @@ void LSHDeduplicator::InitializeSeen(void)
     if(this->store_blacklist)   this->StoreBlacklist();
     this->seen.clear();
     this->blacklist.clear();
+
     if(this->blacklist_path!="")    this->LoadBlacklistToSeen();
     if(this->store_blacklist)     this->blacklist=this->seen;
 
     // this->seen is include this->blacklist. 
     // So blacklist size is more than total_bucket_size_mb,
     // seen size is also more than total_bucket_size_mb.
+
+    cout << this->SizeOfSeen() <<endl;
+    cout << this->total_backet_size_mb <<endl;
+
     if(this->SizeOfSeen()>=this->total_backet_size_mb){
         this->seen.clear();
         this->blacklist.clear();
