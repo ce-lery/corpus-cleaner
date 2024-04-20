@@ -73,7 +73,7 @@ void ReadDocumentFromJsonlOneLine(Document &document,
  * @attention 
 **/
 void WriteDocumentToJsonl(Document &document,
-                                         string output_file_path)
+                          string output_file_path)
 {
     try{
         document.text = EscapeWord(document.text);
@@ -286,8 +286,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
 
     //Read from input_path's files, and write to output_path in jsonl format.
     // TODO: uncommentout next line
-    ConvertInputFilesToJsonl(this->input_path,this->output_path);
-
+    // ConvertInputFilesToJsonl(this->input_path,this->output_path);
+    CopyFolder(this->input_path,this->intermediate_path);
 }
 
 /***destructor***/
@@ -619,16 +619,19 @@ void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_fo
     for(int i=0;i<(int)file_list.size();i++){
         ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
         string output_file_path(output_folder_path+"/"+file_list[i]+".jsonl");
+        int64_t line_count =-1;
         while (getline(target_file, target_line)) {
             vector<string> segments;
             Document document;
-            try{ReadDocumentFromJsonlOneLine(document,target_line);}
+            line_count++;
+            try{ConvertTextToDocument(target_line,file_list[i],to_string(line_count),document);}
             catch(...){
                 string exception_detail = "line: "+target_line;
-                cout << "Exeption(ReadDocumentFromJsonlOneLine): "<< exception_detail << endl;
-                StoreException("ReadDocumentFromJsonlOneLine","input_jsonl_line{"+exception_detail+"}");
-                continue;}
-            
+                cout << "Exeption(ConvertTextToDocument): "<< exception_detail << endl;
+                StoreException("ConvertTextToDocument","input{"+exception_detail+"}");
+                continue;
+            }
+
             try{SegmentSentence(document.text, segments);}
             catch(...){
                 StoreException(__func__, "target_line:{"+target_line+"}");
@@ -652,81 +655,6 @@ void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_fo
         }
     }
 }
-
-/**
- * @brief Sentence Deduplication files in the this->intermediate folder
- * @details 
- *  Follow the steps below to remove duplication between all lines of all files in the this->intermediate folder.
- *  1. Get the list of files in this->intermediate_folder and set it to vector<string> file_list
- *  2. Compare all lines of source_file and target_file in file_list.
- *  3. Check duplication between all lines of souce file and all lines of target_file.
- *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
- *  I considered deduplication using set or multiset, 
- *  but I did not use this method because the file size could exceed the memory capacity.
- * @example TODO
- * @param string input_folder_path: input folder path
- * @param string output_folder_path: output folder path
- * @return Stats: statics imformation of this function.
- * @ref 
- * @attention This filter's speed is too late!!! Don't use!
-**/
-void CorpusCleaner::ExactDeduplication(string input_folder_path, string output_folder_path)
-{
-    string target_line="",source_line="";
-    vector<string> file_list;
-    bool duplication=false;
-    // Get the list of files in this->intermediate_folder and set it to vector<string> file_list
-    GetFileNameListWithoutExtention(input_folder_path,&file_list);
-    // Compare all lines of source_file and target_file
-    for(int i=0;i<(int)file_list.size();i++){
-        ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
-        string  output_file_path(output_path+"/"+file_list[i]+".jsonl");
-
-        uint32_t target_counter=0,source_counter=0;
-        while (getline(target_file, target_line)) {
-            duplication=false;
-            source_counter=0;
-            Document target_document;
-            target_counter++;
-            ReadDocumentFromJsonlOneLine(target_document,target_line);
-            for(int j=i;j<(int)file_list.size();j++){
-                ifstream source_file(input_folder_path+"/"+file_list[j]+".jsonl"); 
-                while(getline(source_file,source_line)){
-                    try{
-                        Document source_document;
-                        source_counter++;
-                        ReadDocumentFromJsonlOneLine(source_document,source_line);
-                        // cout << "target:"<<file_list[i]+".jsonl line:"<<target_counter<<" text"<<target_document.text<<" ";
-                        // cout << "source:"<<file_list[j]+".jsonl line:"<<source_counter<<" text"<<source_document.text<<endl;
-                        if(input_folder_path+"/"+file_list[i]+".jsonl"==input_folder_path+"/"+file_list[j]+".jsonl"&&target_counter>=source_counter)continue;
-
-                        // check duplication
-                        if(target_document.is_rejected||source_document.is_rejected) continue;
-                        // deduplicate
-                        if(target_document.text==source_document.text){
-                            duplication=true;
-                            // cout << "Deduplicated." << endl;
-                            target_document.is_rejected=true;
-                            // cout <<target_document.is_rejected<<endl;
-                            target_document.metadata.insert(__func__);
-                            break;
-                        }
-                    }
-                    catch(...){
-                        cout << "exception" << endl;
-                        source_counter++;
-                        StoreException(__func__, 
-                                      "source_file{"+input_folder_path+"/"+file_list[j]+".jsonl"+"},source_counter{"+to_string(source_counter)+"}");
-                    }
-                }
-                if(duplication)break;
-            }
-            WriteDocumentToJsonl(target_document,output_file_path);
-            // CopyFile(output_folder_path+"/"+file_list[i]+".jsonl",input_folder_path+"/"+file_list[i]+".jsonl");
-        }
-    }
-}
-
 
 /**
  * @brief PipelineStep
@@ -805,18 +733,21 @@ int32_t CorpusCleaner::CleanPipeline(void)
     if(this->sentence_segment==true){
         cout << "### Execute Sentence Segmenter. ###" << endl;
         // Loop processing as many times as deduplicate_list
-        MoveFolder(this->output_path, this->intermediate_path); 
+        // MoveFolder(this->output_path, this->intermediate_path); 
         SentenceSegmenter(this->intermediate_path,this->output_path);
+        RemoveFolder(this->intermediate_path);
         // OutputStats(stats);
+        // copy output folder to intermediate folder
+        MoveFolder(this->output_path, this->intermediate_path); 
     }
     
     vector<string> filename_list;
     vector<uint64_t> file_line_number_list;
-    // copy output folder to intermediate folder
-    MoveFolder(this->output_path, this->intermediate_path); 
+    
     // Get list of files in intermediate folder
     GetFileNameListWithoutExtention(this->intermediate_path,&filename_list);
-    GetFileLineNumberList(this->intermediate_path,&filename_list,".jsonl",&file_line_number_list);
+    string extention = (this->sentence_segment==true) ? ".jsonl":".txt";
+    GetFileLineNumberList(this->intermediate_path,&filename_list,extention,&file_line_number_list);
 
     cout << "### Excecute CleanPipeline. ###" << endl;
     // Execute the each CorpusCleaner processing on all files in the intermediate folder. 
@@ -824,9 +755,9 @@ int32_t CorpusCleaner::CleanPipeline(void)
         // load data
         string filename = filename_list[i];
         uint64_t file_line_number = file_line_number_list[i];
-        cout << "Start Cleaning "+this->intermediate_path+filename+".jsonl" << endl;
+        cout << "Start Cleaning "+this->intermediate_path+filename+extention << endl;
 
-        ifstream input_file(this->intermediate_path+filename+".jsonl");
+        ifstream input_file(this->intermediate_path+filename+extention);
         string  output_file_path(this->output_path+filename+".jsonl"); 
         string  rejected_file_path(this->rejected_path+filename+".jsonl"); 
         string line="";
@@ -842,13 +773,25 @@ int32_t CorpusCleaner::CleanPipeline(void)
             end = std::chrono::system_clock::now();
             uint32_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             ProceedProgressBar(line_count+1,file_line_number,elapsed_time);
-            try{ReadDocumentFromJsonlOneLine(document,line);}
-            catch(...){
-                string exception_detail = "line: "+line;
-                cout << "Exeption(ReadDocumentFromJsonlOneLine): "<< exception_detail << endl;
-                StoreException("ReadDocumentFromJsonlOneLine","input_jsonl_line{"+exception_detail+"}");
-                continue;
+            if(this->sentence_segment==true){
+                try{ReadDocumentFromJsonlOneLine(document,line);}
+                catch(...){
+                    string exception_detail = "line: "+line;
+                    cout << "Exeption(ReadDocumentFromJsonlOneLine): "<< exception_detail << endl;
+                    StoreException("ReadDocumentFromJsonlOneLine","input_jsonl_line{"+exception_detail+"}");
+                    continue;
+                }
             }
+            else{
+                try{ConvertTextToDocument(line,filename,to_string(line_count),document);}
+                catch(...){
+                    string exception_detail = "line: "+line;
+                    cout << "Exeption(ConvertTextToDocument): "<< exception_detail << endl;
+                    StoreException("ConvertTextToDocument","input{"+exception_detail+"}");
+                    continue;
+                }
+            }
+
 
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     

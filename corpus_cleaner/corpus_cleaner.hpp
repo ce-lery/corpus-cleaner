@@ -110,7 +110,6 @@ public:
     void MinhashDeduplication(Document &document);
     void ZeroPunctuationFilter(Document &document);
     void SentenceSegmenter(string input_folder_path,string output_folder_path);
-    void ExactDeduplication(string input_folder_path,string output_folder_path);
     Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
     int32_t CleanPipeline(void);
     void StoreException(string function_name, string reference);
