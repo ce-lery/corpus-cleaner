@@ -298,10 +298,10 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
 }
 
 TEST_F(CorpusCleanerTest, ExactDeduplication) {
-    string input_folder_path = "../data/input/sentence_deduplicate";
-    string output_folder_path = "../data/output/sentence_deduplicate";
-    string intermediate_folder_path = "../data/intermediate/sentence_deduplicate";
-    string answer_folder_path = "../data/answer/sentence_deduplicate";
+    string input_folder_path = "../data/input/sentence_deduplicate/";
+    string output_folder_path = "../data/output/sentence_deduplicate/";
+    string intermediate_folder_path = "../data/output/sentence_deduplicate/intermediate/";
+    string answer_folder_path = "../data/answer/sentence_deduplicate/";
 
     RemoveFolder(intermediate_folder_path);
     RemoveFolder(output_folder_path);
@@ -319,24 +319,26 @@ TEST_F(CorpusCleanerTest, ExactDeduplication) {
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
-    mkdir(intermediate_folder_path.c_str(), 0777);
-    MoveFolder(output_folder_path, intermediate_folder_path); 
-    corpus_cleaner.ExactDeduplication(intermediate_folder_path,output_folder_path);
+    // mkdir(intermediate_folder_path.c_str(), 0777);
+    MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
+    cout << "exactDeduplication" << endl;
+    corpus_cleaner.ExactDeduplication(output_folder_path+"/intermediate/",output_folder_path+"/cleaned/");
 
-    // cout << "ExactDeduplication Completed" << endl;
+    cout << "ExactDeduplication Completed" << endl;
     vector<string> file_list;
+
     GetFileNameListWithoutExtention(answer_folder_path,&file_list);
     for (int i=0;i<(int)file_list.size();i++){
-        ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/cleaned/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
     }
 
 }
 
 TEST_F(CorpusCleanerTest, SentenceSegmenter) {
-    string input_folder_path = "../data/input/sentence_segment";
-    string output_folder_path = "../data/output/sentence_segment";
-    string intermediate_folder_path = "../data/intermediate/sentence_segment";
-    string answer_folder_path = "../data/answer/sentence_segment";
+    string input_folder_path = "../data/input/sentence_segment/";
+    string output_folder_path = "../data/output/sentence_segment/";
+    string intermediate_folder_path = "../data/output/sentence_segment/intermediate/";
+    string answer_folder_path = "../data/answer/sentence_segment/";
 
     RemoveFolder(intermediate_folder_path);
     RemoveFolder(output_folder_path);
@@ -354,15 +356,15 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
-    MoveFolder(output_folder_path, intermediate_folder_path); 
+    MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
     cout << "MoveFolder Completed" << endl;
 
-    corpus_cleaner.SentenceSegmenter(intermediate_folder_path,output_folder_path);
+    corpus_cleaner.SentenceSegmenter( output_folder_path+"/intermediate/",output_folder_path+"/cleaned/");
     cout << "SentenceSegmentation Completed" << endl;
     vector<string> file_list;
     GetFileNameListWithoutExtention(answer_folder_path,&file_list);
     for (int i=0;i<(int)file_list.size();i++){
-        ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/cleaned/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
     }
 }
 
@@ -488,9 +490,9 @@ TEST_F(CorpusCleanerTest, LSHDeduplicator2) {
 
 
 TEST_F(CorpusCleanerTest, MinhashDeduplication) {
-    string input_folder_path = "../data/input/sentence_deduplicate";
-    string output_folder_path = "../data/output/minhash";
-    string intermediate_folder_path = "../data/intermediate/minhash";
+    string input_folder_path = "../data/input/sentence_deduplicate/";
+    string output_folder_path = "../data/output/minhash/";
+    string intermediate_folder_path = "../data/output/minhash/intermediate/";
     string answer_folder_path = "../data/answer/minhash";
 
     RemoveFolder(intermediate_folder_path);
@@ -510,15 +512,15 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
                                  &deduplicator);
 
     mkdir(intermediate_folder_path.c_str(), 0777);
-    MoveFolder(output_folder_path, intermediate_folder_path); 
+    MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
 
     vector<string> filename_list;
-    GetFileNameListWithoutExtention(intermediate_folder_path,&filename_list);
+    GetFileNameListWithoutExtention(output_folder_path+"/intermediate/",&filename_list);
     // Execute the each CorpusCleaner processing on all files in the intermediate folder.
     for (auto filename: filename_list){
         // load data
-        ifstream input_file(intermediate_folder_path+"/"+filename+".jsonl");
-        string  output_file_path(output_folder_path+"/"+filename+".jsonl");
+        ifstream input_file(output_folder_path+"/intermediate/"+"/"+filename+".jsonl");
+        string  output_file_path(output_folder_path+"/cleaned/"+"/"+filename+".jsonl");
         string line="";
         uint64_t line_count=0;
         Document document;
@@ -536,7 +538,7 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
     vector<string> file_list;
     GetFileNameListWithoutExtention(answer_folder_path,&file_list);
     for (int i=0;i<(int)file_list.size();i++){
-        ASSERT_TRUE(CompareFiles(output_folder_path+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/cleaned/"+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
     }
 }
 
@@ -794,6 +796,20 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
     if (fs::exists("../data/output/write_document_to_jsonl.jsonl")) {
         fs::remove("../data/output/write_document_to_jsonl.jsonl");
     }
+
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     WriteDocumentToJsonl(document,"../data/output/write_document_to_jsonl.jsonl");
     
     document.text = "いいかい! もっとも『むずかしい事』は! 『自分を乗り越える事』さ!";
@@ -818,8 +834,22 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
 
 TEST_F(CorpusCleanerTest,ReadDocumentFromJsonlOneLine) 
 {
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     Document document;
     string jsonl_line = "{\"text\":\"『覚悟』とは!! 暗闇の荒野に!! 進むべき道を切り開く事だッ!\",\"id\":\"jorno_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"perplexity\":\"1.692\"}";
+    
     ReadDocumentFromJsonlOneLine(document,jsonl_line);
     ASSERT_TRUE(document.text=="『覚悟』とは!! 暗闇の荒野に!! 進むべき道を切り開く事だッ!");
     ASSERT_TRUE(document.id=="jorno_0");
@@ -831,6 +861,19 @@ TEST_F(CorpusCleanerTest,ReadDocumentFromJsonlOneLine)
 
 TEST_F(CorpusCleanerTest,ExceptionReadDocumentFromJsonlOneLine)
 {
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
     Document document;
     // jsonl_line without data
     string jsonl_line = "{}";

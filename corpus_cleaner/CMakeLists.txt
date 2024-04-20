@@ -50,7 +50,7 @@ add_executable(${PROJECT_NAME}
                simdjson.h
               )
 # Option of optimization , warning, ...etc.
-target_compile_options(${PROJECT_NAME} PUBLIC -O2 -Wall)
+target_compile_options(${PROJECT_NAME} PUBLIC -O2 -Wall -pthread)
 # Create an executable file called ${PROJECT_NAME}.out from main.cpp
 target_link_libraries(${PROJECT_NAME} PUBLIC
                       icuio 

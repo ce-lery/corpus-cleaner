@@ -60,8 +60,6 @@ void ReadDocumentFromJsonlOneLine(Document &document,
         document.perplexity=stod(string(line_view));    
     }
     catch(...){ 
-        cout << "Exeption("<<__func__<<"): input_jsonl_line "<<input_jsonl_line<< endl;
-        StoreException(__func__,"input_jsonl_line{"+input_jsonl_line+"}");
         throw;
     }
 }   
@@ -75,7 +73,7 @@ void ReadDocumentFromJsonlOneLine(Document &document,
  * @attention 
 **/
 void WriteDocumentToJsonl(Document &document,
-                         string output_file_path)
+                                         string output_file_path)
 {
     try{
         document.text = EscapeWord(document.text);
@@ -98,9 +96,6 @@ void WriteDocumentToJsonl(Document &document,
         output_file.close();
     }
     catch(...){ 
-        string exception_detail = "document.text: "+document.text+" document.id: "+document.id;
-        cout << "Exeption("<<__func__<<"): "<< exception_detail << endl;
-        StoreException(__func__,"input_jsonl_line{"+exception_detail+"}");
         throw;
     }
 }   
@@ -139,7 +134,7 @@ void ConvertTextToDocument(string sentence,
  * @attention 
 **/
 void ConvertInputFilesToJsonl(const string input_folder_path,
-                              const string output_folder_path)
+                                             const string output_folder_path)
 {
 
     string target_line="",source_line="";
@@ -233,9 +228,9 @@ void OutputStats(Stats stats)
  * @return None
  * @attention 
 **/
-void StoreException(string function_name, string reference)
+void CorpusCleaner::StoreException(string function_name, string reference)
 {
-    string filename = "../../results/dataset/exception/exception.txt";
+    string filename = this->exception_path+"/exception.txt";
     ofstream output_file(filename, ios::app);
     
     output_file << "Function Name: "<< function_name << " , ";
@@ -258,9 +253,11 @@ CorpusCleaner::CorpusCleaner(string input_path,
                              LSHDeduplicator *deduplicator)
 {
     this->input_path = input_path;
-    this->output_path = output_path;
-    this->intermediate_path = "../../results/dataset/intermediate/";
-    this->rejected_path = "../../results/dataset/rejected/";
+    this->output_path = output_path+"/cleaned/";
+    this->intermediate_path = output_path+"/intermediate/";
+    this->rejected_path = output_path+"/rejected/";
+    this->exception_path = output_path+"/exception/";
+
     this->min_length = min_length;
     this->max_length = max_length;
     this->accept_language = accept_language;
@@ -279,12 +276,12 @@ CorpusCleaner::CorpusCleaner(string input_path,
     }
 
     RemoveFolder(this->intermediate_path);
-    RemoveFolder("../../results/dataset/exception/");
+    RemoveFolder(this->exception_path);
 
-
+    mkdir(output_path.c_str(), 0777);
     mkdir(this->intermediate_path.c_str(), 0777);
     mkdir(this->output_path.c_str(), 0777);
-    mkdir("../../results/dataset/exception/", 0777);
+    mkdir(this->exception_path.c_str(), 0777);
     mkdir(this->rejected_path.c_str(), 0777);
 
     //Read from input_path's files, and write to output_path in jsonl format.
@@ -626,7 +623,11 @@ void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_fo
             vector<string> segments;
             Document document;
             try{ReadDocumentFromJsonlOneLine(document,target_line);}
-            catch(...){continue;}
+            catch(...){
+                string exception_detail = "line: "+target_line;
+                cout << "Exeption(ReadDocumentFromJsonlOneLine): "<< exception_detail << endl;
+                StoreException("ReadDocumentFromJsonlOneLine","input_jsonl_line{"+exception_detail+"}");
+                continue;}
             
             try{SegmentSentence(document.text, segments);}
             catch(...){
@@ -679,7 +680,7 @@ void CorpusCleaner::ExactDeduplication(string input_folder_path, string output_f
     // Compare all lines of source_file and target_file
     for(int i=0;i<(int)file_list.size();i++){
         ifstream target_file(input_folder_path+"/"+file_list[i]+".jsonl");
-        string  output_file_path(this->output_path+"/"+file_list[i]+".jsonl");
+        string  output_file_path(output_path+"/"+file_list[i]+".jsonl");
 
         uint32_t target_counter=0,source_counter=0;
         while (getline(target_file, target_line)) {
@@ -842,7 +843,12 @@ int32_t CorpusCleaner::CleanPipeline(void)
             uint32_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             ProceedProgressBar(line_count+1,file_line_number,elapsed_time);
             try{ReadDocumentFromJsonlOneLine(document,line);}
-            catch(...){continue;}
+            catch(...){
+                string exception_detail = "line: "+line;
+                cout << "Exeption(ReadDocumentFromJsonlOneLine): "<< exception_detail << endl;
+                StoreException("ReadDocumentFromJsonlOneLine","input_jsonl_line{"+exception_detail+"}");
+                continue;
+            }
 
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
@@ -863,7 +869,12 @@ int32_t CorpusCleaner::CleanPipeline(void)
                 }
                 else    WriteDocumentToJsonl(document,output_file_path);
             }
-            catch(...){continue;}
+            catch(...){
+                string exception_detail = "document.text: "+document.text+" document.id: "+document.id;
+                cout << "Exeption(WriteDocumentToJsonl): "<< exception_detail << endl;
+                StoreException("WriteDocumentToJsonl","input_jsonl_line{"+exception_detail+"}");
+                continue;
+            }
         }
 
         // output removed results

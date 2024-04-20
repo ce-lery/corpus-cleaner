@@ -17,5 +17,6 @@ export LIBRARY_PATH=$ICUPATH/lib
 export LD_LIBRARY_PATH=$ICUPATH/lib
 
 ./corpus_cleaner
+# valgrind --leak-check=full --show-leak-kinds=all ./corpus_cleaner
 
 cd ../../

@@ -53,17 +53,13 @@ void ConvertTextToDocument(string sentence,
                            string filename, 
                            string file_line_count,
                            Document &document);
-void ConvertInputFilesToJsonl(string input_folder_path,
-                         string output_folder_path);
-void ReadDocumentFromJsonlOneLine(Document &document,
-                           string input_jsonl_line);
-void WriteDocumentToJsonl(Document &document,
-                         string output_file_path);
+void ConvertInputFilesToJsonl(string input_folder_path,string output_folder_path);
+void ReadDocumentFromJsonlOneLine(Document &document,string input_jsonl_line);
+void WriteDocumentToJsonl(Document &document,string output_file_path);
 Stats MakeStats(string process_name,
                 string output_path,
                 double elapsed_time);
 void OutputStats(Stats stats);
-void StoreException(string fuction_name, string reference);
 
 class CorpusCleaner
 {
@@ -73,6 +69,7 @@ private:
     string intermediate_path;
     string output_path;
     string rejected_path;
+    string exception_path;
     uint32_t min_length=5;
     uint32_t max_length=1000;
     set<string> accept_language{"__label__ja"};
@@ -116,4 +113,5 @@ public:
     void ExactDeduplication(string input_folder_path,string output_folder_path);
     Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
     int32_t CleanPipeline(void);
+    void StoreException(string function_name, string reference);
 };

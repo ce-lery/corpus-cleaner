@@ -45,7 +45,8 @@ RUN apt-get update \
     libbz2-dev \
     liblzma-dev \
     pkg-config \
-    libgoogle-perftools-dev
+    libgoogle-perftools-dev \
+    valgrind
 
 
 RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \

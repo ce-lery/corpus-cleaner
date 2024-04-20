@@ -4,5 +4,7 @@
 {"text":"ペンですか?","id":"test_SentenceSegmentater_1_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
 {"text":"良かったね!","id":"test_SentenceSegmentater_2_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
 {"text":"すごい!","id":"test_SentenceSegmentater_2_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
-{"text":"それは何ですか？ペンですか？","id":"test_SentenceSegmentater_3","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
-{"text":"良かったね！すごい！","id":"test_SentenceSegmentater_4","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"それは何ですか？","id":"test_SentenceSegmentater_3_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"ペンですか？","id":"test_SentenceSegmentater_3_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"良かったね！","id":"test_SentenceSegmentater_4_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}
+{"text":"すごい！","id":"test_SentenceSegmentater_4_0","is_rejected":"0","metadata":"SentenceSegmenter,","language":"","language_score":"-1","perplexity":"-1"}

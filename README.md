@@ -37,6 +37,13 @@ If you want to try out the contents of this repository quickly and easily, pleas
 
 ## Getting Started
 
+### Clone Repository
+
+```bash
+git clone https://github.com/ce-lery/corpus-cleaner.git
+cd corpus-cleaner
+```
+
 ### Install Step
 
 #### Docker
@@ -44,8 +51,6 @@ If you want to try out the contents of this repository quickly and easily, pleas
 Build a python environment using Docker files.
 
 ```bash
-git clone https://github.com/ce-lery/corpus-cleaner.git
-cd corpus-cleaner
 docker build -t corpus-cleaner-image ./
 docker run -v ./:/home/corpus-cleaner/ -it --gpus all corpus-cleaner-image
 ```
@@ -72,12 +77,12 @@ Build source code of corpus-cleaner.
 bash scripts/build.sh
 ```
 
-Please place the files to be cleaned in "./results/data/input".
+Please place the files to be cleaned in "./results/data/original".
 The file format is ".txt". For example, "wiki.txt", "cc100_train.txt", and so on.
 
 ```bash
-mkdir -p results/data/input/
-# Please place the files to be cleaned in "./results/data/input".
+mkdir -p results/data/original/
+# Please place the files to be cleaned in "./results/data/original".
 ```
 
 Run corpus_cleaner. Please wait a minute.  
@@ -203,9 +208,11 @@ We welcome your contributions to this repository. To contribute, please see [CON
 - [x] Exception handling
 - [x] Test Clean pipeline
 - [x] Implement tqdm.
+- [x] Implement punctuation filter
 - [ ] Write document & create doxygen
-- [ ] Implement "," filter
+- [x] Fix the clean process of Minhash bucket (Now, this isn't initialized). 
 - [ ] Implement dump .txt format file(only is_removed=false).
+- [x] Implement multiprocessing.
 
 ### ver.0.2.0
 
