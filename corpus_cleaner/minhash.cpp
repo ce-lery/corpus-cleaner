@@ -257,6 +257,40 @@ size_t LSHDeduplicator::SizeOfSeen(void)
 }
 
 /**
+ * @brief Calculate size of blacklist (rough estimate)
+ * @details
+
+ * @param void: None
+ * @return size_t : size of  blacklist
+ * @attention
+**/
+size_t LSHDeduplicator::SizeOfBlacklist(void)
+{
+    // Get first element of blacklist
+    size_t element_size=0;  
+    if(this->blacklist.empty())element_size=0;
+    else{
+        auto itr = this->blacklist.begin();
+        // cout << *itr<<endl;
+
+        string blacklist_first_element = *itr;
+        size_t element_unit_size = blacklist_first_element.length();//TODO:check this size
+        // All elements of seen are same size.
+        size_t element_size = element_unit_size * this->blacklist.size();
+    }
+    // overhead of node
+    size_t node_overhead = sizeof(void*) * 2 * this->blacklist.size();
+    // overhead of std::string
+    size_t string_overhead = sizeof(std::string) * this->blacklist.size();
+    // overhead of container structure (rough estimate)
+    size_t container_overhead = 64;
+    size_t total_size = element_size + node_overhead + string_overhead + container_overhead;
+
+    return total_size;
+}
+
+
+/**
  * @brief Initialize seen parameter
  * @details
  * Caluclate size of seen. The step is following.
@@ -291,6 +325,22 @@ void LSHDeduplicator::InitializeSeen(void)
 }   
 
 /**
+ * @brief Initialize seen parameter
+ * @details
+ * Caluclate size of seen. The step is following.
+ * Example:
+ *   GenerateDedupLSH generate_dedupe_lsh(3);
+ * @param void: None
+ * @return size_t : size of  seen
+ * @attention
+**/
+void LSHDeduplicator::InitializeBlacklist(void)
+{
+    if(this->store_blacklist)   this->StoreBlacklist();
+    this->blacklist.clear();
+}   
+
+/**
  * @brief Save Blacklist to file
  * @details
  * 
@@ -305,6 +355,7 @@ void LSHDeduplicator::StoreBlacklist(void)
         // output blacklist
         ofstream blacklist_file(this->blacklist_path);
         for(auto lsh: this->blacklist)   blacklist_file<<lsh<<endl;
+        blacklist_file.close();
     }
 }   
 
@@ -326,6 +377,7 @@ void LSHDeduplicator::LoadBlacklistToSeen(void)
         Strip(line);
         this->seen.insert(line);
     }
+    blacklist_file.close();
 }   
 
 /**

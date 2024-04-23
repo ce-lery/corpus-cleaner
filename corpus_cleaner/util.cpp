@@ -497,6 +497,6 @@ void ProceedProgressBar(unsigned long long line_count,unsigned long long file_li
     double msecond_per_iter = double(elapsed_time_ms)/line_count;
     printf(", %.2fms/it",msecond_per_iter);
     printf("]");
-    fflush(stdout);
+    // fflush(stdout);
     if (progress_percentage==100)   printf("\n");
 }

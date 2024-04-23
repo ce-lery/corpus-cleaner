@@ -58,8 +58,10 @@ public:
     ~LSHDeduplicator();
     bool Apply(const vector<string> *lshs);//TODO
     size_t SizeOfSeen(void);
+    size_t SizeOfBlacklist(void);
     void InitializeSeen(void);
     void StoreBlacklist(void);
     void LoadBlacklistToSeen(void);
     size_t GetTotalBucketSize(void);
+    void InitializeBlacklist(void);
 };

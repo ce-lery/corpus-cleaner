@@ -19,6 +19,7 @@ uint64_t ConutLines(const string& filename)
     uint64_t line_count = 0;
     string line="";
     while (getline(file, line))    line_count++;
+    file.close();
     return line_count;
 }
 
@@ -121,7 +122,7 @@ void MultiProcessCorpusClean(const string input_folder_path,
 
     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
     //LSHDeduplicator deduplicator(true,"../../results/dataset/blacklist.txt",true,5120000000);
-    LSHDeduplicator deduplicator(true,blacklist_file_path,true,1260000000);
+    LSHDeduplicator deduplicator(true,blacklist_file_path,true,1280000000);
     
     // create instance
     CorpusCleaner corpus_cleaner(input_folder_path,
@@ -193,3 +194,41 @@ int main(void)
     }
     return 0;
 }
+
+
+
+// #include "corpus_cleaner.hpp"
+
+// int main(void)
+// {
+//     string input_folder_path = "../../results/dataset/input/";
+//     string output_folder_path = "../../results/dataset/output/";
+//     uint32_t min_length= 5;
+//     uint32_t max_length = 5000;
+//     set<string> accept_language{"__label__ja"};
+// //  RemoveFolder(output_folder_path);
+//     bool store_rejected = true; 
+//     bool execute_sentence_segment = false; // TODO: switch true
+//     double language_threshold = 0.3;
+//     double perplexity_threshold = 40000;
+
+//     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
+//     LSHDeduplicator deduplicator(true,"../../results/dataset/blacklist.txt",true,1280000000);
+    
+//     // create instance
+//     CorpusCleaner corpus_cleaner(input_folder_path,
+//                                  output_folder_path,
+//                                  min_length,
+//                                  max_length,
+//                                  accept_language,
+//                                  store_rejected,
+//                                  execute_sentence_segment,
+//                                  language_threshold,
+//                                  perplexity_threshold,
+//                                  &generate_dedup_lsh,
+//                                  &deduplicator);
+    
+//     // Execute cleaning pipeline
+//     corpus_cleaner.CleanPipeline();
+//     return 0;
+// }
