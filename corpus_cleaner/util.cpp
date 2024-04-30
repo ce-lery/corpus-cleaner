@@ -4,9 +4,11 @@ using namespace std;
 /**
  * @brief Get exact length of UTF-8 string in C
  * @details 
- * @example
+ * Example:
+ * ```cpp
  *   string input="こんにちわ。";
  *   uint32_t length = strlen_utf8(input);
+ * ```
  * @param string input: text string.
  * @return uint32_t: length of input
  * @ref https://ja.stackoverflow.com/questions/2988/c%E8%A8%80%E8%AA%9E%E3%81%A7%E3%81%AEutf-8%E6%96%87%E5%AD%97%E5%88%97%E3%81%AE%E6%AD%A3%E7%A2%BA%E3%81%AA%E9%95%B7%E3%81%95%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B
@@ -27,9 +29,11 @@ uint32_t strlen_utf8(string input)
  * @brief Delete a folder with its contents
  * @details 
  *  Recursively delete files in a folder.
- * @example
+ * Example:
+ * ```cpp
  *   string folder_path="data/intermediate";
  *   RemoveFolder(folder_path);
+ * ```
  * @param string path: folder path to be deleted
  * @return None
  * @attention 
@@ -55,10 +59,12 @@ void RemoveFolder(const std::string& path)
 /**
  * @brief copy source_fileto target_file
  * @details 
- * @example
+ * Example:
+ * ```cpp
  *   string source_path="data/source/a.txt";
  *   string target_path="data/target/a.txt";
- *   CopyFolder(source_path,target_path);
+ *   CopyFile(source_path,target_path);
+ * ```
  * @param string source_path: Copy source file path
  * @param string target_path: Copy target file path
  * @return None
@@ -74,10 +80,12 @@ void CopyFile(string source_path, string target_path)
 /**
  * @brief copy source_fileto target_file
  * @details 
- * @example
- *   string source_path="data/source/a.txt";
- *   string target_path="data/target/a.txt";
+ * Example:
+ * ```cpp
+ *   string source_path="data/source/";
+ *   string target_path="data/target/";
  *   CopyFolder(source_path,target_path);
+ * ```
  * @param string source_path: Copy source file path
  * @param string target_path: Copy target file path
  * @return None
@@ -95,9 +103,11 @@ void MoveFile(string source_path, string target_folder)
  * @brief copy source_folder to target_folder
  * @details 
  * Example:
+ * ```cpp
  *   string source_folder="data/source";
  *   string target_folder="data/target";
  *   CopyFolder(source_folder,target_folder);
+ * ```
  * @param string source_folder: Copy source folder path
  * @param string target_folder: Copy target folder path
  * @return None
@@ -119,9 +129,11 @@ void CopyFolder(string source_folder, string target_folder)
  * @brief copy source_folder to target_folder
  * @details 
  * Example:
+ * ```cpp
  *   string source_folder="data/source";
  *   string target_folder="data/target";
  *   MoveFolder(source_folder,target_folder);
+ * ```
  * @param string source_folder: Copy source folder path
  * @param string target_folder: Copy target folder path
  * @return None
@@ -152,9 +164,11 @@ void MoveFolder(string source_folder, string target_folder)
 /**
  * @brief Derive the next emoji
  * @details 
- * @example
+ * Example:
+ * ```cpp
  *   string emoji="🌀";
  *   CalculateNextEmoji(emoji); //return:🌁
+ * ```
  * @param string pre_emoji: emoji string
  * @return string: next emoji (pre_emoji + 1)
  * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
@@ -180,10 +194,12 @@ string CalculateNextEmoji(string pre_emoji)
 /**
  * @brief Get filename list in folder_path
  * @details 
- * @example
+ * Example:
+ * ```cpp
  *   string input_path = "../data/input/";
  *   vector<string> file_list;
  *   GetFileList(input_path, &file_list);
+ * ```
  * @param string folder_path: folder path
  * @param vector<string> *file_list: (return) filename list
  * @return None
@@ -203,12 +219,14 @@ void GetFileNameListWithoutExtention(const string folder_path, vector<string> *f
 /**
  * @brief Get file line number list
  * @details 
- * @example
+ * Example:
+ * ```cpp
  *   string folder_path = "../data/input/";
  *   vector<string> file_list;
  *   GetFileNameListWithoutExtention(folder_path,&file_list);
  *   vector<string> file_line_number_list;
  *   GetFileLineNumberList(folder_path,&file_list,&file_line_number_list);
+ * ```
  * @param const string folder_path: folder path
  * @param const vector<string> *file_list: (return) filename list
  * @param const string file_extention: file extention of file_list (".json",".txt", and so on.)
@@ -240,9 +258,11 @@ void GetFileLineNumberList(const string folder_path,
 /**
  * @brief Convert string to Wstring
  * @details
- * @example
+ * Example:
+ * ```cpp
  *   string input= "こんにちわ。";
  *   wstring input_w  = ConvertUTF8ToWstring(input);
+ * ```
  * @param const string& src: text sentence
  * @return wstring: text sentence converted wstring
  * @attention
@@ -256,7 +276,7 @@ wstring ConvertUTF8ToWstring(const string& sentence)
 /**
  * @brief Convert Wstring to string
  * @details
- * @example
+ * Example:
  *   wstring input_w = L"こんにちわ。";
  *   string input  = ConvertWstringToUTF8(input_w);
  * @param const string& src: text sentence
@@ -277,9 +297,11 @@ string ConvertWstringToUTF8(const wstring& sentence)
  *      2. Puctuations enclosed in quotation marks are ignored.
  *      3. Replace "。"(puctuation_list) to "。\n".
  *      4. Remove the last character of the string.
- * @example
+ * Example:
+ * ```cpp
  *   string sentence = "../data/input/";
  *   SegmentationSentence(sentence);
+ * ```
  * @param string sentence: sentence
  * @return string: segmentated sentence
  * @note Be sure to use Normalizer to normalize your corpus before this process.
@@ -357,9 +379,11 @@ void SegmentSentence(string sentence, vector<string> &segments)
 /**
  * @brief Remove leading and trailing white space
  * @details
- * @example
+ * Example:
+ * ```cpp
  *   string sentence= "  こんにちわ。  ";
  *   sentence  = Strip(sentence); //"こんにちは。"
+ * ```
  * @param const string& sentence: text sentence
  * @return string: sentence has been processed
  * @attention
@@ -372,7 +396,6 @@ string Strip(const string& sentence)
     size_t end = sentence.find_last_not_of(" \t\n\r");
 	// For empty string
     if (start == string::npos) return "";
-
 	// Return substring from beginning to end
     return sentence.substr(start, end - start + 1);
 }
@@ -390,9 +413,10 @@ void ReplaceSubstring(string& sentence, const string& target, const string& repl
  * @brief Get file name from path without file extention (.txt).
  * @details
  * Example:
- * 
+ * ```cpp
  *   string path = "/path/to/input.txt";
  *   cout << GetFileName(path)<< endl; // /path/to/input
+ * ```
  * @param const string& sentence: text sentence
  * @return string: sentence has been processed
  * @attention
@@ -411,12 +435,14 @@ string GetFilePathWithoutExtention(const string& file_path)
  * @brief Extract file name list from file path list and add .jsonl extention
  * @details
  * Example:
+ * ```cpp
  *   vector<string> path_list,filename_list;
  *   path_list.push_back("/path/to/input.txt");
  *   path_list.push_back("/path/to/input2.txt");
  *   GetFileNameListAddedJsonl(pathlist,filename_list)
  *   for(auto filename:filename_list)cout << filename << endl;
  *   // /path/to/input.jsonl /path/to/input2.jsonl
+ * ```
  * @param const vector<string> &file_path_list: original file path list
  * @param vector<string> &jsonl_file_path_list: (output) file path list added jsonl extention
  * @return void: None
@@ -435,11 +461,12 @@ void GetFileNameListAddedJsonl(const vector<string> &file_path_list,
  * @brief Escape word
  * @details
  * If " or ' or \, replace to \", \', and \\.
- *
  * Example:
+ * ```cpp
  *   string input = """;
  *   string output =  EscapeWord(input);
  *   // output == "\""
+ * ```
  * @param const string& sentence: text sentence
  * @return string: converted sentence
  * @attention
@@ -462,7 +489,7 @@ string EscapeWord(const string& input)
 /**
  * @brief Update progress bar
  * @details 
- * @example
+ * Example:
  * @param uint64_t line_count
  * @param uint64_t file_line_number
  * @return None

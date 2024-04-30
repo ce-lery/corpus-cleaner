@@ -10,7 +10,7 @@ FastTextEx::FastTextEx()
 /**
  * @brief Judge the language of one sentence
  * @details 
- * @example
+ * Example:
  * @param string sentence: sentence Judged
  * @param vector<pair<real, string>>& predictions: Pointer for returning judgment results
  *  @param int32_t k: Judge one sentence(1), judge multiple sentences(-1)

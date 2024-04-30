@@ -3,21 +3,6 @@
 #define INF 1L<<30;
 using namespace std;
 
-/**
- * @brief Deduplication with Minhash LSH
- * @details 
- * @example
- *   string input_path = "../data/input/test_URLRemover.txt";
- *   double elapsed_time = 11.56;
- *   string process_name = "URLRemover";
- *   Stats stats = MakeStats(process_name,input_path,elapsed_time);
- * @param string process_name: Cleaning filter name.
- * @param string output_path: Path of file for statistics.
- * @param double elapsed_time: elapsed process time.
- * @return Stats: statistics
- * @ref https://github.com/HojiChar/HojiChar/blob/v0.9.0/hojichar/filters/deduplication.py
- * @attention 
-**/
 class GenerateDedupLSH
 {
 private:

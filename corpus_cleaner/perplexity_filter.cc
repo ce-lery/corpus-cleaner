@@ -10,23 +10,22 @@ lm::ngram::Model model("ja.arpa.bin"); //TODO: Refactor. Don't use global parame
 /**
  * @brief Score sentence by KenLM.
  * @details
- * The step is...
- * 1. Split sentence into single characters.
- * 2. 
+ * The step is...  
+ * 1. Split sentence into single characters.  
+ * 2.   
  * 
- * The usage is following.
- * 
- *    wstring sentence = L"吾輩は猫である.名前はまだない.";
- *    cout << KenLMScore(sentence) << endl;
- *    // -60.5849
+ * Example:
+ * ```cpp
+ *    wstring sentence = L"吾輩は猫である.名前はまだない.";  
+ *    cout << KenLMScore(sentence) << endl;  
+ *    // -60.5849  
+ * ```
  * @param const wstring &sentence: text sentence
  * @return double: score by KenLM
- * 
- * @attention
+ * @note
 **/
 KenLMFilter::KenLMFilter()
 {
-
 	const auto status = processor.Load("ja.sp.model");
 	if (!status.ok()) {
    		std::cerr << status.ToString() << std::endl;
@@ -38,25 +37,25 @@ KenLMFilter::KenLMFilter()
 /**
  * @brief Score sentence by KenLM.
  * @details
- * The step is...
- * 1. Split sentence into single characters.
- * 2. 
+ * The step is...  
+ * 1. Split sentence into single characters.  
+ * 2.  
  * 
- * The usage is following.
- * 
- *    wstring sentence = L"吾輩は猫である.名前はまだない.";
- *    cout << KenLMScore(sentence) << endl;
+ * Example:
+ * ```cpp
+ *    wstring sentence = L"吾輩は猫である.名前はまだない.";  
+ *    cout << KenLMScore(sentence) << endl;  
  *    // -60.5849
+ * ```
  * @param const wstring &sentence: text sentence
  * @return double: score by KenLM
  * @ref
  * https://github.com/google/sentencepiece/blob/master/doc/api.md
  * https://github.com/google/sentencepiece
- * @attention
+ * @note
 **/
 double KenLMFilter::Score(const wstring sentence)
 {
-
 	double total_score=0,score=0;
 	
 	string word_w ="";
@@ -83,21 +82,22 @@ double KenLMFilter::Score(const wstring sentence)
 /**
  * @brief Score sentence by KenLM with SentencePiece Tokenizing.
  * @details
- * The step is...
- * 1. Split sentence into single characters.
- * 2. 
+ * The step is...  
+ * 1. Split sentence into single characters.  
+ * 2.  
  * 
- * The usage is following.
- * 
+ * Example:
+ * ```cpp
  *    wstring sentence = L"吾輩は猫である.名前はまだない.";
  *    cout << KenLMScore(sentence) << endl;
  *	  //
+ * ```
  * @param const wstring &sentence: text sentence
  * @return double: score by KenLM
  * @ref
  * https://github.com/google/sentencepiece/blob/master/doc/api.md
  * https://github.com/google/sentencepiece
- * @attention
+ * @note
 **/
 double KenLMFilter::ScoreWithSentencePiece(const wstring sentence)
 {
@@ -132,8 +132,7 @@ double KenLMFilter::ScoreWithSentencePiece(const wstring sentence)
  * 1. Split sentence into single characters.
  * 2. 
  * 
- * The usage is following.
- * 
+ * Example:
  *    wstring sentence = L"吾輩は猫である.名前はまだない.";
  *    cout << KenLMPerplexity(sentence) << endl;
  *    // 4117.1
@@ -143,7 +142,7 @@ double KenLMFilter::ScoreWithSentencePiece(const wstring sentence)
  * https://github.com/kpu/kenlm/blob/master/python/kenlm.pyx#L209
  * https://zenn.dev/syoyo/articles/529ce949121ca4
  * https://github.com/facebookresearch/cc_net
- * @attention
+ * @note
 **/
 double KenLMFilter::Perplexity(const wstring sentence)
 {
@@ -172,7 +171,7 @@ double KenLMFilter::Perplexity(const wstring sentence)
  * https://github.com/kpu/kenlm/blob/master/python/kenlm.pyx#L209
  * https://zenn.dev/syoyo/articles/529ce949121ca4
  * https://github.com/facebookresearch/cc_net
- * @attention
+ * @note
 **/
 double KenLMFilter::PerplexityWithSentencePiece(const wstring sentence)
 {

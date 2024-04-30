@@ -19,18 +19,21 @@ using namespace std;
 /**
  * @brief nfkc normalize sentence by icu::Normalizer2
  * @details
- *  Search for words that match the word_pattern regular expression in the sentence
- *  and perform NFKC normalization using icu::Normalizer2.
- * @example
- *   wstring sentence = L"０１２３４５６７８９";
- *   static wregex word_pattern(L"(([０-９]+))");
- *   wstring normalized_sentence = UnicodeNormalize(word_pattern, sentence)
- *   // normalized_sentence == L"0123456789"
+ *  Search for words that match the word_pattern regular expression in the sentence 
+ *  and perform NFKC normalization using icu::Normalizer2.  
+ * 
+ * Example:
+ * ```cpp
+ *   wstring sentence = L"０１２３４５６７８９";  
+ *   static wregex word_pattern(L"(([０-９]+))");  
+ *   wstring normalized_sentence = UnicodeNormalize(word_pattern, sentence)  
+ *   // normalized_sentence == L"0123456789"  
+ * ```
  * @param wregex word_pattern: Regular expression for string to be normalized
  * @param wstring: sentence
  * @return wstring: normalized sentence
  * @ref https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
- * @attention
+ * @note
 **/
 wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
 {
@@ -73,14 +76,17 @@ wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
 /**
  * @brief Replace a specific string from half-width to full-width
  * @details
- *  Replace the following full-width symbols with half-width symbols
- *  /！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝
- * @example
- *   wstring sentence= "（）";
- *   sentence  = TranslateToFullwidth(sentence); //"()"
+ *  Replace the following full-width symbols with half-width symbols  
+ *  /！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝  
+ * 
+ * Example:  
+ * ```cpp
+ *   wstring sentence= "（）";  
+ *   sentence  = TranslateToFullwidth(sentence); //"()"  
+ * ```
  * @param const string& sentence: text sentence
  * @return wstring: sentence has been processed
- * @attention
+ * @note
 **/
 wstring TranslateToFullwidth(const wstring& sentence_w)
 {
@@ -109,19 +115,22 @@ wstring TranslateToFullwidth(const wstring& sentence_w)
 /**
  * @brief remove half-width spaces that meet the conditions
  * @details
- *  Replace one or more half-width spaces with one half-width space.
- *  And Remove half-width spaces included in the following conditions.
- *  - Half-width spaces included between "hiragana, full-width katakana, 
- *    half-width katakana, kanji, and full-width symbols"
- *  - Half-width space included between "hiragana, full-width katakana, 
- *    half-width katakana, kanji, 
- *    full-width symbols" and "half-width alphanumeric characters"
- * @example
- *   wstring sentence= "（）";
- *   sentence  = TranslateToFullwidth(sentence); //"()"
+ *  Replace one or more half-width spaces with one half-width space.  
+ *  And Remove half-width spaces included in the following conditions.  
+ *  - Half-width spaces included between "hiragana, full-width katakana,  
+ *    half-width katakana, kanji, and full-width symbols"  
+ *  - Half-width space included between "hiragana, full-width katakana,  
+ *    half-width katakana, kanji,  
+ *    full-width symbols" and "half-width alphanumeric characters"  
+ * 
+ * Example:  
+ * ```cpp
+ *   wstring sentence= "（）";  
+ *   sentence  = TranslateToFullwidth(sentence); //"()"  
+ * ```
  * @param const string& sentence: text sentence
  * @return wstring: sentence has been processed
- * @attention
+ * @note
 **/
 wstring RemoveExtraSpaces(const wstring& sentence)
 {
@@ -148,16 +157,19 @@ wstring RemoveExtraSpaces(const wstring& sentence)
 /**
  * @brief Neologd Normalized function
  * @details
- * Perform the normalization process described in the link below.
- *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja
- * @example
- *   string sentence= "検索 エンジン 自作 入門 を 買い ました!!!";
- *   sentence = NormalizeNeologd(sentence); //"検索エンジン自作入門を買いました"
+ * Perform the normalization process described in the link below.  
+ * https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja  
+ * 
+ * Example:
+ * ```cpp
+ *   string sentence= "検索 エンジン 自作 入門 を 買い ました!!!";  
+ *   sentence = NormalizeNeologd(sentence); //"検索エンジン自作入門を買いました"  
+ * ```
  * @param const string& sentence: text sentence
  * @return wstring: sentence has been processed
  * @attention
- *  This process is for Japanese text. Do not use English text or code in your corpus.
- *  For example, in English text, spaces between words will be removed.
+ *  This process is for Japanese text. Do not use English text or code in your corpus.  
+ *  For example, in English text, spaces between words will be removed.  
 **/
 string NormalizeNeologd(string sentence)
 {

@@ -7,22 +7,21 @@ using namespace simdjson;
 /**
  * @brief Loggging Document to output_file_path
  * @details 
- *
  * Example:
- *
- * string input_file_path = "./input.jsonl";
- * ifstream ifs(input_file_path);
- * Document document;
- * string line = "";
- * while(getline(ifs,line)){
+ * ```cpp
+ * string input_file_path = "./input.jsonl";  
+ * ifstream ifs(input_file_path);  
+ * Document document;  
+ * string line = "";  
+ * while(getline(ifs,line)){  
  *     ReadDocumentFromJsonl(document,line);  
  *     // Write process for document.
  * } 
- *
+ * ```
  * @param Document document: document
  * @param string output_file_path: Path of file for statistics.
  * @return void: None
- * @attention 
+ * @note 
 **/
 void ReadDocumentFromJsonlOneLine(Document &document,
                                   string input_jsonl_line)
@@ -70,7 +69,7 @@ void ReadDocumentFromJsonlOneLine(Document &document,
  * @param Document document: document
  * @param string output_file_path: Path of file for statistics.
  * @return void: None
- * @attention 
+ * @note 
 **/
 void WriteDocumentToJsonl(Document &document,
                           string output_file_path)
@@ -109,7 +108,7 @@ void WriteDocumentToJsonl(Document &document,
  * @param string file_line_count: the line number of sentence in "filename"
  * @param Document document: document converted
  * @return void: None
- * @attention 
+ * @note 
 **/
 void ConvertTextToDocument(string sentence, 
                            string filename, 
@@ -131,7 +130,7 @@ void ConvertTextToDocument(string sentence,
  * @param Document document: document
  * @param string output_file_path: Path of file for statistics.
  * @return void: None
- * @attention 
+ * @note 
 **/
 void ConvertInputFilesToJsonl(const string input_folder_path,
                                              const string output_folder_path)
@@ -175,17 +174,14 @@ void ConvertInputFilesToJsonl(const string input_folder_path,
 /**
  * @brief Format statistics
  * @details 
- * 
- * The usage is following.
- *   string input_path = "../data/input/test_URLRemover.txt";
- *   double elapsed_time = 11.56;
- *   string process_name = "URLRemover";
- *   Stats stats = MakeStats(process_name,input_path,elapsed_time);
+ * Example:
+ * ```cpp
+ * ```
  * @param string process_name: Cleaning filter name.
  * @param string output_path: Path of file for statistics.
  * @param double elapsed_time: elapsed process time.
  * @return Stats: statistics
- * @attention 
+ * @note 
 **/
 Stats MakeStats(string process_name,
                 string output_path,
@@ -206,10 +202,10 @@ Stats MakeStats(string process_name,
 /**
  * @brief Output statistics
  * @details 
- * @example
+ * Example:
  * @param Stats stats: Statistics to be output.
  * @return None
- * @attention 
+ * @note 
 **/
 void OutputStats(Stats stats)
 {
@@ -226,7 +222,7 @@ void OutputStats(Stats stats)
  * @param string reference: reference infomation. For example, sentence.
  * @param string function_name: function name cause exeption
  * @return None
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::StoreException(string function_name, string reference)
 {
@@ -303,12 +299,12 @@ CorpusCleaner::~CorpusCleaner()
 /**
  * @brief Remove too long sentence and too short sentence.
  * @details 
- *  Remove too long sentence that is length is more thanand too short sentence.
- *  The length of too long sentence is more than "max_length".
- *  The length of too short sentence is lesser than "min_length".
+ *  Remove too long sentence that is length is more thanand too short sentence.  
+ *  The length of too long sentence is more than "max_length".  
+ *  The length of too short sentence is lesser than "min_length".  
  * @param Document &document: single line text to clean be cleaned
  * @return void: None
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::LengthFilter(Document &document)
 {  
@@ -322,16 +318,15 @@ void CorpusCleaner::LengthFilter(Document &document)
 /**
  * @brief KenLM's Perplexity Quality filtering 
  * @details 
- *  Please Refer document of "TODO"
- *  1. 
- *  2. If the perplexity is less than "threshold", the "document" is to be rejected.
+ *  Please Refer document of "TODO"  
+ *  1.  
+ *  2. If the perplexity is less than "threshold", the "document" is to be rejected.  
  *  
- *  The usage is following.
+ *  Example:
  *  
  * @param Document &document: single line text to be cleaned
  * @return void: None
- * @ref TODO
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::PerplexityFilter(Document &document)
 {
@@ -347,8 +342,9 @@ void CorpusCleaner::PerplexityFilter(Document &document)
 }
 
 /**
- * @brief Language filtering 
+ * @brief Language filtering using fastText.
  * @details 
+ * ```cpp
  *  string in = "吾輩は猫である。名前はまだ無い。";
  *  FastTextEx language_filter;
  *  pair<float, string> score;
@@ -358,12 +354,13 @@ void CorpusCleaner::PerplexityFilter(Document &document)
  *  string in2 = "I am a cat. No name yet.";
  *  score = language_filter.filter(in2);
  *  // score.first ==0.75237, score.second ==__label__en 
+ * ```
  * @param Document &document: single line text to be cleaned
  * @return void: None
  * @ref 
  *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
  *  https://fasttext.cc/docs/en/supervised-tutorial.html
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::LanguageFilter(Document &document)
 {
@@ -401,11 +398,11 @@ void CorpusCleaner::LanguageFilter(Document &document)
 /**
  * @brief Remove URLs matching regular expression.
  * @details 
- *  Remove URLs matching regular expression.
- *  The regular expression is "(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)".
+ *  Remove URLs matching regular expression.  
+ *  The regular expression is "(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)".  
  * @param Document &document: single line text to clean be cleaned
  * @return void: None
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::URLRemover(Document &document)
 {
@@ -419,13 +416,13 @@ void CorpusCleaner::URLRemover(Document &document)
 /**
  * @brief Remove special character. For example, ☀, ♡, ☆, and so on.
  * @details 
- *  Remove emoji characters that is \U00002600(☀) to \U000027ff(⟿),
- *  \U00002190(←) to \U000021ff(⇿),\U00002300(⌀) to \U000023ff(⏿)
- *  \U00002900(⤀) to \U0000297f(⥿),\U00002b00(⬀) to \U00002bff(⯿), 
- *  and \U0001f000(🀀) to \U0001f0ff(🃿).
- *  The C++ regex library does not support 4-byte characters. 
- *  Therefore, characters like 🀀 cannot be matched using regular expressions. 
- *  So, in a full search, those that completely match the pictogram are searched and removed.
+ *  Remove emoji characters that is \U00002600(☀) to \U000027ff(⟿),  
+ *  \U00002190(←) to \U000021ff(⇿),\U00002300(⌀) to \U000023ff(⏿)  
+ *  \U00002900(⤀) to \U0000297f(⥿),\U00002b00(⬀) to \U00002bff(⯿),  
+ *  and \U0001f000(🀀) to \U0001f0ff(🃿).  
+ *  The C++ regex library does not support 4-byte characters.  
+ *  Therefore, characters like 🀀 cannot be matched using regular expressions.  
+ *  So, in a full search, those that completely match the pictogram are searched and removed.  
  * 
  * Example:
  * TODO.
@@ -433,7 +430,7 @@ void CorpusCleaner::URLRemover(Document &document)
  * @param string output_path: The output path of results file.
  * @return Stats: statics imformation of this function.
  * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::SpecialCharacterRemover(Document &document)
 {
@@ -458,14 +455,14 @@ void CorpusCleaner::SpecialCharacterRemover(Document &document)
 /**
  * @brief Remove emoji. For example, 🤗, 🐉, 📊, and so on.
  * @details 
- *  Remove emoji characters that is \U0001F300(🌀) to \U0001F9FF(🧿).
- *  The C++ regex library does not support 4-byte characters. 
- *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
- *  So, in a full search, those that completely match the pictogram are searched and removed.
+ *  Remove emoji characters that is \U0001F300(🌀) to \U0001F9FF(🧿).  
+ *  The C++ regex library does not support 4-byte characters.  
+ *  Therefore, characters like 🌀 cannot be matched using regular expressions.  
+ *  So, in a full search, those that completely match the pictogram are searched and removed.  
  * @param Document &document: single line text to be cleaned
  * @return void: None
  * @ref https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::EmojiRemover(Document &document)
 {
@@ -484,8 +481,8 @@ void CorpusCleaner::EmojiRemover(Document &document)
 /**
  * @brief Remove quotes. For example, [1], {245}, and so on.
  * @details 
- *  Remove remarks matching regular expression.
- *  The regular expression is "(\[([0-9]+)\]|\{([0-9]+)\})".
+ *  Remove remarks matching regular expression.  
+ *  The regular expression is "(\[([0-9]+)\]|\{([0-9]+)\})".  
  * @param Document &document: single line text to be cleaned
  * @return void: None
  * @attention Don't use this on corpus that contain formulas or programs.
@@ -502,7 +499,7 @@ void CorpusCleaner::QuotesRemover(Document &document)
 /**
  * @brief Remove sentence without punctuation.
  * @details 
- * Remove sentence without punctuation that is "、","､","。","｡","．",".","？","?","！","!".
+ * Remove sentence without punctuation that is "、","､","。","｡","．",".","？","?","！","!".  
  * 
  * Example:
  * 
@@ -532,13 +529,13 @@ void CorpusCleaner::ZeroPunctuationFilter(Document &document)
 /**
  * @brief Neologd Normalize sentence
  * @details 
- *  Please Refer document of "NormalizeNeologd()"
+ *  Please Refer document of "NormalizeNeologd()".  
  * @param string input_path: The path of filterd file.
  * @param string output_path: The output path of results file.
  * @return Stats: statics imformation of this function.
  * @ref 
  *  https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::Normalizer(Document &document)
 {
@@ -553,21 +550,21 @@ void CorpusCleaner::Normalizer(Document &document)
 /**
  * @brief MinHashLSH Deduplication files in the this->intermediate folder
  * @details 
- *  Follow the steps below to remove duplication between all lines of all files in the this->intermediate folder.
- *  1. Get the list of files in this->intermediate_folder and set it to vector<string> file_list
- *  2. Compare all lines of source_file and target_file in file_list.
- *  3. Check duplication between all lines of souce file and all lines of target_file.
- *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
+ *  Follow the steps below to remove duplication between all lines of all files in the this->intermediate folder.  
+ *  1. Get the list of files in this->intermediate_folder and set it to vector<string> file_list  
+ *  2. Compare all lines of source_file and target_file in file_list.  
+ *  3. Check duplication between all lines of souce file and all lines of target_file.  
+ *  Therefore, characters like 🌀 cannot be matched using regular expressions.  
  *  I considered deduplication using set or multiset, 
- *  but I did not use this method because the file size could exceed the memory capacity.
+ *  but I did not use this method because the file size could exceed the memory capacity.  
  * 
- * The usage is following.
+ *  Example:
  * 
  * @param string input_folder_path: input folder path
  * @param string output_folder_path: output folder path
  * @return Stats: statics imformation of this function.
  * @ref 
- * @attention TODO: fix return stats.
+ * @note TODO: fix return stats.
 **/
 void CorpusCleaner::MinhashDeduplication(Document &document)
 {
@@ -603,18 +600,19 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
 /**
  * @brief Simple sentence splitter for japanese text.
  * @details 
- *  I used Pragmatic Segmenter's Japanese rules as a reference for sentence separation rules.
- *  The C++ regex library does not support 4-byte characters. 
- *  Therefore, characters like 🌀 cannot be matched using regular expressions. 
- *  So, in a full search, those that completely match the pictogram are searched and removed.
- * @example TODO
+ * I used Pragmatic Segmenter's Japanese rules as a reference for sentence separation rules.  
+ * The C++ regex library does not support 4-byte characters.  
+ * Therefore, characters like 🌀 cannot be matched using regular expressions.  
+ * So, in a full search, those that completely match the pictogram are searched and removed.  
+ * 
+ * Example: TODO
  * @param string input_path: The path of filterd file.
  * @param string output_path: The output path of results file.
  * @return Stats: statics imformation of this function.
  * @ref 
  *  https://github.com/wwwcojp/ja_sentence_segmenter/blob/main/ja_sentence_segmenter/split/simple_splitter.py
  *  https://github.com/diasks2/pragmatic_segmenter#golden-rules-japanese
- * @attention 
+ * @note 
 **/
 void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_folder_path)
 {
@@ -696,29 +694,59 @@ Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*clea
 /**
  * @brief Pipeline that sequentially executes the configured CorpusCleaner methods
  * @details 
- *  Perform the following steps in order.
- *  1. Set CorpusCleaner process to pipeline_list that will be executed. (Please read attention.)
- *  2. Loop processing as many times as pipeline_list
- *      2-1. copy output folder to intermediate folder
- *      2-2. Get list of files in intermediate folder.
- *      2-3. Execute the each CorpusCleaner processing on all files in the intermediate folder.
- * @example
- *  string input_path = "../data";
- *  string output_path = "../results/corpus_cleaner";
- *  CorpusCleaner corpus_cleaner(input_path,output_path,5,1000);
- *  corpus_cleaner.CleanPipeline();
- * @param string input_path: The path of filterd file.
- * @param string output_path: The output path of results file.
+ *  Perform the following steps in order.  
+ *  1. Set CorpusCleaner process to pipeline_list that will be executed. (Please read attention.)  
+ *  2. Loop processing as many times as pipeline_list  
+ *      2-1. copy output folder to intermediate folder  
+ *      2-2. Get list of files in intermediate folder.  
+ *      2-3. Execute the each CorpusCleaner processing on all files in the intermediate folder.  
+ *
+ * Example:
+ *  ```cpp
+ *   string input_folder_path = "../../results/dataset/input/";
+ *   string output_folder_path = "../../results/dataset/output/";
+ *   uint32_t min_length= 5;
+ *   uint32_t max_length = 5000;
+ *   set<string> accept_language{"__label__ja"};
+ *   bool store_rejected = true; 
+ *   bool execute_sentence_segment = false; // TODO: switch true
+ *   double language_threshold = 0.3;
+ *   double perplexity_threshold = 40000;
+ *
+ *   string blacklist_file_path = output_folder_path+"/blacklist.txt";
+ *   GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
+ *   LSHDeduplicator deduplicator(true,blacklist_file_path,true,1280000000);
+ *
+ *   // create instance
+ *   CorpusCleaner corpus_cleaner(input_folder_path,
+ *                                output_folder_path,
+ *                                min_length,
+ *                                max_length,
+ *                                accept_language,
+ *                                store_rejected,
+ *                                execute_sentence_segment,
+ *                                language_threshold,
+ *                                perplexity_threshold,
+ *                                &generate_dedup_lsh,
+ *                                &deduplicator);
+ *   
+ *   // Execute cleaning pipeline
+ *   corpus_cleaner.CleanPipeline(); 
+ * ```
+ * @param void: None
  * @return None
  * @attention 
- *  CorpusCleaner processing is performed in the order set in Cleaner_array.
- *  For example, set cleaner_array as follows:
- *      vector<Stats (CorpusCleaner::*)(string,string)> cleaner_array = { 
- *          &CorpusCleaner::URLRemover ,
- *          &CorpusCleaner::ExcessFilter, 
- *          &CorpusCleaner::SpecialCharacterRemover}; 
- *  At this time, processing is performed in the order of 
- *  1. URLRemover, 2. ExcessFilter, and 3. SpecialCharacterRemover.
+ *  CorpusCleaner processing is performed in the order set in Cleaner_array.  
+ *  For example, set cleaner_array as follows: 
+ * ```cpp
+ *      vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
+ *          &CorpusCleaner::URLRemover ,  
+ *          &CorpusCleaner::LengthFilter,  
+ *          &CorpusCleaner::SpecialCharacterRemover
+ *      };  
+ * ```
+ *  At this time, processing is performed in the order of  
+ *  1. URLRemover, 2. LengthFilter, and 3. SpecialCharacterRemover.  
 **/
 int32_t CorpusCleaner::CleanPipeline(void)
 {
