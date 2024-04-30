@@ -23,6 +23,7 @@ results/*
 
 ### scripts
 scripts/icu/*
+scripts/doxygen-1.10.0/*
 
 ## src
 corpus_cleaner/lid.176.bin

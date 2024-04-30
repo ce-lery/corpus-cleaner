@@ -46,7 +46,9 @@ RUN apt-get update \
     liblzma-dev \
     pkg-config \
     libgoogle-perftools-dev \
-    valgrind
+    valgrind \
+    flex \
+    bison
 
 
 RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
