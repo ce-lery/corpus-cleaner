@@ -75,11 +75,10 @@ void ReadDocumentFromJsonlOneLine(Document &document,
 void WriteDocumentToJsonl(Document &document,
                           string output_file_path)
 {
+    document.text = EscapeWord(document.text);
+    ofstream output_file(output_file_path, ios::app);
+
     try{
-        document.text = EscapeWord(document.text);
-  
-        ofstream output_file(output_file_path, ios::app);
-        
         output_file << "{" ;
         output_file << "\"text\":\"" <<document.text << "\",";
         output_file << "\"id\":\"" << document.id << "\","; 
@@ -93,11 +92,12 @@ void WriteDocumentToJsonl(Document &document,
         output_file << "\"language_score\":\"" <<document.language_score << "\",";
         output_file << "\"perplexity\":\"" <<document.perplexity << "\"";
         output_file <<"}"<< endl;
-        output_file.close();
     }
     catch(...){ 
+        output_file.close();
         throw;
     }
+    output_file.close();
 }   
 
 
@@ -586,12 +586,12 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
             this->deduplicator->InitializeSeen();
         }
 
-        // //If seen is greater than or equal to bucket_size, clear seen to 0
-        // if(this->deduplicator->SizeOfBlacklist()>=this->deduplicator->GetTotalBucketSize()){
-        //     cout << "MinhashDeduplicator: The size of blacklist is more than total_bucket_size." << endl;
-        //     cout << "Now, clear blacklist." << endl;
-        //     this->deduplicator->InitializeBlacklist();
-        // }
+        //If seen is greater than or equal to bucket_size, clear seen to 0
+        if(this->deduplicator->SizeOfBlacklist()>=this->deduplicator->GetTotalBucketSize()){
+            cout << "MinhashDeduplicator: The size of blacklist is more than total_bucket_size." << endl;
+            cout << "Now, clear blacklist." << endl;
+            this->deduplicator->InitializeBlacklist();
+        }
 
     }
     catch(...){
@@ -812,7 +812,6 @@ int32_t CorpusCleaner::CleanPipeline(void)
                     break;
                 }
             }
-
 
             // dump data
             try{

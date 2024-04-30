@@ -29,3 +29,5 @@ export LIBRARY_PATH=$ICUPATH/lib
 export LD_LIBRARY_PATH=$ICUPATH/lib
 
 ./test_corpus_cleaner-googletest
+
+# valgrind --leak-check=full --show-leak-kinds=all ./test_corpus_cleaner-googletest

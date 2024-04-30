@@ -57,4 +57,4 @@ RUN pyenv install 3.11.6
 RUN pyenv global 3.11.6
 
 # cd home/scratch-nlp
-WORKDIR $HOME/corpus-cleaner-cpp
+WORKDIR $HOME/corpus-cleaner

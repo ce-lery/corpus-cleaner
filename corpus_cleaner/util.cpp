@@ -437,7 +437,6 @@ void GetFileNameListAddedJsonl(const vector<string> &file_path_list,
  * If " or ' or \, replace to \", \', and \\.
  *
  * Example:
- * 
  *   string input = """;
  *   string output =  EscapeWord(input);
  *   // output == "\""
@@ -450,10 +449,11 @@ string EscapeWord(const string& input)
     string output="";
     for(char word: input){
         if(word == L'\"') output+= "\\\"";
+        else if(word == '\t') output+="\\t";
         else if(word == '\\') output+="\\\\";
-        else if(word == '\'') output+="\\\'";
-        else if(word == '\t') output+="\\\t";
         else output+=word;
+        // else if(word == '\'') output+="\\\'";
+        // else if(word == '\t') output+="\\\t";
     } 
     return output;
     // else if(word == '　') output+="\\u3000";
@@ -474,29 +474,41 @@ void ProceedProgressBar(unsigned long long line_count,unsigned long long file_li
     if(file_line_number==0) return; 
     if(line_count==0) return;
 
-    unsigned long long progress_percentage = (unsigned long long)((double(line_count))/double(file_line_number)*100);
-    printf("\r%llu%% |",progress_percentage);
-    for(int i=0;i<int(progress_percentage/5);i++) printf("█");
-    for(int i=0;i<int(20-progress_percentage/5);i++) printf(" ");
-    printf("| %llu/%llu",line_count,file_line_number);
+    // clear terminal
+    // cout << "\033[2J\033[1;1H";
+    // cout << "\033[1;1H\033[2K";
+    cout.fill('0');
+    cout << "\033[2K";
 
+    unsigned long long progress_percentage = (unsigned long long)((double(line_count))/double(file_line_number)*100);
+    //printf("\r%llu%% |",progress_percentage);
+    cout << "\r" << progress_percentage << "% |"; 
+    for(int i=0;i<int(progress_percentage/5);i++) cout << "█";//printf("█");
+    for(int i=0;i<int(20-progress_percentage/5);i++) cout << " ";//printf(" ");
+    //printf("| %llu/%llu",line_count,file_line_number);
+    cout << "| "<< line_count << "/" << file_line_number;
+ 
     //passed time
     uint32_t hours = elapsed_time_ms / (1000 * 60 * 60);
     uint32_t minutes = (elapsed_time_ms / (1000 * 60)) % 60;
     uint32_t seconds = (elapsed_time_ms / (1000)) % 60;
-    printf(" [%02d:%02d:%02d",hours,minutes,seconds);
-
+    //printf(" [%02d:%02d:%02d",hours,minutes,seconds);
+    cout << setw(2) << "[" << hours << ":" << minutes << ":"<< seconds;
+ 
     //Remaining time
     uint32_t remaining_time = uint32_t(double(elapsed_time_ms)/line_count*(file_line_number-line_count));
     hours = remaining_time / (1000 * 60 * 60);
     minutes = (remaining_time / (1000 * 60)) % 60;
     seconds = (remaining_time / (1000)) % 60;
-    printf("<%02d:%02d:%02d",hours,minutes,seconds);
+    //printf("<%02d:%02d:%02d",hours,minutes,seconds);
+    cout << setw(2)  << "<"<<hours << ":" << minutes << ":" <<seconds;
 
     //second per iteration
     double msecond_per_iter = double(elapsed_time_ms)/line_count;
-    printf(", %.2fms/it",msecond_per_iter);
-    printf("]");
-    // fflush(stdout);
-    if (progress_percentage==100)   printf("\n");
+    //printf(", %.2fms/it",msecond_per_iter);
+    //printf("]");
+    cout << setprecision(2) << "," << msecond_per_iter << "ms/it" ; 
+    cout << "]"; 
+    fflush(stdout);
+    if (progress_percentage==100)   cout << endl;
 }
