@@ -1,0 +1,49 @@
+\doxysection{perplexity\+\_\+filter.\+hh}
+\hypertarget{perplexity__filter_8hh_source}{}\label{perplexity__filter_8hh_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/perplexity\_filter.hh@{/home/corpus-\/cleaner/corpus\_cleaner/perplexity\_filter.hh}}
+\mbox{\hyperlink{perplexity__filter_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <cstdlib>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <exception>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00009}00009\ \textcolor{preprocessor}{\#ifdef\ WIN32}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}./kenlm/util/getopt.hh"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00011}00011\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00013}00013\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <bits/stdc++.h>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}./kenlm/lm/model.hh"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}./kenlm/lm/sizes.hh"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}./kenlm/util/file\_piece.hh"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}./kenlm/util/usage.hh"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00021}00021\ \textcolor{preprocessor}{\#ifdef\ WIN32}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}./kenlm/util/getopt.hh"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00023}00023\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00025}00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <omp.h>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00027}00027\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{util_8hpp}{util.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00028}00028\ \textcolor{preprocessor}{\#include\ "{}../scripts/sentencepiece/src/sentencepiece\_processor.h"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00031}00031\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00033}\mbox{\hyperlink{classKenLMFilter}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classKenLMFilter}{KenLMFilter}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00035}00035\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00036}\mbox{\hyperlink{classKenLMFilter_a6a5f73ebfc8a8d02a9e1d32c0b716f14}{00036}}\ \ \ \ \ sentencepiece::SentencePieceProcessor\ \mbox{\hyperlink{classKenLMFilter_a6a5f73ebfc8a8d02a9e1d32c0b716f14}{processor}};}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00037}00037\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00038}00038\ \ \ \ \ \mbox{\hyperlink{classKenLMFilter_a1c3d567a5d06c6e12418ed603f84f4f0}{KenLMFilter}}();}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00039}00039\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a8deb52aa6d7e6d061d89c938924ec018}{Score}}(\textcolor{keyword}{const}\ wstring\ sentence);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00040}00040\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a62a3f472f5de801221f4116a80b0b550}{ScoreWithSentencePiece}}(\textcolor{keyword}{const}\ wstring\ sentence);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a91213160be94a47719887a6d0824ff3e}{Perplexity}}(\textcolor{keyword}{const}\ wstring\ sentence);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00042}00042\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a300ed8f117585dbafb24d7521ec1af66}{PerplexityWithSentencePiece}}(\textcolor{keyword}{const}\ wstring\ sentence);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8hh_source_l00043}00043\ \};}
+
+\end{DoxyCode}

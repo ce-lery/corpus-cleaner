@@ -1,0 +1,206 @@
+\doxysection{/home/corpus-\/cleaner/corpus\+\_\+cleaner/corpus\+\_\+cleaner.cpp File Reference}
+\hypertarget{corpus__cleaner_8cpp}{}\label{corpus__cleaner_8cpp}\index{/home/corpus-\/cleaner/corpus\_cleaner/corpus\_cleaner.cpp@{/home/corpus-\/cleaner/corpus\_cleaner/corpus\_cleaner.cpp}}
+{\ttfamily \#include "{}corpus\+\_\+cleaner.\+hpp"{}}\newline
+{\ttfamily \#include "{}util.\+hpp"{}}\newline
+{\ttfamily \#include "{}normalizer.\+hpp"{}}\newline
+{\ttfamily \#include "{}simdjson.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{corpus__cleaner_8cpp_a059accc4b4a63a7175b93a3932da3e5a}{Read\+Document\+From\+Jsonl\+One\+Line}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document, string input\+\_\+jsonl\+\_\+line)
+\begin{DoxyCompactList}\small\item\em Loggging Document to output\+\_\+file\+\_\+path. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{corpus__cleaner_8cpp_a94b5fbd266184c4ae25e7fc4a9cec18d}{Write\+Document\+To\+Jsonl}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document, string output\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Loggging Document to output\+\_\+file\+\_\+path. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{corpus__cleaner_8cpp_a4a02a4a113b25c9e2789fc2a655f7b2a}{Convert\+Text\+To\+Document}} (string sentence, string filename, string file\+\_\+line\+\_\+count, \mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Convert input files to jsonl that has Document\textquotesingle{}s element. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{corpus__cleaner_8cpp_a29de4aae718d9521bf8c6be160827431}{Convert\+Input\+Files\+To\+Jsonl}} (const string input\+\_\+folder\+\_\+path, const string output\+\_\+folder\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Convert input files to jsonl that has Document\textquotesingle{}s element. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{Stats}} \mbox{\hyperlink{corpus__cleaner_8cpp_ab7cd8eb1f3b37be5756d42e2dbc88030}{Make\+Stats}} (string process\+\_\+name, string output\+\_\+path, double elapsed\+\_\+time)
+\begin{DoxyCompactList}\small\item\em Format statistics. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{corpus__cleaner_8cpp_a53e35a337d8299e4c28e3120f85829db}{Output\+Stats}} (\mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{Stats}} stats)
+\begin{DoxyCompactList}\small\item\em Output statistics. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{corpus__cleaner_8cpp_a29de4aae718d9521bf8c6be160827431}\label{corpus__cleaner_8cpp_a29de4aae718d9521bf8c6be160827431} 
+\index{corpus\_cleaner.cpp@{corpus\_cleaner.cpp}!ConvertInputFilesToJsonl@{ConvertInputFilesToJsonl}}
+\index{ConvertInputFilesToJsonl@{ConvertInputFilesToJsonl}!corpus\_cleaner.cpp@{corpus\_cleaner.cpp}}
+\doxysubsubsection{\texorpdfstring{ConvertInputFilesToJsonl()}{ConvertInputFilesToJsonl()}}
+{\footnotesize\ttfamily void Convert\+Input\+Files\+To\+Jsonl (\begin{DoxyParamCaption}\item[{const string}]{input\+\_\+folder\+\_\+path,  }\item[{const string}]{output\+\_\+folder\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Convert input files to jsonl that has Document\textquotesingle{}s element. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Document} & document\+: document \\
+\hline
+{\em string} & output\+\_\+file\+\_\+path\+: Path of file for statistics. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00135}{135}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{corpus__cleaner_8cpp_a4a02a4a113b25c9e2789fc2a655f7b2a}\label{corpus__cleaner_8cpp_a4a02a4a113b25c9e2789fc2a655f7b2a} 
+\index{corpus\_cleaner.cpp@{corpus\_cleaner.cpp}!ConvertTextToDocument@{ConvertTextToDocument}}
+\index{ConvertTextToDocument@{ConvertTextToDocument}!corpus\_cleaner.cpp@{corpus\_cleaner.cpp}}
+\doxysubsubsection{\texorpdfstring{ConvertTextToDocument()}{ConvertTextToDocument()}}
+{\footnotesize\ttfamily void Convert\+Text\+To\+Document (\begin{DoxyParamCaption}\item[{string}]{sentence,  }\item[{string}]{filename,  }\item[{string}]{file\+\_\+line\+\_\+count,  }\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Convert input files to jsonl that has Document\textquotesingle{}s element. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & sentence\+: sentence \\
+\hline
+{\em string} & filename\+: filename without file extention \\
+\hline
+{\em string} & file\+\_\+line\+\_\+count\+: the line number of sentence in "{}filename"{} \\
+\hline
+{\em Document} & document\+: document converted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00113}{113}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{corpus__cleaner_8cpp_ab7cd8eb1f3b37be5756d42e2dbc88030}\label{corpus__cleaner_8cpp_ab7cd8eb1f3b37be5756d42e2dbc88030} 
+\index{corpus\_cleaner.cpp@{corpus\_cleaner.cpp}!MakeStats@{MakeStats}}
+\index{MakeStats@{MakeStats}!corpus\_cleaner.cpp@{corpus\_cleaner.cpp}}
+\doxysubsubsection{\texorpdfstring{MakeStats()}{MakeStats()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{Stats}} Make\+Stats (\begin{DoxyParamCaption}\item[{string}]{process\+\_\+name,  }\item[{string}]{output\+\_\+path,  }\item[{double}]{elapsed\+\_\+time }\end{DoxyParamCaption})}
+
+
+
+Format statistics. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & process\+\_\+name\+: Cleaning filter name. \\
+\hline
+{\em string} & output\+\_\+path\+: Path of file for statistics. \\
+\hline
+{\em double} & elapsed\+\_\+time\+: elapsed process time. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stats\+: statistics 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00186}{186}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{corpus__cleaner_8cpp_a53e35a337d8299e4c28e3120f85829db}\label{corpus__cleaner_8cpp_a53e35a337d8299e4c28e3120f85829db} 
+\index{corpus\_cleaner.cpp@{corpus\_cleaner.cpp}!OutputStats@{OutputStats}}
+\index{OutputStats@{OutputStats}!corpus\_cleaner.cpp@{corpus\_cleaner.cpp}}
+\doxysubsubsection{\texorpdfstring{OutputStats()}{OutputStats()}}
+{\footnotesize\ttfamily void Output\+Stats (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{Stats}}}]{stats }\end{DoxyParamCaption})}
+
+
+
+Output statistics. 
+
+Example\+: 
+\begin{DoxyParams}{Parameters}
+{\em Stats} & stats\+: Statistics to be output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00210}{210}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{corpus__cleaner_8cpp_a059accc4b4a63a7175b93a3932da3e5a}\label{corpus__cleaner_8cpp_a059accc4b4a63a7175b93a3932da3e5a} 
+\index{corpus\_cleaner.cpp@{corpus\_cleaner.cpp}!ReadDocumentFromJsonlOneLine@{ReadDocumentFromJsonlOneLine}}
+\index{ReadDocumentFromJsonlOneLine@{ReadDocumentFromJsonlOneLine}!corpus\_cleaner.cpp@{corpus\_cleaner.cpp}}
+\doxysubsubsection{\texorpdfstring{ReadDocumentFromJsonlOneLine()}{ReadDocumentFromJsonlOneLine()}}
+{\footnotesize\ttfamily void Read\+Document\+From\+Jsonl\+One\+Line (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document,  }\item[{string}]{input\+\_\+jsonl\+\_\+line }\end{DoxyParamCaption})}
+
+
+
+Loggging Document to output\+\_\+file\+\_\+path. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ input\_file\_path\ =\ \textcolor{stringliteral}{"{}./input.jsonl"{}};\ \ }
+\DoxyCodeLine{ifstream\ ifs(input\_file\_path);\ \ }
+\DoxyCodeLine{\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ document;\ \ }
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ line\ =\ \textcolor{stringliteral}{"{}"{}};\ \ }
+\DoxyCodeLine{\textcolor{keywordflow}{while}(getline(ifs,line))\{\ \ }
+\DoxyCodeLine{\ \ \ \ ReadDocumentFromJsonl(document,line);\ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Write\ process\ for\ document.}}
+\DoxyCodeLine{\}\ }
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em Document} & document\+: document \\
+\hline
+{\em string} & output\+\_\+file\+\_\+path\+: Path of file for statistics. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00026}{26}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{corpus__cleaner_8cpp_a94b5fbd266184c4ae25e7fc4a9cec18d}\label{corpus__cleaner_8cpp_a94b5fbd266184c4ae25e7fc4a9cec18d} 
+\index{corpus\_cleaner.cpp@{corpus\_cleaner.cpp}!WriteDocumentToJsonl@{WriteDocumentToJsonl}}
+\index{WriteDocumentToJsonl@{WriteDocumentToJsonl}!corpus\_cleaner.cpp@{corpus\_cleaner.cpp}}
+\doxysubsubsection{\texorpdfstring{WriteDocumentToJsonl()}{WriteDocumentToJsonl()}}
+{\footnotesize\ttfamily void Write\+Document\+To\+Jsonl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document,  }\item[{string}]{output\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Loggging Document to output\+\_\+file\+\_\+path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Document} & document\+: document \\
+\hline
+{\em string} & output\+\_\+file\+\_\+path\+: Path of file for statistics. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00074}{74}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+

@@ -1,0 +1,44 @@
+\doxysection{language\+\_\+filter.\+cpp}
+\hypertarget{language__filter_8cpp_source}{}\label{language__filter_8cpp_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/language\_filter.cpp@{/home/corpus-\/cleaner/corpus\_cleaner/language\_filter.cpp}}
+\mbox{\hyperlink{language__filter_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{language__filter_8hpp}{language\_filter.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00004}\mbox{\hyperlink{classfasttext_1_1FastTextEx_a88959d4df2e6ef6de8f37ab6b917fc57}{00004}}\ \mbox{\hyperlink{classfasttext_1_1FastTextEx_a88959d4df2e6ef6de8f37ab6b917fc57}{FastTextEx::FastTextEx}}()}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00006}00006\ \ \ \ \ \textcolor{comment}{//FastTextEx\ fasttextex;\ fasttextex.loadModel("{}lid.176.bin"{});}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00007}00007\ \ \ \ \ this-\/>loadModel(\textcolor{stringliteral}{"{}lid.176.bin"{}});}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00008}00008\ \}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00009}00009\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00010}00010\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00011}00011\ \textcolor{comment}{\ *\ @brief\ Judge\ the\ language\ of\ one\ sentence}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00012}00012\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00013}00013\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00014}00014\ \textcolor{comment}{\ *\ @param\ string\ sentence:\ sentence\ Judged}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00015}00015\ \textcolor{comment}{\ *\ @param\ vector<pair<real,\ string>>\&\ predictions:\ Pointer\ for\ returning\ judgment\ results}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00016}00016\ \textcolor{comment}{\ *\ \ @param\ int32\_t\ k:\ Judge\ one\ sentence(1),\ judge\ multiple\ sentences(-\/1)}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ @param\ real\ threshold:\ threshold\ for\ return}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00018}00018\ \textcolor{comment}{\ *\ @return\ None\ :\ minhash}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00019}00019\ \textcolor{comment}{\ *\ @ref\ https://fasttext.cc/docs/en/supervised-\/tutorial.html}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00020}00020\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00021}00021\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00022}\mbox{\hyperlink{classfasttext_1_1FastTextEx_a8d78ed2c648ded50e53012ae16b5ba8a}{00022}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classfasttext_1_1FastTextEx_a8d78ed2c648ded50e53012ae16b5ba8a}{FastTextEx::predictOneLine}}(\textcolor{keywordtype}{string}\ sentence,}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vector<pair<real,\ string>>\&\ predictions,}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int32\_t\ k,}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ real\ threshold)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00026}00026\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00027}00027\ \ \ \ \ predictions.clear();}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00029}00029\ \ \ \ \ vector<int32\_t>\ words,\ labels;}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00030}00030\ \ \ \ \ dict\_-\/>getStringNoNewline(sentence,\ words,\ labels);}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00031}00031\ \ \ \ \ Predictions\ linePredictions;}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00032}00032\ \ \ \ \ this-\/>predict(k,\ words,\ linePredictions,\ threshold);}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ p\ :\ linePredictions)\ \{}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ predictions.push\_back(}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ make\_pair(exp(p.first),\ dict\_-\/>getLabel(p.second)));}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00036}00036\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{language__filter_8cpp_source_l00038}00038\ \}}
+
+\end{DoxyCode}

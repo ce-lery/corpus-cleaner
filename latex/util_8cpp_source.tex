@@ -1,0 +1,547 @@
+\doxysection{util.\+cpp}
+\hypertarget{util_8cpp_source}{}\label{util_8cpp_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/util.cpp@{/home/corpus-\/cleaner/corpus\_cleaner/util.cpp}}
+\mbox{\hyperlink{util_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{util_8hpp}{util.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00002}00002\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00003}00003\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00004}00004\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00005}00005\ \textcolor{comment}{\ *\ @brief\ Get\ exact\ length\ of\ UTF-\/8\ string\ in\ C}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00008}00008\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00009}00009\ \textcolor{comment}{\ *\ \ \ string\ input="{}こんにちわ。"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00010}00010\ \textcolor{comment}{\ *\ \ \ uint32\_t\ length\ =\ strlen\_utf8(input);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00011}00011\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00012}00012\ \textcolor{comment}{\ *\ @param\ string\ input:\ text\ string.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00013}00013\ \textcolor{comment}{\ *\ @return\ uint32\_t:\ length\ of\ input}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00014}00014\ \textcolor{comment}{\ *\ @ref\ https://ja.stackoverflow.com/questions/2988/c\%E8\%A8\%80\%E8\%AA\%9E\%E3\%81\%A7\%E3\%81\%AEutf-\/8\%E6\%96\%87\%E5\%AD\%97\%E5\%88\%97\%E3\%81\%AE\%E6\%AD\%A3\%E7\%A2\%BA\%E3\%81\%AA\%E9\%95\%B7\%E3\%81\%95\%E3\%82\%92\%E5\%8F\%96\%E5\%BE\%97\%E3\%81\%99\%E3\%82\%8B}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00015}00015\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00016}00016\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00017}\mbox{\hyperlink{util_8cpp_a6bc660d7b9d776f3c25a133636659ea8}{00017}}\ uint32\_t\ \mbox{\hyperlink{util_8cpp_a6bc660d7b9d776f3c25a133636659ea8}{strlen\_utf8}}(\textcolor{keywordtype}{string}\ input)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00018}00018\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00019}00019\ \ \ \ \ uint32\_t\ i\ =\ 0,\ length\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{while}\ (input[i])}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((input[i]\ \&\ 0xc0)\ !=\ 0x80)\ length++;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ i++;\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00025}00025\ \ \ \ \ \textcolor{keywordflow}{return}\ length;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00026}00026\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00027}00027\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00028}00028\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00029}00029\ \textcolor{comment}{\ *\ @brief\ Delete\ a\ folder\ with\ its\ contents}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00030}00030\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00031}00031\ \textcolor{comment}{\ *\ \ Recursively\ delete\ files\ in\ a\ folder.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00032}00032\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00033}00033\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00034}00034\ \textcolor{comment}{\ *\ \ \ string\ folder\_path="{}data/intermediate"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00035}00035\ \textcolor{comment}{\ *\ \ \ RemoveFolder(folder\_path);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00036}00036\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00037}00037\ \textcolor{comment}{\ *\ @param\ string\ path:\ folder\ path\ to\ be\ deleted}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00038}00038\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00039}00039\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00040}00040\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00041}\mbox{\hyperlink{util_8cpp_a1211ce4d0770aa52914f34bd67cc346f}{00041}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_a1211ce4d0770aa52914f34bd67cc346f}{RemoveFolder}}(\textcolor{keyword}{const}\ std::string\&\ path)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00042}00042\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00043}00043\ \ \ \ \ filesystem::path\ source\_path\ =\ path;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ Check\ the\ file\ that\ is\ existed.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{if}\ (!filesystem::exists(source\_path))\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cerr\ <<\ "{}Source\ directory\ does\ not\ exist:\ "{}\ <<\ source\_path\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ filesystem::directory\_iterator(path))\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.is\_directory())\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{util_8cpp_a1211ce4d0770aa52914f34bd67cc346f}{RemoveFolder}}(entry.path().string());}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ filesystem::remove(entry.path());}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00056}00056\ \ \ \ \ filesystem::remove(path);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00057}00057\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00058}00058\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00059}00059\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00060}00060\ \textcolor{comment}{\ *\ @brief\ copy\ source\_fileto\ target\_file}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00061}00061\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00062}00062\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00063}00063\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00064}00064\ \textcolor{comment}{\ *\ \ \ string\ source\_path="{}data/source/a.txt"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00065}00065\ \textcolor{comment}{\ *\ \ \ string\ target\_path="{}data/target/a.txt"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00066}00066\ \textcolor{comment}{\ *\ \ \ CopyFile(source\_path,target\_path);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00067}00067\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00068}00068\ \textcolor{comment}{\ *\ @param\ string\ source\_path:\ Copy\ source\ file\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00069}00069\ \textcolor{comment}{\ *\ @param\ string\ target\_path:\ Copy\ target\ file\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00070}00070\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00071}00071\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00072}00072\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00073}\mbox{\hyperlink{util_8cpp_aa550fb657da58cba8680f1d677917a36}{00073}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_aa550fb657da58cba8680f1d677917a36}{CopyFile}}(\textcolor{keywordtype}{string}\ source\_path,\ \textcolor{keywordtype}{string}\ target\_path)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00074}00074\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00075}00075\ \ \ \ \ filesystem::path\ source\ =\ source\_path;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00076}00076\ \ \ \ \ filesystem::path\ destination\ =\ target\_path;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00077}00077\ \ \ \ \ filesystem::copy(source,\ destination,\ filesystem::copy\_options::overwrite\_existing);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00078}00078\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00079}00079\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00080}00080\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00081}00081\ \textcolor{comment}{\ *\ @brief\ copy\ source\_fileto\ target\_file}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00082}00082\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00083}00083\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00084}00084\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00085}00085\ \textcolor{comment}{\ *\ \ \ string\ source\_path="{}data/source/"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00086}00086\ \textcolor{comment}{\ *\ \ \ string\ target\_path="{}data/target/"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00087}00087\ \textcolor{comment}{\ *\ \ \ CopyFolder(source\_path,target\_path);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00088}00088\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00089}00089\ \textcolor{comment}{\ *\ @param\ string\ source\_path:\ Copy\ source\ file\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00090}00090\ \textcolor{comment}{\ *\ @param\ string\ target\_path:\ Copy\ target\ file\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00091}00091\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00092}00092\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00093}00093\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00094}\mbox{\hyperlink{util_8cpp_a04427d837240946bf8748a4c35cc29b9}{00094}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_a04427d837240946bf8748a4c35cc29b9}{MoveFile}}(\textcolor{keywordtype}{string}\ source\_path,\ \textcolor{keywordtype}{string}\ target\_folder)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00095}00095\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00096}00096\ \ \ \ \ filesystem::path\ source\ =\ source\_path;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00097}00097\ \ \ \ \ filesystem::path\ destination\ =\ target\_folder;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00098}00098\ \ \ \ \ filesystem::path\ new\_path\ =\ destination\ /\ source.filename();}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00099}00099\ \ \ \ \ filesystem::rename(source,\ new\_path);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00100}00100\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00101}00101\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00102}00102\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00103}00103\ \textcolor{comment}{\ *\ @brief\ copy\ source\_folder\ to\ target\_folder}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00104}00104\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00105}00105\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00106}00106\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00107}00107\ \textcolor{comment}{\ *\ \ \ string\ source\_folder="{}data/source"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00108}00108\ \textcolor{comment}{\ *\ \ \ string\ target\_folder="{}data/target"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00109}00109\ \textcolor{comment}{\ *\ \ \ CopyFolder(source\_folder,target\_folder);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00110}00110\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00111}00111\ \textcolor{comment}{\ *\ @param\ string\ source\_folder:\ Copy\ source\ folder\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00112}00112\ \textcolor{comment}{\ *\ @param\ string\ target\_folder:\ Copy\ target\ folder\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00113}00113\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00114}00114\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00115}00115\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00116}\mbox{\hyperlink{util_8cpp_a41c565fcc77e48108d014d8ac9e45890}{00116}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_a41c565fcc77e48108d014d8ac9e45890}{CopyFolder}}(\textcolor{keywordtype}{string}\ source\_folder,\ \textcolor{keywordtype}{string}\ target\_folder)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00117}00117\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{comment}{//\ copy\ source\_folder\ to\ target\_folder}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00119}00119\ \ \ \ \ filesystem::path\ sourceDir\ =\ source\_folder;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00120}00120\ \ \ \ \ filesystem::path\ destinationDir\ =\ target\_folder;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&file\ :\ filesystem::directory\_iterator(sourceDir))\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (filesystem::is\_regular\_file(file.path()))\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ filesystem::copy(file,\ destinationDir\ /\ file.path().filename(),\ filesystem::copy\_options::overwrite\_existing);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00125}00125\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00126}00126\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00127}00127\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00128}00128\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00129}00129\ \textcolor{comment}{\ *\ @brief\ copy\ source\_folder\ to\ target\_folder}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00130}00130\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00131}00131\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00132}00132\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00133}00133\ \textcolor{comment}{\ *\ \ \ string\ source\_folder="{}data/source"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00134}00134\ \textcolor{comment}{\ *\ \ \ string\ target\_folder="{}data/target"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00135}00135\ \textcolor{comment}{\ *\ \ \ MoveFolder(source\_folder,target\_folder);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00136}00136\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00137}00137\ \textcolor{comment}{\ *\ @param\ string\ source\_folder:\ Copy\ source\ folder\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00138}00138\ \textcolor{comment}{\ *\ @param\ string\ target\_folder:\ Copy\ target\ folder\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00139}00139\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00140}00140\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00141}00141\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00142}\mbox{\hyperlink{util_8cpp_ae51e8495f5c619ea6f22cd335fe9b5c6}{00142}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_ae51e8495f5c619ea6f22cd335fe9b5c6}{MoveFolder}}(\textcolor{keywordtype}{string}\ source\_folder,\ \textcolor{keywordtype}{string}\ target\_folder)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00143}00143\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{comment}{//\ Check\ the\ file\ that\ is\ existed.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00145}00145\ \ \ \ \ \textcolor{keywordflow}{if}\ (!filesystem::exists(source\_folder))\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Source\ directory\ does\ not\ exist:\ "{}}\ <<\ source\_folder\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00148}00148\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00149}00149\ \ \ \ \ \textcolor{keywordflow}{if}\ (!filesystem::exists(target\_folder))\ filesystem::create\_directory(target\_folder);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00151}00151\ \ \ \ \ \textcolor{comment}{//\ Move\ file\ and\ folder}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00152}00152\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ filesystem::directory\_iterator(source\_folder))\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ filesystem::path\ newPath\ =\ target\_folder\ /\ entry.path().filename();}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ filesystem::rename(entry.path(),\ newPath);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Moved:\ "{}}\ <<\ entry.path().filename()\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ filesystem::filesystem\_error\&\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Error\ moving\ "{}}\ <<\ entry.path()\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ e.what()\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00160}00160\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00161}00161\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00163}00163\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00164}00164\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00165}00165\ \textcolor{comment}{\ *\ @brief\ Derive\ the\ next\ emoji}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00166}00166\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00167}00167\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00168}00168\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00169}00169\ \textcolor{comment}{\ *\ \ \ string\ emoji="{}🌀"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00170}00170\ \textcolor{comment}{\ *\ \ \ CalculateNextEmoji(emoji);\ //return:🌁}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00171}00171\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00172}00172\ \textcolor{comment}{\ *\ @param\ string\ pre\_emoji:\ emoji\ string}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00173}00173\ \textcolor{comment}{\ *\ @return\ string:\ next\ emoji\ (pre\_emoji\ +\ 1)}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00174}00174\ \textcolor{comment}{\ *\ @ref\ https://guppy.eng.kagawa-\/u.ac.jp/OpenCampus/unicode.html}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00175}00175\ \textcolor{comment}{\ *\ @note\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00176}00176\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00177}\mbox{\hyperlink{util_8cpp_a914d894241e9433a27d901a8fc485c2c}{00177}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8cpp_a914d894241e9433a27d901a8fc485c2c}{CalculateNextEmoji}}(\textcolor{keywordtype}{string}\ pre\_emoji)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00178}00178\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{keywordtype}{string}\ emoji=pre\_emoji;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//If\ pre\_emoji[0]='\(\backslash\)360',\ pre\_emoji\ has\ 4\ elements\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00181}00181\ \ \ \ \ \textcolor{comment}{//and\ is\ determined\ by\ pre\_emoji[1]='\(\backslash\)237'}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00182}00182\ \ \ \ \ \textcolor{keywordflow}{if}(pre\_emoji[0]==\textcolor{stringliteral}{'\(\backslash\)360'}\&\&pre\_emoji.size()!=4)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00183}00183\ \ \ \ \ \textcolor{comment}{//If\ pre\_emoji[0]='\(\backslash\)342'\ then\ pre\_emoji\ is\ determined\ by\ three\ elements}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00184}00184\ \ \ \ \ \textcolor{keywordflow}{if}(pre\_emoji[0]==\textcolor{stringliteral}{'\(\backslash\)342'}\&\&pre\_emoji.size()!=3)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00186}00186\ \ \ \ \ emoji[emoji.size()-\/1]++;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00187}00187\ \ \ \ \ \textcolor{keywordflow}{if}(\textcolor{keywordtype}{int}(emoji[emoji.size()-\/1])>=-\/64)\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ emoji[emoji.size()-\/1]=-\/128;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ emoji[emoji.size()-\/2]++;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00190}00190\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00191}00191\ \ \ \ \ \textcolor{keywordflow}{return}\ emoji;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00192}00192\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00193}00193\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00194}00194\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00195}00195\ \textcolor{comment}{\ *\ @brief\ Get\ filename\ list\ in\ folder\_path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00196}00196\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00197}00197\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00198}00198\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00199}00199\ \textcolor{comment}{\ *\ \ \ string\ input\_path\ =\ "{}../data/input/"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00200}00200\ \textcolor{comment}{\ *\ \ \ vector<string>\ file\_list;}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00201}00201\ \textcolor{comment}{\ *\ \ \ GetFileList(input\_path,\ \&file\_list);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00202}00202\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00203}00203\ \textcolor{comment}{\ *\ @param\ string\ folder\_path:\ folder\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00204}00204\ \textcolor{comment}{\ *\ @param\ vector<string>\ *file\_list:\ (return)\ filename\ list}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00205}00205\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00206}00206\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00207}00207\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00208}\mbox{\hyperlink{util_8cpp_add74d3cc3b02b76e940d2b7f98742731}{00208}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_add74d3cc3b02b76e940d2b7f98742731}{GetFileNameListWithoutExtention}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ folder\_path,\ vector<string>\ *file\_list)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00209}00209\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00210}00210\ \ \ \ \ filesystem::path\ path\ =\ folder\_path;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00211}00211\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&entry\ :\ filesystem::directory\_iterator(path))\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.is\_regular\_file())\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ file\_list-\/>push\_back(\textcolor{keywordtype}{string}(entry.path().stem()));}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00215}00215\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00216}00216\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00217}00217\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00218}00218\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00219}00219\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00220}00220\ \textcolor{comment}{\ *\ @brief\ Get\ file\ line\ number\ list}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00221}00221\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00222}00222\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00223}00223\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00224}00224\ \textcolor{comment}{\ *\ \ \ string\ folder\_path\ =\ "{}../data/input/"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00225}00225\ \textcolor{comment}{\ *\ \ \ vector<string>\ file\_list;}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00226}00226\ \textcolor{comment}{\ *\ \ \ GetFileNameListWithoutExtention(folder\_path,\&file\_list);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00227}00227\ \textcolor{comment}{\ *\ \ \ vector<string>\ file\_line\_number\_list;}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00228}00228\ \textcolor{comment}{\ *\ \ \ GetFileLineNumberList(folder\_path,\&file\_list,\&file\_line\_number\_list);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00229}00229\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00230}00230\ \textcolor{comment}{\ *\ @param\ const\ string\ folder\_path:\ folder\ path}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00231}00231\ \textcolor{comment}{\ *\ @param\ const\ vector<string>\ *file\_list:\ (return)\ filename\ list}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00232}00232\ \textcolor{comment}{\ *\ @param\ const\ string\ file\_extention:\ file\ extention\ of\ file\_list\ ("{}.json"{},"{}.txt"{},\ and\ so\ on.)}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00233}00233\ \textcolor{comment}{\ *\ @param\ vector<uint64\_t>\ *file\_line\_number\_list:\ (return)\ file\ line\ number\ list}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00234}00234\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00235}00235\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00236}00236\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00237}\mbox{\hyperlink{util_8cpp_a0005164f6617c1970b5db8d477be9f2b}{00237}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_a0005164f6617c1970b5db8d477be9f2b}{GetFileLineNumberList}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ folder\_path,\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ vector<string>\ *file\_list,}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ file\_extention,}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vector<uint64\_t>\ *file\_line\_number\_list)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00241}00241\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00242}00242\ \ \ \ \ uint64\_t\ line\_count=0;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00243}00243\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<(int)file\_list-\/>size();i++)\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ ifstream\ input\_file(folder\_path+(*file\_list)[i]+file\_extention);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ cout\ <<\ folder\_path+(*file\_list)[i]+file\_extention\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ line=\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ line\_count=0;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(getline(input\_file,line))\ line\_count++;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ file\_line\_number\_list-\/>push\_back(line\_count);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}file\_name:"{}}<<(*file\_list)[i]+file\_extention<<endl;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}file\_lines:"{}}<<(*file\_line\_number\_list)[i]<<endl;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ input\_file.close();}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00254}00254\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00255}00255\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00256}00256\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00257}00257\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00258}00258\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00259}00259\ \textcolor{comment}{\ *\ @brief\ Convert\ string\ to\ Wstring}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00260}00260\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00261}00261\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00262}00262\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00263}00263\ \textcolor{comment}{\ *\ \ \ string\ input=\ "{}こんにちわ。"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00264}00264\ \textcolor{comment}{\ *\ \ \ wstring\ input\_w\ \ =\ ConvertUTF8ToWstring(input);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00265}00265\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00266}00266\ \textcolor{comment}{\ *\ @param\ const\ string\&\ src:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00267}00267\ \textcolor{comment}{\ *\ @return\ wstring:\ text\ sentence\ converted\ wstring}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00268}00268\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00269}00269\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00270}\mbox{\hyperlink{util_8cpp_ac088f18042a7b17c0d2f54634a159972}{00270}}\ wstring\ \mbox{\hyperlink{util_8cpp_ac088f18042a7b17c0d2f54634a159972}{ConvertUTF8ToWstring}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sentence)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00271}00271\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00272}00272\ \ \ \ \ wstring\_convert<codecvt\_utf8\_utf16<wchar\_t>>\ converter;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00273}00273\ \ \ \ \ \textcolor{keywordflow}{return}\ converter.from\_bytes(sentence);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00274}00274\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00275}00275\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00276}00276\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00277}00277\ \textcolor{comment}{\ *\ @brief\ Convert\ Wstring\ to\ string}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00278}00278\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00279}00279\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00280}00280\ \textcolor{comment}{\ *\ \ \ wstring\ input\_w\ =\ L"{}こんにちわ。"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00281}00281\ \textcolor{comment}{\ *\ \ \ string\ input\ \ =\ ConvertWstringToUTF8(input\_w);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00282}00282\ \textcolor{comment}{\ *\ @param\ const\ string\&\ src:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00283}00283\ \textcolor{comment}{\ *\ @return\ wstring:\ text\ sentence\ converted\ wstring}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00284}00284\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00285}00285\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00286}\mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{00286}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(\textcolor{keyword}{const}\ wstring\&\ sentence)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00287}00287\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00288}00288\ \ \ \ \ wstring\_convert<codecvt\_utf8<wchar\_t>\ >\ converter;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00289}00289\ \ \ \ \ \textcolor{keywordflow}{return}\ converter.to\_bytes(sentence);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00290}00290\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00291}00291\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00292}00292\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00293}00293\ \textcolor{comment}{\ *\ @brief\ Segmentation\ Sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00294}00294\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00295}00295\ \textcolor{comment}{\ *\ \ Segmentation\ sentence\ is\ following\ steps...}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00296}00296\ \textcolor{comment}{\ *\ \ \ \ \ \ 1.\ Check\ if\ there\ are\ sentences\ enclosed\ in\ quotation\ marks.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00297}00297\ \textcolor{comment}{\ *\ \ \ \ \ \ 2.\ Puctuations\ enclosed\ in\ quotation\ marks\ are\ ignored.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00298}00298\ \textcolor{comment}{\ *\ \ \ \ \ \ 3.\ Replace\ "{}。"{}(puctuation\_list)\ to\ "{}。\(\backslash\)n"{}.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00299}00299\ \textcolor{comment}{\ *\ \ \ \ \ \ 4.\ Remove\ the\ last\ character\ of\ the\ string.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00300}00300\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00301}00301\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00302}00302\ \textcolor{comment}{\ *\ \ \ string\ sentence\ =\ "{}../data/input/"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00303}00303\ \textcolor{comment}{\ *\ \ \ SegmentationSentence(sentence);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00304}00304\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00305}00305\ \textcolor{comment}{\ *\ @param\ string\ sentence:\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00306}00306\ \textcolor{comment}{\ *\ @return\ string:\ segmentated\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00307}00307\ \textcolor{comment}{\ *\ @note\ Be\ sure\ to\ use\ Normalizer\ to\ normalize\ your\ corpus\ before\ this\ process.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00308}00308\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00309}00309\ \textcolor{comment}{\ *\ \ TODO:\ "{}."{}\ to\ be\ segmented.\ (ignore\ that\ "{}12.3"{},\ "{}wiki.txt"{}.\ )}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00310}00310\ \textcolor{comment}{\ *\ \ In\ the\ case\ of\ Japanese\ sentences,\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00311}00311\ \textcolor{comment}{\ *\ \ if\ you\ are\ talking\ about\ a\ full\ stop,\ there\ should\ be\ a\ space\ at\ the\ end,\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00312}00312\ \textcolor{comment}{\ *\ \ and\ the\ missing\ mark\ should\ be\ \(\backslash\)n(at\ the\ end\ of\ the\ sentence).\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00313}00313\ \textcolor{comment}{\ *\ \ Only\ in\ that\ case\ should\ it\ be\ used\ as\ a\ full\ stop.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00314}00314\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00315}\mbox{\hyperlink{util_8cpp_ae0caaaa1f454216238c3f8c6d755ec5f}{00315}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_ae0caaaa1f454216238c3f8c6d755ec5f}{SegmentSentence}}(\textcolor{keywordtype}{string}\ sentence,\ vector<string>\ \&segments)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00316}00316\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00317}00317\ \ \ \ \ wstring\ sentence\_w\ =\ \mbox{\hyperlink{util_8cpp_ac088f18042a7b17c0d2f54634a159972}{ConvertUTF8ToWstring}}(sentence);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00318}00318\ \ \ \ \ wstring\ sentence\_segmented=L\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00319}00319\ \ \ \ \ vector<wchar\_t>\ quote\_list\ \ \ \ \ =\ \{L\textcolor{stringliteral}{'「'},L\textcolor{charliteral}{'('},L\textcolor{charliteral}{'"{}'},L\textcolor{charliteral}{'['}\};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00320}00320\ \ \ \ \ vector<wchar\_t>\ quote\_end\_list\ =\ \{L\textcolor{stringliteral}{'」'},L\textcolor{charliteral}{')'},L\textcolor{charliteral}{'"{}'},L\textcolor{charliteral}{']'}\};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00321}00321\ \ \ \ \ vector<wchar\_t>\ punctuation\_list=\{L\textcolor{stringliteral}{'。'},L\textcolor{stringliteral}{'｡'},L\textcolor{stringliteral}{'？'},L\textcolor{charliteral}{'?'},L\textcolor{stringliteral}{'！'},L\textcolor{charliteral}{'!'}\};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00322}00322\ \ \ \ \ wstring\ delimiter\ =\ L\textcolor{stringliteral}{"{}<<<NEW\_LINE>>>"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00324}00324\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i=0;i<(int)sentence\_w.size();i++)\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ found\_quote=\textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ int32\_t\ quote\_index\ =\ -\/1;\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Check\ if\ there\ are\ sentences\ enclosed\ in\ quotation\ marks}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ j=0;j<(int)quote\_list.size();j++)\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(sentence\_w[i]==quote\_list[j])\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ found\_quote=\textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ quote\_index=j;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Puctuations\ enclosed\ in\ quotation\ marks\ are\ ignored}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (found\_quote)\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ j=i+1;j<(int)sentence\_w.size();j++)\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(sentence\_w[j]==quote\_end\_list[quote\_index])\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sentence\_segmented+=sentence\_w.substr(i,j-\/i+1);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}「」:"{}<<ConvertWstringToUTF8(sentence\_w.substr(i,j-\/i+1))<<endl;}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i=j;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ found\_quote=\textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//If\ there\ is\ no\ end\ quote,\ the\ beginning\ quote\ is\ added\ to\ the\ "{}sentence\_segmented"{}.}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(found\_quote)\ sentence\_segmented\ +=\ sentence\_w[i];}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ sentence\_segmented\ +=\ sentence\_w[i];}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ replace\ "{}。"{}(punctuation\_list)\ to\ "{}。\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ punctuation:\ punctuation\_list)\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(sentence\_w[i]==punctuation)\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sentence\_segmented+=delimiter;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00360}00360\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00362}00362\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00363}00363\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ prevPos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00364}00364\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00365}00365\ \ \ \ \ \textcolor{comment}{//\ segmented\ sentence\ push\ to\ \ segments}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00366}00366\ \ \ \ \ \textcolor{keywordflow}{while}\ ((pos\ =\ sentence\_segmented.find(delimiter,\ prevPos))\ !=\ wstring::npos)\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ wstring\ sub\ =\ sentence\_segmented.substr(prevPos,\ pos\ -\/\ prevPos);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ segments.push\_back(\mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(sub));}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ prevPos\ =\ pos\ +\ delimiter.length();}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00370}00370\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00372}00372\ \ \ \ \ \textcolor{comment}{//\ Add\ the\ last\ substring\ after\ the\ last\ delimiter}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00373}00373\ \ \ \ \ \textcolor{keywordflow}{if}\ (prevPos\ <\ sentence\_segmented.length())\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ wstring\ sub\ =\ sentence\_segmented.substr(prevPos);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ segments.push\_back(\mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(sub));}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00376}00376\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00377}00377\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00378}00378\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00379}00379\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00380}00380\ \textcolor{comment}{\ *\ @brief\ Remove\ leading\ and\ trailing\ white\ space}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00381}00381\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00382}00382\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00383}00383\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00384}00384\ \textcolor{comment}{\ *\ \ \ string\ sentence=\ "{}\ \ こんにちわ。\ \ "{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00385}00385\ \textcolor{comment}{\ *\ \ \ sentence\ \ =\ Strip(sentence);\ //"{}こんにちは。"{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00386}00386\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00387}00387\ \textcolor{comment}{\ *\ @param\ const\ string\&\ sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00388}00388\ \textcolor{comment}{\ *\ @return\ string:\ sentence\ has\ been\ processed}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00389}00389\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00390}00390\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00391}\mbox{\hyperlink{util_8cpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{00391}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8cpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{Strip}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sentence)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00392}00392\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00393}00393\ \ \ \ \ \textcolor{comment}{//\ Search\ for\ non-\/blank\ characters\ from\ the\ beginning}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00394}00394\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ start\ =\ sentence.find\_first\_not\_of(\textcolor{stringliteral}{"{}\ \(\backslash\)t\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00395}00395\ \ \ \ \ \textcolor{comment}{//\ Search\ for\ non-\/blank\ characters\ from\ the\ end}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00396}00396\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ end\ =\ sentence.find\_last\_not\_of(\textcolor{stringliteral}{"{}\ \(\backslash\)t\(\backslash\)n\(\backslash\)r"{}});}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00397}00397\ \ \ \ \ \textcolor{comment}{//\ For\ empty\ string}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00398}00398\ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ ==\ string::npos)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00399}00399\ \ \ \ \ \textcolor{comment}{//\ Return\ substring\ from\ beginning\ to\ end}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00400}00400\ \ \ \ \ \textcolor{keywordflow}{return}\ sentence.substr(start,\ end\ -\/\ start\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00401}00401\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00402}00402\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00403}\mbox{\hyperlink{util_8cpp_a9772b111e567abe841a78bbc1389e73d}{00403}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_a9772b111e567abe841a78bbc1389e73d}{ReplaceSubstring}}(\textcolor{keywordtype}{string}\&\ sentence,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ target,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ replacement)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00404}00404\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00405}00405\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00406}00406\ \ \ \ \ \textcolor{keywordflow}{while}\ ((pos\ =\ sentence.find(target,\ pos))\ !=\ string::npos)\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ sentence.replace(pos,\ target.length(),\ replacement);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ pos\ +=\ replacement.length();}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00409}00409\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00410}00410\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00411}00411\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00412}00412\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00413}00413\ \textcolor{comment}{\ *\ @brief\ Get\ file\ name\ from\ path\ without\ file\ extention\ (.txt).}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00414}00414\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00415}00415\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00416}00416\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00417}00417\ \textcolor{comment}{\ *\ \ \ string\ path\ =\ "{}/path/to/input.txt"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00418}00418\ \textcolor{comment}{\ *\ \ \ cout\ <<\ GetFileName(path)<<\ endl;\ //\ /path/to/input}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00419}00419\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00420}00420\ \textcolor{comment}{\ *\ @param\ const\ string\&\ sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00421}00421\ \textcolor{comment}{\ *\ @return\ string:\ sentence\ has\ been\ processed}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00422}00422\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00423}00423\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00424}\mbox{\hyperlink{util_8cpp_a78fef9dab62f78c255e2901c090657b6}{00424}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8cpp_a78fef9dab62f78c255e2901c090657b6}{GetFilePathWithoutExtention}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ file\_path)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00425}00425\ \{\ \ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00426}00426\ \ \ \ \ filesystem::path\ path\_object(file\_path);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00427}00427\ \ \ \ \ \textcolor{comment}{//\ Get\ file\ name\ (without\ extension)}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00428}00428\ \ \ \ \ filesystem::path\ \ fs\_file\_path\_witout\_extention\ =\ path\_object.parent\_path()\ /\ path\_object.stem();}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00429}00429\ \ \ \ \ \textcolor{keywordtype}{string}\ file\_path\_witout\_extention\ =\ fs\_file\_path\_witout\_extention.string();}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00430}00430\ \ \ \ \ \textcolor{keywordflow}{return}\ file\_path\_witout\_extention;\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00431}00431\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00432}00432\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00433}00433\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00434}00434\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00435}00435\ \textcolor{comment}{\ *\ @brief\ Extract\ file\ name\ list\ from\ file\ path\ list\ and\ add\ .jsonl\ extention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00436}00436\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00437}00437\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00438}00438\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00439}00439\ \textcolor{comment}{\ *\ \ \ vector<string>\ path\_list,filename\_list;}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00440}00440\ \textcolor{comment}{\ *\ \ \ path\_list.push\_back("{}/path/to/input.txt"{});}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00441}00441\ \textcolor{comment}{\ *\ \ \ path\_list.push\_back("{}/path/to/input2.txt"{});}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00442}00442\ \textcolor{comment}{\ *\ \ \ GetFileNameListAddedJsonl(pathlist,filename\_list)}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00443}00443\ \textcolor{comment}{\ *\ \ \ for(auto\ filename:filename\_list)cout\ <<\ filename\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00444}00444\ \textcolor{comment}{\ *\ \ \ //\ /path/to/input.jsonl\ /path/to/input2.jsonl}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00445}00445\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00446}00446\ \textcolor{comment}{\ *\ @param\ const\ vector<string>\ \&file\_path\_list:\ original\ file\ path\ list}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00447}00447\ \textcolor{comment}{\ *\ @param\ vector<string>\ \&jsonl\_file\_path\_list:\ (output)\ file\ path\ list\ added\ jsonl\ extention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00448}00448\ \textcolor{comment}{\ *\ @return\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00449}00449\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00450}00450\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00451}\mbox{\hyperlink{util_8cpp_afe80ce6636cc9b5435b1b5ae8e234420}{00451}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_afe80ce6636cc9b5435b1b5ae8e234420}{GetFileNameListAddedJsonl}}(\textcolor{keyword}{const}\ vector<string>\ \&file\_path\_list,}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vector<string>\ \&jsonl\_file\_path\_list)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00453}00453\ \{\ \ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00454}00454\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ file\_path:file\_path\_list)\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ filepath\_witout\_extention\ =\ \mbox{\hyperlink{util_8cpp_a78fef9dab62f78c255e2901c090657b6}{GetFilePathWithoutExtention}}(file\_path);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00456}00456\ \ \ \ \ \ \ \ \ jsonl\_file\_path\_list.push\_back(filepath\_witout\_extention+\textcolor{stringliteral}{"{}.jsonl"{}});}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00457}00457\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00458}00458\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00459}00459\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00460}00460\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00461}00461\ \textcolor{comment}{\ *\ @brief\ Escape\ word}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00462}00462\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00463}00463\ \textcolor{comment}{\ *\ If\ "{}\ or\ '\ or\ \(\backslash\),\ replace\ to\ \(\backslash\)"{},\ \(\backslash\)',\ and\ \(\backslash\)\(\backslash\).}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00464}00464\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00465}00465\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00466}00466\ \textcolor{comment}{\ *\ \ \ string\ input\ =\ "{}"{}"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00467}00467\ \textcolor{comment}{\ *\ \ \ string\ output\ =\ \ EscapeWord(input);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00468}00468\ \textcolor{comment}{\ *\ \ \ //\ output\ ==\ "{}\(\backslash\)"{}"{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00469}00469\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00470}00470\ \textcolor{comment}{\ *\ @param\ const\ string\&\ sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00471}00471\ \textcolor{comment}{\ *\ @return\ string:\ converted\ sentence}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00472}00472\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00473}00473\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00474}\mbox{\hyperlink{util_8cpp_ae54568cb0ecde1a21dfeda85bff0a988}{00474}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8cpp_ae54568cb0ecde1a21dfeda85bff0a988}{EscapeWord}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ input)\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00475}00475\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00476}00476\ \ \ \ \ \textcolor{keywordtype}{string}\ output=\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00477}00477\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{char}\ word:\ input)\{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00478}00478\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(word\ ==\ L\textcolor{charliteral}{'\(\backslash\)"{}'})\ output+=\ \textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)\(\backslash\)"{}"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00479}00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(word\ ==\ \textcolor{charliteral}{'\(\backslash\)t'})\ output+=\textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)t"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(word\ ==\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'})\ output+=\textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00481}00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ output+=word;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ else\ if(word\ ==\ '\(\backslash\)'')\ output+="{}\(\backslash\)\(\backslash\)\(\backslash\)'"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00483}00483\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ else\ if(word\ ==\ '\(\backslash\)t')\ output+="{}\(\backslash\)\(\backslash\)\(\backslash\)t"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00484}00484\ \ \ \ \ \}\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00485}00485\ \ \ \ \ \textcolor{keywordflow}{return}\ output;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00486}00486\ \ \ \ \ \textcolor{comment}{//\ else\ if(word\ ==\ '　')\ output+="{}\(\backslash\)\(\backslash\)u3000"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00487}00487\ \}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00488}00488\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00489}00489\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00490}00490\ \textcolor{comment}{\ *\ @brief\ Update\ progress\ bar}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00491}00491\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00492}00492\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00493}00493\ \textcolor{comment}{\ *\ @param\ uint64\_t\ line\_count}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00494}00494\ \textcolor{comment}{\ *\ @param\ uint64\_t\ file\_line\_number}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00495}00495\ \textcolor{comment}{\ *\ @return\ None}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00496}00496\ \textcolor{comment}{\ *\ @attention\ }}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00497}00497\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00498}\mbox{\hyperlink{util_8cpp_a1f8884b4712b238d89d94c729e58a2fc}{00498}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8cpp_a1f8884b4712b238d89d94c729e58a2fc}{ProceedProgressBar}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ line\_count,\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ file\_line\_number,uint32\_t\ elapsed\_time\_ms)}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00499}00499\ \{}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00500}00500\ \ \ \ \ \textcolor{comment}{//Division\ by\ 0\ occurs}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00501}00501\ \ \ \ \ \textcolor{keywordflow}{if}(file\_line\_number==0)\ \textcolor{keywordflow}{return};\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00502}00502\ \ \ \ \ \textcolor{keywordflow}{if}(line\_count==0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00503}00503\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00504}00504\ \ \ \ \ \textcolor{comment}{//\ clear\ terminal}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00505}00505\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}\(\backslash\)033[2J\(\backslash\)033[1;1H"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00506}00506\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}\(\backslash\)033[1;1H\(\backslash\)033[2K"{};}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00507}00507\ \ \ \ \ cout.fill(\textcolor{charliteral}{'0'});}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00508}00508\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)033[2K"{}};}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00509}00509\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00510}00510\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ progress\_percentage\ =\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ long)((\textcolor{keywordtype}{double}(line\_count))/double(file\_line\_number)*100);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00511}00511\ \ \ \ \ \textcolor{comment}{//printf("{}\(\backslash\)r\%llu\%\%\ |"{},progress\_percentage);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00512}00512\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)r"{}}\ <<\ progress\_percentage\ <<\ \textcolor{stringliteral}{"{}\%\ |"{}};\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00513}00513\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<int(progress\_percentage/5);i++)\ cout\ <<\ \textcolor{stringliteral}{"{}█"{}};\textcolor{comment}{//printf("{}█"{});}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00514}00514\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<int(20-\/progress\_percentage/5);i++)\ cout\ <<\ \textcolor{stringliteral}{"{}\ "{}};\textcolor{comment}{//printf("{}\ "{});}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00515}00515\ \ \ \ \ \textcolor{comment}{//printf("{}|\ \%llu/\%llu"{},line\_count,file\_line\_number);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00516}00516\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}|\ "{}}<<\ line\_count\ <<\ \textcolor{stringliteral}{"{}/"{}}\ <<\ file\_line\_number;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00517}00517\ \ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00518}00518\ \ \ \ \ \textcolor{comment}{//passed\ time}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00519}00519\ \ \ \ \ uint32\_t\ hours\ =\ elapsed\_time\_ms\ /\ (1000\ *\ 60\ *\ 60);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00520}00520\ \ \ \ \ uint32\_t\ minutes\ =\ (elapsed\_time\_ms\ /\ (1000\ *\ 60))\ \%\ 60;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00521}00521\ \ \ \ \ uint32\_t\ seconds\ =\ (elapsed\_time\_ms\ /\ (1000))\ \%\ 60;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00522}00522\ \ \ \ \ \textcolor{comment}{//printf("{}\ [\%02d:\%02d:\%02d"{},hours,minutes,seconds);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00523}00523\ \ \ \ \ cout\ <<\ setw(2)\ <<\ \textcolor{stringliteral}{"{}["{}}\ <<\ hours\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ minutes\ <<\ \textcolor{stringliteral}{"{}:"{}}<<\ seconds;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00524}00524\ \ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00525}00525\ \ \ \ \ \textcolor{comment}{//Remaining\ time}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00526}00526\ \ \ \ \ uint32\_t\ remaining\_time\ =\ uint32\_t(\textcolor{keywordtype}{double}(elapsed\_time\_ms)/line\_count*(file\_line\_number-\/line\_count));}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00527}00527\ \ \ \ \ hours\ =\ remaining\_time\ /\ (1000\ *\ 60\ *\ 60);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00528}00528\ \ \ \ \ minutes\ =\ (remaining\_time\ /\ (1000\ *\ 60))\ \%\ 60;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00529}00529\ \ \ \ \ seconds\ =\ (remaining\_time\ /\ (1000))\ \%\ 60;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00530}00530\ \ \ \ \ \textcolor{comment}{//printf("{}<\%02d:\%02d:\%02d"{},hours,minutes,seconds);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00531}00531\ \ \ \ \ cout\ <<\ setw(2)\ \ <<\ \textcolor{stringliteral}{"{}<"{}}<<hours\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ minutes\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<seconds;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00533}00533\ \ \ \ \ \textcolor{comment}{//second\ per\ iteration}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00534}00534\ \ \ \ \ \textcolor{keywordtype}{double}\ msecond\_per\_iter\ =\ double(elapsed\_time\_ms)/line\_count;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{comment}{//printf("{},\ \%.2fms/it"{},msecond\_per\_iter);}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00536}00536\ \ \ \ \ \textcolor{comment}{//printf("{}]"{});}}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00537}00537\ \ \ \ \ cout\ <<\ setprecision(2)\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ msecond\_per\_iter\ <<\ \textcolor{stringliteral}{"{}ms/it"{}}\ ;\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00538}00538\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}]"{}};\ }
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00539}00539\ \ \ \ \ fflush(stdout);}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00540}00540\ \ \ \ \ \textcolor{keywordflow}{if}\ (progress\_percentage==100)\ \ \ cout\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{util_8cpp_source_l00541}00541\ \}}
+
+\end{DoxyCode}

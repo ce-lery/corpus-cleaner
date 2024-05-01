@@ -1,0 +1,184 @@
+\chapter{corpus-\/cleaner}
+\hypertarget{md__2home_2corpus-cleaner_2README}{}\label{md__2home_2corpus-cleaner_2README}\index{corpus-\/cleaner@{corpus-\/cleaner}}
+\label{md__2home_2corpus-cleaner_2README_autotoc_md14}%
+\Hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md14}%
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md15}{}\doxysection{\texorpdfstring{Overview}{Overview}}\label{md__2home_2corpus-cleaner_2README_autotoc_md15}
+Welcome to my repository! ~\newline
+ This repository is a library for quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus.
+
+The features are following table.
+
+
+\begin{DoxyItemize}
+\item Normalizer\+:
+\item Sentence Segmenter\+:
+\item Emoji Remover\+:
+\item URL Remover\+:
+\item Quotes Remover
+\item Special Characters Remover\+:
+\item Length Filter\+:
+\item Minhash Deduplicator\+:
+\item Language Filter\+:
+\item Perplexity Filter\+:
+\end{DoxyItemize}\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md16}{}\doxysection{\texorpdfstring{Quick Started}{Quick Started}}\label{md__2home_2corpus-cleaner_2README_autotoc_md16}
+If you want to try out the contents of this repository quickly and easily, please use this \href{examples/quick_start.ipynb}{\texttt{ ipynb file}}.\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md17}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{md__2home_2corpus-cleaner_2README_autotoc_md17}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md18}{}\doxysubsection{\texorpdfstring{Clone Repository}{Clone Repository}}\label{md__2home_2corpus-cleaner_2README_autotoc_md18}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/ce-\/lery/corpus-\/cleaner.git}
+\DoxyCodeLine{cd\ corpus-\/cleaner}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md19}{}\doxysubsection{\texorpdfstring{Install Step}{Install Step}}\label{md__2home_2corpus-cleaner_2README_autotoc_md19}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md20}{}\doxysubsubsection{\texorpdfstring{Docker}{Docker}}\label{md__2home_2corpus-cleaner_2README_autotoc_md20}
+Build a python environment using Docker files.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker\ build\ -\/t\ corpus-\/cleaner-\/image\ ./}
+\DoxyCodeLine{docker\ run\ -\/v\ ./:/home/corpus-\/cleaner/\ -\/it\ -\/-\/gpus\ all\ corpus-\/cleaner-\/image}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md21}{}\doxysubsubsection{\texorpdfstring{Other (Local Install)}{Other (Local Install)}}\label{md__2home_2corpus-cleaner_2README_autotoc_md21}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt\ upgrade}
+\DoxyCodeLine{sudo\ apt-\/get\ install\ cmake\ gdb\ libboost-\/system-\/dev\ libboost-\/thread-\/dev\ libboost-\/program-\/options-\/dev\ libboost-\/test-\/dev\ libeigen3-\/dev\ zlib1g-\/dev\ libbz2-\/dev\ liblzma-\/dev\ \ pkg-\/config\ \ libgoogle-\/perftools-\/dev\ curl\ wget\ build-\/essential\ nano\ flex\ bison}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md22}{}\doxysubsection{\texorpdfstring{Common Step}{Common Step}}\label{md__2home_2corpus-cleaner_2README_autotoc_md22}
+Run the shell script with the following command. ~\newline
+ In this script, you install third party library.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/setup.sh}
+
+\end{DoxyCode}
+
+
+Build source code of corpus-\/cleaner.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/build.sh}
+
+\end{DoxyCode}
+
+
+Please place the files to be cleaned in "{}./results/data/original"{}. The file format is "{}.\+txt"{}. For example, "{}wiki.\+txt"{}, "{}cc100\+\_\+train.\+txt"{}, and so on.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ -\/p\ results/data/original/}
+\DoxyCodeLine{\#\ Please\ place\ the\ files\ to\ be\ cleaned\ in\ "{}./results/data/original"{}.}
+
+\end{DoxyCode}
+
+
+Run corpus\+\_\+cleaner. Please wait a minute. ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/run.sh}
+
+\end{DoxyCode}
+
+
+The cleaning result files will be created in "{}results/data/output"{}. ~\newline
+ The file format is jsonl. ~\newline
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md23}{}\doxysection{\texorpdfstring{Usage}{Usage}}\label{md__2home_2corpus-cleaner_2README_autotoc_md23}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md24}{}\doxysubsection{\texorpdfstring{Basic usage}{Basic usage}}\label{md__2home_2corpus-cleaner_2README_autotoc_md24}
+The basic usage of corpus-\/cleaner is same as Getting Started.\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md25}{}\doxysubsection{\texorpdfstring{Select Filtering feature}{Select Filtering feature}}\label{md__2home_2corpus-cleaner_2README_autotoc_md25}
+If you want to disable Sentence Segmenter, please set "{}bool sentence\+\_\+segment=false"{}, and create instance of \doxylink{classCorpusCleaner}{Corpus\+Cleaner} class.
+
+
+\begin{DoxyCode}{0}
+
+\end{DoxyCode}
+
+
+If you want to disable filter, please Comment out the corresponding filter function in the variable TODO\+:.
+
+Maybe, this step will be changed in the future.\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md26}{}\doxysubsection{\texorpdfstring{Add new filtering feature}{Add new filtering feature}}\label{md__2home_2corpus-cleaner_2README_autotoc_md26}
+You can add your original filtering feature. Please do the following steps.
+
+
+\begin{DoxyEnumerate}
+\item Write the Filtering function in corpus\+\_\+cleaner.\+cpp. ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{aa}
+\DoxyCodeLine{aa}
+
+\end{DoxyCode}
+
+\item Define the prototype declaration in \doxylink{corpus__cleaner_8hpp_source}{corpus\+\_\+cleaner.\+hpp}. ~\newline
+ 
+\begin{DoxyCode}{0}
+
+\end{DoxyCode}
+
+\item Build source code of corpus-\/cleaner. ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/build.sh}
+
+\end{DoxyCode}
+
+\item Run corpus\+\_\+cleaner. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./corpus\_cleaner/build/corpus\_cleaner}
+
+\end{DoxyCode}
+
+\end{DoxyEnumerate}\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md27}{}\doxysection{\texorpdfstring{Test}{Test}}\label{md__2home_2corpus-cleaner_2README_autotoc_md27}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/test.sh}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md28}{}\doxysection{\texorpdfstring{Contribution}{Contribution}}\label{md__2home_2corpus-cleaner_2README_autotoc_md28}
+We welcome your contributions to this repository. To contribute, please see CONTRIBUTING.md.\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md29}{}\doxysection{\texorpdfstring{TODO}{TODO}}\label{md__2home_2corpus-cleaner_2README_autotoc_md29}
+\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md30}{}\doxysubsection{\texorpdfstring{ver.\+0.\+1.\+0}{ver.\+0.\+1.\+0}}\label{md__2home_2corpus-cleaner_2README_autotoc_md30}
+
+\begin{DoxyItemize}
+\item \mbox{[}x\mbox{]} Implement normalizer
+\item \mbox{[}x\mbox{]} Implement Remover emoji
+\item \mbox{[}x\mbox{]} Implement Remover URL
+\item \mbox{[} \mbox{]} \sout{Implement Remover kaomoji}
+\item \mbox{[}x\mbox{]} Implement Remover special characters
+\item \mbox{[}x\mbox{]} Implement Sentence Segmentation
+\item \mbox{[}x\mbox{]} Implement Excess Filtering
+\item \mbox{[}x\mbox{]} Implement Sentence Deduplication
+\item \mbox{[}x\mbox{]} Implement Minhash Deduplication
+\item \mbox{[}x\mbox{]} Implement language filter
+\item \mbox{[}x\mbox{]} Implement Test
+\item \mbox{[}x\mbox{]} Imprement quotes Remover ("{}\{1\}"{}, "{}\{13\}"{}, and so on.)
+\item \mbox{[}x\mbox{]} Refactor piplinestep (FILE read write only once at the beginning and end)
+\item \mbox{[}x\mbox{]} Implement minhash
+\item \mbox{[}x\mbox{]} Implement json read \& write
+\item \mbox{[}x\mbox{]} Exception handling
+\item \mbox{[}x\mbox{]} Test Clean pipeline
+\item \mbox{[}x\mbox{]} Implement tqdm.
+\item \mbox{[}x\mbox{]} Implement punctuation filter
+\item \mbox{[} \mbox{]} Write document \& create doxygen
+\item \mbox{[}x\mbox{]} Fix the clean process of Minhash bucket (Now, this isn\textquotesingle{}t initialized).
+\item \mbox{[} \mbox{]} Implement dump .txt format file(only is\+\_\+removed=false).
+\item \mbox{[}x\mbox{]} Implement multiprocessing.
+\end{DoxyItemize}\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md31}{}\doxysubsection{\texorpdfstring{ver.\+0.\+2.\+0}{ver.\+0.\+2.\+0}}\label{md__2home_2corpus-cleaner_2README_autotoc_md31}
+
+\begin{DoxyItemize}
+\item \mbox{[} \mbox{]} Implement pybind \& python code
+\item \mbox{[} \mbox{]} Implement loader json \& jsonl
+\item \mbox{[} \mbox{]} Morphological analysis (by jagger)
+\item \mbox{[} \mbox{]} Remove ad header and footer
+\item \mbox{[} \mbox{]} Remove HTML mark
+\item \mbox{[} \mbox{]} Remove repeated expressions
+\item \mbox{[} \mbox{]} Set Github Action\textquotesingle{}s CI/\+CD
+\end{DoxyItemize}\hypertarget{md__2home_2corpus-cleaner_2README_autotoc_md32}{}\doxysubsection{\texorpdfstring{ver.\+0.\+3.\+0}{ver.\+0.\+3.\+0}}\label{md__2home_2corpus-cleaner_2README_autotoc_md32}
+
+\begin{DoxyItemize}
+\item \mbox{[} \mbox{]} Speedup? 
+\end{DoxyItemize}

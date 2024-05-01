@@ -1,0 +1,596 @@
+\doxysection{simdjson\+::dom\+::element Class Reference}
+\hypertarget{classsimdjson_1_1dom_1_1element}{}\label{classsimdjson_1_1dom_1_1element}\index{simdjson::dom::element@{simdjson::dom::element}}
+
+
+{\ttfamily \#include $<$simdjson.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a9dbf81ad662ad32168025e8e08686935}{element}} () noexcept
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{namespacesimdjson_1_1dom_a6e1dee3a823ecfee91086d3478bbab3a}{element\+\_\+type}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a19162bf6d94fb6c21bb2bf2e9b78ff0d}{type}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1array}{array}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a87c75accdc0b35e06f3d554561ce8cd3}{get\+\_\+array}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1object}{object}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_ab4c2e35dc44664eb04038ad35efc64f9}{get\+\_\+object}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ const char \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a29c21d70352c9b8af7144fd4f38baaa6}{get\+\_\+c\+\_\+str}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ size\+\_\+t $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a9d92145af64401654c20d2885dd4051d}{get\+\_\+string\+\_\+length}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ std\+::string\+\_\+view $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_ae83652b5016ce4d4ff71f8f9bc05913e}{get\+\_\+string}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ int64\+\_\+t $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_aa954cda836a4748ec9937291a9250604}{get\+\_\+int64}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ uint64\+\_\+t $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a9e5a750a066f17d5a9a31a24980e0b1d}{get\+\_\+uint64}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ double $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a3e74a8a6ef8318e2de805359126c6d7b}{get\+\_\+double}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a548e0fc369eb455ea477e20fb0793627}{get\+\_\+bool}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_afaaac6e2f58128a01a25b0a5f5abb856}{is\+\_\+array}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a08c7dcebf9e96fe5e4dd6df2959c0024}{is\+\_\+object}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a65bd96042cc0f19dc3e0635937edded4}{is\+\_\+string}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_adadf66ec37675d5f3fac9816a8aacba2}{is\+\_\+int64}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_ac5017726a573f59c3494b92bb66a3beb}{is\+\_\+uint64}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a0d11f69ba87f55960be6f655e4e99aba}{is\+\_\+double}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a1e3f78b3bee5ec3f33cc4b03dcc87981}{is\+\_\+number}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_afde562c5aae1b85a03ab6d4b040e7d13}{is\+\_\+bool}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_ae38f84f4272ae3c32b32dd6d5007ffb9}{is\+\_\+null}} () const noexcept
+\item 
+{\footnotesize template$<$typename T $>$ }\\simdjson\+\_\+inline bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is}} () const noexcept
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ T $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a2428a280035930e432570fb08712c4de}{get}} () const noexcept
+\item 
+{\footnotesize template$<$typename T $>$ }\\simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a3474c8fc1b1cb06625a50dcb9a2c5269}{get}} (T \&value) const noexcept
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a5342161b8c52c78b2f5edac10e9d05ca}{tie}} (T \&value, \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} \&error) \&\&noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_aca693f57d73a5ce95d1f7bedf67289b7}{operator\mbox{[}$\,$\mbox{]}}} (std\+::string\+\_\+view key) const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a367d22eeabc1881a8eb18bae2f2ba3b8}{operator\mbox{[}$\,$\mbox{]}}} (const char \texorpdfstring{$\ast$}{*}key) const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a3777fed88f37555f2d090aeb604a117c}{at\+\_\+pointer}} (const std\+::string\+\_\+view json\+\_\+pointer) const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_aa8b5798004a859bf922778226b8c1cce}{at}} (const std\+::string\+\_\+view json\+\_\+pointer) const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_aeb155c47ef7bebcad79e1b7449734030}{at}} (size\+\_\+t index) const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a686a21f39c755dcbf95116757d2193bd}{at\+\_\+key}} (std\+::string\+\_\+view key) const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a5185447e6bf8949e7c5e9c22711e8764}{at\+\_\+key\+\_\+case\+\_\+insensitive}} (std\+::string\+\_\+view key) const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_a2f9448091caf47e5ecc325956e14ed73}{operator$<$}} (const \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} \&other) const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1dom_1_1element_afbe1c01508f1cc39b41b79596cb5717b}{operator==}} (const \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} \&other) const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_ac111e6d27806dbd39794f2c394f95757}\label{classsimdjson_1_1dom_1_1element_ac111e6d27806dbd39794f2c394f95757} 
+template$<$$>$ simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} {\bfseries get} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} \&value) const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a5bf7fc982a130f3d49f80fc716bf11e7}\label{classsimdjson_1_1dom_1_1element_a5bf7fc982a130f3d49f80fc716bf11e7} 
+template$<$$>$ \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1array}{array}} $>$ {\bfseries get} () const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a0b6a309fdf12e24be48405b913b26882}\label{classsimdjson_1_1dom_1_1element_a0b6a309fdf12e24be48405b913b26882} 
+template$<$$>$ \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1object}{object}} $>$ {\bfseries get} () const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_abd68dadfacfc6479892b1d05193f56c4}\label{classsimdjson_1_1dom_1_1element_abd68dadfacfc6479892b1d05193f56c4} 
+template$<$$>$ \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ const char \texorpdfstring{$\ast$}{*} $>$ {\bfseries get} () const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a7cd5af20d56479537130dbcefdf39016}\label{classsimdjson_1_1dom_1_1element_a7cd5af20d56479537130dbcefdf39016} 
+template$<$$>$ \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ int64\+\_\+t $>$ {\bfseries get} () const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a555604b792435ed2e33be3c52fce0516}\label{classsimdjson_1_1dom_1_1element_a555604b792435ed2e33be3c52fce0516} 
+template$<$$>$ \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ uint64\+\_\+t $>$ {\bfseries get} () const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a087e4365bce9eb277fb7417118d865a3}\label{classsimdjson_1_1dom_1_1element_a087e4365bce9eb277fb7417118d865a3} 
+template$<$$>$ \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ double $>$ {\bfseries get} () const noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_aa97ca9400f458ff8f0e5bc48f3135e4f}\label{classsimdjson_1_1dom_1_1element_aa97ca9400f458ff8f0e5bc48f3135e4f} 
+template$<$$>$ \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ {\bfseries get} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a7c20332b4481f29ace969e40cfce5f5f}\label{classsimdjson_1_1dom_1_1element_a7c20332b4481f29ace969e40cfce5f5f} 
+class {\bfseries document}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a3d4dcacb8171b99f783396bb6a337c65}\label{classsimdjson_1_1dom_1_1element_a3d4dcacb8171b99f783396bb6a337c65} 
+class {\bfseries object}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a96cd9e5da7256c58b4af1227e9f61afb}\label{classsimdjson_1_1dom_1_1element_a96cd9e5da7256c58b4af1227e9f61afb} 
+class {\bfseries array}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_a5db654c4e603254bd308a7c068d79c43}\label{classsimdjson_1_1dom_1_1element_a5db654c4e603254bd308a7c068d79c43} 
+struct {\bfseries simdjson\+\_\+result$<$ element $>$}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1element_ae179c7cf00c86d956a4bbca2ee59d810}\label{classsimdjson_1_1dom_1_1element_ae179c7cf00c86d956a4bbca2ee59d810} 
+{\footnotesize template$<$typename T $>$ }\\class {\bfseries simdjson\+::internal\+::string\+\_\+builder}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A JSON element.
+
+References an element in a JSON document, representing a JSON null, boolean, string, number, array or object. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a9dbf81ad662ad32168025e8e08686935}\label{classsimdjson_1_1dom_1_1element_a9dbf81ad662ad32168025e8e08686935} 
+\index{simdjson::dom::element@{simdjson::dom::element}!element@{element}}
+\index{element@{element}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{element()}{element()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline simdjson\+::dom\+::element\+::element (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Create a new, invalid element. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1element_aa8b5798004a859bf922778226b8c1cce}\label{classsimdjson_1_1dom_1_1element_aa8b5798004a859bf922778226b8c1cce} 
+\index{simdjson::dom::element@{simdjson::dom::element}!at@{at}}
+\index{at@{at}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::element\+::at (\begin{DoxyParamCaption}\item[{const std\+::string\+\_\+view}]{json\+\_\+pointer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Version 0.\+4 of simdjson used an incorrect interpretation of the JSON Pointer standard and allowed the following \+:
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; element doc = \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}foo"{}\+: \{ "{}a"{}\+: \mbox{[} 10, 20, 30 \mbox{]} \}\})"{}\+\_\+padded); doc.\+at("{}foo/a/1"{}) == 20
+
+Though it is intuitive, it is not compliant with RFC 6901 \href{https://tools.ietf.org/html/rfc6901}{\texttt{ https\+://tools.\+ietf.\+org/html/rfc6901}}
+
+For standard compliance, use the at\+\_\+pointer function instead.
+
+\begin{DoxyReturn}{Returns}
+The value associated with the given JSON pointer, or\+:
+\begin{DoxyItemize}
+\item NO\+\_\+\+SUCH\+\_\+\+FIELD if a field does not exist in an object
+\item INDEX\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS if an array index is larger than an array length
+\item INCORRECT\+\_\+\+TYPE if a non-\/integer is used to access an array
+\item INVALID\+\_\+\+JSON\+\_\+\+POINTER if the JSON pointer is invalid and cannot be parsed 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_aeb155c47ef7bebcad79e1b7449734030}\label{classsimdjson_1_1dom_1_1element_aeb155c47ef7bebcad79e1b7449734030} 
+\index{simdjson::dom::element@{simdjson::dom::element}!at@{at}}
+\index{at@{at}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::element\+::at (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value at the given index.
+
+\begin{DoxyReturn}{Returns}
+The value at the given index, or\+:
+\begin{DoxyItemize}
+\item INDEX\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS if the array index is larger than an array length 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a686a21f39c755dcbf95116757d2193bd}\label{classsimdjson_1_1dom_1_1element_a686a21f39c755dcbf95116757d2193bd} 
+\index{simdjson::dom::element@{simdjson::dom::element}!at\_key@{at\_key}}
+\index{at\_key@{at\_key}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{at\_key()}{at\_key()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::element\+::at\+\_\+key (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value associated with the given key.
+
+The key will be matched against {\bfseries{unescaped}} JSON\+:
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; int64\+\_\+t(\doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}a~\newline
+"{}\+: 1 \})"{}\+\_\+padded)\mbox{[}"{}a\textbackslash{}n"{}\mbox{]}) == 1 \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}a~\newline
+"{}\+: 1 \})"{}\+\_\+padded)\mbox{[}"{}a\textbackslash{}\textbackslash{}n"{}\mbox{]}.\doxylink{classsimdjson_1_1dom_1_1element_a9e5a750a066f17d5a9a31a24980e0b1d}{get\+\_\+uint64()}.error() == NO\+\_\+\+SUCH\+\_\+\+FIELD
+
+\begin{DoxyReturn}{Returns}
+The value associated with this field, or\+:
+\begin{DoxyItemize}
+\item NO\+\_\+\+SUCH\+\_\+\+FIELD if the field does not exist in the object 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a5185447e6bf8949e7c5e9c22711e8764}\label{classsimdjson_1_1dom_1_1element_a5185447e6bf8949e7c5e9c22711e8764} 
+\index{simdjson::dom::element@{simdjson::dom::element}!at\_key\_case\_insensitive@{at\_key\_case\_insensitive}}
+\index{at\_key\_case\_insensitive@{at\_key\_case\_insensitive}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{at\_key\_case\_insensitive()}{at\_key\_case\_insensitive()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::element\+::at\+\_\+key\+\_\+case\+\_\+insensitive (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value associated with the given key in a case-\/insensitive manner.
+
+Note\+: The key will be matched against {\bfseries{unescaped}} JSON.
+
+\begin{DoxyReturn}{Returns}
+The value associated with this field, or\+:
+\begin{DoxyItemize}
+\item NO\+\_\+\+SUCH\+\_\+\+FIELD if the field does not exist in the object 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a3777fed88f37555f2d090aeb604a117c}\label{classsimdjson_1_1dom_1_1element_a3777fed88f37555f2d090aeb604a117c} 
+\index{simdjson::dom::element@{simdjson::dom::element}!at\_pointer@{at\_pointer}}
+\index{at\_pointer@{at\_pointer}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{at\_pointer()}{at\_pointer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::element\+::at\+\_\+pointer (\begin{DoxyParamCaption}\item[{const std\+::string\+\_\+view}]{json\+\_\+pointer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value associated with the given JSON pointer. We use the RFC 6901 \href{https://tools.ietf.org/html/rfc6901}{\texttt{ https\+://tools.\+ietf.\+org/html/rfc6901}} standard.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; element doc = \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}foo"{}\+: \{ "{}a"{}\+: \mbox{[} 10, 20, 30 \mbox{]} \}\})"{}\+\_\+padded); doc.\+at\+\_\+pointer("{}/foo/a/1"{}) == 20 doc.\+at\+\_\+pointer("{}/foo"{})\mbox{[}"{}a"{}\mbox{]}.at(1) == 20 doc.\+at\+\_\+pointer("{}"{})\mbox{[}"{}foo"{}\mbox{]}\mbox{[}"{}a"{}\mbox{]}.at(1) == 20
+
+It is allowed for a key to be the empty string\+:
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; object obj = \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}"{}\+: \{ "{}a"{}\+: \mbox{[} 10, 20, 30 \mbox{]} \}\})"{}\+\_\+padded); obj.\+at\+\_\+pointer("{}//a/1"{}) == 20
+
+\begin{DoxyReturn}{Returns}
+The value associated with the given JSON pointer, or\+:
+\begin{DoxyItemize}
+\item NO\+\_\+\+SUCH\+\_\+\+FIELD if a field does not exist in an object
+\item INDEX\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS if an array index is larger than an array length
+\item INCORRECT\+\_\+\+TYPE if a non-\/integer is used to access an array
+\item INVALID\+\_\+\+JSON\+\_\+\+POINTER if the JSON pointer is invalid and cannot be parsed 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a2428a280035930e432570fb08712c4de}\label{classsimdjson_1_1dom_1_1element_a2428a280035930e432570fb08712c4de} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get@{get}}
+\index{get@{get}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ T $>$ simdjson\+::dom\+::element\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value as the provided type (T).
+
+Supported types\+:
+\begin{DoxyItemize}
+\item Boolean\+: bool
+\item Number\+: double, uint64\+\_\+t, int64\+\_\+t
+\item String\+: std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}
+\item Array\+: \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}
+\item Object\+: \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object}
+\end{DoxyItemize}
+
+You may use \doxylink{classsimdjson_1_1dom_1_1element_a3e74a8a6ef8318e2de805359126c6d7b}{get\+\_\+double()}, \doxylink{classsimdjson_1_1dom_1_1element_a548e0fc369eb455ea477e20fb0793627}{get\+\_\+bool()}, \doxylink{classsimdjson_1_1dom_1_1element_a9e5a750a066f17d5a9a31a24980e0b1d}{get\+\_\+uint64()}, \doxylink{classsimdjson_1_1dom_1_1element_aa954cda836a4748ec9937291a9250604}{get\+\_\+int64()}, \doxylink{classsimdjson_1_1dom_1_1element_ab4c2e35dc44664eb04038ad35efc64f9}{get\+\_\+object()}, \doxylink{classsimdjson_1_1dom_1_1element_a87c75accdc0b35e06f3d554561ce8cd3}{get\+\_\+array()} or \doxylink{classsimdjson_1_1dom_1_1element_ae83652b5016ce4d4ff71f8f9bc05913e}{get\+\_\+string()} instead.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & bool, double, uint64\+\_\+t, int64\+\_\+t, std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}, \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}, \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object}\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+The value cast to the given type, or\+: INCORRECT\+\_\+\+TYPE if the value cannot be cast to the given type. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a3474c8fc1b1cb06625a50dcb9a2c5269}\label{classsimdjson_1_1dom_1_1element_a3474c8fc1b1cb06625a50dcb9a2c5269} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get@{get}}
+\index{get@{get}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} simdjson\+::dom\+::element\+::get (\begin{DoxyParamCaption}\item[{T \&}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Get the value as the provided type (T).
+
+Supported types\+:
+\begin{DoxyItemize}
+\item Boolean\+: bool
+\item Number\+: double, uint64\+\_\+t, int64\+\_\+t
+\item String\+: std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}
+\item Array\+: \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}
+\item Object\+: \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object}
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & bool, double, uint64\+\_\+t, int64\+\_\+t, std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}, \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}, \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object}\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The variable to set to the value. May not be set if there is an error.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The error that occurred, or SUCCESS if there was no error. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a87c75accdc0b35e06f3d554561ce8cd3}\label{classsimdjson_1_1dom_1_1element_a87c75accdc0b35e06f3d554561ce8cd3} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_array@{get\_array}}
+\index{get\_array@{get\_array}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_array()}{get\_array()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1array}{array}} $>$ simdjson\+::dom\+::element\+::get\+\_\+array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to an array.
+
+\begin{DoxyReturn}{Returns}
+An object that can be used to iterate the array, or\+: INCORRECT\+\_\+\+TYPE if the JSON element is not an array. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a548e0fc369eb455ea477e20fb0793627}\label{classsimdjson_1_1dom_1_1element_a548e0fc369eb455ea477e20fb0793627} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_bool@{get\_bool}}
+\index{get\_bool@{get\_bool}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_bool()}{get\_bool()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ simdjson\+::dom\+::element\+::get\+\_\+bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to a bool.
+
+\begin{DoxyReturn}{Returns}
+A bool value. Returns INCORRECT\+\_\+\+TYPE if the JSON element is not a boolean. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a29c21d70352c9b8af7144fd4f38baaa6}\label{classsimdjson_1_1dom_1_1element_a29c21d70352c9b8af7144fd4f38baaa6} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_c\_str@{get\_c\_str}}
+\index{get\_c\_str@{get\_c\_str}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_c\_str()}{get\_c\_str()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ const char \texorpdfstring{$\ast$}{*} $>$ simdjson\+::dom\+::element\+::get\+\_\+c\+\_\+str (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to a null-\/terminated C string.
+
+The string is guaranteed to be valid UTF-\/8.
+
+The length of the string is given by \doxylink{classsimdjson_1_1dom_1_1element_a9d92145af64401654c20d2885dd4051d}{get\+\_\+string\+\_\+length()}. Because JSON strings may contain null characters, it may be incorrect to use strlen to determine the string length.
+
+It is possible to get a single string\+\_\+view instance which represents both the string content and its length\+: see \doxylink{classsimdjson_1_1dom_1_1element_ae83652b5016ce4d4ff71f8f9bc05913e}{get\+\_\+string()}.
+
+\begin{DoxyReturn}{Returns}
+A pointer to a null-\/terminated UTF-\/8 string. This string is stored in the parser and will be invalidated the next time it parses a document or when it is destroyed. Returns INCORRECT\+\_\+\+TYPE if the JSON element is not a string. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a3e74a8a6ef8318e2de805359126c6d7b}\label{classsimdjson_1_1dom_1_1element_a3e74a8a6ef8318e2de805359126c6d7b} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_double@{get\_double}}
+\index{get\_double@{get\_double}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_double()}{get\_double()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ double $>$ simdjson\+::dom\+::element\+::get\+\_\+double (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to a double floating-\/point.
+
+\begin{DoxyReturn}{Returns}
+A double value. Returns INCORRECT\+\_\+\+TYPE if the JSON element is not a number. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_aa954cda836a4748ec9937291a9250604}\label{classsimdjson_1_1dom_1_1element_aa954cda836a4748ec9937291a9250604} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_int64@{get\_int64}}
+\index{get\_int64@{get\_int64}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_int64()}{get\_int64()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ int64\+\_\+t $>$ simdjson\+::dom\+::element\+::get\+\_\+int64 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to a signed integer.
+
+\begin{DoxyReturn}{Returns}
+A signed 64-\/bit integer. Returns INCORRECT\+\_\+\+TYPE if the JSON element is not an integer, or NUMBER\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE if it is negative. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_ab4c2e35dc44664eb04038ad35efc64f9}\label{classsimdjson_1_1dom_1_1element_ab4c2e35dc44664eb04038ad35efc64f9} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_object@{get\_object}}
+\index{get\_object@{get\_object}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_object()}{get\_object()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1object}{object}} $>$ simdjson\+::dom\+::element\+::get\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to an object.
+
+\begin{DoxyReturn}{Returns}
+An object that can be used to look up or iterate the object\textquotesingle{}s fields, or\+: INCORRECT\+\_\+\+TYPE if the JSON element is not an object. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_ae83652b5016ce4d4ff71f8f9bc05913e}\label{classsimdjson_1_1dom_1_1element_ae83652b5016ce4d4ff71f8f9bc05913e} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_string@{get\_string}}
+\index{get\_string@{get\_string}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_string()}{get\_string()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ std\+::string\+\_\+view $>$ simdjson\+::dom\+::element\+::get\+\_\+string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to a string.
+
+The string is guaranteed to be valid UTF-\/8.
+
+\begin{DoxyReturn}{Returns}
+An UTF-\/8 string. The string is stored in the parser and will be invalidated the next time it parses a document or when it is destroyed. Returns INCORRECT\+\_\+\+TYPE if the JSON element is not a string. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a9d92145af64401654c20d2885dd4051d}\label{classsimdjson_1_1dom_1_1element_a9d92145af64401654c20d2885dd4051d} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_string\_length@{get\_string\_length}}
+\index{get\_string\_length@{get\_string\_length}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_string\_length()}{get\_string\_length()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ size\+\_\+t $>$ simdjson\+::dom\+::element\+::get\+\_\+string\+\_\+length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Gives the length in bytes of the string.
+
+It is possible to get a single string\+\_\+view instance which represents both the string content and its length\+: see \doxylink{classsimdjson_1_1dom_1_1element_ae83652b5016ce4d4ff71f8f9bc05913e}{get\+\_\+string()}.
+
+\begin{DoxyReturn}{Returns}
+A string length in bytes. Returns INCORRECT\+\_\+\+TYPE if the JSON element is not a string. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a9e5a750a066f17d5a9a31a24980e0b1d}\label{classsimdjson_1_1dom_1_1element_a9e5a750a066f17d5a9a31a24980e0b1d} 
+\index{simdjson::dom::element@{simdjson::dom::element}!get\_uint64@{get\_uint64}}
+\index{get\_uint64@{get\_uint64}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{get\_uint64()}{get\_uint64()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ uint64\+\_\+t $>$ simdjson\+::dom\+::element\+::get\+\_\+uint64 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Cast this element to an unsigned integer.
+
+\begin{DoxyReturn}{Returns}
+An unsigned 64-\/bit integer. Returns INCORRECT\+\_\+\+TYPE if the JSON element is not an integer, or NUMBER\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE if it is too large. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}\label{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is@{is}}
+\index{is@{is}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is()}{is()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+simdjson\+\_\+inline bool simdjson\+::dom\+::element\+::is (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Tell whether the value can be cast to provided type (T).
+
+Supported types\+:
+\begin{DoxyItemize}
+\item Boolean\+: bool
+\item Number\+: double, uint64\+\_\+t, int64\+\_\+t
+\item String\+: std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}
+\item Array\+: \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}
+\item Object\+: \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object}
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & bool, double, uint64\+\_\+t, int64\+\_\+t, std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}, \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}, \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object} \\
+\hline
+\end{DoxyTemplParams}
+\Hypertarget{classsimdjson_1_1dom_1_1element_afaaac6e2f58128a01a25b0a5f5abb856}\label{classsimdjson_1_1dom_1_1element_afaaac6e2f58128a01a25b0a5f5abb856} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_array@{is\_array}}
+\index{is\_array@{is\_array}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_array()}{is\_array()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json array.
+
+Equivalent to \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$array$>$()}. \Hypertarget{classsimdjson_1_1dom_1_1element_afde562c5aae1b85a03ab6d4b040e7d13}\label{classsimdjson_1_1dom_1_1element_afde562c5aae1b85a03ab6d4b040e7d13} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_bool@{is\_bool}}
+\index{is\_bool@{is\_bool}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_bool()}{is\_bool()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json {\ttfamily true} or {\ttfamily false}.
+
+Equivalent to \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$bool$>$()}. \Hypertarget{classsimdjson_1_1dom_1_1element_a0d11f69ba87f55960be6f655e4e99aba}\label{classsimdjson_1_1dom_1_1element_a0d11f69ba87f55960be6f655e4e99aba} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_double@{is\_double}}
+\index{is\_double@{is\_double}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_double()}{is\_double()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+double (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json number that fits in a double.
+
+Equivalent to \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$double$>$()}. \Hypertarget{classsimdjson_1_1dom_1_1element_adadf66ec37675d5f3fac9816a8aacba2}\label{classsimdjson_1_1dom_1_1element_adadf66ec37675d5f3fac9816a8aacba2} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_int64@{is\_int64}}
+\index{is\_int64@{is\_int64}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_int64()}{is\_int64()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+int64 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json number that fits in a signed 64-\/bit integer.
+
+Equivalent to \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$int64\+\_\+t$>$()}. \Hypertarget{classsimdjson_1_1dom_1_1element_ae38f84f4272ae3c32b32dd6d5007ffb9}\label{classsimdjson_1_1dom_1_1element_ae38f84f4272ae3c32b32dd6d5007ffb9} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_null@{is\_null}}
+\index{is\_null@{is\_null}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_null()}{is\_null()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+null (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json {\ttfamily null}. \Hypertarget{classsimdjson_1_1dom_1_1element_a1e3f78b3bee5ec3f33cc4b03dcc87981}\label{classsimdjson_1_1dom_1_1element_a1e3f78b3bee5ec3f33cc4b03dcc87981} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_number@{is\_number}}
+\index{is\_number@{is\_number}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_number()}{is\_number()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json number.
+
+Both integers and floating points will return true. \Hypertarget{classsimdjson_1_1dom_1_1element_a08c7dcebf9e96fe5e4dd6df2959c0024}\label{classsimdjson_1_1dom_1_1element_a08c7dcebf9e96fe5e4dd6df2959c0024} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_object@{is\_object}}
+\index{is\_object@{is\_object}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_object()}{is\_object()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json object.
+
+Equivalent to \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$object$>$()}. \Hypertarget{classsimdjson_1_1dom_1_1element_a65bd96042cc0f19dc3e0635937edded4}\label{classsimdjson_1_1dom_1_1element_a65bd96042cc0f19dc3e0635937edded4} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_string@{is\_string}}
+\index{is\_string@{is\_string}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_string()}{is\_string()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json string.
+
+Equivalent to \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$std\+::string\+\_\+view$>$()} or \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$const char \texorpdfstring{$\ast$}{*}$>$()}. \Hypertarget{classsimdjson_1_1dom_1_1element_ac5017726a573f59c3494b92bb66a3beb}\label{classsimdjson_1_1dom_1_1element_ac5017726a573f59c3494b92bb66a3beb} 
+\index{simdjson::dom::element@{simdjson::dom::element}!is\_uint64@{is\_uint64}}
+\index{is\_uint64@{is\_uint64}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{is\_uint64()}{is\_uint64()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::is\+\_\+uint64 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Whether this element is a json number that fits in an unsigned 64-\/bit integer.
+
+Equivalent to \doxylink{classsimdjson_1_1dom_1_1element_a4c77063d766c7db197f8674407b504d7}{is$<$uint64\+\_\+t$>$()}. \Hypertarget{classsimdjson_1_1dom_1_1element_a2f9448091caf47e5ecc325956e14ed73}\label{classsimdjson_1_1dom_1_1element_a2f9448091caf47e5ecc325956e14ed73} 
+\index{simdjson::dom::element@{simdjson::dom::element}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+operator\texorpdfstring{$<$}{<} defines a total order for element allowing to use them in ordered C++ STL containers
+
+\begin{DoxyReturn}{Returns}
+TRUE if the key appears before the other one in the tape 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_afbe1c01508f1cc39b41b79596cb5717b}\label{classsimdjson_1_1dom_1_1element_afbe1c01508f1cc39b41b79596cb5717b} 
+\index{simdjson::dom::element@{simdjson::dom::element}!operator==@{operator==}}
+\index{operator==@{operator==}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool simdjson\+::dom\+::element\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+operator== allows to verify if two element values reference the same JSON item
+
+\begin{DoxyReturn}{Returns}
+TRUE if the two values references the same JSON element 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a367d22eeabc1881a8eb18bae2f2ba3b8}\label{classsimdjson_1_1dom_1_1element_a367d22eeabc1881a8eb18bae2f2ba3b8} 
+\index{simdjson::dom::element@{simdjson::dom::element}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::element\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value associated with the given key.
+
+The key will be matched against {\bfseries{unescaped}} JSON\+:
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; int64\+\_\+t(\doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}a~\newline
+"{}\+: 1 \})"{}\+\_\+padded)\mbox{[}"{}a\textbackslash{}n"{}\mbox{]}) == 1 \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}a~\newline
+"{}\+: 1 \})"{}\+\_\+padded)\mbox{[}"{}a\textbackslash{}\textbackslash{}n"{}\mbox{]}.\doxylink{classsimdjson_1_1dom_1_1element_a9e5a750a066f17d5a9a31a24980e0b1d}{get\+\_\+uint64()}.error() == NO\+\_\+\+SUCH\+\_\+\+FIELD
+
+\begin{DoxyReturn}{Returns}
+The value associated with this field, or\+:
+\begin{DoxyItemize}
+\item NO\+\_\+\+SUCH\+\_\+\+FIELD if the field does not exist in the object
+\item INCORRECT\+\_\+\+TYPE if this is not an object 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_aca693f57d73a5ce95d1f7bedf67289b7}\label{classsimdjson_1_1dom_1_1element_aca693f57d73a5ce95d1f7bedf67289b7} 
+\index{simdjson::dom::element@{simdjson::dom::element}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::element\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value associated with the given key.
+
+The key will be matched against {\bfseries{unescaped}} JSON\+:
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; int64\+\_\+t(\doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}a~\newline
+"{}\+: 1 \})"{}\+\_\+padded)\mbox{[}"{}a\textbackslash{}n"{}\mbox{]}) == 1 \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\{ "{}a~\newline
+"{}\+: 1 \})"{}\+\_\+padded)\mbox{[}"{}a\textbackslash{}\textbackslash{}n"{}\mbox{]}.\doxylink{classsimdjson_1_1dom_1_1element_a9e5a750a066f17d5a9a31a24980e0b1d}{get\+\_\+uint64()}.error() == NO\+\_\+\+SUCH\+\_\+\+FIELD
+
+\begin{DoxyReturn}{Returns}
+The value associated with this field, or\+:
+\begin{DoxyItemize}
+\item NO\+\_\+\+SUCH\+\_\+\+FIELD if the field does not exist in the object
+\item INCORRECT\+\_\+\+TYPE if this is not an object 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a5342161b8c52c78b2f5edac10e9d05ca}\label{classsimdjson_1_1dom_1_1element_a5342161b8c52c78b2f5edac10e9d05ca} 
+\index{simdjson::dom::element@{simdjson::dom::element}!tie@{tie}}
+\index{tie@{tie}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{tie()}{tie()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void simdjson\+::dom\+::element\+::tie (\begin{DoxyParamCaption}\item[{T \&}]{value,  }\item[{\mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} \&}]{error }\end{DoxyParamCaption}) \&\&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value as the provided type (T), setting error if it\textquotesingle{}s not the given type.
+
+Supported types\+:
+\begin{DoxyItemize}
+\item Boolean\+: bool
+\item Number\+: double, uint64\+\_\+t, int64\+\_\+t
+\item String\+: std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}
+\item Array\+: \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}
+\item Object\+: \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object}
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & bool, double, uint64\+\_\+t, int64\+\_\+t, std\+::string\+\_\+view, const char \texorpdfstring{$\ast$}{*}, \doxylink{classsimdjson_1_1dom_1_1array}{dom\+::array}, \doxylink{classsimdjson_1_1dom_1_1object}{dom\+::object}\\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The variable to set to the given type. value is undefined if there is an error. \\
+\hline
+{\em error} & The variable to store the error. error is set to error\+\_\+code\+::\+SUCCEED if there is an error. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1dom_1_1element_a19162bf6d94fb6c21bb2bf2e9b78ff0d}\label{classsimdjson_1_1dom_1_1element_a19162bf6d94fb6c21bb2bf2e9b78ff0d} 
+\index{simdjson::dom::element@{simdjson::dom::element}!type@{type}}
+\index{type@{type}!simdjson::dom::element@{simdjson::dom::element}}
+\doxysubsubsection{\texorpdfstring{type()}{type()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacesimdjson_1_1dom_a6e1dee3a823ecfee91086d3478bbab3a}{element\+\_\+type}} simdjson\+::dom\+::element\+::type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+The type of this element. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,710 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML><HEAD></HEAD><BODY>
+<OBJECT type="text/site properties">
+<param name="FrameName" value="right">
+</OBJECT>
+<UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a74b28771fcac6f0827e1a3d57d15077c"><param name="Name" value="Apply(const vector&lt; string &gt; *lshs)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#a595391eddb3d3e37ab3e2e0c4d35bde3"><param name="Name" value="CalculateLSH(wstring text)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a914d894241e9433a27d901a8fc485c2c"><param name="Name" value="CalculateNextEmoji(string pre_emoji)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a914d894241e9433a27d901a8fc485c2c"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a914d894241e9433a27d901a8fc485c2c"><param name="Name" value="CalculateNextEmoji(string pre_emoji)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a914d894241e9433a27d901a8fc485c2c"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a53c08cd06810612e46afd2b55f845578"><param name="Name" value="CleanPipeline(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="md__2home_2corpus-cleaner_2CONTRIBUTING.html"><param name="Name" value="Contribution Guide"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a50d12ab77f904b079dd1234a5c364770"><param name="Name" value="ConutLines(const string &amp;filename)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a29de4aae718d9521bf8c6be160827431"><param name="Name" value="ConvertInputFilesToJsonl(const string input_folder_path, const string output_folder_path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a1ab81c8667edbbb5db38d5ec222ad529"><param name="Name" value="ConvertInputFilesToJsonl(string input_folder_path, string output_folder_path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a4a02a4a113b25c9e2789fc2a655f7b2a"><param name="Name" value="ConvertTextToDocument(string sentence, string filename, string file_line_count, Document &amp;document)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a4a02a4a113b25c9e2789fc2a655f7b2a"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a4a02a4a113b25c9e2789fc2a655f7b2a"><param name="Name" value="ConvertTextToDocument(string sentence, string filename, string file_line_count, Document &amp;document)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a4a02a4a113b25c9e2789fc2a655f7b2a"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ac088f18042a7b17c0d2f54634a159972"><param name="Name" value="ConvertUTF8ToWstring(const string &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ac088f18042a7b17c0d2f54634a159972"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ac088f18042a7b17c0d2f54634a159972"><param name="Name" value="ConvertUTF8ToWstring(const string &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ac088f18042a7b17c0d2f54634a159972"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a01370cacb171f76080f5c02559c9c811"><param name="Name" value="ConvertWstringToUTF8(const wstring &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a01370cacb171f76080f5c02559c9c811"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a01370cacb171f76080f5c02559c9c811"><param name="Name" value="ConvertWstringToUTF8(const wstring &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a01370cacb171f76080f5c02559c9c811"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#aa550fb657da58cba8680f1d677917a36"><param name="Name" value="CopyFile(string source_path, string target_path)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#aa550fb657da58cba8680f1d677917a36"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#aa550fb657da58cba8680f1d677917a36"><param name="Name" value="CopyFile(string source_path, string target_path)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#aa550fb657da58cba8680f1d677917a36"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a41c565fcc77e48108d014d8ac9e45890"><param name="Name" value="CopyFolder(string source_folder, string target_folder)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a41c565fcc77e48108d014d8ac9e45890"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a41c565fcc77e48108d014d8ac9e45890"><param name="Name" value="CopyFolder(string source_folder, string target_folder)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a41c565fcc77e48108d014d8ac9e45890"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a1a7f3a686665feb24f2b2e0f82924250"><param name="Name" value="CorpusCleaner(string input_path, string output_path, uint32_t min_length, uint32_t max_length, set&lt; string &gt; accept_language, bool store_rejected, bool sentence_segment, float language_threshold, double perplexity_threshold, GenerateDedupLSH *generate_dedup_lsh, LSHDeduplicator *deduplicator)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a53c08cd06810612e46afd2b55f845578"><param name="Name" value="CleanPipeline(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a1a7f3a686665feb24f2b2e0f82924250"><param name="Name" value="CorpusCleaner(string input_path, string output_path, uint32_t min_length, uint32_t max_length, set&lt; string &gt; accept_language, bool store_rejected, bool sentence_segment, float language_threshold, double perplexity_threshold, GenerateDedupLSH *generate_dedup_lsh, LSHDeduplicator *deduplicator)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a945760c19bee2920cc4410b39d063d9c"><param name="Name" value="EmojiRemover(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a72054e52aa4d162a33b7069483a6f6be"><param name="Name" value="LanguageFilter(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a2ad1c81f4ad73d6c3b4325655c4daf28"><param name="Name" value="LengthFilter(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a48075612da853cba90b97e11c92b7c50"><param name="Name" value="MinhashDeduplication(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a028fdb141f2b92da54429677f0abb154"><param name="Name" value="Normalizer(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a45f781beefb1ccda6eee48daeee198af"><param name="Name" value="PerplexityFilter(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a6a0f8fc79938f7db32e5f7b37dbca94a"><param name="Name" value="PipelineStep(Document &amp;document, void(CorpusCleaner::*cleaner)(Document &amp;))"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#abd164a42b1d01048b447557bebf440b0"><param name="Name" value="QuotesRemover(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#af0a2d8353ccd8b00b204d54672a0f5f7"><param name="Name" value="SentenceSegmenter(string input_folder_path, string output_folder_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a2d6691988972f9b7f5449cadf5f91c46"><param name="Name" value="SpecialCharacterRemover(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#abc9a8507a6fcc4db0a5287872c72bb47"><param name="Name" value="StoreException(string function_name, string reference)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#afb2e7e32b845c6d937a6ba39aedbb3ef"><param name="Name" value="URLRemover(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a4530fb07ae3f70e22100661e11cbb95f"><param name="Name" value="ZeroPunctuationFilter(Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html"><param name="Name" value="CorpusCleaner"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a5c1acbee2fc2921d1971ae980243991c"><param name="Name" value="~CorpusCleaner()"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a5d89cc87d64387ec409dcb14d99d913f"><param name="Name" value="Document"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a945760c19bee2920cc4410b39d063d9c"><param name="Name" value="EmojiRemover(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae54568cb0ecde1a21dfeda85bff0a988"><param name="Name" value="EscapeWord(const string &amp;input)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae54568cb0ecde1a21dfeda85bff0a988"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae54568cb0ecde1a21dfeda85bff0a988"><param name="Name" value="EscapeWord(const string &amp;input)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae54568cb0ecde1a21dfeda85bff0a988"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classfasttext_1_1FastTextEx.html#a88959d4df2e6ef6de8f37ab6b917fc57"><param name="Name" value="FastTextEx()"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html"><param name="Name" value="GenerateDedupLSH"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#a4e2daa678c9c89414eacc41d551ba826"><param name="Name" value="GenerateDedupLSH(uint32_t n_gram, uint32_t n_minhash, uint32_t n_buckets, uint32_t bucket_size)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html"><param name="Name" value="GenerateDedupLSH"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#a595391eddb3d3e37ab3e2e0c4d35bde3"><param name="Name" value="CalculateLSH(wstring text)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html"><param name="Name" value="GenerateDedupLSH"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#a4e2daa678c9c89414eacc41d551ba826"><param name="Name" value="GenerateDedupLSH(uint32_t n_gram, uint32_t n_minhash, uint32_t n_buckets, uint32_t bucket_size)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html"><param name="Name" value="GenerateDedupLSH"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#ab41b764b5fc3d82e375bac9af3290334"><param name="Name" value="GetMinhash(vector&lt; wstring &gt; *tokens, uint32_t seed)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html"><param name="Name" value="GenerateDedupLSH"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#aff3164d589098328afb3b2258a2b12e7"><param name="Name" value="NGramTokenize(wstring text, int32_t n)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html"><param name="Name" value="GenerateDedupLSH"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#a6abe486c56125f8c5f5aa59d7d564d88"><param name="Name" value="~GenerateDedupLSH()"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a0005164f6617c1970b5db8d477be9f2b"><param name="Name" value="GetFileLineNumberList(const string folder_path, const vector&lt; string &gt; *file_list, const string file_extention, vector&lt; uint64_t &gt; *file_line_number_list)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a0005164f6617c1970b5db8d477be9f2b"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a0005164f6617c1970b5db8d477be9f2b"><param name="Name" value="GetFileLineNumberList(const string folder_path, const vector&lt; string &gt; *file_list, const string file_extention, vector&lt; uint64_t &gt; *file_line_number_list)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a0005164f6617c1970b5db8d477be9f2b"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#afe80ce6636cc9b5435b1b5ae8e234420"><param name="Name" value="GetFileNameListAddedJsonl(const vector&lt; string &gt; &amp;file_path_list, vector&lt; string &gt; &amp;jsonl_file_path_list)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#add74d3cc3b02b76e940d2b7f98742731"><param name="Name" value="GetFileNameListWithoutExtention(const string folder_path, vector&lt; string &gt; *file_list)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a19002ef5be3294a7352124d99aed072b"><param name="Name" value="GetFileNameListWithoutExtention(string folder_path, vector&lt; string &gt; *file_list)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a78fef9dab62f78c255e2901c090657b6"><param name="Name" value="GetFilePathWithoutExtention(const string &amp;file_path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#ab41b764b5fc3d82e375bac9af3290334"><param name="Name" value="GetMinhash(vector&lt; wstring &gt; *tokens, uint32_t seed)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a0c41faad843855f924f2cce561b047d9"><param name="Name" value="GetTotalBucketSize(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="minhash_8hpp.html#a12c2040f25d8e3a7b9e1c2024c618cb6"><param name="Name" value="INF"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a3bdaf9d05243c84367d54571a5584866"><param name="Name" value="InitializeBlacklist(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a0c92e2a7937901849e32c61c64f64350"><param name="Name" value="InitializeSeen(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html"><param name="Name" value="KenLMFilter"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a1c3d567a5d06c6e12418ed603f84f4f0"><param name="Name" value="KenLMFilter()"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html"><param name="Name" value="KenLMFilter"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a1c3d567a5d06c6e12418ed603f84f4f0"><param name="Name" value="KenLMFilter()"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html"><param name="Name" value="KenLMFilter"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a91213160be94a47719887a6d0824ff3e"><param name="Name" value="Perplexity(const wstring sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html"><param name="Name" value="KenLMFilter"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a300ed8f117585dbafb24d7521ec1af66"><param name="Name" value="PerplexityWithSentencePiece(const wstring sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html"><param name="Name" value="KenLMFilter"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a8deb52aa6d7e6d061d89c938924ec018"><param name="Name" value="Score(const wstring sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html"><param name="Name" value="KenLMFilter"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a62a3f472f5de801221f4116a80b0b550"><param name="Name" value="ScoreWithSentencePiece(const wstring sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html"><param name="Name" value="KenLMFilter"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a6a5f73ebfc8a8d02a9e1d32c0b716f14"><param name="Name" value="processor"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#ad52a46449c6b17eba3a6f2726c135989"><param name="Name" value="LSHDeduplicator(bool onlin_dedupe, string blacklist_path, bool store_blacklist, size_t total_backet_size_mb)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a74b28771fcac6f0827e1a3d57d15077c"><param name="Name" value="Apply(const vector&lt; string &gt; *lshs)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a0c41faad843855f924f2cce561b047d9"><param name="Name" value="GetTotalBucketSize(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a3bdaf9d05243c84367d54571a5584866"><param name="Name" value="InitializeBlacklist(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a0c92e2a7937901849e32c61c64f64350"><param name="Name" value="InitializeSeen(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#ad52a46449c6b17eba3a6f2726c135989"><param name="Name" value="LSHDeduplicator(bool onlin_dedupe, string blacklist_path, bool store_blacklist, size_t total_backet_size_mb)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#ae46ce3d4a5bda70fcaed1817d31c8dab"><param name="Name" value="LoadBlacklistToSeen(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a2d1049e62118fbef5af639e2a9f1e1f0"><param name="Name" value="SizeOfBlacklist(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a63ba5d735e5907bba228d27d1eba78ad"><param name="Name" value="SizeOfSeen(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#aeefe98b7ef2a504691ce70ca18e9fd7f"><param name="Name" value="StoreBlacklist(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html"><param name="Name" value="LSHDeduplicator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#ae320ee2f21265abbd0d70dcc6975a974"><param name="Name" value="~LSHDeduplicator()"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a72054e52aa4d162a33b7069483a6f6be"><param name="Name" value="LanguageFilter(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a2ad1c81f4ad73d6c3b4325655c4daf28"><param name="Name" value="LengthFilter(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#ae46ce3d4a5bda70fcaed1817d31c8dab"><param name="Name" value="LoadBlacklistToSeen(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#ab7cd8eb1f3b37be5756d42e2dbc88030"><param name="Name" value="MakeStats(string process_name, string output_path, double elapsed_time)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#ab7cd8eb1f3b37be5756d42e2dbc88030"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#ab7cd8eb1f3b37be5756d42e2dbc88030"><param name="Name" value="MakeStats(string process_name, string output_path, double elapsed_time)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#ab7cd8eb1f3b37be5756d42e2dbc88030"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a19535783992752dfbe0882e4f05bd740"><param name="Name" value="MergeFiles(const vector&lt; string &gt; &amp;input_files, const string &amp;output_file)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a48075612da853cba90b97e11c92b7c50"><param name="Name" value="MinhashDeduplication(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a04427d837240946bf8748a4c35cc29b9"><param name="Name" value="MoveFile(string source_path, string target_folder)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae51e8495f5c619ea6f22cd335fe9b5c6"><param name="Name" value="MoveFolder(string source_folder, string target_folder)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae51e8495f5c619ea6f22cd335fe9b5c6"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae51e8495f5c619ea6f22cd335fe9b5c6"><param name="Name" value="MoveFolder(string source_folder, string target_folder)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae51e8495f5c619ea6f22cd335fe9b5c6"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a99f5b28e8027ec2aaa9fd0b62701136e"><param name="Name" value="MultiProcessCorpusClean(const string input_folder_path, const string output_folder_path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#aff3164d589098328afb3b2258a2b12e7"><param name="Name" value="NGramTokenize(wstring text, int32_t n)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a0f78ec665e0f4e39a28b51e94d865ccc"><param name="Name" value="NormalizeNeologd(string sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a0f78ec665e0f4e39a28b51e94d865ccc"><param name="Name" value="normalizer.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a0f78ec665e0f4e39a28b51e94d865ccc"><param name="Name" value="NormalizeNeologd(string sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a0f78ec665e0f4e39a28b51e94d865ccc"><param name="Name" value="normalizer.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a028fdb141f2b92da54429677f0abb154"><param name="Name" value="Normalizer(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a13d3da9374f4bac13d3a395dfe07ec39"><param name="Name" value="Normalizer(string input_path, string output_path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a53e35a337d8299e4c28e3120f85829db"><param name="Name" value="OutputStats(Stats stats)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a53e35a337d8299e4c28e3120f85829db"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a53e35a337d8299e4c28e3120f85829db"><param name="Name" value="OutputStats(Stats stats)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a53e35a337d8299e4c28e3120f85829db"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a91213160be94a47719887a6d0824ff3e"><param name="Name" value="Perplexity(const wstring sentence)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a45f781beefb1ccda6eee48daeee198af"><param name="Name" value="PerplexityFilter(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a300ed8f117585dbafb24d7521ec1af66"><param name="Name" value="PerplexityWithSentencePiece(const wstring sentence)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a6a0f8fc79938f7db32e5f7b37dbca94a"><param name="Name" value="PipelineStep(Document &amp;document, void(CorpusCleaner::*cleaner)(Document &amp;))"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a1f8884b4712b238d89d94c729e58a2fc"><param name="Name" value="ProceedProgressBar(unsigned long long line_count, unsigned long long file_line_number, uint32_t elapsed_time_ms)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a1f8884b4712b238d89d94c729e58a2fc"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a1f8884b4712b238d89d94c729e58a2fc"><param name="Name" value="ProceedProgressBar(unsigned long long line_count, unsigned long long file_line_number, uint32_t elapsed_time_ms)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a1f8884b4712b238d89d94c729e58a2fc"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#abd164a42b1d01048b447557bebf440b0"><param name="Name" value="QuotesRemover(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a059accc4b4a63a7175b93a3932da3e5a"><param name="Name" value="ReadDocumentFromJsonlOneLine(Document &amp;document, string input_jsonl_line)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a059accc4b4a63a7175b93a3932da3e5a"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a059accc4b4a63a7175b93a3932da3e5a"><param name="Name" value="ReadDocumentFromJsonlOneLine(Document &amp;document, string input_jsonl_line)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a059accc4b4a63a7175b93a3932da3e5a"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a4c0f72b0be09d01ba904f6573193c475"><param name="Name" value="RemoveExtraSpaces(const wstring &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a4c0f72b0be09d01ba904f6573193c475"><param name="Name" value="normalizer.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a4c0f72b0be09d01ba904f6573193c475"><param name="Name" value="RemoveExtraSpaces(const wstring &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a4c0f72b0be09d01ba904f6573193c475"><param name="Name" value="normalizer.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a1211ce4d0770aa52914f34bd67cc346f"><param name="Name" value="RemoveFolder(const std::string &amp;path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a43e9c521fe4f3652e63cba4b50b6a3f5"><param name="Name" value="RemoveFolder(const string &amp;path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a9772b111e567abe841a78bbc1389e73d"><param name="Name" value="ReplaceSubstring(string &amp;sentence, const string &amp;target, const string &amp;replacement)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a9772b111e567abe841a78bbc1389e73d"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a9772b111e567abe841a78bbc1389e73d"><param name="Name" value="ReplaceSubstring(string &amp;sentence, const string &amp;target, const string &amp;replacement)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a9772b111e567abe841a78bbc1389e73d"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a8deb52aa6d7e6d061d89c938924ec018"><param name="Name" value="Score(const wstring sentence)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a62a3f472f5de801221f4116a80b0b550"><param name="Name" value="ScoreWithSentencePiece(const wstring sentence)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae0caaaa1f454216238c3f8c6d755ec5f"><param name="Name" value="SegmentSentence(string sentence, vector&lt; string &gt; &amp;segments)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae0caaaa1f454216238c3f8c6d755ec5f"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae0caaaa1f454216238c3f8c6d755ec5f"><param name="Name" value="SegmentSentence(string sentence, vector&lt; string &gt; &amp;segments)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae0caaaa1f454216238c3f8c6d755ec5f"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#af0a2d8353ccd8b00b204d54672a0f5f7"><param name="Name" value="SentenceSegmenter(string input_folder_path, string output_folder_path)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a2d1049e62118fbef5af639e2a9f1e1f0"><param name="Name" value="SizeOfBlacklist(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#a63ba5d735e5907bba228d27d1eba78ad"><param name="Name" value="SizeOfSeen(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a2d6691988972f9b7f5449cadf5f91c46"><param name="Name" value="SpecialCharacterRemover(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="md__2home_2corpus-cleaner_2docs_2specification.html"><param name="Name" value="Specification"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a04f147cf0ad1bfbb3294b5fc3fed9a3a"><param name="Name" value="SplitFiles(const vector&lt; string &gt; &amp;output_files, const string &amp;input_file)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#addf172c6a4ad6605da0672a1a5dc32f4"><param name="Name" value="Stats"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#aeefe98b7ef2a504691ce70ca18e9fd7f"><param name="Name" value="StoreBlacklist(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#abc9a8507a6fcc4db0a5287872c72bb47"><param name="Name" value="StoreException(string function_name, string reference)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#acdaaaceb1f0b5c0a1c8ad84843dbec1e"><param name="Name" value="Strip(const string &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#acdaaaceb1f0b5c0a1c8ad84843dbec1e"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#acdaaaceb1f0b5c0a1c8ad84843dbec1e"><param name="Name" value="Strip(const string &amp;sentence)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#acdaaaceb1f0b5c0a1c8ad84843dbec1e"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a39c4ccefff369c538e4e37dda2340ad0"><param name="Name" value="TranslateToFullwidth(const wstring &amp;sentence_w)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a39c4ccefff369c538e4e37dda2340ad0"><param name="Name" value="normalizer.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a39c4ccefff369c538e4e37dda2340ad0"><param name="Name" value="TranslateToFullwidth(const wstring &amp;sentence_w)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a39c4ccefff369c538e4e37dda2340ad0"><param name="Name" value="normalizer.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#afb2e7e32b845c6d937a6ba39aedbb3ef"><param name="Name" value="URLRemover(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a7d2b96157bd86c81061abee358b41852"><param name="Name" value="UnicodeNormalize(wregex word_pattern, wstring sentence_w)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a7d2b96157bd86c81061abee358b41852"><param name="Name" value="normalizer.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a7d2b96157bd86c81061abee358b41852"><param name="Name" value="UnicodeNormalize(wregex word_pattern, wstring sentence_w)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a7d2b96157bd86c81061abee358b41852"><param name="Name" value="normalizer.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a94b5fbd266184c4ae25e7fc4a9cec18d"><param name="Name" value="WriteDocumentToJsonl(Document &amp;document, string output_file_path)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a94b5fbd266184c4ae25e7fc4a9cec18d"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a94b5fbd266184c4ae25e7fc4a9cec18d"><param name="Name" value="WriteDocumentToJsonl(Document &amp;document, string output_file_path)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a94b5fbd266184c4ae25e7fc4a9cec18d"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a4530fb07ae3f70e22100661e11cbb95f"><param name="Name" value="ZeroPunctuationFilter(Document &amp;document)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#afc46ec59799c48a24a375af19e1eeafe"><param name="Name" value="id"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a32c54b3f132a6db4566436ada8c27d72"><param name="Name" value="is_rejected"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a6b50ce5ef8e8f4d553e679b321e427a6"><param name="Name" value="language"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a7acba21c02f7cbab2ce8dd2f5328573b"><param name="Name" value="language_score"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#aa5805273ad6e9b46827c5b444e090486"><param name="Name" value="metadata"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#ae20340e56ae52a8a15388b29db52e5d0"><param name="Name" value="perplexity"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html"><param name="Name" value="_DOCUMENT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a05e506c9d3345f1a86cf1b67ddfcc8eb"><param name="Name" value="text"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html"><param name="Name" value="_STATS"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html"><param name="Name" value="_STATS"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#aa494c5f7d0a7397ced82b40432e03727"><param name="Name" value="elapsed_time"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html"><param name="Name" value="_STATS"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#ab362751dd3abaaa281b27cba16568948"><param name="Name" value="file_name"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html"><param name="Name" value="_STATS"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#adeae47f9c0ae764aeb7356ce08c30291"><param name="Name" value="process_name"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html"><param name="Name" value="_STATS"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#ac0790e8709e9cee59bec2b6e99d6f5e3"><param name="Name" value="result_file_size"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a29de4aae718d9521bf8c6be160827431"><param name="Name" value="ConvertInputFilesToJsonl(const string input_folder_path, const string output_folder_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a4a02a4a113b25c9e2789fc2a655f7b2a"><param name="Name" value="ConvertTextToDocument(string sentence, string filename, string file_line_count, Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#ab7cd8eb1f3b37be5756d42e2dbc88030"><param name="Name" value="MakeStats(string process_name, string output_path, double elapsed_time)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a53e35a337d8299e4c28e3120f85829db"><param name="Name" value="OutputStats(Stats stats)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a059accc4b4a63a7175b93a3932da3e5a"><param name="Name" value="ReadDocumentFromJsonlOneLine(Document &amp;document, string input_jsonl_line)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html"><param name="Name" value="corpus_cleaner.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8cpp.html#a94b5fbd266184c4ae25e7fc4a9cec18d"><param name="Name" value="WriteDocumentToJsonl(Document &amp;document, string output_file_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a1ab81c8667edbbb5db38d5ec222ad529"><param name="Name" value="ConvertInputFilesToJsonl(string input_folder_path, string output_folder_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a4a02a4a113b25c9e2789fc2a655f7b2a"><param name="Name" value="ConvertTextToDocument(string sentence, string filename, string file_line_count, Document &amp;document)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a5d89cc87d64387ec409dcb14d99d913f"><param name="Name" value="Document"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#ab7cd8eb1f3b37be5756d42e2dbc88030"><param name="Name" value="MakeStats(string process_name, string output_path, double elapsed_time)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a53e35a337d8299e4c28e3120f85829db"><param name="Name" value="OutputStats(Stats stats)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a059accc4b4a63a7175b93a3932da3e5a"><param name="Name" value="ReadDocumentFromJsonlOneLine(Document &amp;document, string input_jsonl_line)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#addf172c6a4ad6605da0672a1a5dc32f4"><param name="Name" value="Stats"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html"><param name="Name" value="corpus_cleaner.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="corpus__cleaner_8hpp.html#a94b5fbd266184c4ae25e7fc4a9cec18d"><param name="Name" value="WriteDocumentToJsonl(Document &amp;document, string output_file_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#aa494c5f7d0a7397ced82b40432e03727"><param name="Name" value="elapsed_time"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespacefasttext.html"><param name="Name" value="fasttext"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classfasttext_1_1FastTextEx.html"><param name="Name" value="fasttext::FastTextEx"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classfasttext_1_1FastTextEx.html"><param name="Name" value="fasttext::FastTextEx"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classfasttext_1_1FastTextEx.html#a88959d4df2e6ef6de8f37ab6b917fc57"><param name="Name" value="FastTextEx()"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classfasttext_1_1FastTextEx.html"><param name="Name" value="fasttext::FastTextEx"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classfasttext_1_1FastTextEx.html#a8d78ed2c648ded50e53012ae16b5ba8a"><param name="Name" value="predictOneLine(string sentence, vector&lt; pair&lt; real, string &gt; &gt; &amp;predictions, int32_t k, real threshold) const"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#ab362751dd3abaaa281b27cba16568948"><param name="Name" value="file_name"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#afc46ec59799c48a24a375af19e1eeafe"><param name="Name" value="id"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a32c54b3f132a6db4566436ada8c27d72"><param name="Name" value="is_rejected"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a6b50ce5ef8e8f4d553e679b321e427a6"><param name="Name" value="language"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a7acba21c02f7cbab2ce8dd2f5328573b"><param name="Name" value="language_score"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a840291bc02cba5474a4cb46a9b9566fe"><param name="Name" value="main(void)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html"><param name="Name" value="main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a50d12ab77f904b079dd1234a5c364770"><param name="Name" value="ConutLines(const string &amp;filename)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html"><param name="Name" value="main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a19535783992752dfbe0882e4f05bd740"><param name="Name" value="MergeFiles(const vector&lt; string &gt; &amp;input_files, const string &amp;output_file)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html"><param name="Name" value="main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a99f5b28e8027ec2aaa9fd0b62701136e"><param name="Name" value="MultiProcessCorpusClean(const string input_folder_path, const string output_folder_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html"><param name="Name" value="main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a04f147cf0ad1bfbb3294b5fc3fed9a3a"><param name="Name" value="SplitFiles(const vector&lt; string &gt; &amp;output_files, const string &amp;input_file)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html"><param name="Name" value="main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="main_8cpp.html#a840291bc02cba5474a4cb46a9b9566fe"><param name="Name" value="main(void)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#aa5805273ad6e9b46827c5b444e090486"><param name="Name" value="metadata"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="minhash_8hpp.html#a12c2040f25d8e3a7b9e1c2024c618cb6"><param name="Name" value="minhash.hpp"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="perplexity__filter_8cc.html#a2aa1d3220d51559a4aa9b22659a2ef16"><param name="Name" value="model(&quot;ja.arpa.bin&quot;)"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html"><param name="Name" value="normalizer.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a0f78ec665e0f4e39a28b51e94d865ccc"><param name="Name" value="NormalizeNeologd(string sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html"><param name="Name" value="normalizer.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a4c0f72b0be09d01ba904f6573193c475"><param name="Name" value="RemoveExtraSpaces(const wstring &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html"><param name="Name" value="normalizer.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a39c4ccefff369c538e4e37dda2340ad0"><param name="Name" value="TranslateToFullwidth(const wstring &amp;sentence_w)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html"><param name="Name" value="normalizer.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8cpp.html#a7d2b96157bd86c81061abee358b41852"><param name="Name" value="UnicodeNormalize(wregex word_pattern, wstring sentence_w)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html"><param name="Name" value="normalizer.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a0f78ec665e0f4e39a28b51e94d865ccc"><param name="Name" value="NormalizeNeologd(string sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html"><param name="Name" value="normalizer.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a13d3da9374f4bac13d3a395dfe07ec39"><param name="Name" value="Normalizer(string input_path, string output_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html"><param name="Name" value="normalizer.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a4c0f72b0be09d01ba904f6573193c475"><param name="Name" value="RemoveExtraSpaces(const wstring &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html"><param name="Name" value="normalizer.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a39c4ccefff369c538e4e37dda2340ad0"><param name="Name" value="TranslateToFullwidth(const wstring &amp;sentence_w)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html"><param name="Name" value="normalizer.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="normalizer_8hpp.html#a7d2b96157bd86c81061abee358b41852"><param name="Name" value="UnicodeNormalize(wregex word_pattern, wstring sentence_w)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#ae20340e56ae52a8a15388b29db52e5d0"><param name="Name" value="perplexity"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="perplexity__filter_8cc.html#a2aa1d3220d51559a4aa9b22659a2ef16"><param name="Name" value="perplexity_filter.cc"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classfasttext_1_1FastTextEx.html#a8d78ed2c648ded50e53012ae16b5ba8a"><param name="Name" value="predictOneLine(string sentence, vector&lt; pair&lt; real, string &gt; &gt; &amp;predictions, int32_t k, real threshold) const"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#adeae47f9c0ae764aeb7356ce08c30291"><param name="Name" value="process_name"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classKenLMFilter.html#a6a5f73ebfc8a8d02a9e1d32c0b716f14"><param name="Name" value="processor"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__STATS.html#ac0790e8709e9cee59bec2b6e99d6f5e3"><param name="Name" value="result_file_size"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a6bc660d7b9d776f3c25a133636659ea8"><param name="Name" value="strlen_utf8(string input)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a6bc660d7b9d776f3c25a133636659ea8"><param name="Name" value="util.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a6bc660d7b9d776f3c25a133636659ea8"><param name="Name" value="strlen_utf8(string input)"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a6bc660d7b9d776f3c25a133636659ea8"><param name="Name" value="util.hpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct__DOCUMENT.html#a05e506c9d3345f1a86cf1b67ddfcc8eb"><param name="Name" value="text"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a914d894241e9433a27d901a8fc485c2c"><param name="Name" value="CalculateNextEmoji(string pre_emoji)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ac088f18042a7b17c0d2f54634a159972"><param name="Name" value="ConvertUTF8ToWstring(const string &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a01370cacb171f76080f5c02559c9c811"><param name="Name" value="ConvertWstringToUTF8(const wstring &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#aa550fb657da58cba8680f1d677917a36"><param name="Name" value="CopyFile(string source_path, string target_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a41c565fcc77e48108d014d8ac9e45890"><param name="Name" value="CopyFolder(string source_folder, string target_folder)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae54568cb0ecde1a21dfeda85bff0a988"><param name="Name" value="EscapeWord(const string &amp;input)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a0005164f6617c1970b5db8d477be9f2b"><param name="Name" value="GetFileLineNumberList(const string folder_path, const vector&lt; string &gt; *file_list, const string file_extention, vector&lt; uint64_t &gt; *file_line_number_list)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#afe80ce6636cc9b5435b1b5ae8e234420"><param name="Name" value="GetFileNameListAddedJsonl(const vector&lt; string &gt; &amp;file_path_list, vector&lt; string &gt; &amp;jsonl_file_path_list)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#add74d3cc3b02b76e940d2b7f98742731"><param name="Name" value="GetFileNameListWithoutExtention(const string folder_path, vector&lt; string &gt; *file_list)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a78fef9dab62f78c255e2901c090657b6"><param name="Name" value="GetFilePathWithoutExtention(const string &amp;file_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a04427d837240946bf8748a4c35cc29b9"><param name="Name" value="MoveFile(string source_path, string target_folder)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae51e8495f5c619ea6f22cd335fe9b5c6"><param name="Name" value="MoveFolder(string source_folder, string target_folder)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a1f8884b4712b238d89d94c729e58a2fc"><param name="Name" value="ProceedProgressBar(unsigned long long line_count, unsigned long long file_line_number, uint32_t elapsed_time_ms)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a1211ce4d0770aa52914f34bd67cc346f"><param name="Name" value="RemoveFolder(const std::string &amp;path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a9772b111e567abe841a78bbc1389e73d"><param name="Name" value="ReplaceSubstring(string &amp;sentence, const string &amp;target, const string &amp;replacement)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#ae0caaaa1f454216238c3f8c6d755ec5f"><param name="Name" value="SegmentSentence(string sentence, vector&lt; string &gt; &amp;segments)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#acdaaaceb1f0b5c0a1c8ad84843dbec1e"><param name="Name" value="Strip(const string &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html"><param name="Name" value="util.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8cpp.html#a6bc660d7b9d776f3c25a133636659ea8"><param name="Name" value="strlen_utf8(string input)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a914d894241e9433a27d901a8fc485c2c"><param name="Name" value="CalculateNextEmoji(string pre_emoji)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ac088f18042a7b17c0d2f54634a159972"><param name="Name" value="ConvertUTF8ToWstring(const string &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a01370cacb171f76080f5c02559c9c811"><param name="Name" value="ConvertWstringToUTF8(const wstring &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#aa550fb657da58cba8680f1d677917a36"><param name="Name" value="CopyFile(string source_path, string target_path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a41c565fcc77e48108d014d8ac9e45890"><param name="Name" value="CopyFolder(string source_folder, string target_folder)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae54568cb0ecde1a21dfeda85bff0a988"><param name="Name" value="EscapeWord(const string &amp;input)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a0005164f6617c1970b5db8d477be9f2b"><param name="Name" value="GetFileLineNumberList(const string folder_path, const vector&lt; string &gt; *file_list, const string file_extention, vector&lt; uint64_t &gt; *file_line_number_list)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a19002ef5be3294a7352124d99aed072b"><param name="Name" value="GetFileNameListWithoutExtention(string folder_path, vector&lt; string &gt; *file_list)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae51e8495f5c619ea6f22cd335fe9b5c6"><param name="Name" value="MoveFolder(string source_folder, string target_folder)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a1f8884b4712b238d89d94c729e58a2fc"><param name="Name" value="ProceedProgressBar(unsigned long long line_count, unsigned long long file_line_number, uint32_t elapsed_time_ms)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a43e9c521fe4f3652e63cba4b50b6a3f5"><param name="Name" value="RemoveFolder(const string &amp;path)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a9772b111e567abe841a78bbc1389e73d"><param name="Name" value="ReplaceSubstring(string &amp;sentence, const string &amp;target, const string &amp;replacement)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#ae0caaaa1f454216238c3f8c6d755ec5f"><param name="Name" value="SegmentSentence(string sentence, vector&lt; string &gt; &amp;segments)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#acdaaaceb1f0b5c0a1c8ad84843dbec1e"><param name="Name" value="Strip(const string &amp;sentence)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html"><param name="Name" value="util.hpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="util_8hpp.html#a6bc660d7b9d776f3c25a133636659ea8"><param name="Name" value="strlen_utf8(string input)"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classCorpusCleaner.html#a5c1acbee2fc2921d1971ae980243991c"><param name="Name" value="~CorpusCleaner()"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classGenerateDedupLSH.html#a6abe486c56125f8c5f5aa59d7d564d88"><param name="Name" value="~GenerateDedupLSH()"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classLSHDeduplicator.html#ae320ee2f21265abbd0d70dcc6975a974"><param name="Name" value="~LSHDeduplicator()"></OBJECT>
+</UL>
+</BODY>
+</HTML>

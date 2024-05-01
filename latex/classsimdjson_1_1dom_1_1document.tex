@@ -1,0 +1,128 @@
+\doxysection{simdjson\+::dom\+::document Class Reference}
+\hypertarget{classsimdjson_1_1dom_1_1document}{}\label{classsimdjson_1_1dom_1_1document}\index{simdjson::dom::document@{simdjson::dom::document}}
+
+
+{\ttfamily \#include $<$simdjson.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1document_a6947c9d79453071ca73d06e398bcdd2a}{document}} () noexcept=default
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1document_af34f108b46f82428bfe4ea33869358f0}{document}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&other) noexcept=default
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \& \mbox{\hyperlink{classsimdjson_1_1dom_1_1document_aeb1930eabfeb1b1ad38102bda81f8ca2}{operator=}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&other) noexcept=default
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1document_ae19dced0eee5f63b9d1591ef51dcda4e}{root}} () const noexcept
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1document_a6947c9d79453071ca73d06e398bcdd2a}{document}} () noexcept=default
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1document_af34f108b46f82428bfe4ea33869358f0}{document}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&other) noexcept=default
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \& \mbox{\hyperlink{classsimdjson_1_1dom_1_1document_aeb1930eabfeb1b1ad38102bda81f8ca2}{operator=}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&other) noexcept=default
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1document_ae19dced0eee5f63b9d1591ef51dcda4e}{root}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1document_a90eee7a4677ca8b1ed116364a24367f9}\label{classsimdjson_1_1dom_1_1document_a90eee7a4677ca8b1ed116364a24367f9} 
+class {\bfseries parser}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A parsed JSON document.
+
+This class cannot be copied, only moved, to avoid unintended allocations. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1document_a6947c9d79453071ca73d06e398bcdd2a}\label{classsimdjson_1_1dom_1_1document_a6947c9d79453071ca73d06e398bcdd2a} 
+\index{simdjson::dom::document@{simdjson::dom::document}!document@{document}}
+\index{document@{document}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{document()}{document()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily simdjson\+::dom\+::document\+::document (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Create a document container with zero capacity.
+
+The parser will allocate capacity as needed. \Hypertarget{classsimdjson_1_1dom_1_1document_af34f108b46f82428bfe4ea33869358f0}\label{classsimdjson_1_1dom_1_1document_af34f108b46f82428bfe4ea33869358f0} 
+\index{simdjson::dom::document@{simdjson::dom::document}!document@{document}}
+\index{document@{document}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{document()}{document()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily simdjson\+::dom\+::document\+::document (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Take another document\textquotesingle{}s buffers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The document to take. Its capacity is zeroed and it is invalidated. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1dom_1_1document_a6947c9d79453071ca73d06e398bcdd2a}\label{classsimdjson_1_1dom_1_1document_a6947c9d79453071ca73d06e398bcdd2a} 
+\index{simdjson::dom::document@{simdjson::dom::document}!document@{document}}
+\index{document@{document}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{document()}{document()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily simdjson\+::dom\+::document\+::document (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Create a document container with zero capacity.
+
+The parser will allocate capacity as needed. \Hypertarget{classsimdjson_1_1dom_1_1document_af34f108b46f82428bfe4ea33869358f0}\label{classsimdjson_1_1dom_1_1document_af34f108b46f82428bfe4ea33869358f0} 
+\index{simdjson::dom::document@{simdjson::dom::document}!document@{document}}
+\index{document@{document}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{document()}{document()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily simdjson\+::dom\+::document\+::document (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Take another document\textquotesingle{}s buffers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The document to take. Its capacity is zeroed and it is invalidated. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1document_aeb1930eabfeb1b1ad38102bda81f8ca2}\label{classsimdjson_1_1dom_1_1document_aeb1930eabfeb1b1ad38102bda81f8ca2} 
+\index{simdjson::dom::document@{simdjson::dom::document}!operator=@{operator=}}
+\index{operator=@{operator=}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \& simdjson\+::dom\+::document\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Take another document\textquotesingle{}s buffers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The document to take. Its capacity is zeroed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1dom_1_1document_aeb1930eabfeb1b1ad38102bda81f8ca2}\label{classsimdjson_1_1dom_1_1document_aeb1930eabfeb1b1ad38102bda81f8ca2} 
+\index{simdjson::dom::document@{simdjson::dom::document}!operator=@{operator=}}
+\index{operator=@{operator=}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \& simdjson\+::dom\+::document\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Take another document\textquotesingle{}s buffers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The document to take. Its capacity is zeroed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1dom_1_1document_ae19dced0eee5f63b9d1591ef51dcda4e}\label{classsimdjson_1_1dom_1_1document_ae19dced0eee5f63b9d1591ef51dcda4e} 
+\index{simdjson::dom::document@{simdjson::dom::document}!root@{root}}
+\index{root@{root}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{root()}{root()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} simdjson\+::dom\+::document\+::root (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the root element of this document as a JSON array. \Hypertarget{classsimdjson_1_1dom_1_1document_ae19dced0eee5f63b9d1591ef51dcda4e}\label{classsimdjson_1_1dom_1_1document_ae19dced0eee5f63b9d1591ef51dcda4e} 
+\index{simdjson::dom::document@{simdjson::dom::document}!root@{root}}
+\index{root@{root}!simdjson::dom::document@{simdjson::dom::document}}
+\doxysubsubsection{\texorpdfstring{root()}{root()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} simdjson\+::dom\+::document\+::root (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Get the root element of this document as a JSON array. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+cpp\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+h\end{DoxyCompactItemize}

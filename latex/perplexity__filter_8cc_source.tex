@@ -1,0 +1,227 @@
+\doxysection{perplexity\+\_\+filter.\+cc}
+\hypertarget{perplexity__filter_8cc_source}{}\label{perplexity__filter_8cc_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/perplexity\_filter.cc@{/home/corpus-\/cleaner/corpus\_cleaner/perplexity\_filter.cc}}
+\mbox{\hyperlink{perplexity__filter_8cc}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{perplexity__filter_8hh}{perplexity\_filter.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00004}00004\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00005}00005\ \textcolor{comment}{//\ using\ namespace\ ;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00006}\mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{00006}}\ lm::ngram::Model\ \mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}(\textcolor{stringliteral}{"{}ja.arpa.bin"{}});\ \textcolor{comment}{//TODO:\ Refactor.\ Don't\ use\ global\ parameter.\ \ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00009}00009\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00010}00010\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00011}00011\ \textcolor{comment}{\ *\ @brief\ Score\ sentence\ by\ KenLM.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00012}00012\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00013}00013\ \textcolor{comment}{\ *\ The\ step\ is...\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00014}00014\ \textcolor{comment}{\ *\ 1.\ Split\ sentence\ into\ single\ characters.\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00015}00015\ \textcolor{comment}{\ *\ 2.\ \ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00016}00016\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00017}00017\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00018}00018\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00019}00019\ \textcolor{comment}{\ *\ \ \ \ wstring\ sentence\ =\ L"{}吾輩は猫である.名前はまだない."{};\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00020}00020\ \textcolor{comment}{\ *\ \ \ \ cout\ <<\ KenLMScore(sentence)\ <<\ endl;\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00021}00021\ \textcolor{comment}{\ *\ \ \ \ //\ -\/60.5849\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00022}00022\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00023}00023\ \textcolor{comment}{\ *\ @param\ const\ wstring\ \&sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00024}00024\ \textcolor{comment}{\ *\ @return\ double:\ score\ by\ KenLM}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00025}00025\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00026}00026\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00027}\mbox{\hyperlink{classKenLMFilter_a1c3d567a5d06c6e12418ed603f84f4f0}{00027}}\ \mbox{\hyperlink{classKenLMFilter_a1c3d567a5d06c6e12418ed603f84f4f0}{KenLMFilter::KenLMFilter}}()}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00028}00028\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ status\ =\ \mbox{\hyperlink{classKenLMFilter_a6a5f73ebfc8a8d02a9e1d32c0b716f14}{processor}}.Load(\textcolor{stringliteral}{"{}ja.sp.model"{}});}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00030}00030\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.ok())\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00031}00031\ \ \ \ \ \ \ \ \ std::cerr\ <<\ status.ToString()\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ error}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00033}00033\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00034}00034\ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00036}00036\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00037}00037\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00038}00038\ \textcolor{comment}{\ *\ @brief\ Score\ sentence\ by\ KenLM.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00039}00039\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00040}00040\ \textcolor{comment}{\ *\ The\ step\ is...\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00041}00041\ \textcolor{comment}{\ *\ 1.\ Split\ sentence\ into\ single\ characters.\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00042}00042\ \textcolor{comment}{\ *\ 2.\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00043}00043\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00044}00044\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00045}00045\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00046}00046\ \textcolor{comment}{\ *\ \ \ \ wstring\ sentence\ =\ L"{}吾輩は猫である.名前はまだない."{};\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00047}00047\ \textcolor{comment}{\ *\ \ \ \ cout\ <<\ KenLMScore(sentence)\ <<\ endl;\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00048}00048\ \textcolor{comment}{\ *\ \ \ \ //\ -\/60.5849}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00049}00049\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00050}00050\ \textcolor{comment}{\ *\ @param\ const\ wstring\ \&sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00051}00051\ \textcolor{comment}{\ *\ @return\ double:\ score\ by\ KenLM}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00052}00052\ \textcolor{comment}{\ *\ @ref}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00053}00053\ \textcolor{comment}{\ *\ https://github.com/google/sentencepiece/blob/master/doc/api.md}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00054}00054\ \textcolor{comment}{\ *\ https://github.com/google/sentencepiece}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00055}00055\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00056}00056\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00057}\mbox{\hyperlink{classKenLMFilter_a8deb52aa6d7e6d061d89c938924ec018}{00057}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a8deb52aa6d7e6d061d89c938924ec018}{KenLMFilter::Score}}(\textcolor{keyword}{const}\ wstring\ sentence)}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00058}00058\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00059}00059\ \ \ \ \ \textcolor{keywordtype}{double}\ total\_score=0,score=0;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00060}00060\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00061}00061\ \ \ \ \ \textcolor{keywordtype}{string}\ word\_w\ =\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00063}00063\ \ \ \ \ lm::ngram::State\ state(\mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.BeginSentenceState()),\ out\_state;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{const}\ lm::ngram::Vocabulary\ \&vocab\ =\ \mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.GetVocabulary();}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00065}00065\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i=0;i<(int)sentence.size();i++)\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Split\ sentence\ into\ single\ characters.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00067}00067\ \ \ \ \ \ \ \ \ wstring\ word\_w=sentence.substr(i,1);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ word=\mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(word\_w);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ word\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00070}00070\ \ \ \ \ \ \ \ \ score=\mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.BaseScore(\&state,\ vocab.Index(word),\ \&out\_state);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ score\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00072}00072\ \ \ \ \ \ \ \ \ total\_score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00073}00073\ \ \ \ \ \ \ \ \ state\ =\ out\_state;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00074}00074\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00075}00075\ \ \ \ \ \textcolor{comment}{//eos}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00076}00076\ \ \ \ \ score=\mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.BaseScore(\&state,\ vocab.EndSentence(),\ \&out\_state);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00077}00077\ \ \ \ \ total\_score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{return}\ total\_score;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00080}00080\ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00081}00081\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00082}00082\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00083}00083\ \textcolor{comment}{\ *\ @brief\ Score\ sentence\ by\ KenLM\ with\ SentencePiece\ Tokenizing.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00084}00084\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00085}00085\ \textcolor{comment}{\ *\ The\ step\ is...\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00086}00086\ \textcolor{comment}{\ *\ 1.\ Split\ sentence\ into\ single\ characters.\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00087}00087\ \textcolor{comment}{\ *\ 2.\ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00088}00088\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00089}00089\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00090}00090\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00091}00091\ \textcolor{comment}{\ *\ \ \ \ wstring\ sentence\ =\ L"{}吾輩は猫である.名前はまだない."{};}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00092}00092\ \textcolor{comment}{\ *\ \ \ \ cout\ <<\ KenLMScore(sentence)\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00093}00093\ \textcolor{comment}{\ *\ \ \ \ //}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00094}00094\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00095}00095\ \textcolor{comment}{\ *\ @param\ const\ wstring\ \&sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00096}00096\ \textcolor{comment}{\ *\ @return\ double:\ score\ by\ KenLM}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00097}00097\ \textcolor{comment}{\ *\ @ref}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00098}00098\ \textcolor{comment}{\ *\ https://github.com/google/sentencepiece/blob/master/doc/api.md}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00099}00099\ \textcolor{comment}{\ *\ https://github.com/google/sentencepiece}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00100}00100\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00101}00101\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00102}\mbox{\hyperlink{classKenLMFilter_a62a3f472f5de801221f4116a80b0b550}{00102}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a62a3f472f5de801221f4116a80b0b550}{KenLMFilter::ScoreWithSentencePiece}}(\textcolor{keyword}{const}\ wstring\ sentence)}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00103}00103\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00105}00105\ \ \ \ \ \textcolor{keywordtype}{double}\ total\_score=0,score=0;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00106}00106\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00107}00107\ \ \ \ \ \textcolor{keywordtype}{string}\ word\_w\ =\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00108}00108\ \ \ \ \ vector<string>\ pieces;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00109}00109\ \ \ \ \ \mbox{\hyperlink{classKenLMFilter_a6a5f73ebfc8a8d02a9e1d32c0b716f14}{processor}}.Encode(\mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(sentence),\ \&pieces);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00111}00111\ \ \ \ \ lm::ngram::State\ state(\mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.BeginSentenceState()),\ out\_state;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00112}00112\ \ \ \ \ \textcolor{keyword}{const}\ lm::ngram::Vocabulary\ \&vocab\ =\ \mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.GetVocabulary();}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ piece:pieces)\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{//string\ word\ =\ pieces[i];}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ piece\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00116}00116\ \ \ \ \ \ \ \ \ score=\mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.BaseScore(\&state,\ vocab.Index(piece),\ \&out\_state);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ score\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00118}00118\ \ \ \ \ \ \ \ \ total\_score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00119}00119\ \ \ \ \ \ \ \ \ state\ =\ out\_state;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00120}00120\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00121}00121\ \ \ \ \ \textcolor{comment}{//eos}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00122}00122\ \ \ \ \ score=\mbox{\hyperlink{perplexity__filter_8cc_a2aa1d3220d51559a4aa9b22659a2ef16}{model}}.BaseScore(\&state,\ vocab.EndSentence(),\ \&out\_state);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00123}00123\ \ \ \ \ total\_score\ +=\ score;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00125}00125\ \ \ \ \ \textcolor{keywordflow}{return}\ total\_score;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00126}00126\ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00127}00127\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00128}00128\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00129}00129\ \textcolor{comment}{\ *\ @brief\ Perplexity\ sentence\ by\ KenLM.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00130}00130\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00131}00131\ \textcolor{comment}{\ *\ The\ step\ is...}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00132}00132\ \textcolor{comment}{\ *\ 1.\ Split\ sentence\ into\ single\ characters.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00133}00133\ \textcolor{comment}{\ *\ 2.\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00134}00134\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00135}00135\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00136}00136\ \textcolor{comment}{\ *\ \ \ \ wstring\ sentence\ =\ L"{}吾輩は猫である.名前はまだない."{};}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00137}00137\ \textcolor{comment}{\ *\ \ \ \ cout\ <<\ KenLMPerplexity(sentence)\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00138}00138\ \textcolor{comment}{\ *\ \ \ \ //\ 4117.1}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00139}00139\ \textcolor{comment}{\ *\ @param\ const\ string\&\ src:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00140}00140\ \textcolor{comment}{\ *\ @return\ double:\ score\ by\ KenLM}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00141}00141\ \textcolor{comment}{\ *\ @ref\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00142}00142\ \textcolor{comment}{\ *\ https://github.com/kpu/kenlm/blob/master/python/kenlm.pyx\#L209}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00143}00143\ \textcolor{comment}{\ *\ https://zenn.dev/syoyo/articles/529ce949121ca4}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00144}00144\ \textcolor{comment}{\ *\ https://github.com/facebookresearch/cc\_net}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00145}00145\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00146}00146\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00147}\mbox{\hyperlink{classKenLMFilter_a91213160be94a47719887a6d0824ff3e}{00147}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a91213160be94a47719887a6d0824ff3e}{KenLMFilter::Perplexity}}(\textcolor{keyword}{const}\ wstring\ sentence)}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00148}00148\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00149}00149\ \ \ \ \ \textcolor{comment}{//words\ =\ len(as\_str(sentence).split())\ +\ 1\ //\ For\ </s>}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00150}00150\ \ \ \ \ \textcolor{keywordtype}{double}\ words\ =\ (double)(sentence.size()+1);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00152}00152\ \ \ \ \ \textcolor{comment}{//cout\ <<\ "{}sentence.size:"{}<<words<<endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00153}00153\ \ \ \ \ \textcolor{keywordflow}{return}\ pow(10.0,(-\/this-\/>\mbox{\hyperlink{classKenLMFilter_a8deb52aa6d7e6d061d89c938924ec018}{Score}}(sentence)\ /\ words));}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00154}00154\ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00155}00155\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00156}00156\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00157}00157\ \textcolor{comment}{\ *\ @brief\ Perplexity\ sentence\ by\ KenLM\ with\ SentencePiece\ Tokenizing.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00158}00158\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00159}00159\ \textcolor{comment}{\ *\ The\ step\ is...}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00160}00160\ \textcolor{comment}{\ *\ \ 1.\ Split\ sentence\ into\ token\ by\ SentencePiece.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00161}00161\ \textcolor{comment}{\ *\ \ 2.\ Calculate\ perplexity\ value.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00162}00162\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00163}00163\ \textcolor{comment}{\ *\ The\ usage\ is\ following.}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00164}00164\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00165}00165\ \textcolor{comment}{\ *\ \ \ \ wstring\ sentence\ =\ L"{}吾輩は猫である.名前はまだない."{};}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00166}00166\ \textcolor{comment}{\ *\ \ \ \ cout\ <<\ PerplexityWithSentencePiece(sentence)\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00167}00167\ \textcolor{comment}{\ *\ \ \ \ //\ 677.5}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00168}00168\ \textcolor{comment}{\ *\ @param\ const\ string\&\ src:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00169}00169\ \textcolor{comment}{\ *\ @return\ double:\ score\ by\ KenLM}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00170}00170\ \textcolor{comment}{\ *\ @ref\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00171}00171\ \textcolor{comment}{\ *\ https://github.com/kpu/kenlm/blob/master/python/kenlm.pyx\#L209}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00172}00172\ \textcolor{comment}{\ *\ https://zenn.dev/syoyo/articles/529ce949121ca4}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00173}00173\ \textcolor{comment}{\ *\ https://github.com/facebookresearch/cc\_net}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00174}00174\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00175}00175\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00176}\mbox{\hyperlink{classKenLMFilter_a300ed8f117585dbafb24d7521ec1af66}{00176}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classKenLMFilter_a300ed8f117585dbafb24d7521ec1af66}{KenLMFilter::PerplexityWithSentencePiece}}(\textcolor{keyword}{const}\ wstring\ sentence)}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00177}00177\ \{}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00178}00178\ \ \ \ \ vector<string>\ pieces;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00179}00179\ \ \ \ \ \mbox{\hyperlink{classKenLMFilter_a6a5f73ebfc8a8d02a9e1d32c0b716f14}{processor}}.Encode(\mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(sentence),\ \&pieces);}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00180}00180\ \ \ \ \ \textcolor{keywordtype}{string}\ sentence\_tokenized\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00181}00181\ \ \ \ \ \textcolor{comment}{//for\ (auto\ piece:pieces)\ sentence\_tokenized\ +=\ piece+"{}\ "{};}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00182}00182\ \ \ \ \ \textcolor{comment}{//sentence\_tokenized.pop\_back();}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00183}00183\ \ \ \ \ \textcolor{comment}{//cout\ <<\ sentence\_tokenized\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00184}00184\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00185}00185\ \ \ \ \ \textcolor{keywordtype}{double}\ words\ =\ (double)pieces.size()+1;}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00186}00186\ \ \ \ \ \textcolor{comment}{//cout\ <<\ "{}sentence.size:"{}<<words<<endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00187}00187\ \ \ \ \ \textcolor{keywordflow}{return}\ pow(10.0,(-\/this-\/>\mbox{\hyperlink{classKenLMFilter_a62a3f472f5de801221f4116a80b0b550}{ScoreWithSentencePiece}}(sentence)\ /\ words));}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00188}00188\ \}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00190}00190\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00191}00191\ \textcolor{comment}{int\ main()\ \{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00192}00192\ \textcolor{comment}{\ \ \ \ vector<wstring>\ sentence\_list;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00193}00193\ \textcolor{comment}{\ \ \ \ sentence\_list.push\_back(L"{}東京はッ晴れ"{});}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00194}00194\ \textcolor{comment}{\ \ \ \ sentence\_list.push\_back(L"{}東京は元気です"{});}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00195}00195\ \textcolor{comment}{\ \ \ \ sentence\_list.push\_back(L"{}吾輩は猫である。名前はまだない。"{});}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00196}00196\ \textcolor{comment}{\ \ \ \ sentence\_list.push\_back(L"{}東京は晴れ"{});}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00197}00197\ \textcolor{comment}{\ \ \ \ sentence\_list.push\_back(L"{}東京\ 大阪\ 名古屋\ 秋田\ 千葉"{});}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00198}00198\ \textcolor{comment}{\ \ \ \ sentence\_list.push\_back(L"{}あああああああ"{});}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00199}00199\ \textcolor{comment}{\ \ \ \ chrono::system\_clock::time\_point\ start,\ end;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00200}00200\ \textcolor{comment}{\ \ \ \ start\ =\ chrono::system\_clock::now();}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00201}00201\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00202}00202\ \textcolor{comment}{\ \ \ \ \#pragma\ omp\ parallel}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00203}00203\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00204}00204\ \textcolor{comment}{\ \ \ \ \#pragma\ omp\ for\ nowait\ ordered}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00205}00205\ \textcolor{comment}{\ \ \ \ for\ (wstring\ sentence:sentence\_list)\ \{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00206}00206\ \textcolor{comment}{\ \ \ \ \ \ \ \ \#pragma\ omp\ ordered\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00207}00207\ \textcolor{comment}{\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00208}00208\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ cout\ <<\ ConvertWstringToUTF8(sentence)\ <<endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00209}00209\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ cout\ <<\ ConvertWstringToUTF8(sentence)\ <<\ KenLMScore(sentence)\ <<endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00210}00210\ \textcolor{comment}{\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00211}00211\ \textcolor{comment}{\ \ \ \ \ \ \ \ cout\ <<\ ConvertWstringToUTF8(sentence)\ <<"{}\ perplexity:"{}<<KenLMPerplexity(sentence)<<endl;\}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00212}00212\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00213}00213\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00214}00214\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00215}00215\ \textcolor{comment}{\ \ \ \ end\ =\ chrono::system\_clock::now();\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00216}00216\ \textcolor{comment}{\ \ \ \ double\ elapsed\ =\ chrono::duration\_cast<chrono::duration<double>>(end\ -\/\ start).count();\ }}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00217}00217\ \textcolor{comment}{\ \ \ \ cout\ <<\ "{}passed\ time[s]"{}<<\ elapsed\ <<endl;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00218}00218\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00219}00219\ \textcolor{comment}{\ \ \ \ return\ 0;}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00220}00220\ \textcolor{comment}{\}}}
+\DoxyCodeLine{\Hypertarget{perplexity__filter_8cc_source_l00221}00221\ \textcolor{comment}{*/}}
+
+\end{DoxyCode}

@@ -1,0 +1,103 @@
+\doxysection{Array iteration}
+\hypertarget{group__array}{}\label{group__array}\index{Array iteration@{Array iteration}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ \mbox{\hyperlink{group__array_ga8674035d696548ec565c44cff414890e}{simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::start\+\_\+array}} () noexcept
+\item 
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ \mbox{\hyperlink{group__array_gaea90b167139568fcb087b497203ee4af}{simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::start\+\_\+root\+\_\+array}} () noexcept
+\item 
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} \mbox{\hyperlink{group__array_gaf3a50635ef764a747b2b79a62bce679f}{simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::check\+\_\+root\+\_\+array}} () noexcept
+\item 
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ \mbox{\hyperlink{group__array_ga4b58cb75c685c1227b1a73b3396e71b1}{simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::started\+\_\+array}} () noexcept
+\item 
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ \mbox{\hyperlink{group__array_ga7303945b9708c418c1ffb71bc8bcf2be}{simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::started\+\_\+root\+\_\+array}} () noexcept
+\item 
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ \mbox{\hyperlink{group__array_ga6a99be3fdff4311e053219ed366f6548}{simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::has\+\_\+next\+\_\+element}} () noexcept
+\item 
+simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline value\+\_\+iterator \mbox{\hyperlink{group__array_gae883625c3a94ba643bcb225781385054}{simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::child}} () const noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Methods to iterate over array elements. These methods generally {\itshape assume} the value is actually an object; the caller is responsible for keeping track of that fact. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{group__array_gaf3a50635ef764a747b2b79a62bce679f}\label{group__array_gaf3a50635ef764a747b2b79a62bce679f} 
+\index{Array iteration@{Array iteration}!check\_root\_array@{check\_root\_array}}
+\index{check\_root\_array@{check\_root\_array}!Array iteration@{Array iteration}}
+\doxysubsubsection{\texorpdfstring{check\_root\_array()}{check\_root\_array()}}
+{\footnotesize\ttfamily simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::check\+\_\+root\+\_\+array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Checks whether an array could be started from the root. May be called by start\+\_\+root\+\_\+array.
+
+\begin{DoxyReturn}{Returns}
+SUCCESS if it is possible to safely start an array from the root (document level). @error INCORRECT\+\_\+\+TYPE If there is no \mbox{[}. @error TAPE\+\_\+\+ERROR if there is no matching \mbox{]} at end of document 
+\end{DoxyReturn}
+\Hypertarget{group__array_gae883625c3a94ba643bcb225781385054}\label{group__array_gae883625c3a94ba643bcb225781385054} 
+\index{Array iteration@{Array iteration}!child@{child}}
+\index{child@{child}!Array iteration@{Array iteration}}
+\doxysubsubsection{\texorpdfstring{child()}{child()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline value\+\_\+iterator simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::child (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Get a child value iterator. \Hypertarget{group__array_ga6a99be3fdff4311e053219ed366f6548}\label{group__array_ga6a99be3fdff4311e053219ed366f6548} 
+\index{Array iteration@{Array iteration}!has\_next\_element@{has\_next\_element}}
+\index{has\_next\_element@{has\_next\_element}!Array iteration@{Array iteration}}
+\doxysubsubsection{\texorpdfstring{has\_next\_element()}{has\_next\_element()}}
+{\footnotesize\ttfamily simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::has\+\_\+next\+\_\+element (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Moves to the next element in an array.
+
+Looks for , and \mbox{]}. If \mbox{]} is found, the array is finished and the iterator advances past it. Otherwise, it advances to the next value.
+
+\begin{DoxyReturn}{Returns}
+Whether there is another element in the array. @error TAPE\+\_\+\+ERROR If there is a comma missing between elements. 
+\end{DoxyReturn}
+\Hypertarget{group__array_ga8674035d696548ec565c44cff414890e}\label{group__array_ga8674035d696548ec565c44cff414890e} 
+\index{Array iteration@{Array iteration}!start\_array@{start\_array}}
+\index{start\_array@{start\_array}!Array iteration@{Array iteration}}
+\doxysubsubsection{\texorpdfstring{start\_array()}{start\_array()}}
+{\footnotesize\ttfamily simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::start\+\_\+array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Check for an opening \mbox{[} and start an array iteration.
+
+\begin{DoxyReturn}{Returns}
+Whether the array had any elements (returns false for empty). @error INCORRECT\+\_\+\+TYPE If there is no \mbox{[}. 
+\end{DoxyReturn}
+\Hypertarget{group__array_gaea90b167139568fcb087b497203ee4af}\label{group__array_gaea90b167139568fcb087b497203ee4af} 
+\index{Array iteration@{Array iteration}!start\_root\_array@{start\_root\_array}}
+\index{start\_root\_array@{start\_root\_array}!Array iteration@{Array iteration}}
+\doxysubsubsection{\texorpdfstring{start\_root\_array()}{start\_root\_array()}}
+{\footnotesize\ttfamily simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::start\+\_\+root\+\_\+array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Check for an opening \mbox{[} and start an array iteration while at the root.
+
+\begin{DoxyReturn}{Returns}
+Whether the array had any elements (returns false for empty). @error INCORRECT\+\_\+\+TYPE If there is no \mbox{[}. @error TAPE\+\_\+\+ERROR if there is no matching \mbox{]} at end of document 
+\end{DoxyReturn}
+\Hypertarget{group__array_ga4b58cb75c685c1227b1a73b3396e71b1}\label{group__array_ga4b58cb75c685c1227b1a73b3396e71b1} 
+\index{Array iteration@{Array iteration}!started\_array@{started\_array}}
+\index{started\_array@{started\_array}!Array iteration@{Array iteration}}
+\doxysubsubsection{\texorpdfstring{started\_array()}{started\_array()}}
+{\footnotesize\ttfamily simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::started\+\_\+array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Start an array iteration, after the user has already checked and moved past the \mbox{[}.
+
+Does not move the iterator unless the array is empty (\mbox{[}\mbox{]}).
+
+\begin{DoxyReturn}{Returns}
+Whether the array had any elements (returns false for empty). @error INCOMPLETE\+\_\+\+ARRAY\+\_\+\+OR\+\_\+\+OBJECT If there are no more tokens (implying the {\itshape parent} array or object is incomplete). 
+\end{DoxyReturn}
+\Hypertarget{group__array_ga7303945b9708c418c1ffb71bc8bcf2be}\label{group__array_ga7303945b9708c418c1ffb71bc8bcf2be} 
+\index{Array iteration@{Array iteration}!started\_root\_array@{started\_root\_array}}
+\index{started\_root\_array@{started\_root\_array}!Array iteration@{Array iteration}}
+\doxysubsubsection{\texorpdfstring{started\_root\_array()}{started\_root\_array()}}
+{\footnotesize\ttfamily simdjson\+\_\+warn\+\_\+unused simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ bool $>$ simdjson\+::fallback\+::ondemand\+::value\+\_\+iterator\+::started\+\_\+root\+\_\+array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Start an array iteration from the root, after the user has already checked and moved past the \mbox{[}.
+
+Does not move the iterator unless the array is empty (\mbox{[}\mbox{]}).
+
+\begin{DoxyReturn}{Returns}
+Whether the array had any elements (returns false for empty). @error INCOMPLETE\+\_\+\+ARRAY\+\_\+\+OR\+\_\+\+OBJECT If there are no more tokens (implying the {\itshape parent} array or object is incomplete). 
+\end{DoxyReturn}

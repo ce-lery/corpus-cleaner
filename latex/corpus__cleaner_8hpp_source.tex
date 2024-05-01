@@ -1,0 +1,122 @@
+\doxysection{corpus\+\_\+cleaner.\+hpp}
+\hypertarget{corpus__cleaner_8hpp_source}{}\label{corpus__cleaner_8hpp_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/corpus\_cleaner.hpp@{/home/corpus-\/cleaner/corpus\_cleaner/corpus\_cleaner.hpp}}
+\mbox{\hyperlink{corpus__cleaner_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <bits/stdc++.h>}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{language__filter_8hpp}{language\_filter.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{perplexity__filter_8hh}{perplexity\_filter.hh}}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{minhash_8hpp}{minhash.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00005}00005\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00006}00006\ \textcolor{keyword}{namespace\ }fs\ =\ filesystem;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00008}00008\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00009}00009\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00010}00010\ \textcolor{comment}{\ *\ @brief\ \ \ Structure\ for\ storing\ statistical\ information\ for\ each\ process\ of\ CorpusCleaner}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00011}00011\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00012}00012\ \textcolor{comment}{\ *\ \ \ \ \ \ Each\ process\ of\ CorpusCleaner\ obtains\ the\ following\ specific\ information.}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00013}00013\ \textcolor{comment}{\ *\ \ \ \ \ \ \ -\/\ text:\ one\ sentence\ of\ corpus}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00014}00014\ \textcolor{comment}{\ *\ \ \ \ \ \ \ -\/\ id:\ text\ identification}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00015}00015\ \textcolor{comment}{\ *\ \ \ \ \ \ \ -\/\ is\_rejected:\ True\ if\ this\ text\ is\ eligible\ for\ deletion}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00016}00016\ \textcolor{comment}{\ *\ \ \ \ \ \ \ -\/\ metadata:\ tags\ added\ during\ the\ filtering\ process}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ \ \ \ \ -\/\ language:\ Language\ determined\ by\ LanguageFilter\ }}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00018}00018\ \textcolor{comment}{\ *\ \ \ \ \ \ \ -\/\ language\_score:\ Language\ score\ calculated\ by\ LanguageFilter}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00019}00019\ \textcolor{comment}{\ *\ \ \ \ \ \ \ -\/\ perplexity:\ perplexity\ calculated\ by\ PerplexityFilter}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00020}00020\ \textcolor{comment}{\ *\ \ \ \ \ \ \ These\ will\ be\ used\ later\ for\ drawing\ processing,\ etc.}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00021}00021\ \textcolor{comment}{\ *\ @note\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00022}00022\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00023}\mbox{\hyperlink{struct__DOCUMENT}{00023}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__DOCUMENT}{\_DOCUMENT}}\ \{}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00024}\mbox{\hyperlink{struct__DOCUMENT_a05e506c9d3345f1a86cf1b67ddfcc8eb}{00024}}\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct__DOCUMENT_a05e506c9d3345f1a86cf1b67ddfcc8eb}{text}}=\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00025}\mbox{\hyperlink{struct__DOCUMENT_afc46ec59799c48a24a375af19e1eeafe}{00025}}\ \ \ \ \ \textcolor{keywordtype}{string}\ \textcolor{keywordtype}{id}=\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00026}\mbox{\hyperlink{struct__DOCUMENT_a32c54b3f132a6db4566436ada8c27d72}{00026}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct__DOCUMENT_a32c54b3f132a6db4566436ada8c27d72}{is\_rejected}}=\textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00027}\mbox{\hyperlink{struct__DOCUMENT_aa5805273ad6e9b46827c5b444e090486}{00027}}\ \ \ \ \ set<string>\ \mbox{\hyperlink{struct__DOCUMENT_aa5805273ad6e9b46827c5b444e090486}{metadata}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00028}\mbox{\hyperlink{struct__DOCUMENT_a6b50ce5ef8e8f4d553e679b321e427a6}{00028}}\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct__DOCUMENT_a6b50ce5ef8e8f4d553e679b321e427a6}{language}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00029}\mbox{\hyperlink{struct__DOCUMENT_a7acba21c02f7cbab2ce8dd2f5328573b}{00029}}\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct__DOCUMENT_a7acba21c02f7cbab2ce8dd2f5328573b}{language\_score}}=0;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00030}\mbox{\hyperlink{struct__DOCUMENT_ae20340e56ae52a8a15388b29db52e5d0}{00030}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{struct__DOCUMENT_ae20340e56ae52a8a15388b29db52e5d0}{perplexity}}=999999;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00031}\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{00031}}\ \}\ \mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00033}00033\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00034}00034\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00035}00035\ \textcolor{comment}{\ *\ @brief\ \ \ Structure\ for\ storing\ statistical\ information\ for\ each\ process\ of\ CorpusCleaner}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00036}00036\ \textcolor{comment}{\ *\ @details\ }}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00037}00037\ \textcolor{comment}{\ *\ \ \ \ \ \ Each\ process\ of\ CorpusCleaner\ obtains\ the\ following\ statistical\ information.}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00038}00038\ \textcolor{comment}{\ *\ \ \ \ \ \ \ 1.\ CopusCleaner\ processing\ name}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00039}00039\ \textcolor{comment}{\ *\ \ \ \ \ \ \ 2.\ Processed\ file\ name}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00040}00040\ \textcolor{comment}{\ *\ \ \ \ \ \ \ 3.\ Elapsed\ processing\ time}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00041}00041\ \textcolor{comment}{\ *\ \ \ \ \ \ \ 4.\ File\ size\ after\ processing}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00042}00042\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00043}00043\ \textcolor{comment}{\ *\ \ \ \ \ \ \ These\ will\ be\ used\ later\ for\ drawing\ processing,\ etc.}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00044}00044\ \textcolor{comment}{\ *\ @note\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00045}00045\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00046}\mbox{\hyperlink{struct__STATS}{00046}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__STATS}{\_STATS}}\ \{}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00047}\mbox{\hyperlink{struct__STATS_adeae47f9c0ae764aeb7356ce08c30291}{00047}}\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct__STATS_adeae47f9c0ae764aeb7356ce08c30291}{process\_name}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00048}\mbox{\hyperlink{struct__STATS_ab362751dd3abaaa281b27cba16568948}{00048}}\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct__STATS_ab362751dd3abaaa281b27cba16568948}{file\_name}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00049}\mbox{\hyperlink{struct__STATS_aa494c5f7d0a7397ced82b40432e03727}{00049}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{struct__STATS_aa494c5f7d0a7397ced82b40432e03727}{elapsed\_time}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00050}\mbox{\hyperlink{struct__STATS_ac0790e8709e9cee59bec2b6e99d6f5e3}{00050}}\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct__STATS_ac0790e8709e9cee59bec2b6e99d6f5e3}{result\_file\_size}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00051}\mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{00051}}\ \}\ \mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{Stats}};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00052}00052\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{corpus__cleaner_8hpp_a4a02a4a113b25c9e2789fc2a655f7b2a}{ConvertTextToDocument}}(\textcolor{keywordtype}{string}\ sentence,\ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ filename,\ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ file\_line\_count,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00056}00056\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{corpus__cleaner_8hpp_a1ab81c8667edbbb5db38d5ec222ad529}{ConvertInputFilesToJsonl}}(\textcolor{keywordtype}{string}\ input\_folder\_path,\textcolor{keywordtype}{string}\ output\_folder\_path);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00057}00057\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{corpus__cleaner_8hpp_a059accc4b4a63a7175b93a3932da3e5a}{ReadDocumentFromJsonlOneLine}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document,\textcolor{keywordtype}{string}\ input\_jsonl\_line);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00058}00058\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{corpus__cleaner_8hpp_a94b5fbd266184c4ae25e7fc4a9cec18d}{WriteDocumentToJsonl}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document,\textcolor{keywordtype}{string}\ output\_file\_path);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00059}00059\ \mbox{\hyperlink{struct__STATS}{Stats}}\ \mbox{\hyperlink{corpus__cleaner_8hpp_ab7cd8eb1f3b37be5756d42e2dbc88030}{MakeStats}}(\textcolor{keywordtype}{string}\ process\_name,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ output\_path,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ elapsed\_time);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00062}00062\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{corpus__cleaner_8hpp_a53e35a337d8299e4c28e3120f85829db}{OutputStats}}(\mbox{\hyperlink{struct__STATS}{Stats}}\ stats);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00064}\mbox{\hyperlink{classCorpusCleaner}{00064}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classCorpusCleaner}{CorpusCleaner}}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00065}00065\ \{}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00066}00066\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00067}00067\ \textcolor{comment}{\ \ \ \ /***member\ value***/}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00068}00068\ \ \ \ \ \textcolor{keywordtype}{string}\ input\_path;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00069}00069\ \ \ \ \ \textcolor{keywordtype}{string}\ intermediate\_path;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00070}00070\ \ \ \ \ \textcolor{keywordtype}{string}\ output\_path;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00071}00071\ \ \ \ \ \textcolor{keywordtype}{string}\ rejected\_path;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00072}00072\ \ \ \ \ \textcolor{keywordtype}{string}\ exception\_path;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00073}00073\ \ \ \ \ uint32\_t\ min\_length=5;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00074}00074\ \ \ \ \ uint32\_t\ max\_length=1000;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00075}00075\ \ \ \ \ set<string>\ accept\_language\{\textcolor{stringliteral}{"{}\_\_label\_\_ja"{}}\};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00076}00076\ \ \ \ \ \textcolor{keywordtype}{bool}\ sentence\_segment=\textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00077}00077\ \ \ \ \ \textcolor{keywordtype}{bool}\ store\_rejected=\textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordtype}{float}\ language\_threshold=0.3;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{double}\ perplexity\_threshold=999999;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00080}00080\ \ \ \ \ \mbox{\hyperlink{classfasttext_1_1FastTextEx}{fasttext::FastTextEx}}\ language\_filter;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00081}00081\ \ \ \ \ \mbox{\hyperlink{classKenLMFilter}{KenLMFilter}}\ kenlm\_filter;}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00082}00082\ \ \ \ \ \textcolor{comment}{//TODO:\ add\ vecter\ of\ result's\ file\ size\ of\ each\ cleaning\ process.\ At\ the\ end,\ analysys\ it.}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00083}00083\ \ \ \ \ \mbox{\hyperlink{classGenerateDedupLSH}{GenerateDedupLSH}}\ *generate\_dedup\_lsh;\ \ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00084}00084\ \ \ \ \ \mbox{\hyperlink{classLSHDeduplicator}{LSHDeduplicator}}\ *deduplicator;\ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00086}00086\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00087}00087\ \textcolor{comment}{\ \ \ \ /***constructor***/}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00088}00088\ \ \ \ \ \mbox{\hyperlink{classCorpusCleaner_a1a7f3a686665feb24f2b2e0f82924250}{CorpusCleaner}}(\textcolor{keywordtype}{string}\ input\_path,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ output\_path,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ min\_length,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ max\_length,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ set<string>\ accept\_language,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ store\_rejected,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ sentence\_segment,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ language\_threshold,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ perplexity\_threshold,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classGenerateDedupLSH}{GenerateDedupLSH}}\ *generate\_dedup\_lsh,}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLSHDeduplicator}{LSHDeduplicator}}\ *deduplicator);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00099}00099\ \textcolor{comment}{\ \ \ \ /***destructor***/}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00100}00100\ \ \ \ \ \mbox{\hyperlink{classCorpusCleaner_a5c1acbee2fc2921d1971ae980243991c}{\string~CorpusCleaner}}();}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00101}00101\ \textcolor{comment}{\ \ \ \ /***member\ function***/}}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00102}00102\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a028fdb141f2b92da54429677f0abb154}{Normalizer}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00103}00103\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_afb2e7e32b845c6d937a6ba39aedbb3ef}{URLRemover}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00104}00104\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a2d6691988972f9b7f5449cadf5f91c46}{SpecialCharacterRemover}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00105}00105\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a945760c19bee2920cc4410b39d063d9c}{EmojiRemover}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_abd164a42b1d01048b447557bebf440b0}{QuotesRemover}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a2ad1c81f4ad73d6c3b4325655c4daf28}{LengthFilter}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00108}00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a72054e52aa4d162a33b7069483a6f6be}{LanguageFilter}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00109}00109\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a45f781beefb1ccda6eee48daeee198af}{PerplexityFilter}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00110}00110\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a48075612da853cba90b97e11c92b7c50}{MinhashDeduplication}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00111}00111\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_a4530fb07ae3f70e22100661e11cbb95f}{ZeroPunctuationFilter}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00112}00112\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_af0a2d8353ccd8b00b204d54672a0f5f7}{SentenceSegmenter}}(\textcolor{keywordtype}{string}\ input\_folder\_path,\textcolor{keywordtype}{string}\ output\_folder\_path);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00113}00113\ \ \ \ \ \mbox{\hyperlink{struct__STATS}{Stats}}\ \mbox{\hyperlink{classCorpusCleaner_a6a0f8fc79938f7db32e5f7b37dbca94a}{PipelineStep}}(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&document,\ \textcolor{keywordtype}{void}\ (\mbox{\hyperlink{classCorpusCleaner}{CorpusCleaner}}::*cleaner)(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&));}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00114}00114\ \ \ \ \ int32\_t\ \mbox{\hyperlink{classCorpusCleaner_a53c08cd06810612e46afd2b55f845578}{CleanPipeline}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00115}00115\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classCorpusCleaner_abc9a8507a6fcc4db0a5287872c72bb47}{StoreException}}(\textcolor{keywordtype}{string}\ function\_name,\ \textcolor{keywordtype}{string}\ reference);}
+\DoxyCodeLine{\Hypertarget{corpus__cleaner_8hpp_source_l00116}00116\ \};}
+
+\end{DoxyCode}

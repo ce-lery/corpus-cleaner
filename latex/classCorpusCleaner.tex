@@ -1,0 +1,568 @@
+\doxysection{Corpus\+Cleaner Class Reference}
+\hypertarget{classCorpusCleaner}{}\label{classCorpusCleaner}\index{CorpusCleaner@{CorpusCleaner}}
+
+
+{\ttfamily \#include $<$corpus\+\_\+cleaner.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classCorpusCleaner_a1a7f3a686665feb24f2b2e0f82924250}{Corpus\+Cleaner}} (string input\+\_\+path, string output\+\_\+path, uint32\+\_\+t min\+\_\+length, uint32\+\_\+t max\+\_\+length, set$<$ string $>$ accept\+\_\+language, bool store\+\_\+rejected, bool sentence\+\_\+segment, float language\+\_\+threshold, double perplexity\+\_\+threshold, \mbox{\hyperlink{classGenerateDedupLSH}{Generate\+Dedup\+LSH}} \texorpdfstring{$\ast$}{*}generate\+\_\+dedup\+\_\+lsh, \mbox{\hyperlink{classLSHDeduplicator}{LSHDeduplicator}} \texorpdfstring{$\ast$}{*}deduplicator)
+\item 
+\mbox{\hyperlink{classCorpusCleaner_a5c1acbee2fc2921d1971ae980243991c}{\texorpdfstring{$\sim$}{\string~}\+Corpus\+Cleaner}} ()
+\item 
+void \mbox{\hyperlink{classCorpusCleaner_a028fdb141f2b92da54429677f0abb154}{Normalizer}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Neologd Normalize sentence. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_afb2e7e32b845c6d937a6ba39aedbb3ef}{URLRemover}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Remove URLs matching regular expression. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_a2d6691988972f9b7f5449cadf5f91c46}{Special\+Character\+Remover}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Remove special character. For example, ☀, ♡, ☆, and so on. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_a945760c19bee2920cc4410b39d063d9c}{Emoji\+Remover}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Remove emoji. For example, 🤗, 🐉, 📊, and so on. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_abd164a42b1d01048b447557bebf440b0}{Quotes\+Remover}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Remove quotes. For example, \mbox{[}1\mbox{]}, \{245\}, and so on. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_a2ad1c81f4ad73d6c3b4325655c4daf28}{Length\+Filter}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Remove too long sentence and too short sentence. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_a72054e52aa4d162a33b7069483a6f6be}{Language\+Filter}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Language filtering using fast\+Text. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_a45f781beefb1ccda6eee48daeee198af}{Perplexity\+Filter}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Ken\+LM\textquotesingle{}s Perplexity Quality filtering. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_a48075612da853cba90b97e11c92b7c50}{Minhash\+Deduplication}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Min\+Hash\+LSH Deduplication files in the this-\/\texorpdfstring{$>$}{>}intermediate folder. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_a4530fb07ae3f70e22100661e11cbb95f}{Zero\+Punctuation\+Filter}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document)
+\begin{DoxyCompactList}\small\item\em Remove sentence without punctuation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_af0a2d8353ccd8b00b204d54672a0f5f7}{Sentence\+Segmenter}} (string input\+\_\+folder\+\_\+path, string output\+\_\+folder\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Simple sentence splitter for japanese text. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{Stats}} \mbox{\hyperlink{classCorpusCleaner_a6a0f8fc79938f7db32e5f7b37dbca94a}{Pipeline\+Step}} (\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&document, void(Corpus\+Cleaner\+::\texorpdfstring{$\ast$}{*}cleaner)(\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&))
+\begin{DoxyCompactList}\small\item\em Pipeline\+Step. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{classCorpusCleaner_a53c08cd06810612e46afd2b55f845578}{Clean\+Pipeline}} (void)
+\begin{DoxyCompactList}\small\item\em Pipeline that sequentially executes the configured \doxylink{classCorpusCleaner}{Corpus\+Cleaner} methods. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCorpusCleaner_abc9a8507a6fcc4db0a5287872c72bb47}{Store\+Exception}} (string function\+\_\+name, string reference)
+\begin{DoxyCompactList}\small\item\em Save exception in file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8hpp_source_l00064}{64}} of file \mbox{\hyperlink{corpus__cleaner_8hpp_source}{corpus\+\_\+cleaner.\+hpp}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classCorpusCleaner_a1a7f3a686665feb24f2b2e0f82924250}\label{classCorpusCleaner_a1a7f3a686665feb24f2b2e0f82924250} 
+\index{CorpusCleaner@{CorpusCleaner}!CorpusCleaner@{CorpusCleaner}}
+\index{CorpusCleaner@{CorpusCleaner}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{CorpusCleaner()}{CorpusCleaner()}}
+{\footnotesize\ttfamily Corpus\+Cleaner\+::\+Corpus\+Cleaner (\begin{DoxyParamCaption}\item[{string}]{input\+\_\+path,  }\item[{string}]{output\+\_\+path,  }\item[{uint32\+\_\+t}]{min\+\_\+length,  }\item[{uint32\+\_\+t}]{max\+\_\+length,  }\item[{set$<$ string $>$}]{accept\+\_\+language,  }\item[{bool}]{store\+\_\+rejected,  }\item[{bool}]{sentence\+\_\+segment,  }\item[{float}]{language\+\_\+threshold,  }\item[{double}]{perplexity\+\_\+threshold,  }\item[{\mbox{\hyperlink{classGenerateDedupLSH}{Generate\+Dedup\+LSH}} \texorpdfstring{$\ast$}{*}}]{generate\+\_\+dedup\+\_\+lsh,  }\item[{\mbox{\hyperlink{classLSHDeduplicator}{LSHDeduplicator}} \texorpdfstring{$\ast$}{*}}]{deduplicator }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00239}{239}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a5c1acbee2fc2921d1971ae980243991c}\label{classCorpusCleaner_a5c1acbee2fc2921d1971ae980243991c} 
+\index{CorpusCleaner@{CorpusCleaner}!````~CorpusCleaner@{\texorpdfstring{$\sim$}{\string~}CorpusCleaner}}
+\index{````~CorpusCleaner@{\texorpdfstring{$\sim$}{\string~}CorpusCleaner}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}CorpusCleaner()}{\string~CorpusCleaner()}}
+{\footnotesize\ttfamily Corpus\+Cleaner\+::\texorpdfstring{$\sim$}{\string~}\+Corpus\+Cleaner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00290}{290}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classCorpusCleaner_a53c08cd06810612e46afd2b55f845578}\label{classCorpusCleaner_a53c08cd06810612e46afd2b55f845578} 
+\index{CorpusCleaner@{CorpusCleaner}!CleanPipeline@{CleanPipeline}}
+\index{CleanPipeline@{CleanPipeline}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{CleanPipeline()}{CleanPipeline()}}
+{\footnotesize\ttfamily int32\+\_\+t Corpus\+Cleaner\+::\+Clean\+Pipeline (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Pipeline that sequentially executes the configured \doxylink{classCorpusCleaner}{Corpus\+Cleaner} methods. 
+
+Perform the following steps in order. ~\newline
+
+\begin{DoxyEnumerate}
+\item Set \doxylink{classCorpusCleaner}{Corpus\+Cleaner} process to pipeline\+\_\+list that will be executed. (Please read attention.) ~\newline
+
+\item Loop processing as many times as pipeline\+\_\+list ~\newline
+ 2-\/1. copy output folder to intermediate folder ~\newline
+ 2-\/2. Get list of files in intermediate folder. ~\newline
+ 2-\/3. Execute the each \doxylink{classCorpusCleaner}{Corpus\+Cleaner} processing on all files in the intermediate folder. ~\newline
+
+\end{DoxyEnumerate}
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ input\_folder\_path\ =\ \textcolor{stringliteral}{"{}../../results/dataset/input/"{}};}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ output\_folder\_path\ =\ \textcolor{stringliteral}{"{}../../results/dataset/output/"{}};}
+\DoxyCodeLine{uint32\_t\ min\_length=\ 5;}
+\DoxyCodeLine{uint32\_t\ max\_length\ =\ 5000;}
+\DoxyCodeLine{set<string>\ accept\_language\{\textcolor{stringliteral}{"{}\_\_label\_\_ja"{}}\};}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ store\_rejected\ =\ \textcolor{keyword}{true};\ }
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ execute\_sentence\_segment\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ TODO:\ switch\ true}}
+\DoxyCodeLine{\textcolor{keywordtype}{double}\ language\_threshold\ =\ 0.3;}
+\DoxyCodeLine{\textcolor{keywordtype}{double}\ perplexity\_threshold\ =\ 40000;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ blacklist\_file\_path\ =\ output\_folder\_path+\textcolor{stringliteral}{"{}/blacklist.txt"{}};}
+\DoxyCodeLine{\mbox{\hyperlink{classGenerateDedupLSH}{GenerateDedupLSH}}\ generate\_dedup\_lsh(4,200,20,10);}
+\DoxyCodeLine{\mbox{\hyperlink{classLSHDeduplicator}{LSHDeduplicator}}\ deduplicator(\textcolor{keyword}{true},blacklist\_file\_path,\textcolor{keyword}{true},1280000000);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ create\ instance}}
+\DoxyCodeLine{\mbox{\hyperlink{classCorpusCleaner}{CorpusCleaner}}\ corpus\_cleaner(input\_folder\_path,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output\_folder\_path,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min\_length,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ max\_length,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ accept\_language,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ store\_rejected,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ execute\_sentence\_segment,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ language\_threshold,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ perplexity\_threshold,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&generate\_dedup\_lsh,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&deduplicator);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Execute\ cleaning\ pipeline}}
+\DoxyCodeLine{corpus\_cleaner.CleanPipeline();\ }
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em void} & None \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+\doxylink{classCorpusCleaner}{Corpus\+Cleaner} processing is performed in the order set in Cleaner\+\_\+array. ~\newline
+ For example, set cleaner\+\_\+array as follows\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{vector<void\ (\mbox{\hyperlink{classCorpusCleaner}{CorpusCleaner}}::*)(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&)>\ cleaner\_list\ =\ \{\ }
+\DoxyCodeLine{\ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_afb2e7e32b845c6d937a6ba39aedbb3ef}{CorpusCleaner::URLRemover}}\ ,\ \ }
+\DoxyCodeLine{\ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_a2ad1c81f4ad73d6c3b4325655c4daf28}{CorpusCleaner::LengthFilter}},\ \ }
+\DoxyCodeLine{\ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_a2d6691988972f9b7f5449cadf5f91c46}{CorpusCleaner::SpecialCharacterRemover}}}
+\DoxyCodeLine{\};\ \ }
+
+\end{DoxyCode}
+ At this time, processing is performed in the order of ~\newline
+
+\begin{DoxyEnumerate}
+\item URLRemover, 2. Length\+Filter, and 3. Special\+Character\+Remover. ~\newline
+ 
+\end{DoxyEnumerate}
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00751}{751}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a945760c19bee2920cc4410b39d063d9c}\label{classCorpusCleaner_a945760c19bee2920cc4410b39d063d9c} 
+\index{CorpusCleaner@{CorpusCleaner}!EmojiRemover@{EmojiRemover}}
+\index{EmojiRemover@{EmojiRemover}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{EmojiRemover()}{EmojiRemover()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Emoji\+Remover (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Remove emoji. For example, 🤗, 🐉, 📊, and so on. 
+
+Remove emoji characters that is \textbackslash{}\+U0001\+F300(🌀) to \textbackslash{}\+U0001\+F9\+FF(🧿). ~\newline
+ The C++ regex library does not support 4-\/byte characters. ~\newline
+ Therefore, characters like 🌀 cannot be matched using regular expressions. ~\newline
+ So, in a full search, those that completely match the pictogram are searched and removed. ~\newline
+ 
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: single line text to be cleaned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None \href{https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html}{\texttt{ https\+://guppy.\+eng.\+kagawa-\/u.\+ac.\+jp/\+Open\+Campus/unicode.\+html}} 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00467}{467}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a72054e52aa4d162a33b7069483a6f6be}\label{classCorpusCleaner_a72054e52aa4d162a33b7069483a6f6be} 
+\index{CorpusCleaner@{CorpusCleaner}!LanguageFilter@{LanguageFilter}}
+\index{LanguageFilter@{LanguageFilter}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{LanguageFilter()}{LanguageFilter()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Language\+Filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Language filtering using fast\+Text. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ in\ =\ \textcolor{stringliteral}{"{}吾輩は猫である。名前はまだ無い。"{}};}
+\DoxyCodeLine{FastTextEx\ language\_filter;}
+\DoxyCodeLine{pair<float,\ string>\ score;}
+\DoxyCodeLine{score\ =\ language\_filter.filter(in);}
+\DoxyCodeLine{\textcolor{comment}{//\ score.first\ ==1.00005,\ score.second\ ==\_\_label\_\_ja}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ in2\ =\ \textcolor{stringliteral}{"{}I\ am\ a\ cat.\ No\ name\ yet."{}};}
+\DoxyCodeLine{score\ =\ language\_filter.filter(in2);}
+\DoxyCodeLine{\textcolor{comment}{//\ score.first\ ==0.75237,\ score.second\ ==\_\_label\_\_en\ }}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: single line text to be cleaned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None \href{https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja\#python-written-by-hideaki-t&ndash}{\texttt{ https\+://github.\+com/neologd/mecab-\/ipadic-\/neologd/wiki/\+Regexp.\+ja\#python-\/written-\/by-\/hideaki-\/t\&ndash}};overlast \href{https://fasttext.cc/docs/en/supervised-tutorial.html}{\texttt{ https\+://fasttext.\+cc/docs/en/supervised-\/tutorial.\+html}} 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00365}{365}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a2ad1c81f4ad73d6c3b4325655c4daf28}\label{classCorpusCleaner_a2ad1c81f4ad73d6c3b4325655c4daf28} 
+\index{CorpusCleaner@{CorpusCleaner}!LengthFilter@{LengthFilter}}
+\index{LengthFilter@{LengthFilter}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{LengthFilter()}{LengthFilter()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Length\+Filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Remove too long sentence and too short sentence. 
+
+Remove too long sentence that is length is more thanand too short sentence. ~\newline
+ The length of too long sentence is more than "{}max\+\_\+length"{}. ~\newline
+ The length of too short sentence is lesser than "{}min\+\_\+length"{}. ~\newline
+ 
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: single line text to clean be cleaned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00309}{309}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a48075612da853cba90b97e11c92b7c50}\label{classCorpusCleaner_a48075612da853cba90b97e11c92b7c50} 
+\index{CorpusCleaner@{CorpusCleaner}!MinhashDeduplication@{MinhashDeduplication}}
+\index{MinhashDeduplication@{MinhashDeduplication}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{MinhashDeduplication()}{MinhashDeduplication()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Minhash\+Deduplication (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Min\+Hash\+LSH Deduplication files in the this-\/\texorpdfstring{$>$}{>}intermediate folder. 
+
+Follow the steps below to remove duplication between all lines of all files in the this-\/\texorpdfstring{$>$}{>}intermediate folder. ~\newline
+
+\begin{DoxyEnumerate}
+\item Get the list of files in this-\/\texorpdfstring{$>$}{>}intermediate\+\_\+folder and set it to vector$<$string$>$ file\+\_\+list ~\newline
+
+\item Compare all lines of source\+\_\+file and target\+\_\+file in file\+\_\+list. ~\newline
+
+\item Check duplication between all lines of souce file and all lines of target\+\_\+file. ~\newline
+ Therefore, characters like 🌀 cannot be matched using regular expressions. ~\newline
+ I considered deduplication using set or multiset, but I did not use this method because the file size could exceed the memory capacity. ~\newline
+
+\end{DoxyEnumerate}
+
+Example\+:
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & input\+\_\+folder\+\_\+path\+: input folder path \\
+\hline
+{\em string} & output\+\_\+folder\+\_\+path\+: output folder path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stats\+: statics imformation of this function. @note TODO\+: fix return stats. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00569}{569}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a028fdb141f2b92da54429677f0abb154}\label{classCorpusCleaner_a028fdb141f2b92da54429677f0abb154} 
+\index{CorpusCleaner@{CorpusCleaner}!Normalizer@{Normalizer}}
+\index{Normalizer@{Normalizer}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{Normalizer()}{Normalizer()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Normalizer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Neologd Normalize sentence. 
+
+Please Refer document of "{}\+Normalize\+Neologd()"{}. ~\newline
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & input\+\_\+path\+: The path of filterd file. \\
+\hline
+{\em string} & output\+\_\+path\+: The output path of results file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stats\+: statics imformation of this function. \href{https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja\#python-written-by-hideaki-t&ndash}{\texttt{ https\+://github.\+com/neologd/mecab-\/ipadic-\/neologd/wiki/\+Regexp.\+ja\#python-\/written-\/by-\/hideaki-\/t\&ndash}};overlast 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00540}{540}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a45f781beefb1ccda6eee48daeee198af}\label{classCorpusCleaner_a45f781beefb1ccda6eee48daeee198af} 
+\index{CorpusCleaner@{CorpusCleaner}!PerplexityFilter@{PerplexityFilter}}
+\index{PerplexityFilter@{PerplexityFilter}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{PerplexityFilter()}{PerplexityFilter()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Perplexity\+Filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Ken\+LM\textquotesingle{}s Perplexity Quality filtering. 
+
+Please Refer document of "{}\+TODO"{} ~\newline
+
+\begin{DoxyEnumerate}
+\item ~\newline
+
+\item If the perplexity is less than "{}threshold"{}, the "{}document"{} is to be rejected. ~\newline
+
+\end{DoxyEnumerate}
+
+Example\+:
+
+
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: single line text to be cleaned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00331}{331}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a6a0f8fc79938f7db32e5f7b37dbca94a}\label{classCorpusCleaner_a6a0f8fc79938f7db32e5f7b37dbca94a} 
+\index{CorpusCleaner@{CorpusCleaner}!PipelineStep@{PipelineStep}}
+\index{PipelineStep@{PipelineStep}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{PipelineStep()}{PipelineStep()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{corpus__cleaner_8hpp_addf172c6a4ad6605da0672a1a5dc32f4}{Stats}} Corpus\+Cleaner\+::\+Pipeline\+Step (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document,  }\item[{void(Corpus\+Cleaner\+::\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&)}]{cleaner }\end{DoxyParamCaption})}
+
+
+
+Pipeline\+Step. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: document is to be filtered \\
+\hline
+{\em void} & (\doxylink{classCorpusCleaner}{Corpus\+Cleaner}\+:\+:\texorpdfstring{$\ast$}{*}cleaner)(Document \&)\+: filter function list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stats\+: statics imformation of this function. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00673}{673}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_abd164a42b1d01048b447557bebf440b0}\label{classCorpusCleaner_abd164a42b1d01048b447557bebf440b0} 
+\index{CorpusCleaner@{CorpusCleaner}!QuotesRemover@{QuotesRemover}}
+\index{QuotesRemover@{QuotesRemover}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{QuotesRemover()}{QuotesRemover()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Quotes\+Remover (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Remove quotes. For example, \mbox{[}1\mbox{]}, \{245\}, and so on. 
+
+Remove remarks matching regular expression. ~\newline
+ The regular expression is "{}(\textbackslash{}\mbox{[}(\mbox{[}0-\/9\mbox{]}+)\textbackslash{}\mbox{]}\texorpdfstring{$\vert$}{|}\textbackslash{}\{(\mbox{[}0-\/9\mbox{]}+)\textbackslash{}\})"{}. ~\newline
+ 
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: single line text to be cleaned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+Don\textquotesingle{}t use this on corpus that contain formulas or programs. 
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00490}{490}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_af0a2d8353ccd8b00b204d54672a0f5f7}\label{classCorpusCleaner_af0a2d8353ccd8b00b204d54672a0f5f7} 
+\index{CorpusCleaner@{CorpusCleaner}!SentenceSegmenter@{SentenceSegmenter}}
+\index{SentenceSegmenter@{SentenceSegmenter}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{SentenceSegmenter()}{SentenceSegmenter()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Sentence\+Segmenter (\begin{DoxyParamCaption}\item[{string}]{input\+\_\+folder\+\_\+path,  }\item[{string}]{output\+\_\+folder\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Simple sentence splitter for japanese text. 
+
+I used Pragmatic Segmenter\textquotesingle{}s Japanese rules as a reference for sentence separation rules. ~\newline
+ The C++ regex library does not support 4-\/byte characters. ~\newline
+ Therefore, characters like 🌀 cannot be matched using regular expressions. ~\newline
+ So, in a full search, those that completely match the pictogram are searched and removed. ~\newline
+
+
+Example\+: TODO 
+\begin{DoxyParams}{Parameters}
+{\em string} & input\+\_\+path\+: The path of filterd file. \\
+\hline
+{\em string} & output\+\_\+path\+: The output path of results file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stats\+: statics imformation of this function. \href{https://github.com/wwwcojp/ja_sentence_segmenter/blob/main/ja_sentence_segmenter/split/simple_splitter.py}{\texttt{ https\+://github.\+com/wwwcojp/ja\+\_\+sentence\+\_\+segmenter/blob/main/ja\+\_\+sentence\+\_\+segmenter/split/simple\+\_\+splitter.\+py}} \href{https://github.com/diasks2/pragmatic_segmenter\#golden-rules-japanese}{\texttt{ https\+://github.\+com/diasks2/pragmatic\+\_\+segmenter\#golden-\/rules-\/japanese}} 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00617}{617}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a2d6691988972f9b7f5449cadf5f91c46}\label{classCorpusCleaner_a2d6691988972f9b7f5449cadf5f91c46} 
+\index{CorpusCleaner@{CorpusCleaner}!SpecialCharacterRemover@{SpecialCharacterRemover}}
+\index{SpecialCharacterRemover@{SpecialCharacterRemover}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{SpecialCharacterRemover()}{SpecialCharacterRemover()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Special\+Character\+Remover (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Remove special character. For example, ☀, ♡, ☆, and so on. 
+
+Remove emoji characters that is \textbackslash{}\+U00002600(☀) to \textbackslash{}\+U000027ff(⟿), ~\newline
+ \textbackslash{}\+U00002190(←) to \textbackslash{}\+U000021ff(⇿),\textbackslash{}\+U00002300(⌀) to \textbackslash{}\+U000023ff(⏿) ~\newline
+ \textbackslash{}\+U00002900(⤀) to \textbackslash{}\+U0000297f(⥿),\textbackslash{}\+U00002b00(⬀) to \textbackslash{}\+U00002bff(⯿), ~\newline
+ and \textbackslash{}\+U0001f000(🀀) to \textbackslash{}\+U0001f0ff(🃿). ~\newline
+ The C++ regex library does not support 4-\/byte characters. ~\newline
+ Therefore, characters like 🀀 cannot be matched using regular expressions. ~\newline
+ So, in a full search, those that completely match the pictogram are searched and removed. ~\newline
+
+
+Example\+: TODO. 
+\begin{DoxyParams}{Parameters}
+{\em string} & input\+\_\+path\+: The path of filterd file. \\
+\hline
+{\em string} & output\+\_\+path\+: The output path of results file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stats\+: statics imformation of this function. \href{https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html}{\texttt{ https\+://guppy.\+eng.\+kagawa-\/u.\+ac.\+jp/\+Open\+Campus/unicode.\+html}} 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00435}{435}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_abc9a8507a6fcc4db0a5287872c72bb47}\label{classCorpusCleaner_abc9a8507a6fcc4db0a5287872c72bb47} 
+\index{CorpusCleaner@{CorpusCleaner}!StoreException@{StoreException}}
+\index{StoreException@{StoreException}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{StoreException()}{StoreException()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Store\+Exception (\begin{DoxyParamCaption}\item[{string}]{function\+\_\+name,  }\item[{string}]{reference }\end{DoxyParamCaption})}
+
+
+
+Save exception in file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & reference\+: reference infomation. For example, sentence. \\
+\hline
+{\em string} & function\+\_\+name\+: function name cause exeption \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00227}{227}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_afb2e7e32b845c6d937a6ba39aedbb3ef}\label{classCorpusCleaner_afb2e7e32b845c6d937a6ba39aedbb3ef} 
+\index{CorpusCleaner@{CorpusCleaner}!URLRemover@{URLRemover}}
+\index{URLRemover@{URLRemover}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{URLRemover()}{URLRemover()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+URLRemover (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Remove URLs matching regular expression. 
+
+Remove URLs matching regular expression. ~\newline
+ The regular expression is "{}(https?\texorpdfstring{$\vert$}{|}ftp)(\+:\textbackslash{}/\textbackslash{}/\mbox{[}-\/\+\_\+\textbackslash{}.!\texorpdfstring{$\sim$}{\string~}\texorpdfstring{$\ast$}{*}\textbackslash{}\textquotesingle{}()a-\/z\+A-\/\+Z0-\/9;\textbackslash{}/?\+:\textbackslash{}@\&=\textbackslash{}+\textbackslash{}\$,\%\#\mbox{]}+)"{}. ~\newline
+ 
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: single line text to clean be cleaned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00407}{407}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+\Hypertarget{classCorpusCleaner_a4530fb07ae3f70e22100661e11cbb95f}\label{classCorpusCleaner_a4530fb07ae3f70e22100661e11cbb95f} 
+\index{CorpusCleaner@{CorpusCleaner}!ZeroPunctuationFilter@{ZeroPunctuationFilter}}
+\index{ZeroPunctuationFilter@{ZeroPunctuationFilter}!CorpusCleaner@{CorpusCleaner}}
+\doxysubsubsection{\texorpdfstring{ZeroPunctuationFilter()}{ZeroPunctuationFilter()}}
+{\footnotesize\ttfamily void Corpus\+Cleaner\+::\+Zero\+Punctuation\+Filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{corpus__cleaner_8hpp_a5d89cc87d64387ec409dcb14d99d913f}{Document}} \&}]{document }\end{DoxyParamCaption})}
+
+
+
+Remove sentence without punctuation. 
+
+Remove sentence without punctuation that is "{}、"{},"{}､"{},"{}。"{},"{}｡"{},"{}．"{},"{}."{},"{}？"{},"{}?"{},"{}！"{},"{}!"{}. ~\newline
+
+
+Example\+:
+
+
+\begin{DoxyParams}{Parameters}
+{\em Document} & \&document\+: single line text to be cleaned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This filter is heuristic. ~\newline
+ For example, a sentence that "{}https\+://github.\+com/"{} is not removed because it includes \textquotesingle{}.\textquotesingle{}. 
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{corpus__cleaner_8cpp_source_l00512}{512}} of file \mbox{\hyperlink{corpus__cleaner_8cpp_source}{corpus\+\_\+cleaner.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/\mbox{\hyperlink{corpus__cleaner_8hpp}{corpus\+\_\+cleaner.\+hpp}}\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/\mbox{\hyperlink{corpus__cleaner_8cpp}{corpus\+\_\+cleaner.\+cpp}}\end{DoxyCompactItemize}

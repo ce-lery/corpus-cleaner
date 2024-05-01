@@ -1,0 +1,85 @@
+\doxysection{simdjson\+::internal\+::string\+\_\+builder\texorpdfstring{$<$}{<} formatter \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classsimdjson_1_1internal_1_1string__builder}{}\label{classsimdjson_1_1internal_1_1string__builder}\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder_aec3abb7da453b63e213dfdff1f236966}{string\+\_\+builder}} ()=default
+\item 
+void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder_a33482b0ae6370414747c3cc0c9a14bb5}{append}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{simdjson\+::dom\+::element}} value)
+\item 
+void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder_a016748a45370f906d8dd9b004c7dbb15}{append}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1array}{simdjson\+::dom\+::array}} value)
+\item 
+void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder_a1978ed8c94fa8e5524227167da038da8}{append}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1object}{simdjson\+::dom\+::object}} value)
+\item 
+simdjson\+\_\+inline void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder_a7023918f9b68357ca5ded3a5653fed3a}{clear}} ()
+\item 
+simdjson\+\_\+inline std\+::string\+\_\+view \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder_aca33b3fc3f2b8c20b46af696d292818f}{str}} () const
+\item 
+simdjson\+\_\+inline void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder_ab738704168ccfc0f296021d68e5841ab}{append}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1key__value__pair}{simdjson\+::dom\+::key\+\_\+value\+\_\+pair}} value)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class formatter = mini\+\_\+formatter$>$\newline
+class simdjson\+::internal\+::string\+\_\+builder$<$ formatter $>$}
+The \doxylink{classsimdjson_1_1internal_1_1string__builder}{string\+\_\+builder} template allows us to construct a string from a document element. It is parametrized by a "{}formatter"{} which handles the details. Thus the \doxylink{classsimdjson_1_1internal_1_1string__builder}{string\+\_\+builder} template could support both minification and prettification, and various other tradeoffs. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimdjson_1_1internal_1_1string__builder_aec3abb7da453b63e213dfdff1f236966}\label{classsimdjson_1_1internal_1_1string__builder_aec3abb7da453b63e213dfdff1f236966} 
+\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}!string\_builder@{string\_builder}}
+\index{string\_builder@{string\_builder}!simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection{\texorpdfstring{string\_builder()}{string\_builder()}}
+{\footnotesize\ttfamily template$<$class formatter  = mini\+\_\+formatter$>$ \\
+\mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{simdjson\+::internal\+::string\+\_\+builder}}$<$ formatter $>$\+::string\+\_\+builder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Construct an initially empty builder, would print the empty string 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimdjson_1_1internal_1_1string__builder_a016748a45370f906d8dd9b004c7dbb15}\label{classsimdjson_1_1internal_1_1string__builder_a016748a45370f906d8dd9b004c7dbb15} 
+\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}!append@{append}}
+\index{append@{append}!simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class serializer $>$ \\
+void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{simdjson\+::internal\+::string\+\_\+builder}}$<$ serializer $>$\+::append (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1array}{simdjson\+::dom\+::array}}}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Append an array to the builder (to be printed) \Hypertarget{classsimdjson_1_1internal_1_1string__builder_a33482b0ae6370414747c3cc0c9a14bb5}\label{classsimdjson_1_1internal_1_1string__builder_a33482b0ae6370414747c3cc0c9a14bb5} 
+\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}!append@{append}}
+\index{append@{append}!simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class serializer $>$ \\
+void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{simdjson\+::internal\+::string\+\_\+builder}}$<$ serializer $>$\+::append (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{simdjson\+::dom\+::element}}}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Append an element to the builder (to be printed) \Hypertarget{classsimdjson_1_1internal_1_1string__builder_ab738704168ccfc0f296021d68e5841ab}\label{classsimdjson_1_1internal_1_1string__builder_ab738704168ccfc0f296021d68e5841ab} 
+\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}!append@{append}}
+\index{append@{append}!simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class serializer $>$ \\
+simdjson\+\_\+inline void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{simdjson\+::internal\+::string\+\_\+builder}}$<$ serializer $>$\+::append (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1key__value__pair}{simdjson\+::dom\+::key\+\_\+value\+\_\+pair}}}]{value }\end{DoxyParamCaption})}
+
+Append a key\+\_\+value\+\_\+pair to the builder (to be printed) \Hypertarget{classsimdjson_1_1internal_1_1string__builder_a1978ed8c94fa8e5524227167da038da8}\label{classsimdjson_1_1internal_1_1string__builder_a1978ed8c94fa8e5524227167da038da8} 
+\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}!append@{append}}
+\index{append@{append}!simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class serializer $>$ \\
+void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{simdjson\+::internal\+::string\+\_\+builder}}$<$ serializer $>$\+::append (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1object}{simdjson\+::dom\+::object}}}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Append an object to the builder (to be printed) \Hypertarget{classsimdjson_1_1internal_1_1string__builder_a7023918f9b68357ca5ded3a5653fed3a}\label{classsimdjson_1_1internal_1_1string__builder_a7023918f9b68357ca5ded3a5653fed3a} 
+\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}!clear@{clear}}
+\index{clear@{clear}!simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$class serializer $>$ \\
+simdjson\+\_\+inline void \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{simdjson\+::internal\+::string\+\_\+builder}}$<$ serializer $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Reset the builder (so that it would print the empty string) \Hypertarget{classsimdjson_1_1internal_1_1string__builder_aca33b3fc3f2b8c20b46af696d292818f}\label{classsimdjson_1_1internal_1_1string__builder_aca33b3fc3f2b8c20b46af696d292818f} 
+\index{simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}!str@{str}}
+\index{str@{str}!simdjson::internal::string\_builder$<$ formatter $>$@{simdjson::internal::string\_builder$<$ formatter $>$}}
+\doxysubsubsection{\texorpdfstring{str()}{str()}}
+{\footnotesize\ttfamily template$<$class serializer $>$ \\
+simdjson\+\_\+inline std\+::string\+\_\+view \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{simdjson\+::internal\+::string\+\_\+builder}}$<$ serializer $>$\+::str (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get access to the string. The string\+\_\+view is owned by the builder and it is invalid to use it after the \doxylink{classsimdjson_1_1internal_1_1string__builder}{string\+\_\+builder} has been destroyed. However you can make a copy of the string\+\_\+view on memory that you own. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+cpp\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+h\end{DoxyCompactItemize}

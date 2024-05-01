@@ -1,0 +1,129 @@
+\doxysection{simdjson\+::dom\+::array Class Reference}
+\hypertarget{classsimdjson_1_1dom_1_1array}{}\label{classsimdjson_1_1dom_1_1array}\index{simdjson::dom::array@{simdjson::dom::array}}
+
+
+{\ttfamily \#include $<$simdjson.\+h$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_1_1iterator}{iterator}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_a8b3d6eaec52a2b44965e53d874e367e9}{array}} () noexcept
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1array_1_1iterator}{iterator}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_aebd2b7ca5e1d87476ea2cd4fc9239a74}{begin}} () const noexcept
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1array_1_1iterator}{iterator}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_a378b3312cdf6f8fe04725b617b8cfcb9}{end}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_a698f2f984d1a78a68962c06b2f047686}{size}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_a26e66312190e016c22093292974490ff}{number\+\_\+of\+\_\+slots}} () const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_a8141c7d98672bc3ab69fea7b63afcfb2}{at\+\_\+pointer}} (std\+::string\+\_\+view json\+\_\+pointer) const noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_a6a6373cc1542a7137b79978680a93d18}{at}} (size\+\_\+t index) const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1array_a0602f94f596fa800408eeb034b5850ab}\label{classsimdjson_1_1dom_1_1array_a0602f94f596fa800408eeb034b5850ab} 
+class {\bfseries element}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1array_a5db654c4e603254bd308a7c068d79c43}\label{classsimdjson_1_1dom_1_1array_a5db654c4e603254bd308a7c068d79c43} 
+struct {\bfseries simdjson\+\_\+result$<$ element $>$}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1array_ae179c7cf00c86d956a4bbca2ee59d810}\label{classsimdjson_1_1dom_1_1array_ae179c7cf00c86d956a4bbca2ee59d810} 
+{\footnotesize template$<$typename T $>$ }\\class {\bfseries simdjson\+::internal\+::string\+\_\+builder}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+JSON array. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1array_a8b3d6eaec52a2b44965e53d874e367e9}\label{classsimdjson_1_1dom_1_1array_a8b3d6eaec52a2b44965e53d874e367e9} 
+\index{simdjson::dom::array@{simdjson::dom::array}!array@{array}}
+\index{array@{array}!simdjson::dom::array@{simdjson::dom::array}}
+\doxysubsubsection{\texorpdfstring{array()}{array()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline simdjson\+::dom\+::array\+::array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Create a new, invalid array 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1array_a6a6373cc1542a7137b79978680a93d18}\label{classsimdjson_1_1dom_1_1array_a6a6373cc1542a7137b79978680a93d18} 
+\index{simdjson::dom::array@{simdjson::dom::array}!at@{at}}
+\index{at@{at}!simdjson::dom::array@{simdjson::dom::array}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::array\+::at (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value at the given index. This function has linear-\/time complexity and is equivalent to the following\+:
+
+size\+\_\+t i=0; for (auto element \+: \texorpdfstring{$\ast$}{*}this) \{ if (i == index) \{ return element; \} i++; \} return INDEX\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS;
+
+Avoid calling the \doxylink{classsimdjson_1_1dom_1_1array_a6a6373cc1542a7137b79978680a93d18}{at()} function repeatedly.
+
+\begin{DoxyReturn}{Returns}
+The value at the given index, or\+:
+\begin{DoxyItemize}
+\item INDEX\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS if the array index is larger than an array length 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1array_a8141c7d98672bc3ab69fea7b63afcfb2}\label{classsimdjson_1_1dom_1_1array_a8141c7d98672bc3ab69fea7b63afcfb2} 
+\index{simdjson::dom::array@{simdjson::dom::array}!at\_pointer@{at\_pointer}}
+\index{at\_pointer@{at\_pointer}!simdjson::dom::array@{simdjson::dom::array}}
+\doxysubsubsection{\texorpdfstring{at\_pointer()}{at\_pointer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::array\+::at\+\_\+pointer (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{json\+\_\+pointer }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the value associated with the given JSON pointer. We use the RFC 6901 \href{https://tools.ietf.org/html/rfc6901}{\texttt{ https\+://tools.\+ietf.\+org/html/rfc6901}} standard, interpreting the current node as the root of its own JSON document.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; array a = \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(R"{}(\mbox{[} \{ "{}foo"{}\+: \{ "{}a"{}\+: \mbox{[} 10, 20, 30 \mbox{]} \}\} \mbox{]})"{}\+\_\+padded); a.\+at\+\_\+pointer("{}/0/foo/a/1"{}) == 20 a.\+at\+\_\+pointer("{}0"{})\mbox{[}"{}foo"{}\mbox{]}\mbox{[}"{}a"{}\mbox{]}.at(1) == 20
+
+\begin{DoxyReturn}{Returns}
+The value associated with the given JSON pointer, or\+:
+\begin{DoxyItemize}
+\item NO\+\_\+\+SUCH\+\_\+\+FIELD if a field does not exist in an object
+\item INDEX\+\_\+\+OUT\+\_\+\+OF\+\_\+\+BOUNDS if an array index is larger than an array length
+\item INCORRECT\+\_\+\+TYPE if a non-\/integer is used to access an array
+\item INVALID\+\_\+\+JSON\+\_\+\+POINTER if the JSON pointer is invalid and cannot be parsed 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1array_aebd2b7ca5e1d87476ea2cd4fc9239a74}\label{classsimdjson_1_1dom_1_1array_aebd2b7ca5e1d87476ea2cd4fc9239a74} 
+\index{simdjson::dom::array@{simdjson::dom::array}!begin@{begin}}
+\index{begin@{begin}!simdjson::dom::array@{simdjson::dom::array}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_1_1iterator}{array\+::iterator}} simdjson\+::dom\+::array\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Return the first array element.
+
+Part of the std\+::iterable interface. \Hypertarget{classsimdjson_1_1dom_1_1array_a378b3312cdf6f8fe04725b617b8cfcb9}\label{classsimdjson_1_1dom_1_1array_a378b3312cdf6f8fe04725b617b8cfcb9} 
+\index{simdjson::dom::array@{simdjson::dom::array}!end@{end}}
+\index{end@{end}!simdjson::dom::array@{simdjson::dom::array}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classsimdjson_1_1dom_1_1array_1_1iterator}{array\+::iterator}} simdjson\+::dom\+::array\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+One past the last array element.
+
+Part of the std\+::iterable interface. \Hypertarget{classsimdjson_1_1dom_1_1array_a26e66312190e016c22093292974490ff}\label{classsimdjson_1_1dom_1_1array_a26e66312190e016c22093292974490ff} 
+\index{simdjson::dom::array@{simdjson::dom::array}!number\_of\_slots@{number\_of\_slots}}
+\index{number\_of\_slots@{number\_of\_slots}!simdjson::dom::array@{simdjson::dom::array}}
+\doxysubsubsection{\texorpdfstring{number\_of\_slots()}{number\_of\_slots()}}
+{\footnotesize\ttfamily size\+\_\+t simdjson\+::dom\+::array\+::number\+\_\+of\+\_\+slots (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the total number of slots used by this array on the tape.
+
+Note that this is not the same thing as {\ttfamily \doxylink{classsimdjson_1_1dom_1_1array_a698f2f984d1a78a68962c06b2f047686}{size()}}, which reports the number of actual elements within an array (not counting its children).
+
+Since an element can use 1 or 2 slots on the tape, you can only use this to figure out the total size of an array (including its children, recursively) if you know its structure ahead of time. \Hypertarget{classsimdjson_1_1dom_1_1array_a698f2f984d1a78a68962c06b2f047686}\label{classsimdjson_1_1dom_1_1array_a698f2f984d1a78a68962c06b2f047686} 
+\index{simdjson::dom::array@{simdjson::dom::array}!size@{size}}
+\index{size@{size}!simdjson::dom::array@{simdjson::dom::array}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t simdjson\+::dom\+::array\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Get the size of the array (number of immediate children). It is a saturated value with a maximum of 0x\+FFFFFF\+: if the value is 0x\+FFFFFF then the size is 0x\+FFFFFF or greater. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+h\end{DoxyCompactItemize}
