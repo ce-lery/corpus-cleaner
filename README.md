@@ -1,7 +1,7 @@
 # corpus-cleaner
 
-@mainpage
-
+@mainpage  
+![doxygen deploy](https://github.com/ce-lery/corpus-cleaner/actions/workflows/doxygen-gh-pages.yml/badge.svg)
 <!--  -->
 <!-- ![](image/comparison.png) -->
 <!-- <img src="image/comparison.png" width="500"> -->
@@ -91,6 +91,7 @@ The file format is jsonl.
 
 ## Specification
 
+Document is [here](https://ce-lery.github.io/corpus-cleaner/).  
 If you want to see this tool's specification and API references, please refer [here](./docs/specification.md).
 
 ## Usage
