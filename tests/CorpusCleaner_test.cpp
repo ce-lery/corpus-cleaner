@@ -480,8 +480,12 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
     // mkdir(intermediate_folder_path.c_str(), 0777);
     // MoveFolder(output_folder_path+"/cleaned/", output_folder_path+"/intermediate/"); 
 
-    vector<string> filename_list;
-    GetFileNameListWithoutExtention(output_folder_path+"/intermediate/",&filename_list);
+    // vector<string> filename_list;
+    // GetFileNameListWithoutExtention(output_folder_path+"/intermediate/",&filename_list);
+    vector<string> filename_list={"test_SentenceDeduplication2",
+                                  "test_SentenceDeduplication3",
+                                  "test_SentenceDeduplication"};
+
     // Execute the each CorpusCleaner processing on all files in the intermediate folder.
     for (auto filename: filename_list){
         // load data
