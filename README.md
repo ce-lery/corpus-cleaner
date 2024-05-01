@@ -1,38 +1,35 @@
 # corpus-cleaner
 
+@mainpage
+
+<!--  -->
 <!-- ![](image/comparison.png) -->
 <!-- <img src="image/comparison.png" width="500"> -->
 
 ## Overview
 
 Welcome to my repository!   
-This repository is a library for quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus. 
+This repository is a C++ library for quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus. 
 
-The features are following table.
+The features are following.
 
-|Features|Details|Remarks|
-|:--|:--|:--|
-|[Normalizer](corpus_cleaner/normalizer.py#L6)|Normalize sentences using [neologdn](https://github.com/ikegami-yukino/neologdn). Neologdn's normalization contents include, for example, "replace half-width katakana with full-width" and "replace full-width spaces with half-width spaces."|See [here](https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja) for details on normalization contents.|
-|[Emoji Remover](corpus_cleaner/remover.py#L8)|Remove emojis using [emoji](https://pypi.org/project/emoji/) library.||
-|[URL Remover](corpus_cleaner/remover.py#L22)|Remove URLs matching regular expression.||
-|[Quotes Remover](corpus_cleaner/remover.py#L22)|Remove quotes. For example, [1], {245}, and so on.||
-|[Special Characters Remover](corpus_cleaner/remover.py#L61)|Remove special character.<br> For example, ☀, ♡, ☆, and so on.<br>Removes special characters within a specific Unicode range.|Please refer [this URL](https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html).<br>Special characters to be removed include some emojis.|
-|[Sentence Segmenter](corpus_cleaner/splitter.py)|Execute Rule-based sentence separation (sentence segmentation) using [ja_sentence_segmenter](https://github.com/wwwcojp/ja_sentence_segmenter).|Please refer this [article](https://qiita.com/heimaru1231/items/b6ed09d4787e4e28175a).|
-|[Length Filter](corpus_cleaner/excess_filter.py)|Remove too long sentence and too short sentence.||
-|[Minhash Deduplicater](corpus_cleaner/minhash.py)|Deduplicate sentence using minhash.<br>Unlike the default minhash, Mecab is used when tokenizing sentences.||
-|[Language Filter](https://github.com/huggingface/datatrove/blob/main/src/datatrove/pipeline/filters/language_filter.py)|Classify sentence composition language and quality using fastText.<br> This function is applied to japanese and english.|This function's implementation is in the huggingface/datatrove. Please refer [fastText](https://fasttext.cc/docs/en/crawl-vectors.html).|
-|[Perplexity Filter](https://github.com/huggingface/datatrove/blob/main/src/datatrove/pipeline/filters/language_filter.py)|Classify sentence composition language and quality using fastText.|This function's implementation is in the huggingface/datatrove. Please refer [fastText](https://fasttext.cc/docs/en/crawl-vectors.html).|
+- **Normalizer**: Sentence normalization created by [mecab-neologd](https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja)
+- **URL Remover**: Remove URLs matching regular expression
+- **Special Characters Remover**: Remove certain special characters (☀, ♡, ☆, etc.)
+- **Emoji Remover**: Remove emoji characters that is \U0001F300 to \U0001F9FF.
+- **Quotes Remover**: Remove quotes ([1], {245})
+- **Length Filter**: Remove too long sentence and too short sentence
+- **Language Filter**: Determine whether it is a Japanese document
+- **Minhash Deduplicator**: Deduplication using Minhash
+- **ZeroPunctuationFilter**: Delete documents without punctuation
+- **Sentence Segmenter**: Divide the corpus into sentences based on rules
+- **Perplexity Filter**: Perplexity filter using kENLM
 
-
-<!-- |[Remove kaomoji](corpus_cleaner/remover.py#L39)|Remove emoticons that exactly match the list in kaomoji.txt.<br>Approximately 1,400 types of emoticons will be removed.|Before using this feature, we recommend normalizing the text using TxtNormalizer().|
-|[ftfy Fixer](corpus_cleaner/fixer.py#L6)|Fix broken Unicode using [ftfy](https://ftfy.readthedocs.io/en/latest/).|Inspired by [NVIDIA NeMo Data Curator](https://docs.nvidia.com/nemo-framework/user-guide/latest/modelguide/pretrainingdatasets/index.html).|
-|[Txt Reader](corpus_cleaner/txt_reader.py)|BaseDiskReader that reads .txt file. |[Datatrove Readers](https://github.com/huggingface/datatrove/tree/main/src/datatrove/pipeline/readers) can read other formats (.csv,.json, ...etc.). Please read [here](https://github.com/huggingface/datatrove?tab=readme-ov-file).|
-|[Txt Writer](corpus_cleaner/txt_writer.py)|DiskWriter that writes .txt file.|[Datatrove](https://github.com/huggingface/datatrove/tree/main/src/datatrove/pipeline/writers) can write other formats (.csv,.json, ...etc.). Please read [here](https://github.com/huggingface/datatrove?tab=readme-ov-file).|-->
-
+<!-- 
 ## Quick Started
 
 If you want to try out the contents of this repository quickly and easily, please use this [ipynb file](examples/quick_start.ipynb).
-<!-- TODO: gist -->
+(TODO: gist) -->
 
 ## Getting Started
 
@@ -58,7 +55,7 @@ docker run -v ./:/home/corpus-cleaner/ -it --gpus all corpus-cleaner-image
 
 ```bash
 sudo apt upgrade
-sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  libgoogle-perftools-dev curl wget build-essential nano
+sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  libgoogle-perftools-dev curl wget build-essential nano flex bison
 ```
 
 ### Common Step
@@ -90,30 +87,63 @@ Run corpus_cleaner. Please wait a minute.
 bash scripts/run.sh
 ```
 
-The cleaning result files will be created in "results/data/output".  
+The cleaning result files will be created in "results/data/cleaned".  
 The file format is jsonl.  
+
+## Specification
+
+If you want to see this tool's specification and API references, please refer [here]().
 
 ## Usage
 
-### Basic usage
+### Basic Usage
 
 The basic usage of corpus-cleaner is same as [Getting Started](#Getting_Started).
 
-### Select Filtering feature
+### Select Filtering Feature
 
 If you want to disable Sentence Segmenter, please set "bool sentence_segment=false", and create instance of CorpusCleaner class.
 
-```bash
+```cpp
+CorpusCleaner corpus_cleaner(input_folder_path,
+                             output_folder_path,
+                             min_length,
+                             max_length,
+                             accept_language,
+                             store_rejected,
+                             execute_sentence_segment, // <--------- switch here to false
+                             language_threshold,
+                             perplexity_threshold,
+                             &generate_dedup_lsh,
+                             &deduplicator);
 ```
 
 If you want to disable filter, please Comment out the corresponding filter function in the variable TODO:. 
 
-
-
+```cpp
+int32_t CorpusCleaner::CleanPipeline(void)
+{
+    // Set CorpusCleaner process that will be executed.
+    // They will be executed in the order you set them.
+    vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
+        &CorpusCleaner::Normalizer,
+        &CorpusCleaner::URLRemover,
+        &CorpusCleaner::EmojiRemover, 
+        # &CorpusCleaner::SpecialCharacterRemover,
+        # &CorpusCleaner::QuotesRemover,   // <- If you comment or exclude function of 
+        # &CorpusCleaner::LengthFilter,    // <- cleaner_list, the functions are disabled.
+        # &CorpusCleaner::ZeroPunctuationFilter,
+        &CorpusCleaner::LanguageFilter,
+        &CorpusCleaner::MinhashDeduplication,
+        &CorpusCleaner::PerplexityFilter,
+    }; 
+    // ~ ommit ~
+}
+```
 
 Maybe, this step will be changed in the future.
 
-### Add new filtering feature
+<!-- ### Add new filtering feature
 
 You can add your original filtering feature. Please do the following steps.
 
@@ -132,7 +162,7 @@ You can add your original filtering feature. Please do the following steps.
 4. Run corpus_cleaner.
     ```bash
     ./corpus_cleaner/build/corpus_cleaner
-    ```
+    ``` -->
 
 <!-- The basic flow is as follows.
 
@@ -176,6 +206,27 @@ Here, I will explain how to add functions using the Normalize function as an exa
 
 The complete scripts are [normalizer.py](corpus_cleaner/normalizer.py) and [example_normalizer.py](examples/example_normalizer.py). Please refer them. -->
 
+## License
+
+This repository is licensed under the Apache License, Version2.0.  
+Please refer [LICENSE](LICENSE) file.
+
+## Third Party Library
+
+In this repository, I use following third party library.  
+Please note the lisence.  
+
+|Library|License|Purpose|
+|:--|:--|:--|
+|[icu](https://github.com/unicode-org/icu?tab=readme-ov-file)|[UNICODE LICENSE V3](https://github.com/unicode-org/icu?tab=License-1-ov-file#readme)|For NFKC normalization of Normalizer.|
+|[kenlm](https://github.com/kpu/kenlm?tab=readme-ov-file)|**LGPL license**|For perplexity filtering.<br>Since I have not embedded this tool in this repository (installed it when I use it), <br>I think that this repository is not covered by the LGPL license.|
+|[SentencePiece](https://github.com/google/sentencepiece)|Apache-2.0 license|For tokenization in perplexity filtering.|
+|[smhasher](https://github.com/rurban/smhasher)|MIT licensed.|For hash value generation for Mihash processing.|
+|[simdjson](https://github.com/simdjson/simdjson)|Apache-2.0 license|For jsonl parsing.|
+|[fastText](https://github.com/facebookresearch/fastText)|MIT license|For language filtering.|
+|[GoogleTest](https://github.com/google/googletest)|BSD-3-Clause license|For test.|
+|[doxygen](https://github.com/doxygen/doxygen)|(GPL-2.0 license)|For Documentation.<br>This license does not apply to works produced by doxygen|
+
 ## Test
 
 ```bash
@@ -184,43 +235,25 @@ bash scripts/test.sh
 
 ## Contribution
 
-We welcome your contributions to this repository. To contribute, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+We welcome your contributions to this repository.
+To contribute, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## TODO
 
 ### ver.0.1.0
-- [x] Implement normalizer
-- [x] Implement Remover emoji
-- [x] Implement Remover URL
-- [ ] ~~Implement Remover kaomoji~~
-- [x] Implement Remover special characters
-- [x] Implement Sentence Segmentation 
-- [x] Implement Excess Filtering
-- [x] Implement Sentence Deduplication
-- [x] Implement Minhash Deduplication
-- [x] Implement language filter
-- [x] Implement Test
-- [x] Imprement quotes Remover ("{1}", "{13}", and so on.)
-- [x] Refactor piplinestep (FILE read write only once at the beginning and end)
-- [x] Implement minhash
-- [x] Implement json read & write
-- [x] Exception handling
-- [x] Test Clean pipeline
-- [x] Implement tqdm.
-- [x] Implement punctuation filter
+
 - [ ] Write document & create doxygen
-- [x] Fix the clean process of Minhash bucket (Now, this isn't initialized). 
-- [ ] Implement dump .txt format file(only is_removed=false).
-- [x] Implement multiprocessing.
 
 ### ver.0.2.0
 
+- [ ] Set Github Action's CI/CD（build）
 - [ ] Implement pybind & python code
 - [ ] Implement loader json & jsonl
+- [ ] Morphological analysis (by jagger)
 - [ ] Remove ad header and footer
 - [ ] Remove HTML mark
+- [ ] Implement dump .txt format file(only is_removed=false).
 - [ ] Remove repeated expressions
-- [ ] Set Github Action's CI/CD
 
 ### ver.0.3.0
 

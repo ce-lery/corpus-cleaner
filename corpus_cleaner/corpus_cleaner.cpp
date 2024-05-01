@@ -506,7 +506,7 @@ void CorpusCleaner::QuotesRemover(Document &document)
  * @param Document &document: single line text to be cleaned
  * @return void: None
  * @note 
- * This filter is heuristic. 
+ * This filter is heuristic.  
  * For example, a sentence that "https://github.com/" is not removed because it includes '.'.
 **/
 void CorpusCleaner::ZeroPunctuationFilter(Document &document)
@@ -754,7 +754,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
     // They will be executed in the order you set them.
     vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
         &CorpusCleaner::Normalizer,
-        &CorpusCleaner::URLRemover ,
+        &CorpusCleaner::URLRemover,
         &CorpusCleaner::EmojiRemover, 
         &CorpusCleaner::SpecialCharacterRemover, 
         &CorpusCleaner::QuotesRemover, 
