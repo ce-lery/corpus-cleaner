@@ -16,6 +16,6 @@ jobs:
     - name: build
       run: | 
         sudo apt-get update
-        sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  libgoogle-perftools-dev curl wget build-essential nano flex bison
+        sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  curl wget build-essential nano flex bison
         bash scripts/setup.sh
         bash scripts/build.sh
