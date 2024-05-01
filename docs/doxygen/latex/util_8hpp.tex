@@ -1,0 +1,474 @@
+\doxysection{/home/corpus-\/cleaner/corpus\+\_\+cleaner/util.hpp File Reference}
+\hypertarget{util_8hpp}{}\label{util_8hpp}\index{/home/corpus-\/cleaner/corpus\_cleaner/util.hpp@{/home/corpus-\/cleaner/corpus\_cleaner/util.hpp}}
+{\ttfamily \#include $<$bits/stdc++.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{util_8hpp_a6bc660d7b9d776f3c25a133636659ea8}{strlen\+\_\+utf8}} (string input)
+\begin{DoxyCompactList}\small\item\em Get exact length of UTF-\/8 string in C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_a43e9c521fe4f3652e63cba4b50b6a3f5}{Remove\+Folder}} (const string \&path)
+\item 
+string \mbox{\hyperlink{util_8hpp_a914d894241e9433a27d901a8fc485c2c}{Calculate\+Next\+Emoji}} (string pre\+\_\+emoji)
+\begin{DoxyCompactList}\small\item\em Derive the next emoji. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_a19002ef5be3294a7352124d99aed072b}{Get\+File\+Name\+List\+Without\+Extention}} (string folder\+\_\+path, vector$<$ string $>$ \texorpdfstring{$\ast$}{*}file\+\_\+list)
+\begin{DoxyCompactList}\small\item\em Get filename list in folder\+\_\+path. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_a0005164f6617c1970b5db8d477be9f2b}{Get\+File\+Line\+Number\+List}} (const string folder\+\_\+path, const vector$<$ string $>$ \texorpdfstring{$\ast$}{*}file\+\_\+list, const string file\+\_\+extention, vector$<$ uint64\+\_\+t $>$ \texorpdfstring{$\ast$}{*}file\+\_\+line\+\_\+number\+\_\+list)
+\begin{DoxyCompactList}\small\item\em Get file line number list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_a41c565fcc77e48108d014d8ac9e45890}{Copy\+Folder}} (string source\+\_\+folder, string target\+\_\+folder)
+\begin{DoxyCompactList}\small\item\em copy source\+\_\+folder to target\+\_\+folder \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_aa550fb657da58cba8680f1d677917a36}{Copy\+File}} (string source\+\_\+path, string target\+\_\+path)
+\begin{DoxyCompactList}\small\item\em copy source\+\_\+fileto target\+\_\+file \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_ae51e8495f5c619ea6f22cd335fe9b5c6}{Move\+Folder}} (string source\+\_\+folder, string target\+\_\+folder)
+\begin{DoxyCompactList}\small\item\em copy source\+\_\+folder to target\+\_\+folder \end{DoxyCompactList}\item 
+wstring \mbox{\hyperlink{util_8hpp_ac088f18042a7b17c0d2f54634a159972}{Convert\+UTF8\+To\+Wstring}} (const string \&sentence)
+\begin{DoxyCompactList}\small\item\em Convert string to Wstring. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{util_8hpp_a01370cacb171f76080f5c02559c9c811}{Convert\+Wstring\+To\+UTF8}} (const wstring \&sentence)
+\begin{DoxyCompactList}\small\item\em Convert Wstring to string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_ae0caaaa1f454216238c3f8c6d755ec5f}{Segment\+Sentence}} (string sentence, vector$<$ string $>$ \&segments)
+\begin{DoxyCompactList}\small\item\em Segmentation Sentence. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{util_8hpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{Strip}} (const string \&sentence)
+\begin{DoxyCompactList}\small\item\em Remove leading and trailing white space. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_a9772b111e567abe841a78bbc1389e73d}{Replace\+Substring}} (string \&sentence, const string \&target, const string \&replacement)
+\item 
+string \mbox{\hyperlink{util_8hpp_ae54568cb0ecde1a21dfeda85bff0a988}{Escape\+Word}} (const string \&input)
+\begin{DoxyCompactList}\small\item\em Escape word. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{util_8hpp_a1f8884b4712b238d89d94c729e58a2fc}{Proceed\+Progress\+Bar}} (unsigned long long line\+\_\+count, unsigned long long file\+\_\+line\+\_\+number, uint32\+\_\+t elapsed\+\_\+time\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Update progress bar. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{util_8hpp_a914d894241e9433a27d901a8fc485c2c}\label{util_8hpp_a914d894241e9433a27d901a8fc485c2c} 
+\index{util.hpp@{util.hpp}!CalculateNextEmoji@{CalculateNextEmoji}}
+\index{CalculateNextEmoji@{CalculateNextEmoji}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{CalculateNextEmoji()}{CalculateNextEmoji()}}
+{\footnotesize\ttfamily string Calculate\+Next\+Emoji (\begin{DoxyParamCaption}\item[{string}]{pre\+\_\+emoji }\end{DoxyParamCaption})}
+
+
+
+Derive the next emoji. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ emoji=\textcolor{stringliteral}{"{}🌀"{}};}
+\DoxyCodeLine{\mbox{\hyperlink{util_8cpp_a914d894241e9433a27d901a8fc485c2c}{CalculateNextEmoji}}(emoji);\ \textcolor{comment}{//return:🌁}}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & pre\+\_\+emoji\+: emoji string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string\+: next emoji (pre\+\_\+emoji + 1) \href{https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html}{\texttt{ https\+://guppy.\+eng.\+kagawa-\/u.\+ac.\+jp/\+Open\+Campus/unicode.\+html}} 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00177}{177}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_ac088f18042a7b17c0d2f54634a159972}\label{util_8hpp_ac088f18042a7b17c0d2f54634a159972} 
+\index{util.hpp@{util.hpp}!ConvertUTF8ToWstring@{ConvertUTF8ToWstring}}
+\index{ConvertUTF8ToWstring@{ConvertUTF8ToWstring}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{ConvertUTF8ToWstring()}{ConvertUTF8ToWstring()}}
+{\footnotesize\ttfamily wstring Convert\+UTF8\+To\+Wstring (\begin{DoxyParamCaption}\item[{const string \&}]{sentence }\end{DoxyParamCaption})}
+
+
+
+Convert string to Wstring. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ input=\ \textcolor{stringliteral}{"{}こんにちわ。"{}};}
+\DoxyCodeLine{wstring\ input\_w\ \ =\ \mbox{\hyperlink{util_8cpp_ac088f18042a7b17c0d2f54634a159972}{ConvertUTF8ToWstring}}(input);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em const} & string\& src\+: text sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+wstring\+: text sentence converted wstring 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00270}{270}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_a01370cacb171f76080f5c02559c9c811}\label{util_8hpp_a01370cacb171f76080f5c02559c9c811} 
+\index{util.hpp@{util.hpp}!ConvertWstringToUTF8@{ConvertWstringToUTF8}}
+\index{ConvertWstringToUTF8@{ConvertWstringToUTF8}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{ConvertWstringToUTF8()}{ConvertWstringToUTF8()}}
+{\footnotesize\ttfamily string Convert\+Wstring\+To\+UTF8 (\begin{DoxyParamCaption}\item[{const wstring \&}]{sentence }\end{DoxyParamCaption})}
+
+
+
+Convert Wstring to string. 
+
+Example\+: wstring input\+\_\+w = L"{}こんにちわ。"{}; string input = Convert\+Wstring\+To\+UTF8(input\+\_\+w); 
+\begin{DoxyParams}{Parameters}
+{\em const} & string\& src\+: text sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+wstring\+: text sentence converted wstring 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00286}{286}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_aa550fb657da58cba8680f1d677917a36}\label{util_8hpp_aa550fb657da58cba8680f1d677917a36} 
+\index{util.hpp@{util.hpp}!CopyFile@{CopyFile}}
+\index{CopyFile@{CopyFile}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{CopyFile()}{CopyFile()}}
+{\footnotesize\ttfamily void Copy\+File (\begin{DoxyParamCaption}\item[{string}]{source\+\_\+path,  }\item[{string}]{target\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+copy source\+\_\+fileto target\+\_\+file 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ source\_path=\textcolor{stringliteral}{"{}data/source/a.txt"{}};}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ target\_path=\textcolor{stringliteral}{"{}data/target/a.txt"{}};}
+\DoxyCodeLine{\mbox{\hyperlink{util_8cpp_aa550fb657da58cba8680f1d677917a36}{CopyFile}}(source\_path,target\_path);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & source\+\_\+path\+: Copy source file path \\
+\hline
+{\em string} & target\+\_\+path\+: Copy target file path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00073}{73}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_a41c565fcc77e48108d014d8ac9e45890}\label{util_8hpp_a41c565fcc77e48108d014d8ac9e45890} 
+\index{util.hpp@{util.hpp}!CopyFolder@{CopyFolder}}
+\index{CopyFolder@{CopyFolder}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{CopyFolder()}{CopyFolder()}}
+{\footnotesize\ttfamily void Copy\+Folder (\begin{DoxyParamCaption}\item[{string}]{source\+\_\+folder,  }\item[{string}]{target\+\_\+folder }\end{DoxyParamCaption})}
+
+
+
+copy source\+\_\+folder to target\+\_\+folder 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ source\_folder=\textcolor{stringliteral}{"{}data/source"{}};}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ target\_folder=\textcolor{stringliteral}{"{}data/target"{}};}
+\DoxyCodeLine{\mbox{\hyperlink{util_8cpp_a41c565fcc77e48108d014d8ac9e45890}{CopyFolder}}(source\_folder,target\_folder);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & source\+\_\+folder\+: Copy source folder path \\
+\hline
+{\em string} & target\+\_\+folder\+: Copy target folder path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00116}{116}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_ae54568cb0ecde1a21dfeda85bff0a988}\label{util_8hpp_ae54568cb0ecde1a21dfeda85bff0a988} 
+\index{util.hpp@{util.hpp}!EscapeWord@{EscapeWord}}
+\index{EscapeWord@{EscapeWord}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{EscapeWord()}{EscapeWord()}}
+{\footnotesize\ttfamily string Escape\+Word (\begin{DoxyParamCaption}\item[{const string \&}]{input }\end{DoxyParamCaption})}
+
+
+
+Escape word. 
+
+If "{} or \textquotesingle{} or \textbackslash{}, replace to \textbackslash{}"{}, \textbackslash{}\textquotesingle{}, and \textbackslash{}\textbackslash{}. \+Example\+: @icode\{cpp\}    string input = "{}"{}"{}; string output = Escape\+Word(input); // output == "{}\textbackslash{}"{}"{}  
+\begin{DoxyParams}{Parameters}
+{\em const} & string\& sentence\+: text sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string\+: converted sentence 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00474}{474}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_a0005164f6617c1970b5db8d477be9f2b}\label{util_8hpp_a0005164f6617c1970b5db8d477be9f2b} 
+\index{util.hpp@{util.hpp}!GetFileLineNumberList@{GetFileLineNumberList}}
+\index{GetFileLineNumberList@{GetFileLineNumberList}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{GetFileLineNumberList()}{GetFileLineNumberList()}}
+{\footnotesize\ttfamily void Get\+File\+Line\+Number\+List (\begin{DoxyParamCaption}\item[{const string}]{folder\+\_\+path,  }\item[{const vector$<$ string $>$ \texorpdfstring{$\ast$}{*}}]{file\+\_\+list,  }\item[{const string}]{file\+\_\+extention,  }\item[{vector$<$ uint64\+\_\+t $>$ \texorpdfstring{$\ast$}{*}}]{file\+\_\+line\+\_\+number\+\_\+list }\end{DoxyParamCaption})}
+
+
+
+Get file line number list. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ folder\_path\ =\ \textcolor{stringliteral}{"{}../data/input/"{}};}
+\DoxyCodeLine{vector<string>\ file\_list;}
+\DoxyCodeLine{\mbox{\hyperlink{util_8cpp_add74d3cc3b02b76e940d2b7f98742731}{GetFileNameListWithoutExtention}}(folder\_path,\&file\_list);}
+\DoxyCodeLine{vector<string>\ file\_line\_number\_list;}
+\DoxyCodeLine{\mbox{\hyperlink{util_8cpp_a0005164f6617c1970b5db8d477be9f2b}{GetFileLineNumberList}}(folder\_path,\&file\_list,\&file\_line\_number\_list);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em const} & string folder\+\_\+path\+: folder path \\
+\hline
+{\em const} & vector$<$string$>$ \texorpdfstring{$\ast$}{*}file\+\_\+list\+: (return) filename list \\
+\hline
+{\em const} & string file\+\_\+extention\+: file extention of file\+\_\+list ("{}.\+json"{},"{}.\+txt"{}, and so on.) \\
+\hline
+{\em vector$<$uint64\+\_\+t$>$} & \texorpdfstring{$\ast$}{*}file\+\_\+line\+\_\+number\+\_\+list\+: (return) file line number list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00237}{237}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_a19002ef5be3294a7352124d99aed072b}\label{util_8hpp_a19002ef5be3294a7352124d99aed072b} 
+\index{util.hpp@{util.hpp}!GetFileNameListWithoutExtention@{GetFileNameListWithoutExtention}}
+\index{GetFileNameListWithoutExtention@{GetFileNameListWithoutExtention}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{GetFileNameListWithoutExtention()}{GetFileNameListWithoutExtention()}}
+{\footnotesize\ttfamily void Get\+File\+Name\+List\+Without\+Extention (\begin{DoxyParamCaption}\item[{const string}]{folder\+\_\+path,  }\item[{vector$<$ string $>$ \texorpdfstring{$\ast$}{*}}]{file\+\_\+list }\end{DoxyParamCaption})}
+
+
+
+Get filename list in folder\+\_\+path. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ input\_path\ =\ \textcolor{stringliteral}{"{}../data/input/"{}};}
+\DoxyCodeLine{vector<string>\ file\_list;}
+\DoxyCodeLine{GetFileList(input\_path,\ \&file\_list);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & folder\+\_\+path\+: folder path \\
+\hline
+{\em vector$<$string$>$} & \texorpdfstring{$\ast$}{*}file\+\_\+list\+: (return) filename list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00208}{208}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_ae51e8495f5c619ea6f22cd335fe9b5c6}\label{util_8hpp_ae51e8495f5c619ea6f22cd335fe9b5c6} 
+\index{util.hpp@{util.hpp}!MoveFolder@{MoveFolder}}
+\index{MoveFolder@{MoveFolder}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{MoveFolder()}{MoveFolder()}}
+{\footnotesize\ttfamily void Move\+Folder (\begin{DoxyParamCaption}\item[{string}]{source\+\_\+folder,  }\item[{string}]{target\+\_\+folder }\end{DoxyParamCaption})}
+
+
+
+copy source\+\_\+folder to target\+\_\+folder 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ source\_folder=\textcolor{stringliteral}{"{}data/source"{}};}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ target\_folder=\textcolor{stringliteral}{"{}data/target"{}};}
+\DoxyCodeLine{\mbox{\hyperlink{util_8cpp_ae51e8495f5c619ea6f22cd335fe9b5c6}{MoveFolder}}(source\_folder,target\_folder);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & source\+\_\+folder\+: Copy source folder path \\
+\hline
+{\em string} & target\+\_\+folder\+: Copy target folder path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00142}{142}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_a1f8884b4712b238d89d94c729e58a2fc}\label{util_8hpp_a1f8884b4712b238d89d94c729e58a2fc} 
+\index{util.hpp@{util.hpp}!ProceedProgressBar@{ProceedProgressBar}}
+\index{ProceedProgressBar@{ProceedProgressBar}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{ProceedProgressBar()}{ProceedProgressBar()}}
+{\footnotesize\ttfamily void Proceed\+Progress\+Bar (\begin{DoxyParamCaption}\item[{unsigned long long}]{line\+\_\+count,  }\item[{unsigned long long}]{file\+\_\+line\+\_\+number,  }\item[{uint32\+\_\+t}]{elapsed\+\_\+time\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Update progress bar. 
+
+Example\+: 
+\begin{DoxyParams}{Parameters}
+{\em uint64\+\_\+t} & line\+\_\+count \\
+\hline
+{\em uint64\+\_\+t} & file\+\_\+line\+\_\+number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00498}{498}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_a43e9c521fe4f3652e63cba4b50b6a3f5}\label{util_8hpp_a43e9c521fe4f3652e63cba4b50b6a3f5} 
+\index{util.hpp@{util.hpp}!RemoveFolder@{RemoveFolder}}
+\index{RemoveFolder@{RemoveFolder}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{RemoveFolder()}{RemoveFolder()}}
+{\footnotesize\ttfamily void Remove\+Folder (\begin{DoxyParamCaption}\item[{const string \&}]{path }\end{DoxyParamCaption})}
+
+\Hypertarget{util_8hpp_a9772b111e567abe841a78bbc1389e73d}\label{util_8hpp_a9772b111e567abe841a78bbc1389e73d} 
+\index{util.hpp@{util.hpp}!ReplaceSubstring@{ReplaceSubstring}}
+\index{ReplaceSubstring@{ReplaceSubstring}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{ReplaceSubstring()}{ReplaceSubstring()}}
+{\footnotesize\ttfamily void Replace\+Substring (\begin{DoxyParamCaption}\item[{string \&}]{sentence,  }\item[{const string \&}]{target,  }\item[{const string \&}]{replacement }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00403}{403}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_ae0caaaa1f454216238c3f8c6d755ec5f}\label{util_8hpp_ae0caaaa1f454216238c3f8c6d755ec5f} 
+\index{util.hpp@{util.hpp}!SegmentSentence@{SegmentSentence}}
+\index{SegmentSentence@{SegmentSentence}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{SegmentSentence()}{SegmentSentence()}}
+{\footnotesize\ttfamily void Segment\+Sentence (\begin{DoxyParamCaption}\item[{string}]{sentence,  }\item[{vector$<$ string $>$ \&}]{segments }\end{DoxyParamCaption})}
+
+
+
+Segmentation Sentence. 
+
+Segmentation sentence is following steps...
+\begin{DoxyEnumerate}
+\item Check if there are sentences enclosed in quotation marks.
+\item Puctuations enclosed in quotation marks are ignored.
+\item Replace "{}。"{}(puctuation\+\_\+list) to "{}。\textbackslash{}n"{}.
+\item Remove the last character of the string. Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ sentence\ =\ \textcolor{stringliteral}{"{}../data/input/"{}};}
+\DoxyCodeLine{SegmentationSentence(sentence);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & sentence\+: sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string\+: segmentated sentence 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Be sure to use Normalizer to normalize your corpus before this process. 
+\end{DoxyNote}
+\begin{DoxyAttention}{Attention}
+TODO\+: "{}."{} to be segmented. (ignore that "{}12.\+3"{}, "{}wiki.\+txt"{}. ) In the case of Japanese sentences, if you are talking about a full stop, there should be a space at the end, and the missing mark should be ~\newline
+(at the end of the sentence). Only in that case should it be used as a full stop. 
+\end{DoxyAttention}
+
+\end{DoxyEnumerate}
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00315}{315}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}\label{util_8hpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e} 
+\index{util.hpp@{util.hpp}!Strip@{Strip}}
+\index{Strip@{Strip}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{Strip()}{Strip()}}
+{\footnotesize\ttfamily string Strip (\begin{DoxyParamCaption}\item[{const string \&}]{sentence }\end{DoxyParamCaption})}
+
+
+
+Remove leading and trailing white space. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ sentence=\ \textcolor{stringliteral}{"{}\ \ こんにちわ。\ \ "{}};}
+\DoxyCodeLine{sentence\ \ =\ \mbox{\hyperlink{util_8cpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{Strip}}(sentence);\ \textcolor{comment}{//"{}こんにちは。"{}}}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em const} & string\& sentence\+: text sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string\+: sentence has been processed 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00391}{391}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+
+\Hypertarget{util_8hpp_a6bc660d7b9d776f3c25a133636659ea8}\label{util_8hpp_a6bc660d7b9d776f3c25a133636659ea8} 
+\index{util.hpp@{util.hpp}!strlen\_utf8@{strlen\_utf8}}
+\index{strlen\_utf8@{strlen\_utf8}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{strlen\_utf8()}{strlen\_utf8()}}
+{\footnotesize\ttfamily uint32\+\_\+t strlen\+\_\+utf8 (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})}
+
+
+
+Get exact length of UTF-\/8 string in C. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ input=\textcolor{stringliteral}{"{}こんにちわ。"{}};}
+\DoxyCodeLine{uint32\_t\ length\ =\ \mbox{\hyperlink{util_8cpp_a6bc660d7b9d776f3c25a133636659ea8}{strlen\_utf8}}(input);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em string} & input\+: text string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+uint32\+\_\+t\+: length of input \href{https://ja.stackoverflow.com/questions/2988/c}{\texttt{ https\+://ja.\+stackoverflow.\+com/questions/2988/c}}E8A8\%80E8AA\%9EE3\%81A7E3\%81AEutf-\/8E6\%96\%87E5AD\%97E5\%88\%97E3\%81AEE6ADA3E7A2BAE3\%81AAE9\%95B7E3\%81\%95E3\%82\%92E5\%8F\%96E5BE\%97E3\%81\%99E3\%82\%8B 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{util_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{util_8cpp_source}{util.\+cpp}}.
+

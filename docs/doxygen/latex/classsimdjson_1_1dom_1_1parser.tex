@@ -1,0 +1,511 @@
+\doxysection{simdjson\+::dom\+::parser Class Reference}
+\hypertarget{classsimdjson_1_1dom_1_1parser}{}\label{classsimdjson_1_1dom_1_1parser}\index{simdjson::dom::parser@{simdjson::dom::parser}}
+
+
+{\ttfamily \#include $<$simdjson.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a09370efac9e1b7d9b4a8349332e026c3}{parser}} (size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a8bfde4193783adef9c5f12dfc4da3bc0}{max\+\_\+capacity}}=\mbox{\hyperlink{namespacesimdjson_ad0bad3783275be4012bd5cfd0327875a}{SIMDJSON\+\_\+\+MAXSIZE\+\_\+\+BYTES}}) noexcept
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a3f3c80565fe63857e2901c48e7bed64d}{parser}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1parser}{parser}} \&\&other) noexcept
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser}{parser}} \& \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_af5b61dda345cef1feba7c4529dfe0259}{operator=}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1parser}{parser}} \&\&other) noexcept
+\item 
+\mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_aeb48211f320af02b58dc3d0505059844}{\texorpdfstring{$\sim$}{\string~}parser}} ()=default
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_ab3e5bbb1974a1932aead90ad63883a23}{load}} (const std\+::string \&path) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a4d3f1efc1f81586151054480be72a1bb}\label{classsimdjson_1_1dom_1_1parser_a4d3f1efc1f81586151054480be72a1bb} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries load} (const std\+::string \&path) \&\&=delete
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_ac7913230cb1f559bea4583bb743f9807}{load\+\_\+into\+\_\+document}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const std\+::string \&path) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a8d17a25058a340fec99ac65e37bd6f07}\label{classsimdjson_1_1dom_1_1parser_a8d17a25058a340fec99ac65e37bd6f07} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries load\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const std\+::string \&path) \&\&=delete
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parse}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_ad153df3c2740ce735665e302a768763c}\label{classsimdjson_1_1dom_1_1parser_ad153df3c2740ce735665e302a768763c} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&\&=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_adf358420cd2a1d1b60047cde61c074d5}\label{classsimdjson_1_1dom_1_1parser_adf358420cd2a1d1b60047cde61c074d5} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const char \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_abf8645a31356712ab164f8ce34e66f9a}\label{classsimdjson_1_1dom_1_1parser_abf8645a31356712ab164f8ce34e66f9a} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const char \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&\&=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a806cb2434fe8c5aca0426e446eaecd01}\label{classsimdjson_1_1dom_1_1parser_a806cb2434fe8c5aca0426e446eaecd01} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const std\+::string \&s) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_aa4341b5c0c2bb88eed234794b6db84be}\label{classsimdjson_1_1dom_1_1parser_aa4341b5c0c2bb88eed234794b6db84be} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const std\+::string \&s) \&\&=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a62aa4cdd077e243a72695c4e24535a5c}\label{classsimdjson_1_1dom_1_1parser_a62aa4cdd077e243a72695c4e24535a5c} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const \mbox{\hyperlink{structsimdjson_1_1padded__string}{padded\+\_\+string}} \&s) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a3af2b2ec2d06f3cece0a7907a093d391}\label{classsimdjson_1_1dom_1_1parser_a3af2b2ec2d06f3cece0a7907a093d391} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const \mbox{\hyperlink{structsimdjson_1_1padded__string}{padded\+\_\+string}} \&s) \&\&=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_ad18ffd4e12e8fefd59d9be28a1703084}\label{classsimdjson_1_1dom_1_1parser_ad18ffd4e12e8fefd59d9be28a1703084} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const \mbox{\hyperlink{classsimdjson_1_1padded__string__view}{padded\+\_\+string\+\_\+view}} \&v) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_afdefb1c1b633103654b8a562fc497a90}\label{classsimdjson_1_1dom_1_1parser_afdefb1c1b633103654b8a562fc497a90} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse} (const \mbox{\hyperlink{classsimdjson_1_1padded__string__view}{padded\+\_\+string\+\_\+view}} \&v) \&\&=delete
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a1afc4d3b429363b503a5605d66081e30}{parse\+\_\+into\+\_\+document}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a3f24255f994425efd56a1388412c35af}\label{classsimdjson_1_1dom_1_1parser_a3f24255f994425efd56a1388412c35af} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&\&=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a94df57d3bf19ae8f1fd56c7e1c48aed4}\label{classsimdjson_1_1dom_1_1parser_a94df57d3bf19ae8f1fd56c7e1c48aed4} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const char \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a48389f580ff6a7a802274979b75554ed}\label{classsimdjson_1_1dom_1_1parser_a48389f580ff6a7a802274979b75554ed} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const char \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, bool realloc\+\_\+if\+\_\+needed=true) \&\&=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a96ea845b2e155c985df803718369d0b4}\label{classsimdjson_1_1dom_1_1parser_a96ea845b2e155c985df803718369d0b4} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const std\+::string \&s) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a3e48918c7f2ded06bb1655431afc4bef}\label{classsimdjson_1_1dom_1_1parser_a3e48918c7f2ded06bb1655431afc4bef} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const std\+::string \&s) \&\&=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_ab4b59cec3f7b7c755067c317ed0bfa12}\label{classsimdjson_1_1dom_1_1parser_ab4b59cec3f7b7c755067c317ed0bfa12} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const \mbox{\hyperlink{structsimdjson_1_1padded__string}{padded\+\_\+string}} \&s) \&noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a7eb3749d7b08a3a8545eb289e9c32ee3}\label{classsimdjson_1_1dom_1_1parser_a7eb3749d7b08a3a8545eb289e9c32ee3} 
+simdjson\+\_\+inline \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ {\bfseries parse\+\_\+into\+\_\+document} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&doc, const \mbox{\hyperlink{structsimdjson_1_1padded__string}{padded\+\_\+string}} \&s) \&\&=delete
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a5300851ba21d0a0273a11510fd1c378a}{load\+\_\+many}} (const std\+::string \&path, size\+\_\+t batch\+\_\+size=dom\+::\+DEFAULT\+\_\+\+BATCH\+\_\+\+SIZE) noexcept
+\item 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a98bc52c8291c2717dd1d11dc2182f55e}{parse\+\_\+many}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, size\+\_\+t batch\+\_\+size=dom\+::\+DEFAULT\+\_\+\+BATCH\+\_\+\+SIZE) noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a3a5a4be2a8660e6f22b99783bb94f690}\label{classsimdjson_1_1dom_1_1parser_a3a5a4be2a8660e6f22b99783bb94f690} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ {\bfseries parse\+\_\+many} (const char \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len, size\+\_\+t batch\+\_\+size=dom\+::\+DEFAULT\+\_\+\+BATCH\+\_\+\+SIZE) noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a720a2dd204322bcfcb5e9743ecf51da1}\label{classsimdjson_1_1dom_1_1parser_a720a2dd204322bcfcb5e9743ecf51da1} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ {\bfseries parse\+\_\+many} (const std\+::string \&s, size\+\_\+t batch\+\_\+size=dom\+::\+DEFAULT\+\_\+\+BATCH\+\_\+\+SIZE) noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a905603a77a71e79c243ea5f5bd51d778}\label{classsimdjson_1_1dom_1_1parser_a905603a77a71e79c243ea5f5bd51d778} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ {\bfseries parse\+\_\+many} (const std\+::string \&\&s, size\+\_\+t batch\+\_\+size)=delete
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a7856c99cbf39d24cfc733babdd4ca416}\label{classsimdjson_1_1dom_1_1parser_a7856c99cbf39d24cfc733babdd4ca416} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ {\bfseries parse\+\_\+many} (const \mbox{\hyperlink{structsimdjson_1_1padded__string}{padded\+\_\+string}} \&s, size\+\_\+t batch\+\_\+size=dom\+::\+DEFAULT\+\_\+\+BATCH\+\_\+\+SIZE) noexcept
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a13525749822d714befcdc67f9bb04f9b}\label{classsimdjson_1_1dom_1_1parser_a13525749822d714befcdc67f9bb04f9b} 
+\mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ {\bfseries parse\+\_\+many} (const \mbox{\hyperlink{structsimdjson_1_1padded__string}{padded\+\_\+string}} \&\&s, size\+\_\+t batch\+\_\+size)=delete
+\item 
+simdjson\+\_\+warn\+\_\+unused \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_af8f49755a335bc269cb02d24badfcdf9}{allocate}} (size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_aedf495a6e090929be23473e8a29f2fe2}{capacity}}, size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a209d15b8f87ad69f5fbaccdd5b6b5441}{max\+\_\+depth}}=\mbox{\hyperlink{namespacesimdjson_a6df2598eb1d4e1ea669c41831cc7325d}{DEFAULT\+\_\+\+MAX\+\_\+\+DEPTH}}) noexcept
+\item 
+simdjson\+\_\+inline size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_aedf495a6e090929be23473e8a29f2fe2}{capacity}} () const noexcept
+\item 
+simdjson\+\_\+inline size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a8bfde4193783adef9c5f12dfc4da3bc0}{max\+\_\+capacity}} () const noexcept
+\item 
+simdjson\+\_\+inline size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a209d15b8f87ad69f5fbaccdd5b6b5441}{max\+\_\+depth}} () const noexcept
+\item 
+simdjson\+\_\+inline void \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a6977b4586bc601070cf100e2973a4cbc}{set\+\_\+max\+\_\+capacity}} (size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a8bfde4193783adef9c5f12dfc4da3bc0}{max\+\_\+capacity}}) noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a86e3ab93ec6521c51b1eca11421201f4}\label{classsimdjson_1_1dom_1_1parser_a86e3ab93ec6521c51b1eca11421201f4} 
+class {\bfseries parser\+::\+Iterator}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a403473bb5329fca6defc6299fb45b780}\label{classsimdjson_1_1dom_1_1parser_a403473bb5329fca6defc6299fb45b780} 
+class {\bfseries document\+\_\+stream}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A persistent document parser.
+
+The parser is designed to be reused, holding the internal buffers necessary to do parsing, as well as memory for a single document. The parsed document is overwritten on each parse.
+
+This class cannot be copied, only moved, to avoid unintended allocations.
+
+\begin{DoxyNote}{Note}
+Moving a parser instance may invalidate "{}dom\+::element"{} instances. If you need to preserve both the "{}dom\+::element"{} instances and the parser, consider wrapping the parser instance in a std\+::unique\+\_\+ptr instance\+:
+\end{DoxyNote}
+std\+::unique\+\_\+ptr$<$dom\+::parser$>$ parser(new \doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser}\{\}); auto error = parser-\/\texorpdfstring{$>$}{>}load(f).get(root);
+
+You can then move std\+::unique\+\_\+ptr safely.
+
+\begin{DoxyNote}{Note}
+This is not thread safe\+: one parser cannot produce two documents at the same time! 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a09370efac9e1b7d9b4a8349332e026c3}\label{classsimdjson_1_1dom_1_1parser_a09370efac9e1b7d9b4a8349332e026c3} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!parser@{parser}}
+\index{parser@{parser}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{parser()}{parser()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily simdjson\+\_\+inline simdjson\+::dom\+::parser\+::parser (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{max\+\_\+capacity = {\ttfamily \mbox{\hyperlink{namespacesimdjson_ad0bad3783275be4012bd5cfd0327875a}{SIMDJSON\+\_\+\+MAXSIZE\+\_\+\+BYTES}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}, {\ttfamily [noexcept]}}
+
+Create a JSON parser.
+
+The new parser will have zero capacity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+\_\+capacity} & The maximum document length the parser can automatically handle. The parser will allocate more capacity on an as needed basis (when it sees documents too big to handle) up to this amount. The parser still starts with zero capacity no matter what this number is\+: to allocate an initial capacity, call \doxylink{classsimdjson_1_1dom_1_1parser_af8f49755a335bc269cb02d24badfcdf9}{allocate()} after constructing the parser. Defaults to SIMDJSON\+\_\+\+MAXSIZE\+\_\+\+BYTES (the largest single document simdjson can process). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a3f3c80565fe63857e2901c48e7bed64d}\label{classsimdjson_1_1dom_1_1parser_a3f3c80565fe63857e2901c48e7bed64d} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!parser@{parser}}
+\index{parser@{parser}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{parser()}{parser()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily simdjson\+\_\+inline simdjson\+::dom\+::parser\+::parser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1parser}{parser}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Take another parser\textquotesingle{}s buffers and state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The parser to take. Its capacity is zeroed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_aeb48211f320af02b58dc3d0505059844}\label{classsimdjson_1_1dom_1_1parser_aeb48211f320af02b58dc3d0505059844} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!````~parser@{\texorpdfstring{$\sim$}{\string~}parser}}
+\index{````~parser@{\texorpdfstring{$\sim$}{\string~}parser}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}parser()}{\string~parser()}}
+{\footnotesize\ttfamily simdjson\+::dom\+::parser\+::\texorpdfstring{$\sim$}{\string~}parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Deallocate the JSON parser. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_af8f49755a335bc269cb02d24badfcdf9}\label{classsimdjson_1_1dom_1_1parser_af8f49755a335bc269cb02d24badfcdf9} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!allocate@{allocate}}
+\index{allocate@{allocate}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily simdjson\+\_\+warn\+\_\+unused \mbox{\hyperlink{namespacesimdjson_a7b735a3a50ba79e3f7f14df5f77d8da9}{error\+\_\+code}} simdjson\+::dom\+::parser\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{capacity,  }\item[{size\+\_\+t}]{max\+\_\+depth = {\ttfamily \mbox{\hyperlink{namespacesimdjson_a6df2598eb1d4e1ea669c41831cc7325d}{DEFAULT\+\_\+\+MAX\+\_\+\+DEPTH}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Ensure this parser has enough memory to process JSON documents up to {\ttfamily capacity} bytes in length and {\ttfamily max\+\_\+depth} depth.
+
+
+\begin{DoxyParams}{Parameters}
+{\em capacity} & The new capacity. \\
+\hline
+{\em max\+\_\+depth} & The new max\+\_\+depth. Defaults to DEFAULT\+\_\+\+MAX\+\_\+\+DEPTH. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The error, if there is one. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_aedf495a6e090929be23473e8a29f2fe2}\label{classsimdjson_1_1dom_1_1parser_aedf495a6e090929be23473e8a29f2fe2} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!capacity@{capacity}}
+\index{capacity@{capacity}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline size\+\_\+t simdjson\+::dom\+::parser\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+The largest document this parser can support without reallocating.
+
+\begin{DoxyReturn}{Returns}
+Current capacity, in bytes. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_ab3e5bbb1974a1932aead90ad63883a23}\label{classsimdjson_1_1dom_1_1parser_ab3e5bbb1974a1932aead90ad63883a23} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!load@{load}}
+\index{load@{load}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::parser\+::load (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption}) \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Load a JSON document from a file and return a reference to it.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; const element doc = \doxylink{classsimdjson_1_1dom_1_1parser_ab3e5bbb1974a1932aead90ad63883a23}{parser.\+load}("{}jsonexamples/twitter.\+json"{});
+
+The function is eager\+: the file\textquotesingle{}s content is loaded in memory inside the parser instance and immediately parsed. The file can be deleted after the {\ttfamily \doxylink{classsimdjson_1_1dom_1_1parser_ab3e5bbb1974a1932aead90ad63883a23}{parser.\+load}} call.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md0}{}\doxysubsubsubsection{\texorpdfstring{IMPORTANT\+: Document Lifetime}{IMPORTANT\+: Document Lifetime}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md0}
+The JSON document still lives in the parser\+: this is the most efficient way to parse JSON documents because it reuses the same buffers, but you {\itshape must} use the document before you destroy the parser or call \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parse()} again.
+
+Moving the parser instance is safe, but it invalidates the element instances. You may store the parser instance without moving it by wrapping it inside an {\ttfamily unique\+\_\+ptr} instance like so\+: {\ttfamily std\+::unique\+\_\+ptr\texorpdfstring{$<$}{<}\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser}\texorpdfstring{$>$}{>} parser(new \doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser}\{\});}.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md1}{}\doxysubsubsubsection{\texorpdfstring{Parser Capacity}{Parser Capacity}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md1}
+If the parser\textquotesingle{}s current capacity is less than the file length, it will allocate enough capacity to handle it (up to max\+\_\+capacity).
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path to load. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The document, or an error\+:
+\begin{DoxyItemize}
+\item IO\+\_\+\+ERROR if there was an error opening or reading the file. Be mindful that on some 32-\/bit systems, the file size might be limited to 2 GB.
+\item MEMALLOC if the parser does not have enough capacity and memory allocation fails.
+\item CAPACITY if the parser does not have enough capacity and len \texorpdfstring{$>$}{>} max\+\_\+capacity.
+\item other json errors if parsing fails. You should not rely on these errors to always the same for the same document\+: they may vary under runtime dispatch (so they may vary depending on your system and hardware). 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_ac7913230cb1f559bea4583bb743f9807}\label{classsimdjson_1_1dom_1_1parser_ac7913230cb1f559bea4583bb743f9807} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!load\_into\_document@{load\_into\_document}}
+\index{load\_into\_document@{load\_into\_document}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{load\_into\_document()}{load\_into\_document()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::parser\+::load\+\_\+into\+\_\+document (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&}]{doc,  }\item[{const std\+::string \&}]{path }\end{DoxyParamCaption}) \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Load a JSON document from a file into a provide document instance and return a temporary reference to it. It is similar to the function {\ttfamily load} except that instead of parsing into the internal {\ttfamily document} instance associated with the parser, it allows the user to provide a document instance.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; \doxylink{classsimdjson_1_1dom_1_1document}{dom\+::document} doc; element doc\+\_\+root = \doxylink{classsimdjson_1_1dom_1_1parser_ac7913230cb1f559bea4583bb743f9807}{parser.\+load\+\_\+into\+\_\+document}(doc, "{}jsonexamples/twitter.\+json"{});
+
+The function is eager\+: the file\textquotesingle{}s content is loaded in memory inside the parser instance and immediately parsed. The file can be deleted after the {\ttfamily \doxylink{classsimdjson_1_1dom_1_1parser_ac7913230cb1f559bea4583bb743f9807}{parser.\+load\+\_\+into\+\_\+document}} call.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md2}{}\doxysubsubsubsection{\texorpdfstring{IMPORTANT\+: Document Lifetime}{IMPORTANT\+: Document Lifetime}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md2}
+After the call to load\+\_\+into\+\_\+document, the parser is no longer needed.
+
+The JSON document lives in the document instance\+: you must keep the document instance alive while you navigate through it (i.\+e., used the returned value from load\+\_\+into\+\_\+document). You are encourage to reuse the document instance many times with new data to avoid reallocations\+:
+
+\doxylink{classsimdjson_1_1dom_1_1document}{dom\+::document} doc; element doc\+\_\+root1 = \doxylink{classsimdjson_1_1dom_1_1parser_ac7913230cb1f559bea4583bb743f9807}{parser.\+load\+\_\+into\+\_\+document}(doc, "{}jsonexamples/twitter.\+json"{}); //... doc\+\_\+root1 is a pointer inside doc element doc\+\_\+root2 = \doxylink{classsimdjson_1_1dom_1_1parser_ac7913230cb1f559bea4583bb743f9807}{parser.\+load\+\_\+into\+\_\+document}(doc, "{}jsonexamples/twitter.\+json"{}); //... doc\+\_\+root2 is a pointer inside doc // at this point doc\+\_\+root1 is no longer safe
+
+Moving the document instance is safe, but it invalidates the element instances. After moving a document, you can recover safe access to the document root with its {\ttfamily root()} method.
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & The document instance where the parsed data will be stored (on success). \\
+\hline
+{\em path} & The path to load. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The document, or an error\+:
+\begin{DoxyItemize}
+\item IO\+\_\+\+ERROR if there was an error opening or reading the file. Be mindful that on some 32-\/bit systems, the file size might be limited to 2 GB.
+\item MEMALLOC if the parser does not have enough capacity and memory allocation fails.
+\item CAPACITY if the parser does not have enough capacity and len \texorpdfstring{$>$}{>} max\+\_\+capacity.
+\item other json errors if parsing fails. You should not rely on these errors to always the same for the same document\+: they may vary under runtime dispatch (so they may vary depending on your system and hardware). 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a5300851ba21d0a0273a11510fd1c378a}\label{classsimdjson_1_1dom_1_1parser_a5300851ba21d0a0273a11510fd1c378a} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!load\_many@{load\_many}}
+\index{load\_many@{load\_many}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{load\_many()}{load\_many()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} $>$ simdjson\+::dom\+::parser\+::load\+\_\+many (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path,  }\item[{size\+\_\+t}]{batch\+\_\+size = {\ttfamily dom\+:\+:DEFAULT\+\_\+BATCH\+\_\+SIZE} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Load a file containing many JSON documents.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; for (const element doc \+: parser.\+load\+\_\+many(path)) \{ cout \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} std\+::string(doc\mbox{[}"{}title"{}\mbox{]}) \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; \}
+
+The file is loaded in memory and can be safely deleted after the {\ttfamily parser.\+load\+\_\+many(path)} function has returned. The memory is held by the {\ttfamily parser} instance.
+
+The function is lazy\+: it may be that no more than one JSON document at a time is parsed. And, possibly, no document many have been parsed when the {\ttfamily parser.\+load\+\_\+many(path)} function returned.
+
+If there is a UTF-\/8 BOM, the parser skips it.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{Format}{Format}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md7}
+The file must contain a series of one or more JSON documents, concatenated into a single buffer, separated by whitespace. It effectively parses until it has a fully valid document, then starts parsing the next document at that point. (It does this with more parallelism and lookahead than you might think, though.)
+
+Documents that consist of an object or array may omit the whitespace between them, concatenating with no separator. documents that consist of a single primitive (i.\+e. documents that are not arrays or objects) MUST be separated with whitespace.
+
+The documents must not exceed batch\+\_\+size bytes (by default 1MB) or they will fail to parse. Setting batch\+\_\+size to excessively large or excesively small values may impact negatively the performance.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md8}{}\doxysubsubsubsection{\texorpdfstring{Error Handling}{Error Handling}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md8}
+All errors are returned during iteration\+: if there is a global error such as memory allocation, it will be yielded as the first result. Iteration always stops after the first error.
+
+As with all other simdjson methods, non-\/exception error handling is readily available through the same interface, requiring you to check the error before using the document\+:
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; \doxylink{classsimdjson_1_1dom_1_1document__stream}{dom\+::document\+\_\+stream} docs; auto error = parser.\+load\+\_\+many(path).get(docs); if (error) \{ cerr \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} error \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; exit(1); \} for (auto doc \+: docs) \{ std\+::string\+\_\+view title; if ((error = doc\mbox{[}"{}title"{}\mbox{]}.get(title)) \{ cerr \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} error \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; exit(1); \} cout \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} title \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; \}\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md9}{}\doxysubsubsubsection{\texorpdfstring{Threads}{Threads}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md9}
+When compiled with SIMDJSON\+\_\+\+THREADS\+\_\+\+ENABLED, this method will use a single thread under the hood to do some lookahead.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md10}{}\doxysubsubsubsection{\texorpdfstring{Parser Capacity}{Parser Capacity}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md10}
+If the parser\textquotesingle{}s current capacity is less than batch\+\_\+size, it will allocate enough capacity to handle it (up to max\+\_\+capacity).
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File name pointing at the concatenated JSON to parse. \\
+\hline
+{\em batch\+\_\+size} & The batch size to use. MUST be larger than the largest document. The sweet spot is cache-\/related\+: small enough to fit in cache, yet big enough to parse as many documents as possible in one tight loop. Defaults to 1MB (as simdjson\+::dom\+::\+DEFAULT\+\_\+\+BATCH\+\_\+\+SIZE), which has been a reasonable sweet spot in our tests. If you set the batch\+\_\+size to a value smaller than simdjson\+::dom\+::\+MINIMAL\+\_\+\+BATCH\+\_\+\+SIZE (currently 32B), it will be replaced by simdjson\+::dom\+::\+MINIMAL\+\_\+\+BATCH\+\_\+\+SIZE. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The stream, or an error. An empty input will yield 0 documents rather than an EMPTY error. Errors\+:
+\begin{DoxyItemize}
+\item IO\+\_\+\+ERROR if there was an error opening or reading the file.
+\item MEMALLOC if the parser does not have enough capacity and memory allocation fails.
+\item CAPACITY if the parser does not have enough capacity and batch\+\_\+size \texorpdfstring{$>$}{>} max\+\_\+capacity.
+\item other json errors if parsing fails. You should not rely on these errors to always the same for the same document\+: they may vary under runtime dispatch (so they may vary depending on your system and hardware). 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a8bfde4193783adef9c5f12dfc4da3bc0}\label{classsimdjson_1_1dom_1_1parser_a8bfde4193783adef9c5f12dfc4da3bc0} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!max\_capacity@{max\_capacity}}
+\index{max\_capacity@{max\_capacity}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{max\_capacity()}{max\_capacity()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline size\+\_\+t simdjson\+::dom\+::parser\+::max\+\_\+capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+The largest document this parser can automatically support.
+
+The parser may reallocate internal buffers as needed up to this amount.
+
+\begin{DoxyReturn}{Returns}
+Maximum capacity, in bytes. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a209d15b8f87ad69f5fbaccdd5b6b5441}\label{classsimdjson_1_1dom_1_1parser_a209d15b8f87ad69f5fbaccdd5b6b5441} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!max\_depth@{max\_depth}}
+\index{max\_depth@{max\_depth}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{max\_depth()}{max\_depth()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline size\+\_\+t simdjson\+::dom\+::parser\+::max\+\_\+depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+The maximum level of nested object and arrays supported by this parser.
+
+\begin{DoxyReturn}{Returns}
+Maximum depth, in bytes. 
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_af5b61dda345cef1feba7c4529dfe0259}\label{classsimdjson_1_1dom_1_1parser_af5b61dda345cef1feba7c4529dfe0259} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!operator=@{operator=}}
+\index{operator=@{operator=}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1parser}{parser}} \& simdjson\+::dom\+::parser\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1parser}{parser}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Take another parser\textquotesingle{}s buffers and state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The parser to take. Its capacity is zeroed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}\label{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!parse@{parse}}
+\index{parse@{parse}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::parser\+::parse (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{size\+\_\+t}]{len,  }\item[{bool}]{realloc\+\_\+if\+\_\+needed = {\ttfamily true} }\end{DoxyParamCaption}) \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Parse a JSON document and return a temporary reference to it.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; element doc\+\_\+root = parser.\+parse(buf, len);
+
+The function eagerly parses the input\+: the input can be modified and discarded after the {\ttfamily parser.\+parse(buf, len)} call has completed.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md3}{}\doxysubsubsubsection{\texorpdfstring{IMPORTANT\+: Document Lifetime}{IMPORTANT\+: Document Lifetime}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md3}
+The JSON document still lives in the parser\+: this is the most efficient way to parse JSON documents because it reuses the same buffers, but you {\itshape must} use the document before you destroy the parser or call \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parse()} again.
+
+Moving the parser instance is safe, but it invalidates the element instances. You may store the parser instance without moving it by wrapping it inside an {\ttfamily unique\+\_\+ptr} instance like so\+: {\ttfamily std\+::unique\+\_\+ptr\texorpdfstring{$<$}{<}\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser}\texorpdfstring{$>$}{>} parser(new \doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser}\{\});}.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md4}{}\doxysubsubsubsection{\texorpdfstring{REQUIRED\+: Buffer Padding}{REQUIRED\+: Buffer Padding}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md4}
+The buffer must have at least SIMDJSON\+\_\+\+PADDING extra allocated bytes. It does not matter what those bytes are initialized to, as long as they are allocated. These bytes will be read\+: if you using a sanitizer that verifies that no uninitialized byte is read, then you should initialize the SIMDJSON\+\_\+\+PADDING bytes to avoid runtime warnings.
+
+If realloc\+\_\+if\+\_\+needed is true (the default), it is assumed that the buffer does {\itshape not} have enough padding, and it is copied into an enlarged temporary buffer before parsing. Thus the following is safe\+:
+
+const char \texorpdfstring{$\ast$}{*}json = R"{}(\{"{}key"{}\+:"{}value"{}\})"{}; const size\+\_\+t json\+\_\+len = std\+::strlen(json); \doxylink{classsimdjson_1_1dom_1_1parser}{simdjson\+::dom\+::parser} parser; \doxylink{classsimdjson_1_1dom_1_1element}{simdjson\+::dom\+::element} element = parser.\+parse(json, json\+\_\+len);
+
+If you set realloc\+\_\+if\+\_\+needed to false (e.\+g., parser.\+parse(json, json\+\_\+len, false)), you must provide a buffer with at least SIMDJSON\+\_\+\+PADDING extra bytes at the end. The benefit of setting realloc\+\_\+if\+\_\+needed to false is that you avoid a temporary memory allocation and a copy.
+
+The padded bytes may be read. It is not important how you initialize these bytes though we recommend a sensible default like null character values or spaces. For example, the following low-\/level code is safe\+:
+
+const char \texorpdfstring{$\ast$}{*}json = R"{}(\{"{}key"{}\+:"{}value"{}\})"{}; const size\+\_\+t json\+\_\+len = std\+::strlen(json); std\+::unique\+\_\+ptr$<$char\mbox{[}$\,$\mbox{]}$>$ padded\+\_\+json\+\_\+copy\{new char\mbox{[}json\+\_\+len + SIMDJSON\+\_\+\+PADDING\mbox{]}\}; std\+::memcpy(padded\+\_\+json\+\_\+copy.\+get(), json, json\+\_\+len); std\+::memset(padded\+\_\+json\+\_\+copy.\+get() + json\+\_\+len, \textquotesingle{}\textbackslash{}0\textquotesingle{}, SIMDJSON\+\_\+\+PADDING); \doxylink{classsimdjson_1_1dom_1_1parser}{simdjson\+::dom\+::parser} parser; \doxylink{classsimdjson_1_1dom_1_1element}{simdjson\+::dom\+::element} element = \doxylink{classsimdjson_1_1dom_1_1parser_a16c7d1e28125ef7d5703244483f70984}{parser.\+parse}(padded\+\_\+json\+\_\+copy.\+get(), json\+\_\+len, false);\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md5}{}\doxysubsubsubsection{\texorpdfstring{Parser Capacity}{Parser Capacity}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md5}
+If the parser\textquotesingle{}s current capacity is less than len, it will allocate enough capacity to handle it (up to max\+\_\+capacity).
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & The JSON to parse. Must have at least len + SIMDJSON\+\_\+\+PADDING allocated bytes, unless realloc\+\_\+if\+\_\+needed is true. \\
+\hline
+{\em len} & The length of the JSON. \\
+\hline
+{\em realloc\+\_\+if\+\_\+needed} & Whether to reallocate and enlarge the JSON buffer to add padding. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An element pointing at the root of the document, or an error\+:
+\begin{DoxyItemize}
+\item MEMALLOC if realloc\+\_\+if\+\_\+needed is true or the parser does not have enough capacity, and memory allocation fails.
+\item CAPACITY if the parser does not have enough capacity and len \texorpdfstring{$>$}{>} max\+\_\+capacity.
+\item other json errors if parsing fails. You should not rely on these errors to always the same for the same document\+: they may vary under runtime dispatch (so they may vary depending on your system and hardware). 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a1afc4d3b429363b503a5605d66081e30}\label{classsimdjson_1_1dom_1_1parser_a1afc4d3b429363b503a5605d66081e30} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!parse\_into\_document@{parse\_into\_document}}
+\index{parse\_into\_document@{parse\_into\_document}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{parse\_into\_document()}{parse\_into\_document()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsimdjson_1_1simdjson__result}{simdjson\+\_\+result}}$<$ \mbox{\hyperlink{classsimdjson_1_1dom_1_1element}{element}} $>$ simdjson\+::dom\+::parser\+::parse\+\_\+into\+\_\+document (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document}{document}} \&}]{doc,  }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{size\+\_\+t}]{len,  }\item[{bool}]{realloc\+\_\+if\+\_\+needed = {\ttfamily true} }\end{DoxyParamCaption}) \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Parse a JSON document into a provide document instance and return a temporary reference to it. It is similar to the function {\ttfamily parse} except that instead of parsing into the internal {\ttfamily document} instance associated with the parser, it allows the user to provide a document instance.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; \doxylink{classsimdjson_1_1dom_1_1document}{dom\+::document} doc; element doc\+\_\+root = parser.\+parse\+\_\+into\+\_\+document(doc, buf, len);
+
+The function eagerly parses the input\+: the input can be modified and discarded after the {\ttfamily parser.\+parse(buf, len)} call has completed.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md6}{}\doxysubsubsubsection{\texorpdfstring{IMPORTANT\+: Document Lifetime}{IMPORTANT\+: Document Lifetime}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md6}
+After the call to parse\+\_\+into\+\_\+document, the parser is no longer needed.
+
+The JSON document lives in the document instance\+: you must keep the document instance alive while you navigate through it (i.\+e., used the returned value from parse\+\_\+into\+\_\+document). You are encourage to reuse the document instance many times with new data to avoid reallocations\+:
+
+\doxylink{classsimdjson_1_1dom_1_1document}{dom\+::document} doc; element doc\+\_\+root1 = parser.\+parse\+\_\+into\+\_\+document(doc, buf1, len); //... doc\+\_\+root1 is a pointer inside doc element doc\+\_\+root2 = parser.\+parse\+\_\+into\+\_\+document(doc, buf1, len); //... doc\+\_\+root2 is a pointer inside doc // at this point doc\+\_\+root1 is no longer safe
+
+Moving the document instance is safe, but it invalidates the element instances. After moving a document, you can recover safe access to the document root with its {\ttfamily root()} method.
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & The document instance where the parsed data will be stored (on success). \\
+\hline
+{\em buf} & The JSON to parse. Must have at least len + SIMDJSON\+\_\+\+PADDING allocated bytes, unless realloc\+\_\+if\+\_\+needed is true. \\
+\hline
+{\em len} & The length of the JSON. \\
+\hline
+{\em realloc\+\_\+if\+\_\+needed} & Whether to reallocate and enlarge the JSON buffer to add padding. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An element pointing at the root of document, or an error\+:
+\begin{DoxyItemize}
+\item MEMALLOC if realloc\+\_\+if\+\_\+needed is true or the parser does not have enough capacity, and memory allocation fails.
+\item CAPACITY if the parser does not have enough capacity and len \texorpdfstring{$>$}{>} max\+\_\+capacity.
+\item other json errors if parsing fails. You should not rely on these errors to always the same for the same document\+: they may vary under runtime dispatch (so they may vary depending on your system and hardware). 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{classsimdjson_1_1dom_1_1parser_a98bc52c8291c2717dd1d11dc2182f55e}\label{classsimdjson_1_1dom_1_1parser_a98bc52c8291c2717dd1d11dc2182f55e} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!parse\_many@{parse\_many}}
+\index{parse\_many@{parse\_many}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{parse\_many()}{parse\_many()}}
+{\footnotesize\ttfamily simdjson\+::fallback\+::ondemand\+::parser\+::parse\+\_\+many (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{size\+\_\+t}]{len,  }\item[{size\+\_\+t}]{batch\+\_\+size = {\ttfamily dom\+:\+:DEFAULT\+\_\+BATCH\+\_\+SIZE} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Parse a buffer containing many JSON documents.
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; for (element doc \+: parser.\+parse\+\_\+many(buf, len)) \{ cout \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} std\+::string(doc\mbox{[}"{}title"{}\mbox{]}) \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; \}
+
+No copy of the input buffer is made.
+
+The function is lazy\+: it may be that no more than one JSON document at a time is parsed. And, possibly, no document many have been parsed when the {\ttfamily parser.\+load\+\_\+many(path)} function returned.
+
+The caller is responsabile to ensure that the input string data remains unchanged and is not deleted during the loop. In particular, the following is unsafe and will not compile\+:
+
+auto docs = \doxylink{classsimdjson_1_1dom_1_1parser_a98bc52c8291c2717dd1d11dc2182f55e}{parser.\+parse\+\_\+many}("{}\mbox{[}\textbackslash{}"{}temporary data\textbackslash{}"{}\mbox{]}"{}\+\_\+padded); // here the string "{}\mbox{[}\textbackslash{}"{}temporary data\textbackslash{}"{}\mbox{]}"{} may no longer exist in memory // the parser instance may not have even accessed the input yet for (element doc \+: docs) \{ cout \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} std\+::string(doc\mbox{[}"{}title"{}\mbox{]}) \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; \}
+
+The following is safe\+:
+
+auto json = "{}\mbox{[}\textbackslash{}"{}temporary data\textbackslash{}"{}\mbox{]}"{}\+\_\+padded; auto docs = parser.\+parse\+\_\+many(json); for (element doc \+: docs) \{ cout \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} std\+::string(doc\mbox{[}"{}title"{}\mbox{]}) \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; \}
+
+If there is a UTF-\/8 BOM, the parser skips it.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md11}{}\doxysubsubsubsection{\texorpdfstring{Format}{Format}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md11}
+The buffer must contain a series of one or more JSON documents, concatenated into a single buffer, separated by whitespace. It effectively parses until it has a fully valid document, then starts parsing the next document at that point. (It does this with more parallelism and lookahead than you might think, though.)
+
+documents that consist of an object or array may omit the whitespace between them, concatenating with no separator. documents that consist of a single primitive (i.\+e. documents that are not arrays or objects) MUST be separated with whitespace.
+
+The documents must not exceed batch\+\_\+size bytes (by default 1MB) or they will fail to parse. Setting batch\+\_\+size to excessively large or excesively small values may impact negatively the performance.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md12}{}\doxysubsubsubsection{\texorpdfstring{Error Handling}{Error Handling}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md12}
+All errors are returned during iteration\+: if there is a global error such as memory allocation, it will be yielded as the first result. Iteration always stops after the first error.
+
+As with all other simdjson methods, non-\/exception error handling is readily available through the same interface, requiring you to check the error before using the document\+:
+
+\doxylink{classsimdjson_1_1dom_1_1parser}{dom\+::parser} parser; \doxylink{classsimdjson_1_1dom_1_1document__stream}{dom\+::document\+\_\+stream} docs; auto error = parser.\+load\+\_\+many(path).get(docs); if (error) \{ cerr \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} error \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; exit(1); \} for (auto doc \+: docs) \{ std\+::string\+\_\+view title; if ((error = doc\mbox{[}"{}title"{}\mbox{]}.get(title)) \{ cerr \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} error \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; exit(1); \} cout \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} title \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} endl; \}\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md13}{}\doxysubsubsubsection{\texorpdfstring{REQUIRED\+: Buffer Padding}{REQUIRED\+: Buffer Padding}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md13}
+The buffer must have at least SIMDJSON\+\_\+\+PADDING extra allocated bytes. It does not matter what those bytes are initialized to, as long as they are allocated. These bytes will be read\+: if you using a sanitizer that verifies that no uninitialized byte is read, then you should initialize the SIMDJSON\+\_\+\+PADDING bytes to avoid runtime warnings.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md14}{}\doxysubsubsubsection{\texorpdfstring{Threads}{Threads}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md14}
+When compiled with SIMDJSON\+\_\+\+THREADS\+\_\+\+ENABLED, this method will use a single thread under the hood to do some lookahead.\hypertarget{classsimdjson_1_1dom_1_1parser_autotoc_md15}{}\doxysubsubsubsection{\texorpdfstring{Parser Capacity}{Parser Capacity}}\label{classsimdjson_1_1dom_1_1parser_autotoc_md15}
+If the parser\textquotesingle{}s current capacity is less than batch\+\_\+size, it will allocate enough capacity to handle it (up to max\+\_\+capacity).
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & The concatenated JSON to parse. Must have at least len + SIMDJSON\+\_\+\+PADDING allocated bytes. \\
+\hline
+{\em len} & The length of the concatenated JSON. \\
+\hline
+{\em batch\+\_\+size} & The batch size to use. MUST be larger than the largest document. The sweet spot is cache-\/related\+: small enough to fit in cache, yet big enough to parse as many documents as possible in one tight loop. Defaults to 10MB, which has been a reasonable sweet spot in our tests. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The stream, or an error. An empty input will yield 0 documents rather than an EMPTY error. Errors\+:
+\begin{DoxyItemize}
+\item MEMALLOC if the parser does not have enough capacity and memory allocation fails
+\item CAPACITY if the parser does not have enough capacity and batch\+\_\+size \texorpdfstring{$>$}{>} max\+\_\+capacity.
+\item other json errors if parsing fails. You should not rely on these errors to always the same for the same document\+: they may vary under runtime dispatch (so they may vary depending on your system and hardware).
+\end{DoxyItemize}
+\end{DoxyReturn}
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.\Hypertarget{classsimdjson_1_1dom_1_1parser_a6977b4586bc601070cf100e2973a4cbc}\label{classsimdjson_1_1dom_1_1parser_a6977b4586bc601070cf100e2973a4cbc} 
+\index{simdjson::dom::parser@{simdjson::dom::parser}!set\_max\_capacity@{set\_max\_capacity}}
+\index{set\_max\_capacity@{set\_max\_capacity}!simdjson::dom::parser@{simdjson::dom::parser}}
+\doxysubsubsection{\texorpdfstring{set\_max\_capacity()}{set\_max\_capacity()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline void simdjson\+::dom\+::parser\+::set\+\_\+max\+\_\+capacity (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{max\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Set max\+\_\+capacity. This is the largest document this parser can automatically support.
+
+The parser may reallocate internal buffers as needed up to this amount as documents are passed to it.
+
+Note\+: To avoid limiting the memory to an absurd value, such as zero or two bytes, iff you try to set max\+\_\+capacity to a value lower than MINIMAL\+\_\+\+DOCUMENT\+\_\+\+CAPACITY, then the maximal capacity is set to MINIMAL\+\_\+\+DOCUMENT\+\_\+\+CAPACITY.
+
+This call will not allocate or deallocate, even if capacity is currently above max\+\_\+capacity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+\_\+capacity} & The new maximum capacity, in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+h\end{DoxyCompactItemize}

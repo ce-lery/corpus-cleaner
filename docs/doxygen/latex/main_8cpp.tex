@@ -1,0 +1,107 @@
+\doxysection{/home/corpus-\/cleaner/corpus\+\_\+cleaner/main.cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{/home/corpus-\/cleaner/corpus\_cleaner/main.cpp@{/home/corpus-\/cleaner/corpus\_cleaner/main.cpp}}
+{\ttfamily \#include "{}corpus\+\_\+cleaner.\+hpp"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{main_8cpp_a50d12ab77f904b079dd1234a5c364770}{Conut\+Lines}} (const string \&filename)
+\begin{DoxyCompactList}\small\item\em Get line count of filename file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a04f147cf0ad1bfbb3294b5fc3fed9a3a}{Split\+Files}} (const vector$<$ string $>$ \&output\+\_\+files, const string \&input\+\_\+file)
+\begin{DoxyCompactList}\small\item\em split one file into multiple equal parts based on the number of lines \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a19535783992752dfbe0882e4f05bd740}{Merge\+Files}} (const vector$<$ string $>$ \&input\+\_\+files, const string \&output\+\_\+file)
+\begin{DoxyCompactList}\small\item\em split one file into multiple equal parts based on the number of lines \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a99f5b28e8027ec2aaa9fd0b62701136e}{Multi\+Process\+Corpus\+Clean}} (const string input\+\_\+folder\+\_\+path, const string output\+\_\+folder\+\_\+path)
+\item 
+int \mbox{\hyperlink{main_8cpp_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_a50d12ab77f904b079dd1234a5c364770}\label{main_8cpp_a50d12ab77f904b079dd1234a5c364770} 
+\index{main.cpp@{main.cpp}!ConutLines@{ConutLines}}
+\index{ConutLines@{ConutLines}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{ConutLines()}{ConutLines()}}
+{\footnotesize\ttfamily uint64\+\_\+t Conut\+Lines (\begin{DoxyParamCaption}\item[{const string \&}]{filename }\end{DoxyParamCaption})}
+
+
+
+Get line count of filename file. 
+
+Example\+: string input\+\_\+path = "{}../data/input/"{}; Conut\+Lines(input\+\_\+path); 
+\begin{DoxyParams}{Parameters}
+{\em string} & filename\+: file name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+uint64\+\_\+t\+: count of file line 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a840291bc02cba5474a4cb46a9b9566fe}\label{main_8cpp_a840291bc02cba5474a4cb46a9b9566fe} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00144}{144}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a19535783992752dfbe0882e4f05bd740}\label{main_8cpp_a19535783992752dfbe0882e4f05bd740} 
+\index{main.cpp@{main.cpp}!MergeFiles@{MergeFiles}}
+\index{MergeFiles@{MergeFiles}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{MergeFiles()}{MergeFiles()}}
+{\footnotesize\ttfamily void Merge\+Files (\begin{DoxyParamCaption}\item[{const vector$<$ string $>$ \&}]{input\+\_\+files,  }\item[{const string \&}]{output\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+split one file into multiple equal parts based on the number of lines 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sconst} & vector$<$string$>$\& input\+\_\+files\+: file list that is merged \\
+\hline
+{\em const} & string\& output\+\_\+file\+: merged file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\+: None 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00080}{80}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a99f5b28e8027ec2aaa9fd0b62701136e}\label{main_8cpp_a99f5b28e8027ec2aaa9fd0b62701136e} 
+\index{main.cpp@{main.cpp}!MultiProcessCorpusClean@{MultiProcessCorpusClean}}
+\index{MultiProcessCorpusClean@{MultiProcessCorpusClean}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{MultiProcessCorpusClean()}{MultiProcessCorpusClean()}}
+{\footnotesize\ttfamily void Multi\+Process\+Corpus\+Clean (\begin{DoxyParamCaption}\item[{const string}]{input\+\_\+folder\+\_\+path,  }\item[{const string}]{output\+\_\+folder\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00104}{104}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a04f147cf0ad1bfbb3294b5fc3fed9a3a}\label{main_8cpp_a04f147cf0ad1bfbb3294b5fc3fed9a3a} 
+\index{main.cpp@{main.cpp}!SplitFiles@{SplitFiles}}
+\index{SplitFiles@{SplitFiles}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{SplitFiles()}{SplitFiles()}}
+{\footnotesize\ttfamily void Split\+Files (\begin{DoxyParamCaption}\item[{const vector$<$ string $>$ \&}]{output\+\_\+files,  }\item[{const string \&}]{input\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+split one file into multiple equal parts based on the number of lines 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & filename\+: file name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+uint64\+\_\+t\+: count of file line 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+

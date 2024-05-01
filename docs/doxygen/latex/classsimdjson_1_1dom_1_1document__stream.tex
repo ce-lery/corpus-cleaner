@@ -1,0 +1,111 @@
+\doxysection{simdjson\+::dom\+::document\+\_\+stream Class Reference}
+\hypertarget{classsimdjson_1_1dom_1_1document__stream}{}\label{classsimdjson_1_1dom_1_1document__stream}\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+
+
+{\ttfamily \#include $<$simdjson.\+h$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_1_1iterator}{iterator}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_ae6ee894790448145e11a456f12253364}{document\+\_\+stream}} () noexcept
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_a9d6bb44a7d8f818c401d65fb80f6a523}{document\+\_\+stream}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} \&\&other) noexcept=default
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} \& \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_abd3e3d38eb32c0cb1a124f89978607a5}{operator=}} (\mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} \&\&other) noexcept=default
+\item 
+size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_a2a08525ae815167b73b6393a8999e46b}{size\+\_\+in\+\_\+bytes}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_a6c2a07e08213dc9a51754940942f9e69}{truncated\+\_\+bytes}} () const noexcept
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_1_1iterator}{iterator}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_a9a51df3d81c9b7849bbbc8ae42096b76}{begin}} () noexcept
+\item 
+simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_1_1iterator}{iterator}} \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_adec1e168e4188bf9c90ee87adbd72850}{end}} () noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1document__stream_aa24ec707bcb0b43f2ea051a2e8d01810}\label{classsimdjson_1_1dom_1_1document__stream_aa24ec707bcb0b43f2ea051a2e8d01810} 
+class {\bfseries dom\+::parser}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1document__stream_aa2d6a16cdf3abdb13dba36368204d71c}\label{classsimdjson_1_1dom_1_1document__stream_aa2d6a16cdf3abdb13dba36368204d71c} 
+struct {\bfseries simdjson\+\_\+result$<$ dom\+::document\+\_\+stream $>$}
+\item 
+\Hypertarget{classsimdjson_1_1dom_1_1document__stream_af314290dd62a033921af5ee7a9447949}\label{classsimdjson_1_1dom_1_1document__stream_af314290dd62a033921af5ee7a9447949} 
+struct {\bfseries internal\+::simdjson\+\_\+result\+\_\+base$<$ dom\+::document\+\_\+stream $>$}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A forward-\/only stream of documents.
+
+Produced by \doxylink{classsimdjson_1_1dom_1_1parser_a98bc52c8291c2717dd1d11dc2182f55e}{parser\+::parse\+\_\+many}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1document__stream_ae6ee894790448145e11a456f12253364}\label{classsimdjson_1_1dom_1_1document__stream_ae6ee894790448145e11a456f12253364} 
+\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}!document\_stream@{document\_stream}}
+\index{document\_stream@{document\_stream}!simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+\doxysubsubsection{\texorpdfstring{document\_stream()}{document\_stream()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily simdjson\+\_\+inline simdjson\+::dom\+::document\+\_\+stream\+::document\+\_\+stream (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Construct an uninitialized \doxylink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{++}
+\DoxyCodeLine{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_ae6ee894790448145e11a456f12253364}{document\_stream}}\ docs;}
+\DoxyCodeLine{error\ =\ parser.\mbox{\hyperlink{classsimdjson_1_1dom_1_1parser_a98bc52c8291c2717dd1d11dc2182f55e}{parse\_many}}(json).get(docs);}
+
+\end{DoxyCode}
+ \Hypertarget{classsimdjson_1_1dom_1_1document__stream_a9d6bb44a7d8f818c401d65fb80f6a523}\label{classsimdjson_1_1dom_1_1document__stream_a9d6bb44a7d8f818c401d65fb80f6a523} 
+\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}!document\_stream@{document\_stream}}
+\index{document\_stream@{document\_stream}!simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+\doxysubsubsection{\texorpdfstring{document\_stream()}{document\_stream()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily simdjson\+\_\+inline simdjson\+::dom\+::document\+\_\+stream\+::document\+\_\+stream (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Move one \doxylink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream} to another. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimdjson_1_1dom_1_1document__stream_a9a51df3d81c9b7849bbbc8ae42096b76}\label{classsimdjson_1_1dom_1_1document__stream_a9a51df3d81c9b7849bbbc8ae42096b76} 
+\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}!begin@{begin}}
+\index{begin@{begin}!simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_1_1iterator}{document\+\_\+stream\+::iterator}} simdjson\+::dom\+::document\+\_\+stream\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Start iterating the documents in the stream. \Hypertarget{classsimdjson_1_1dom_1_1document__stream_adec1e168e4188bf9c90ee87adbd72850}\label{classsimdjson_1_1dom_1_1document__stream_adec1e168e4188bf9c90ee87adbd72850} 
+\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}!end@{end}}
+\index{end@{end}!simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream_1_1iterator}{document\+\_\+stream\+::iterator}} simdjson\+::dom\+::document\+\_\+stream\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+The end of the stream, for iterator comparison purposes. \Hypertarget{classsimdjson_1_1dom_1_1document__stream_abd3e3d38eb32c0cb1a124f89978607a5}\label{classsimdjson_1_1dom_1_1document__stream_abd3e3d38eb32c0cb1a124f89978607a5} 
+\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}!operator=@{operator=}}
+\index{operator=@{operator=}!simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily simdjson\+\_\+inline \mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} \& simdjson\+::dom\+::document\+\_\+stream\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Move one \doxylink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream} to another. \Hypertarget{classsimdjson_1_1dom_1_1document__stream_a2a08525ae815167b73b6393a8999e46b}\label{classsimdjson_1_1dom_1_1document__stream_a2a08525ae815167b73b6393a8999e46b} 
+\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}!size\_in\_bytes@{size\_in\_bytes}}
+\index{size\_in\_bytes@{size\_in\_bytes}!simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+\doxysubsubsection{\texorpdfstring{size\_in\_bytes()}{size\_in\_bytes()}}
+{\footnotesize\ttfamily size\+\_\+t simdjson\+::dom\+::document\+\_\+stream\+::size\+\_\+in\+\_\+bytes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Returns the input size in bytes. \Hypertarget{classsimdjson_1_1dom_1_1document__stream_a6c2a07e08213dc9a51754940942f9e69}\label{classsimdjson_1_1dom_1_1document__stream_a6c2a07e08213dc9a51754940942f9e69} 
+\index{simdjson::dom::document\_stream@{simdjson::dom::document\_stream}!truncated\_bytes@{truncated\_bytes}}
+\index{truncated\_bytes@{truncated\_bytes}!simdjson::dom::document\_stream@{simdjson::dom::document\_stream}}
+\doxysubsubsection{\texorpdfstring{truncated\_bytes()}{truncated\_bytes()}}
+{\footnotesize\ttfamily size\+\_\+t simdjson\+::dom\+::document\+\_\+stream\+::truncated\+\_\+bytes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+After iterating through the stream, this method returns the number of bytes that were not parsed at the end of the stream. If \doxylink{classsimdjson_1_1dom_1_1document__stream_a6c2a07e08213dc9a51754940942f9e69}{truncated\+\_\+bytes()} differs from zero, then the input was truncated maybe because incomplete JSON documents were found at the end of the stream. You may need to process the bytes in the interval \mbox{[}\doxylink{classsimdjson_1_1dom_1_1document__stream_a2a08525ae815167b73b6393a8999e46b}{size\+\_\+in\+\_\+bytes()}-\/\doxylink{classsimdjson_1_1dom_1_1document__stream_a6c2a07e08213dc9a51754940942f9e69}{truncated\+\_\+bytes()}, \doxylink{classsimdjson_1_1dom_1_1document__stream_a2a08525ae815167b73b6393a8999e46b}{size\+\_\+in\+\_\+bytes()}).
+
+You should only call \doxylink{classsimdjson_1_1dom_1_1document__stream_a6c2a07e08213dc9a51754940942f9e69}{truncated\+\_\+bytes()} after streaming through all documents, like so\+:
+
+\doxylink{classsimdjson_1_1dom_1_1document__stream}{document\+\_\+stream} stream = parser.\+parse\+\_\+many(json,window); for(auto doc \+: stream) \{ // do something with doc \} size\+\_\+t truncated = stream.\+truncated\+\_\+bytes(); 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+h\end{DoxyCompactItemize}

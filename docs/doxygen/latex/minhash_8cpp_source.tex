@@ -1,0 +1,391 @@
+\doxysection{minhash.\+cpp}
+\hypertarget{minhash_8cpp_source}{}\label{minhash_8cpp_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/minhash.cpp@{/home/corpus-\/cleaner/corpus\_cleaner/minhash.cpp}}
+\mbox{\hyperlink{minhash_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{minhash_8hpp}{minhash.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{util_8hpp}{util.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}../scripts/smhasher/src/MurmurHash3.h"{}}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00005}00005\ \textcolor{comment}{/***constructor***/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00006}\mbox{\hyperlink{classGenerateDedupLSH_a4e2daa678c9c89414eacc41d551ba826}{00006}}\ \mbox{\hyperlink{classGenerateDedupLSH_a4e2daa678c9c89414eacc41d551ba826}{GenerateDedupLSH::GenerateDedupLSH}}(uint32\_t\ n\_gram=5,}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00007}00007\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ n\_minhash=200,}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00008}00008\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ n\_buckets=20,}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ bucket\_size=10)}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00011}00011\ \ \ \ \ assert(n\_minhash==n\_buckets*bucket\_size);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00012}00012\ \ \ \ \ this-\/>n\_gram\ =\ n\_gram;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00013}00013\ \ \ \ \ this-\/>n\_minhash\ =\ n\_minhash;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00014}00014\ \ \ \ \ this-\/>n\_buckets\ =\ n\_buckets;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00015}00015\ \ \ \ \ this-\/>bucket\_size\ =\ bucket\_size;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00016}00016\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00018}00018\ \textcolor{comment}{/***destructor***/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00019}\mbox{\hyperlink{classGenerateDedupLSH_a6abe486c56125f8c5f5aa59d7d564d88}{00019}}\ \mbox{\hyperlink{classGenerateDedupLSH_a6abe486c56125f8c5f5aa59d7d564d88}{GenerateDedupLSH::\string~GenerateDedupLSH}}()\{\}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00020}00020\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00021}00021\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00022}00022\ \textcolor{comment}{\ *\ @brief\ Tokenize\ a\ string\ into\ n-\/gram\ tokens.}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00023}00023\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00024}00024\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00025}00025\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00026}00026\ \textcolor{comment}{\ *\ \ \ GenerateDedupLSH\ generate\_dedupe\_lsh;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00027}00027\ \textcolor{comment}{\ *\ \ \ generate\_dedupe\_lsh.n\_gram\_tokenize(L"{}おはようございます。"{},\ 3);}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00028}00028\ \textcolor{comment}{\ *\ \ \ //\ \{"{}おはよ"{},\ "{}はよう"{},\ "{}ようご"{},\ "{}うござ"{},\ "{}ござい"{},\ "{}ざいま"{},\ "{}います"{},\ "{}ます。"{}\}}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00029}00029\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00030}00030\ \textcolor{comment}{\ *\ @param\ wstring\ text:\ input\ text}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00031}00031\ \textcolor{comment}{\ *\ @param\ string\ n:\ the\ n\ number\ of\ n\_gram}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00032}00032\ \textcolor{comment}{\ *\ @return\ vector<wstring>\ :\ n\_gram\ tokenized\ text}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00033}00033\ \textcolor{comment}{\ *\ @ref\ https://github.com/HojiChar/HojiChar/blob/v0.9.0/hojichar/filters/deduplication.py}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00034}00034\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00035}00035\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00036}\mbox{\hyperlink{classGenerateDedupLSH_aff3164d589098328afb3b2258a2b12e7}{00036}}\ vector<wstring>\ \mbox{\hyperlink{classGenerateDedupLSH_aff3164d589098328afb3b2258a2b12e7}{GenerateDedupLSH::NGramTokenize}}(wstring\ text,\ int32\_t\ n)}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00038}00038\ \ \ \ \ vector<wstring>\ tokenized\_text;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{if}\ ((int32\_t)text.size()\ <\ n)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ tokenized\_text.push\_back(text);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tokenized\_text;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(int32\_t\ i=0;i<(int32\_t)text.size();i++)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(i+n-\/1>=(int32\_t)text.size())\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tokenized\_text.push\_back(text.substr(i,n));}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ ConvertWstringToUTF8(text.substr(i,n))\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tokenized\_text;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00056}00056\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00057}00057\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00058}00058\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00059}00059\ \textcolor{comment}{\ *\ @brief\ Calculate\ minhash\ of\ tokens\ list}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00060}00060\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00061}00061\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00062}00062\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00063}00063\ \textcolor{comment}{\ *\ \ \ GenerateDedupLSH\ generate\_dedupe\_lsh(3);}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00064}00064\ \textcolor{comment}{\ *\ \ \ wstring\ text\ =\ L"{}おはようございます。"{};}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00065}00065\ \textcolor{comment}{\ *\ \ \ vector<wstring>\ tokens\ =\ generate\_dedupe\_lsh.NGramTokenize(text,\ 3);}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00066}00066\ \textcolor{comment}{\ *\ \ \ uint64\_t\ minhash\ =\ generate\_dedupe\_lsh.GetMinhash(\&tokens,0);}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00067}00067\ \textcolor{comment}{\ *\ \ \ //minhash\ ==\ 2147483647}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00068}00068\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00069}00069\ \textcolor{comment}{\ *\ @param\ vector<wstring>\ *tokens:\ tokens\ list}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00070}00070\ \textcolor{comment}{\ *\ @param\ uint32\_t\ seed:\ the\ seed\ for\ murmurminhash3's\ calculation}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00071}00071\ \textcolor{comment}{\ *\ @return\ uint64\_t\ :\ minhash}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00072}00072\ \textcolor{comment}{\ *\ @ref\ https://github.com/HojiChar/HojiChar/blob/v0.9.0/hojichar/filters/deduplication.py}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00073}00073\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00074}00074\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00075}\mbox{\hyperlink{classGenerateDedupLSH_ab41b764b5fc3d82e375bac9af3290334}{00075}}\ uint64\_t\ \mbox{\hyperlink{classGenerateDedupLSH_ab41b764b5fc3d82e375bac9af3290334}{GenerateDedupLSH::GetMinhash}}(vector<wstring>\ *tokens,uint32\_t\ seed)}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00076}00076\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00077}00077\ \ \ \ \ uint64\_t\ minhash\ =\ UINT64\_MAX;\textcolor{comment}{//INF}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00078}00078\ \ \ \ \ uint64\_t\ out[2]\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ token:*tokens)\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ MurmurHash3\_x64\_128(token.data(),\ token.length(),\ seed,\ \&out);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{comment}{//cout\ <<\ "{}out[0]:"{}<<out[0]\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//minhash\ =\ MinU64(minhash,out[0]);}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ minhash\ =\ min(minhash,out[0]);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{//cout\ <<\ "{}minhash:"{}<<minhash\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00085}00085\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{return}\ minhash;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00087}00087\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00088}00088\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00089}00089\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00090}00090\ \textcolor{comment}{\ *\ @brief\ Calculate\ minhash\ list\ of\ text}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00091}00091\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00092}00092\ \textcolor{comment}{\ *\ Generates\ a\ sequence\ of\ hash\ values\ ​​for\ duplicate\ handling\ from\ text.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00093}00093\ \textcolor{comment}{\ *\ If\ two\ documents\ have\ the\ same\ hash\ value\ at\ most,\ the\ documents\ are\ considered\ duplicates.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00094}00094\ \textcolor{comment}{\ *\ A\ list\ of\ hash\ values,\ each\ hash\ value\ is\ in\ the\ format\ '0+07ad0b7b163f434643387f3f4799a2d466bccd0c',\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00095}00095\ \textcolor{comment}{\ *\ The\ first\ two\ characters\ represent\ the\ hash\ value.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00096}00096\ \textcolor{comment}{\ *\ This\ allows\ duplicate\ processing\ by\ pooling\ duplicate\ processing\ hashes\ into\ a\ single\ hash\ table.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00097}00097\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00098}00098\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00099}00099\ \textcolor{comment}{\ *\ @param\ wstring\ text:\ input\ sentence}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00100}00100\ \textcolor{comment}{\ *\ @return\ vector<string>\ :\ hash\ list}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00101}00101\ \textcolor{comment}{\ *\ @ref}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00102}00102\ \textcolor{comment}{\ *\ https://github.com/HojiChar/HojiChar/blob/v0.9.0/hojichar/filters/deduplication.py}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00103}00103\ \textcolor{comment}{\ *\ https://arxiv.org/abs/2107.06499\ ,\ Appendix\ A}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00104}00104\ \textcolor{comment}{\ *\ https://arxiv.org/abs/2107.06499\ ,\ Appendix\ A}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00105}00105\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00106}00106\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00107}\mbox{\hyperlink{classGenerateDedupLSH_a595391eddb3d3e37ab3e2e0c4d35bde3}{00107}}\ vector<string>\ \mbox{\hyperlink{classGenerateDedupLSH_a595391eddb3d3e37ab3e2e0c4d35bde3}{GenerateDedupLSH::CalculateLSH}}(wstring\ text)}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00108}00108\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00109}00109\ \ \ \ \ \textcolor{comment}{//\ Finally\ calculate\ N\_BUKET\ duplicate\ hashes\ from\ N\_MINHASH\ mmh3\ hash\ values}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00110}00110\ \ \ \ \ \textcolor{comment}{//\ Creates\ n\_minhash\ fingerprints\ elements\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00111}00111\ \ \ \ \ vector<uint64\_t>\ fingerprints;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00112}00112\ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ "{}minhash\ generated\ by\ GetMinhash"{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{for}(uint32\_t\ seed=0;seed<this-\/>n\_minhash;seed++)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tokenized\ n-\/gram}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ vector<wstring>\ tokens\ =\ \mbox{\hyperlink{classGenerateDedupLSH_aff3164d589098328afb3b2258a2b12e7}{NGramTokenize}}(text,this-\/>n\_gram);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{comment}{//calculate\ minhash}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ uint64\_t\ minhash\ =\ this-\/>\mbox{\hyperlink{classGenerateDedupLSH_ab41b764b5fc3d82e375bac9af3290334}{GetMinhash}}(\&tokens,seed);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{comment}{//cout\ <<\ minhash\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//printf("{}\%016lx\(\backslash\)n"{},minhash);}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ fingerprints.push\_back(minhash);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00121}00121\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00123}00123\ \ \ \ \ vector<string>\ lshs;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00124}00124\ \ \ \ \ \textcolor{keywordflow}{for}(uint32\_t\ bucket\_idx=0;bucket\_idx<this-\/>n\_buckets;bucket\_idx++)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ hash\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[200]=\{\};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(uint32\_t\ fp\_idx=bucket\_idx*this-\/>bucket\_size;fp\_idx<(bucket\_idx+1)*this-\/>bucket\_size;fp\_idx++)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ sprintf(buffer,\ \textcolor{stringliteral}{"{}\%016lx"{}},\ fingerprints[fp\_idx]);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ temp(buffer);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Extract\ the\ last\ 4\ digits}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ temp\ =\ temp.substr(12);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ hash+=temp;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ lshs.push\_back(to\_string(bucket\_idx)+\textcolor{stringliteral}{"{}+"{}}+hash);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00135}00135\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00136}00136\ \ \ \ \ \textcolor{keywordflow}{return}\ lshs;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00137}00137\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00139}00139\ \textcolor{comment}{/***constructor***/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00140}\mbox{\hyperlink{classLSHDeduplicator_ad52a46449c6b17eba3a6f2726c135989}{00140}}\ \mbox{\hyperlink{classLSHDeduplicator_ad52a46449c6b17eba3a6f2726c135989}{LSHDeduplicator::LSHDeduplicator}}(\textcolor{keywordtype}{bool}\ online\_dedup=\textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ blacklist\_path=\textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ store\_blacklist=\textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\_backet\_size\_mb\ =\ 5120)}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00144}00144\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00145}00145\ \ \ \ \ this-\/>online\_dedup\ =\ online\_dedup;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00146}00146\ \ \ \ \ this-\/>blacklist\_path\ =\ blacklist\_path;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00147}00147\ \ \ \ \ this-\/>store\_blacklist\ =\ store\_blacklist;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{keywordtype}{string}\ line=\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00149}00149\ \ \ \ \ this-\/>total\_backet\_size\_mb=total\_backet\_size\_mb;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00150}00150\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>blacklist\_path!=\textcolor{stringliteral}{"{}"{}})\ \ \ \ this-\/>\mbox{\hyperlink{classLSHDeduplicator_ae46ce3d4a5bda70fcaed1817d31c8dab}{LoadBlacklistToSeen}}();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>store\_blacklist)\ \ \ \ \ this-\/>blacklist=this-\/>seen;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00152}00152\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00154}00154\ \textcolor{comment}{/***destructor***/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00155}\mbox{\hyperlink{classLSHDeduplicator_ae320ee2f21265abbd0d70dcc6975a974}{00155}}\ \mbox{\hyperlink{classLSHDeduplicator_ae320ee2f21265abbd0d70dcc6975a974}{LSHDeduplicator::\string~LSHDeduplicator}}()}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00156}00156\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00157}00157\ \ \ \ \ this-\/>\mbox{\hyperlink{classLSHDeduplicator_aeefe98b7ef2a504691ce70ca18e9fd7f}{StoreBlacklist}}();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00158}00158\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00159}00159\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00160}00160\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00161}00161\ \textcolor{comment}{\ *\ @brief\ Calculate\ minhash\ list\ of\ text}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00162}00162\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00163}00163\ \textcolor{comment}{\ *\ Duplication\ is\ determined\ based\ on\ the\ hash\ value\ generated\ by\ \`{}GenerateDedupLSH`.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00164}00164\ \textcolor{comment}{\ *\ If\ the\ target\ corpus\ is\ approximately\ 10\string^6\ or\ less\ (\string~several\ 10\ GB\ is\ a\ rough\ guide),\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00165}00165\ \textcolor{comment}{\ *\ duplicate\ processing\ is\ possible\ without\ prior\ processing.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00166}00166\ \textcolor{comment}{\ *\ If\ you\ want\ to\ perform\ deduplication\ without\ preprocessing\ (online),\ set\ the\ \`{}online\_dedup`\ flag\ to\ \`{}True`.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00167}00167\ \textcolor{comment}{\ *\ The\ guaranteed\ value\ for\ \`{}online\_dedup`\ is\ \`{}True`.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00168}00168\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00169}00169\ \textcolor{comment}{\ *\ For\ larger\ corpora,\ it\ becomes\ difficult\ to\ store\ hash\ values\ ​​of\ all\ documents\ in\ memory.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00170}00170\ \textcolor{comment}{\ *\ Duplicate\ documents\ are\ considered\ to\ be\ a\ few\ percent\ of\ all\ documents,\ so\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00171}00171\ \textcolor{comment}{\ *\ By\ reading\ only\ hash\ values\ ​​from\ a\ file\ as\ a\ blacklist,\ it\ is\ possible\ to\ process\ a\ corpus\ of\ several\ 100\ GB.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00172}00172\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00173}00173\ \textcolor{comment}{\ *\ Reads\ duplicate\ hash\ values\ ​​from\ the\ file\ specified\ by\ \`{}blacklist\_path`.\ blacklist\ files\ every\ other\ line\ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00174}00174\ \textcolor{comment}{\ *\ Assume\ that\ the\ hash\ value\ generated\ by\ \`{}GenerateDedupLSH`\ is\ recorded.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00175}00175\ \textcolor{comment}{\ *\ When\ the\ \`{}store\_blacklist`\ flag\ is\ set\ to\ \`{}True`,\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00176}00176\ \textcolor{comment}{\ *\ duplicate\ hash\ values\ ​​will\ be\ recorded\ as\ a\ set\ of\ strings\ in\ the\ \`{}LSHDeduplicator.blacklist`\ attribute.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00177}00177\ \textcolor{comment}{\ *\ This\ option\ is\ useful,\ for\ example,\ when\ creating\ a\ blacklist\ hash\ value\ file.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00178}00178\ \textcolor{comment}{\ *\ The\ default\ value\ of\ the\ \`{}store\_blacklist`\ flag\ is\ \`{}False`.\ \ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00179}00179\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00180}00180\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00181}00181\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00182}00182\ \textcolor{comment}{\ *\ \ GenerateDedupLSH\ generate\_dedup\_lsh;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00183}00183\ \textcolor{comment}{\ *\ \ d1\ =\ generate\_dedup\_lsh.CalculateLSH("{}Hello,\ World."{});}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00184}00184\ \textcolor{comment}{\ *\ \ d2\ =\ generate\_dedup\_lsh.CalculateLSH("{}吾輩は猫である。名前はまだ無い。どこで生まれたかとんと見当がつかぬ。"{});}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00185}00185\ \textcolor{comment}{\ *\ \ d3\ =\ generate\_dedup\_lsh.CalculateLSH("{}吾輩は鳥である。名前はまだ無い。どこで生まれたかとんと見当がつかぬ。"{});}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00186}00186\ \textcolor{comment}{\ *\ \ LSHDeduplicator\ deduplicator;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00187}00187\ \textcolor{comment}{\ *\ \ cout\ <<\ deduplicator.Apply(d1)\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00188}00188\ \textcolor{comment}{\ *\ \ //false}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00189}00189\ \textcolor{comment}{\ *\ \ cout\ <<\ deduplicator.Apply(d2)\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00190}00190\ \textcolor{comment}{\ *\ \ //false}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00191}00191\ \textcolor{comment}{\ *\ \ cout\ <<\ deduplicator.\_deApply(d3)\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00192}00192\ \textcolor{comment}{\ *\ \ //true}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00193}00193\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00194}00194\ \textcolor{comment}{\ *\ @param\ vector<string>\ *lshs:\ lshs\ list\ generated\ by\ GenerateDedupLSH}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00195}00195\ \textcolor{comment}{\ *\ @return\ bool\ :\ duplication(true),\ or\ not\ duplication(false)}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00196}00196\ \textcolor{comment}{\ *\ @ref}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00197}00197\ \textcolor{comment}{\ *\ https://github.com/HojiChar/HojiChar/blob/v0.9.0/hojichar/filters/deduplication.py}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00198}00198\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00199}00199\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00200}\mbox{\hyperlink{classLSHDeduplicator_a74b28771fcac6f0827e1a3d57d15077c}{00200}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLSHDeduplicator_a74b28771fcac6f0827e1a3d57d15077c}{LSHDeduplicator::Apply}}(\textcolor{keyword}{const}\ vector<string>\ *lshs)}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00201}00201\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00202}00202\ \ \ \ \ \textcolor{keywordflow}{if}(lshs-\/>size()\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}LSHs\ for\ deduplication\ are\ not\ caluculated.\ Filter\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00204}00204\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \`{}GenerateDedupLSH`\ must\ be\ composed\ before\ this\ filter."{}}\ <<\ endl;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ assert(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00207}00207\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00209}00209\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_duplicated=\textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00211}00211\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ lsh:*lshs)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ lsh\ in\ this-\/>seen,}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>seen.find(lsh)\ !=\ this-\/>seen.end())\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ is\_duplicated\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>store\_blacklist)\ \ \ this-\/>blacklist.insert(lsh);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>online\_dedup)\ \ this-\/>seen.insert(lsh);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00218}00218\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00220}00220\ \ \ \ \ \textcolor{keywordflow}{return}\ is\_duplicated;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00222}00222\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00224}00224\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00225}00225\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00226}00226\ \textcolor{comment}{\ *\ @brief\ Calculate\ size\ of\ blacklist\ (rough\ estimate)}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00227}00227\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00228}00228\ \textcolor{comment}{\ *\ @param\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00229}00229\ \textcolor{comment}{\ *\ @return\ size\_t\ :\ size\ of\ \ blacklist}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00230}00230\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00231}00231\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00232}\mbox{\hyperlink{classLSHDeduplicator_a63ba5d735e5907bba228d27d1eba78ad}{00232}}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classLSHDeduplicator_a63ba5d735e5907bba228d27d1eba78ad}{LSHDeduplicator::SizeOfSeen}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00233}00233\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00234}00234\ \ \ \ \ \textcolor{comment}{//\ Get\ first\ element\ of\ seen}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ element\_size=0;\ \ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00237}00237\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>seen.empty())element\_size=0;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00238}00238\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ itr\ =\ this-\/>seen.begin();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ *itr<<endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ seen\_first\_element\ =\ *itr;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ element\_unit\_size\ =\ seen\_first\_element.length();\textcolor{comment}{//TODO:check\ this\ size}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ All\ elements\ of\ seen\ are\ same\ size.}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ element\_size\ =\ element\_unit\_size\ *\ this-\/>seen.size();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00246}00246\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{comment}{//\ overhead\ of\ node}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00248}00248\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ node\_overhead\ =\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{void}*)\ *\ 2\ *\ this-\/>seen.size();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00249}00249\ \ \ \ \ \textcolor{comment}{//\ overhead\ of\ std::string}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00250}00250\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ string\_overhead\ =\ \textcolor{keyword}{sizeof}(std::string)\ *\ this-\/>seen.size();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00251}00251\ \ \ \ \ \textcolor{comment}{//\ overhead\ of\ container\ structure\ (rough\ estimate)}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ container\_overhead\ =\ 64;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00253}00253\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\_size\ =\ element\_size\ +\ node\_overhead\ +\ string\_overhead\ +\ container\_overhead;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00255}00255\ \ \ \ \ \textcolor{keywordflow}{return}\ total\_size;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00256}00256\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00257}00257\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00258}00258\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00259}00259\ \textcolor{comment}{\ *\ @brief\ Calculate\ size\ of\ blacklist\ (rough\ estimate)}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00260}00260\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00261}00261\ \textcolor{comment}{\ *\ @param\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00262}00262\ \textcolor{comment}{\ *\ @return\ size\_t\ :\ size\ of\ \ blacklist}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00263}00263\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00264}00264\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00265}\mbox{\hyperlink{classLSHDeduplicator_a2d1049e62118fbef5af639e2a9f1e1f0}{00265}}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classLSHDeduplicator_a2d1049e62118fbef5af639e2a9f1e1f0}{LSHDeduplicator::SizeOfBlacklist}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00266}00266\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00267}00267\ \ \ \ \ \textcolor{comment}{//\ Get\ first\ element\ of\ blacklist}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00268}00268\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ element\_size=0;\ \ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00269}00269\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>blacklist.empty())element\_size=0;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00270}00270\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ itr\ =\ this-\/>blacklist.begin();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<\ *itr<<endl;}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ blacklist\_first\_element\ =\ *itr;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ element\_unit\_size\ =\ blacklist\_first\_element.length();\textcolor{comment}{//TODO:check\ this\ size}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ All\ elements\ of\ seen\ are\ same\ size.}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ element\_size\ =\ element\_unit\_size\ *\ this-\/>blacklist.size();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00278}00278\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00279}00279\ \ \ \ \ \textcolor{comment}{//\ overhead\ of\ node}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00280}00280\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ node\_overhead\ =\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{void}*)\ *\ 2\ *\ this-\/>blacklist.size();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00281}00281\ \ \ \ \ \textcolor{comment}{//\ overhead\ of\ std::string}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00282}00282\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ string\_overhead\ =\ \textcolor{keyword}{sizeof}(std::string)\ *\ this-\/>blacklist.size();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00283}00283\ \ \ \ \ \textcolor{comment}{//\ overhead\ of\ container\ structure\ (rough\ estimate)}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00284}00284\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ container\_overhead\ =\ 64;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00285}00285\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\_size\ =\ element\_size\ +\ node\_overhead\ +\ string\_overhead\ +\ container\_overhead;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00287}00287\ \ \ \ \ \textcolor{keywordflow}{return}\ total\_size;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00288}00288\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00289}00289\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00290}00290\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00291}00291\ \textcolor{comment}{\ *\ @brief\ Initialize\ seen\ parameter}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00292}00292\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00293}00293\ \textcolor{comment}{\ *\ Caluclate\ size\ of\ seen.\ The\ step\ is\ following.}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00294}00294\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00295}00295\ \textcolor{comment}{\ *\ \ \ GenerateDedupLSH\ generate\_dedupe\_lsh(3);}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00296}00296\ \textcolor{comment}{\ *\ @param\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00297}00297\ \textcolor{comment}{\ *\ @return\ size\_t\ :\ size\ of\ \ seen}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00298}00298\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00299}00299\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00300}\mbox{\hyperlink{classLSHDeduplicator_a0c92e2a7937901849e32c61c64f64350}{00300}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_a0c92e2a7937901849e32c61c64f64350}{LSHDeduplicator::InitializeSeen}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00301}00301\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00303}00303\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>store\_blacklist)\ \ \ this-\/>\mbox{\hyperlink{classLSHDeduplicator_aeefe98b7ef2a504691ce70ca18e9fd7f}{StoreBlacklist}}();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00304}00304\ \ \ \ \ this-\/>seen.clear();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00305}00305\ \ \ \ \ this-\/>blacklist.clear();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00307}00307\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>blacklist\_path!=\textcolor{stringliteral}{"{}"{}})\ \ \ \ this-\/>\mbox{\hyperlink{classLSHDeduplicator_ae46ce3d4a5bda70fcaed1817d31c8dab}{LoadBlacklistToSeen}}();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00308}00308\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>store\_blacklist)\ \ \ \ \ this-\/>blacklist=this-\/>seen;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00309}00309\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00310}00310\ \ \ \ \ \textcolor{comment}{//\ this-\/>seen\ is\ include\ this-\/>blacklist.\ }}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00311}00311\ \ \ \ \ \textcolor{comment}{//\ So\ blacklist\ size\ is\ more\ than\ total\_bucket\_size\_mb,}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00312}00312\ \ \ \ \ \textcolor{comment}{//\ seen\ size\ is\ also\ more\ than\ total\_bucket\_size\_mb.}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00314}00314\ \ \ \ \ cout\ <<\ this-\/>\mbox{\hyperlink{classLSHDeduplicator_a63ba5d735e5907bba228d27d1eba78ad}{SizeOfSeen}}()\ <<endl;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00315}00315\ \ \ \ \ cout\ <<\ this-\/>total\_backet\_size\_mb\ <<endl;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00317}00317\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>\mbox{\hyperlink{classLSHDeduplicator_a63ba5d735e5907bba228d27d1eba78ad}{SizeOfSeen}}()>=this-\/>total\_backet\_size\_mb)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ this-\/>seen.clear();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ this-\/>blacklist.clear();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00320}00320\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00321}00321\ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00322}00322\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00323}00323\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00324}00324\ \textcolor{comment}{\ *\ @brief\ Initialize\ blacklist\ parameter}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00325}00325\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00326}00326\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00327}00327\ \textcolor{comment}{\ *\ @param\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00328}00328\ \textcolor{comment}{\ *\ @return\ size\_t\ :\ size\ of\ \ seen}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00329}00329\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00330}00330\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00331}\mbox{\hyperlink{classLSHDeduplicator_a3bdaf9d05243c84367d54571a5584866}{00331}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_a3bdaf9d05243c84367d54571a5584866}{LSHDeduplicator::InitializeBlacklist}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00332}00332\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00333}00333\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>store\_blacklist)\ \ \ this-\/>\mbox{\hyperlink{classLSHDeduplicator_aeefe98b7ef2a504691ce70ca18e9fd7f}{StoreBlacklist}}();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00334}00334\ \ \ \ \ this-\/>blacklist.clear();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00335}00335\ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00336}00336\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00337}00337\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00338}00338\ \textcolor{comment}{\ *\ @brief\ Save\ Blacklist\ to\ file}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00339}00339\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00340}00340\ \textcolor{comment}{\ *\ @param\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00341}00341\ \textcolor{comment}{\ *\ @return\ size\_t\ :\ size\ of\ \ blacklist}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00342}00342\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00343}00343\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00344}\mbox{\hyperlink{classLSHDeduplicator_aeefe98b7ef2a504691ce70ca18e9fd7f}{00344}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_aeefe98b7ef2a504691ce70ca18e9fd7f}{LSHDeduplicator::StoreBlacklist}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00345}00345\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00346}00346\ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>store\_blacklist)\{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ output\ blacklist}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ ofstream\ blacklist\_file(this-\/>blacklist\_path);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ lsh:\ this-\/>blacklist)\ \ \ blacklist\_file<<lsh<<endl;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ blacklist\_file.close();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00351}00351\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00352}00352\ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00353}00353\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00354}00354\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00355}00355\ \textcolor{comment}{\ *\ @brief\ Read\ Blacklist\ from\ file}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00356}00356\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00357}00357\ \textcolor{comment}{\ *\ @param\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00358}00358\ \textcolor{comment}{\ *\ @return\ size\_t\ :\ size\ of\ \ blacklist}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00359}00359\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00360}00360\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00361}\mbox{\hyperlink{classLSHDeduplicator_ae46ce3d4a5bda70fcaed1817d31c8dab}{00361}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_ae46ce3d4a5bda70fcaed1817d31c8dab}{LSHDeduplicator::LoadBlacklistToSeen}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00362}00362\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00363}00363\ \ \ \ \ \textcolor{keywordtype}{string}\ line=\textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00364}00364\ \ \ \ \ \textcolor{comment}{//load\ blacklist\ from\ blacklist\_path}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00365}00365\ \ \ \ \ ifstream\ blacklist\_file(this-\/>blacklist\_path);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00366}00366\ \ \ \ \ \textcolor{comment}{//insert\ seen}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00367}00367\ \ \ \ \ \textcolor{keywordflow}{while}\ (getline(blacklist\_file,\ line))\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{util_8cpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{Strip}}(line);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ this-\/>seen.insert(line);}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00370}00370\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00371}00371\ \ \ \ \ blacklist\_file.close();}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00372}00372\ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00373}00373\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00374}00374\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00375}00375\ \textcolor{comment}{\ *\ @brief\ Read\ Blacklist\ from\ file}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00376}00376\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00377}00377\ \textcolor{comment}{\ *\ @param\ void:\ None}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00378}00378\ \textcolor{comment}{\ *\ @return\ size\_t\ :\ size\ of\ \ blacklist}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00379}00379\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00380}00380\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00381}\mbox{\hyperlink{classLSHDeduplicator_a0c41faad843855f924f2cce561b047d9}{00381}}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classLSHDeduplicator_a0c41faad843855f924f2cce561b047d9}{LSHDeduplicator::GetTotalBucketSize}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00382}00382\ \{}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00383}00383\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>total\_backet\_size\_mb;}
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00384}00384\ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{minhash_8cpp_source_l00385}00385\ }
+
+\end{DoxyCode}

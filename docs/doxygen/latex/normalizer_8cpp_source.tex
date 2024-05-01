@@ -1,0 +1,260 @@
+\doxysection{normalizer.\+cpp}
+\hypertarget{normalizer_8cpp_source}{}\label{normalizer_8cpp_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/normalizer.cpp@{/home/corpus-\/cleaner/corpus\_cleaner/normalizer.cpp}}
+\mbox{\hyperlink{normalizer_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{normalizer_8hpp}{normalizer.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{util_8hpp}{util.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00003}00003\ \textcolor{comment}{//\ \#include\ "{}util.cpp"{}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <unicode/datefmt.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <unicode/dtfmtsym.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <unicode/gregocal.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <unicode/timezone.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <unicode/unistr.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <unicode/ustring.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <unicode/dtptngen.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <unicode/dtitvfmt.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <unicode/normalizer2.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <unicode/unistr.h>}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00017}00017\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00018}00018\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00019}00019\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00020}00020\ \textcolor{comment}{\ *\ @brief\ nfkc\ normalize\ sentence\ by\ icu::Normalizer2}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00021}00021\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00022}00022\ \textcolor{comment}{\ *\ \ Search\ for\ words\ that\ match\ the\ word\_pattern\ regular\ expression\ in\ the\ sentence\ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00023}00023\ \textcolor{comment}{\ *\ \ and\ perform\ NFKC\ normalization\ using\ icu::Normalizer2.\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00024}00024\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00025}00025\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00026}00026\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00027}00027\ \textcolor{comment}{\ *\ \ \ wstring\ sentence\ =\ L"{}０１２３４５６７８９"{};\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00028}00028\ \textcolor{comment}{\ *\ \ \ static\ wregex\ word\_pattern(L"{}(([０-\/９]+))"{});\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00029}00029\ \textcolor{comment}{\ *\ \ \ wstring\ normalized\_sentence\ =\ UnicodeNormalize(word\_pattern,\ sentence)\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00030}00030\ \textcolor{comment}{\ *\ \ \ //\ normalized\_sentence\ ==\ L"{}0123456789"{}\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00031}00031\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00032}00032\ \textcolor{comment}{\ *\ @param\ wregex\ word\_pattern:\ Regular\ expression\ for\ string\ to\ be\ normalized}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00033}00033\ \textcolor{comment}{\ *\ @param\ wstring:\ sentence}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00034}00034\ \textcolor{comment}{\ *\ @return\ wstring:\ normalized\ sentence}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00035}00035\ \textcolor{comment}{\ *\ @ref\ https://ja.wikipedia.org/wiki/Unicode\%E4\%B8\%80\%E8\%A6\%A7\_0000-\/0FFF}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00036}00036\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00037}00037\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00038}\mbox{\hyperlink{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852}{00038}}\ wstring\ \mbox{\hyperlink{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852}{UnicodeNormalize}}(wregex\ word\_pattern,wstring\ sentence\_w)}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00039}00039\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ hyphen\_pattern(L\textcolor{stringliteral}{"{}－"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00042}00042\ \ \ \ \ \textcolor{comment}{//object\ for\ stock\ the\ part\ of\ matchinng\ string}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00043}00043\ \ \ \ \ wsmatch\ matches;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{keywordflow}{while}\ (regex\_search(sentence\_w,\ matches,\ word\_pattern))\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<"{}matches.str():"{}<<ConvertWstringToUTF8(matches.str())<<endl;}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//caution:\ must\ initialization\ of\ errc}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ UErrorCode\ errc\ =\ U\_ZERO\_ERROR;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ errc\ =\ U\_ZERO\_ERROR;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ generate\ NFKC\ normalizer\ instance}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ icu::Normalizer2*\ normalizer\ =\ icu::Normalizer2::getNFKCInstance(errc);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ convert\ matching\ part\ of\ sentence\ to\ UnicodeString}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ icu::UnicodeString\ match(\mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(matches.str()).c\_str(),\ \textcolor{stringliteral}{"{}UTF-\/8"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Normalize\ the\ matching\ part\ of\ sentence}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ icu::UnicodeString\ match\_morph;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ normalizer-\/>normalize(match,match\_morph,errc);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ convert\ normalized\ sentence\ to\ string}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ normalizedMatch\_temp;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ match\_morph.toUTF8String(normalizedMatch\_temp);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cout\ <<"{}normalizedMatch\_temp:"{}<<normalizedMatch\_temp<<endl;}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ wstring\ normalizedMatch\ =\ \mbox{\hyperlink{util_8cpp_ac088f18042a7b17c0d2f54634a159972}{ConvertUTF8ToWstring}}(normalizedMatch\_temp);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ replace\ original\ text\ to\ normalized\ text}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ sentence\_w.replace(matches.position(),\ matches.length(),\ normalizedMatch);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00069}00069\ \ \ \ \ sentence\_w\ =\ regex\_replace(sentence\_w,hyphen\_pattern,L\textcolor{stringliteral}{"{}-\/"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{keywordflow}{return}\ sentence\_w;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00071}00071\ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00075}00075\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00076}00076\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00077}00077\ \textcolor{comment}{\ *\ @brief\ Replace\ a\ specific\ string\ from\ half-\/width\ to\ full-\/width}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00078}00078\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00079}00079\ \textcolor{comment}{\ *\ \ Replace\ the\ following\ full-\/width\ symbols\ with\ half-\/width\ symbols\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00080}00080\ \textcolor{comment}{\ *\ \ /！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00081}00081\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00082}00082\ \textcolor{comment}{\ *\ Example:\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00083}00083\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00084}00084\ \textcolor{comment}{\ *\ \ \ wstring\ sentence=\ "{}（）"{};\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00085}00085\ \textcolor{comment}{\ *\ \ \ sentence\ \ =\ TranslateToFullwidth(sentence);\ //"{}()"{}\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00086}00086\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00087}00087\ \textcolor{comment}{\ *\ @param\ const\ string\&\ sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00088}00088\ \textcolor{comment}{\ *\ @return\ wstring:\ sentence\ has\ been\ processed}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00089}00089\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00090}00090\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00091}\mbox{\hyperlink{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0}{00091}}\ wstring\ \mbox{\hyperlink{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0}{TranslateToFullwidth}}(\textcolor{keyword}{const}\ wstring\&\ sentence\_w)}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00092}00092\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00093}00093\ \ \ \ \ unordered\_map<wchar\_t,\ wchar\_t>\ conversion\_map\ =\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \{u\textcolor{charliteral}{'!'},\ u\textcolor{stringliteral}{'！'}\},\ \{u\textcolor{charliteral}{'"{}'},\ u\textcolor{stringliteral}{'”'}\},\ \ \{u\textcolor{charliteral}{'\#'},\ u\textcolor{stringliteral}{'＃'}\},\ \{u\textcolor{charliteral}{'\$'},\ u\textcolor{stringliteral}{'＄'}\},\ \{u\textcolor{charliteral}{'\%'},\ u\textcolor{stringliteral}{'％'}\},}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \{u\textcolor{charliteral}{'\&'},\ u\textcolor{stringliteral}{'＆'}\},\ \{u\textcolor{charliteral}{'\(\backslash\)''},u\textcolor{stringliteral}{'’'}\},\ \ \{u\textcolor{charliteral}{'('},\ u\textcolor{stringliteral}{'（'}\},\ \{u\textcolor{charliteral}{')'},\ u\textcolor{stringliteral}{'）'}\},\ \{u\textcolor{charliteral}{'*'},\ u\textcolor{stringliteral}{'＊'}\},}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \{u\textcolor{charliteral}{'+'},\ u\textcolor{stringliteral}{'＋'}\},\ \{u\textcolor{charliteral}{','},\ u\textcolor{stringliteral}{'，'}\},\ \{u\textcolor{charliteral}{'-\/'},\ u\textcolor{stringliteral}{'－'}\},\ \{u\textcolor{charliteral}{'.'},\ u\textcolor{stringliteral}{'．'}\},\ \{u\textcolor{charliteral}{'/'},\ u\textcolor{stringliteral}{'／'}\},}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \{u\textcolor{charliteral}{':'},\ u\textcolor{stringliteral}{'：'}\},\ \{u\textcolor{charliteral}{';'},\ u\textcolor{stringliteral}{'；'}\},\ \{u\textcolor{charliteral}{'<'},\ u\textcolor{stringliteral}{'＜'}\},\ \{u\textcolor{charliteral}{'='},\ u\textcolor{stringliteral}{'＝'}\},\ \{u\textcolor{charliteral}{'>'},\ u\textcolor{stringliteral}{'＞'}\},}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00098}00098\ \ \ \ \ \ \ \ \ \{u\textcolor{charliteral}{'?'},\ u\textcolor{stringliteral}{'？'}\},\ \{u\textcolor{charliteral}{'@'},\ u\textcolor{stringliteral}{'＠'}\},\ \{u\textcolor{charliteral}{'['},\ u\textcolor{stringliteral}{'［'}\},\ \{u\textcolor{charliteral}{']'},\ u\textcolor{stringliteral}{'］'}\},\ \{u\textcolor{charliteral}{'\string^'},\ u\textcolor{stringliteral}{'＾'}\},}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \{u\textcolor{charliteral}{'\_'},\ u\textcolor{stringliteral}{'＿'}\},\ \{u\textcolor{charliteral}{'`'},\ u\textcolor{stringliteral}{'｀'}\},\ \{u\textcolor{charliteral}{'\{'},\ u\textcolor{stringliteral}{'｛'}\},\ \{u\textcolor{charliteral}{'|'},\ u\textcolor{stringliteral}{'｜'}\},\ \{u\textcolor{charliteral}{'\}'},\ u\textcolor{stringliteral}{'｝'}\},}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \{u\textcolor{charliteral}{'\string~'},\ u\textcolor{stringliteral}{'〜'}\}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00101}00101\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00103}00103\ \ \ \ \ wstring\ output;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{wchar\_t}\ word\ :\ sentence\_w)\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (conversion\_map.find(word)\ !=\ conversion\_map.end())\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ output\ +=\ conversion\_map[word];}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ output\ +=\ word;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00110}00110\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00112}00112\ \ \ \ \ \textcolor{keywordflow}{return}\ output;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00113}00113\ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00114}00114\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00115}00115\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00116}00116\ \textcolor{comment}{\ *\ @brief\ remove\ half-\/width\ spaces\ that\ meet\ the\ conditions}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00117}00117\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00118}00118\ \textcolor{comment}{\ *\ \ Replace\ one\ or\ more\ half-\/width\ spaces\ with\ one\ half-\/width\ space.\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00119}00119\ \textcolor{comment}{\ *\ \ And\ Remove\ half-\/width\ spaces\ included\ in\ the\ following\ conditions.\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00120}00120\ \textcolor{comment}{\ *\ \ -\/\ Half-\/width\ spaces\ included\ between\ "{}hiragana,\ full-\/width\ katakana,\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00121}00121\ \textcolor{comment}{\ *\ \ \ \ half-\/width\ katakana,\ kanji,\ and\ full-\/width\ symbols"{}\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00122}00122\ \textcolor{comment}{\ *\ \ -\/\ Half-\/width\ space\ included\ between\ "{}hiragana,\ full-\/width\ katakana,\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00123}00123\ \textcolor{comment}{\ *\ \ \ \ half-\/width\ katakana,\ kanji,\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00124}00124\ \textcolor{comment}{\ *\ \ \ \ full-\/width\ symbols"{}\ and\ "{}half-\/width\ alphanumeric\ characters"{}\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00125}00125\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00126}00126\ \textcolor{comment}{\ *\ Example:\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00127}00127\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00128}00128\ \textcolor{comment}{\ *\ \ \ wstring\ sentence=\ "{}（）"{};\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00129}00129\ \textcolor{comment}{\ *\ \ \ sentence\ \ =\ TranslateToFullwidth(sentence);\ //"{}()"{}\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00130}00130\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00131}00131\ \textcolor{comment}{\ *\ @param\ const\ string\&\ sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00132}00132\ \textcolor{comment}{\ *\ @return\ wstring:\ sentence\ has\ been\ processed}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00133}00133\ \textcolor{comment}{\ *\ @note}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00134}00134\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00135}\mbox{\hyperlink{normalizer_8cpp_a4c0f72b0be09d01ba904f6573193c475}{00135}}\ wstring\ \mbox{\hyperlink{normalizer_8cpp_a4c0f72b0be09d01ba904f6573193c475}{RemoveExtraSpaces}}(\textcolor{keyword}{const}\ wstring\&\ sentence)}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00136}00136\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00137}00137\ \ \ \ \ wstring\ result\ =\ regex\_replace(sentence,\ wregex(L\textcolor{stringliteral}{"{}[\ 　]+"{}}),\ L\textcolor{stringliteral}{"{}\ "{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00139}00139\ \ \ \ \ wstring\ blocks\ =\ LR\textcolor{stringliteral}{"{}(\(\backslash\)u4E00-\/\(\backslash\)u9FFF\(\backslash\)u3040-\/\(\backslash\)u309F\(\backslash\)u30A0-\/\(\backslash\)u30FF\(\backslash\)u3000-\/\(\backslash\)u303F\(\backslash\)uFF00-\/\(\backslash\)uFFEF)"{};}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00140}00140\ \textcolor{stringliteral}{\ \ \ \ wstring\ basicLatin\ =\ LR}\textcolor{stringliteral}{"{}(\(\backslash\)u0000-\/\(\backslash\)u007F)"{};}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00141}00141\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00142}00142\ \textcolor{stringliteral}{\ \ \ \ }\textcolor{keyword}{auto}\ removeSpaceBetween\ =\ [](\textcolor{keyword}{const}\ wstring\&\ cls1,\ \textcolor{keyword}{const}\ wstring\&\ cls2,\ wstring\ str)\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ wregex\ pattern(L\textcolor{stringliteral}{"{}(["{}}\ +\ cls1\ +\ L\textcolor{stringliteral}{"{}])\ (["{}}\ +\ cls2\ +\ L\textcolor{stringliteral}{"{}])"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (regex\_search(str,\ pattern))\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ str\ =\ regex\_replace(str,\ pattern,\ L\textcolor{stringliteral}{"{}\$1\$2"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00148}00148\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00150}00150\ \ \ \ \ result\ =\ removeSpaceBetween(blocks,\ blocks,\ result);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00151}00151\ \ \ \ \ result\ =\ removeSpaceBetween(blocks,\ basicLatin,\ result);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00152}00152\ \ \ \ \ result\ =\ removeSpaceBetween(basicLatin,\ blocks,\ result);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00155}00155\ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00156}00156\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00157}00157\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00158}00158\ \textcolor{comment}{\ *\ @brief\ Neologd\ Normalized\ function}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00159}00159\ \textcolor{comment}{\ *\ @details}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00160}00160\ \textcolor{comment}{\ *\ Perform\ the\ normalization\ process\ described\ in\ the\ link\ below.\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00161}00161\ \textcolor{comment}{\ *\ https://github.com/neologd/mecab-\/ipadic-\/neologd/wiki/Regexp.ja\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00162}00162\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00163}00163\ \textcolor{comment}{\ *\ Example:}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00164}00164\ \textcolor{comment}{\ *\ \`{}\`{}\`{}cpp}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00165}00165\ \textcolor{comment}{\ *\ \ \ string\ sentence=\ "{}検索\ エンジン\ 自作\ 入門\ を\ 買い\ ました!!!"{};\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00166}00166\ \textcolor{comment}{\ *\ \ \ sentence\ =\ NormalizeNeologd(sentence);\ //"{}検索エンジン自作入門を買いました"{}\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00167}00167\ \textcolor{comment}{\ *\ \`{}\`{}\`{}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00168}00168\ \textcolor{comment}{\ *\ @param\ const\ string\&\ sentence:\ text\ sentence}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00169}00169\ \textcolor{comment}{\ *\ @return\ wstring:\ sentence\ has\ been\ processed}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00170}00170\ \textcolor{comment}{\ *\ @attention}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00171}00171\ \textcolor{comment}{\ *\ \ This\ process\ is\ for\ Japanese\ text.\ Do\ not\ use\ English\ text\ or\ code\ in\ your\ corpus.\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00172}00172\ \textcolor{comment}{\ *\ \ For\ example,\ in\ English\ text,\ spaces\ between\ words\ will\ be\ removed.\ \ }}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00173}00173\ \textcolor{comment}{**/}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00174}\mbox{\hyperlink{normalizer_8cpp_a0f78ec665e0f4e39a28b51e94d865ccc}{00174}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{normalizer_8cpp_a0f78ec665e0f4e39a28b51e94d865ccc}{NormalizeNeologd}}(\textcolor{keywordtype}{string}\ sentence)}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00175}00175\ \{}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00176}00176\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ word\_pattern(L\textcolor{stringliteral}{"{}(([０-\/９Ａ-\/Ｚａ-\/ｚ｡-\/ﾟ]+))"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00178}00178\ \ \ \ \ \textcolor{comment}{//Remove\ leadingand\ trailing\ white\ space}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00179}00179\ \ \ \ \ sentence\ =\ \mbox{\hyperlink{util_8cpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{Strip}}(sentence);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00181}00181\ \ \ \ \ \textcolor{comment}{//\ Normalize\ full-\/width\ alphanumeric\ characters}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00182}00182\ \ \ \ \ wstring\ sentence\_w\ =\ \mbox{\hyperlink{util_8cpp_ac088f18042a7b17c0d2f54634a159972}{ConvertUTF8ToWstring}}(sentence);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00183}00183\ \ \ \ \ sentence\_w\ =\ \mbox{\hyperlink{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852}{UnicodeNormalize}}(word\_pattern,sentence\_w);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00185}00185\ \ \ \ \ \textcolor{comment}{//Normalize\ hyphens}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00186}00186\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ small\_hyhpen\_pattern(L\textcolor{stringliteral}{"{}([˗֊‐‑‒–⁃⁻₋−]+)"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00187}00187\ \ \ \ \ sentence\_w\ =\ \ regex\_replace(sentence\_w,small\_hyhpen\_pattern,L\textcolor{stringliteral}{"{}-\/"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00188}00188\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ large\_hyhpen\_pattern(L\textcolor{stringliteral}{"{}([﹣－—―─━ーｰ]+)"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00189}00189\ \ \ \ \ sentence\_w\ =\ \ regex\_replace(sentence\_w,large\_hyhpen\_pattern,L\textcolor{stringliteral}{"{}ー"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00191}00191\ \ \ \ \ \textcolor{comment}{//\ Remove\ tilde\ words}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00192}00192\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ tilde\_pattern(L\textcolor{stringliteral}{"{}[\string~∼∾〜〰～]"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00193}00193\ \ \ \ \ sentence\_w\ =\ \ regex\_replace(sentence\_w,tilde\_pattern,L\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00195}00195\ \ \ \ \ sentence\_w\ =\mbox{\hyperlink{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0}{TranslateToFullwidth}}(sentence\_w);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00196}00196\ \ \ \ \ sentence\_w\ =\ \mbox{\hyperlink{normalizer_8cpp_a4c0f72b0be09d01ba904f6573193c475}{RemoveExtraSpaces}}(sentence\_w);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00198}00198\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ special\_word\_pattern(L\textcolor{stringliteral}{"{}(([！＃＄％＆（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝〜]+))"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00200}00200\ \ \ \ \ sentence\_w\ =\ \mbox{\hyperlink{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852}{UnicodeNormalize}}(special\_word\_pattern,sentence\_w);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00201}00201\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ quotation\_pattern(L\textcolor{stringliteral}{"{}[’]"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00202}00202\ \ \ \ \ sentence\_w\ =\ \ regex\_replace(sentence\_w,quotation\_pattern,L\textcolor{stringliteral}{"{}\(\backslash\)'"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00203}00203\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ wquotation\_pattern(L\textcolor{stringliteral}{"{}[”]"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00204}00204\ \ \ \ \ sentence\_w\ =\ \ regex\_replace(sentence\_w,wquotation\_pattern,L\textcolor{stringliteral}{"{}\(\backslash\)"{}"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00205}00205\ \ \ \ \ \textcolor{keyword}{static}\ wregex\ equal\_pattern(L\textcolor{stringliteral}{"{}[=]"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00206}00206\ \ \ \ \ sentence\_w\ =\ \ regex\_replace(sentence\_w,equal\_pattern,L\textcolor{stringliteral}{"{}＝"{}});}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00208}00208\ \ \ \ \ sentence\ =\ \mbox{\hyperlink{util_8cpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(sentence\_w);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00209}00209\ \ \ \ \ sentence\ =\ \mbox{\hyperlink{util_8cpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{Strip}}(sentence);}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00210}00210\ \ \ \ \ \textcolor{keywordflow}{return}\ sentence;}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00211}00211\ \}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00215}00215\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00216}00216\ \textcolor{comment}{int\ main(void)}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00217}00217\ \textcolor{comment}{\{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00218}00218\ \textcolor{comment}{\ \ \ \ string\ input\_path\ =\ "{}../data/wiki\_test.txt"{};}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00219}00219\ \textcolor{comment}{\ \ \ \ string\ output\_path\ =\ "{}../results/wiki\_test\_NormalizeNeologd.txt"{};}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00220}00220\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00221}00221\ \textcolor{comment}{\ \ \ \ //\ Normalizer(input\_path,output\_path);}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00222}00222\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00223}00223\ \textcolor{comment}{\ \ \ \ //original}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00224}00224\ \textcolor{comment}{\ \ \ \ assert("{}Hello,C++!"{}\ ==\ NormalizeNeologd("{}\ \ \ Hello,\ C++!\ \ \ "{}));//\ TODO:\ Write\ the\ comment\ that\ this\ normalizer\ is\ don't\ applied\ for\ English\ text.\ Because\ spaces\ are\ removed.}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00225}00225\ \textcolor{comment}{\ \ \ \ assert("{}-\/"{}\ ==\ NormalizeNeologd("{}˗֊‐‑‒–⁃⁻₋−"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00226}00226\ \textcolor{comment}{\ \ \ \ assert("{}-\/"{}\ ==\ NormalizeNeologd("{}－"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00227}00227\ \textcolor{comment}{\ \ \ \ assert("{}ー"{}\ ==\ NormalizeNeologd("{}﹣—―─━ーｰ"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00228}00228\ \textcolor{comment}{\ \ \ \ assert("{}＝"{}\ ==\ NormalizeNeologd("{}="{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00229}00229\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00230}00230\ \textcolor{comment}{\ \ \ \ assert("{}0123456789"{}\ ==\ NormalizeNeologd("{}０１２３４５６７８９"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00231}00231\ \textcolor{comment}{\ \ \ \ assert("{}ABCDEFGHIJKLMNOPQRSTUVWXYZ"{}\ ==\ NormalizeNeologd("{}ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00232}00232\ \textcolor{comment}{\ \ \ \ assert("{}abcdefghijklmnopqrstuvwxyz"{}\ ==\ NormalizeNeologd("{}ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00233}00233\ \textcolor{comment}{\ \ \ \ assert("{}!\(\backslash\)"{}\#\$\%\&\(\backslash\)'()*+,-\/./:;<>?@[¥]\string^\_`\{|\}"{}\ ==\ NormalizeNeologd("{}！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00234}00234\ \textcolor{comment}{\ \ \ \ assert("{}＝。、・「」"{}\ ==\ NormalizeNeologd("{}＝。、・「」"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00235}00235\ \textcolor{comment}{\ \ \ \ assert("{}ハンカク"{}\ ==\ NormalizeNeologd("{}ﾊﾝｶｸ"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00236}00236\ \textcolor{comment}{\ \ \ \ assert("{}o-\/o"{}\ ==\ NormalizeNeologd("{}o₋o"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00237}00237\ \textcolor{comment}{\ \ \ \ assert("{}majikaー"{}\ ==\ NormalizeNeologd("{}majika━"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00238}00238\ \textcolor{comment}{\ \ \ \ assert("{}わい"{}\ ==\ NormalizeNeologd("{}わ〰い"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00239}00239\ \textcolor{comment}{\ \ \ \ assert("{}スーパー"{}\ ==\ NormalizeNeologd("{}スーパーーーー"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00240}00240\ \textcolor{comment}{\ \ \ \ assert("{}!\#"{}\ ==\ NormalizeNeologd("{}!\#"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00241}00241\ \textcolor{comment}{\ \ \ \ assert("{}ゼンカクスペース"{}\ ==\ NormalizeNeologd("{}ゼンカク　スペース"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00242}00242\ \textcolor{comment}{\ \ \ \ assert("{}おお"{}\ ==\ NormalizeNeologd("{}お\ \ \ \ \ \ \ \ \ \ \ \ \ お"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00243}00243\ \textcolor{comment}{\ \ \ \ assert("{}おお"{}\ ==\ NormalizeNeologd("{}\ \ \ \ \ \ おお"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00244}00244\ \textcolor{comment}{\ \ \ \ assert("{}おお"{}\ ==\ NormalizeNeologd("{}おお\ \ \ \ \ \ "{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00245}00245\ \textcolor{comment}{\ \ \ \ assert("{}検索エンジン自作入門を買いました!!!"{}\ ==NormalizeNeologd("{}検索\ エンジン\ 自作\ 入門\ を\ 買い\ ました!!!"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00246}00246\ \textcolor{comment}{\ \ \ \ assert("{}アルゴリズムC"{}\ ==\ NormalizeNeologd("{}アルゴリズム\ C"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00247}00247\ \textcolor{comment}{\ \ \ \ assert("{}PRML副読本"{}\ ==\ NormalizeNeologd("{}　　　ＰＲＭＬ　　副　読　本　　　"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00248}00248\ \textcolor{comment}{\ \ \ \ assert("{}Coding\ the\ Matrix"{}\ ==\ NormalizeNeologd("{}Coding\ the\ Matrix"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00249}00249\ \textcolor{comment}{\ \ \ \ assert("{}南アルプスの天然水Sparking\ Lemonレモン一絞り"{}\ ==\ NormalizeNeologd("{}南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00250}00250\ \textcolor{comment}{\ \ \ \ assert("{}南アルプスの天然水-\/Sparking*Lemon+レモン一絞り"{}\ ==\ NormalizeNeologd("{}南アルプスの　天然水-\/　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"{}));}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00251}00251\ \textcolor{comment}{\ \ \ \ cout\ <<\ "{}Normalizing\ Text\ is\ completed."{}\ <<\ endl;}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00252}00252\ \textcolor{comment}{\ \ \ \ return\ 0;}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00253}00253\ \textcolor{comment}{\}}}
+\DoxyCodeLine{\Hypertarget{normalizer_8cpp_source_l00254}00254\ \textcolor{comment}{*/}}
+
+\end{DoxyCode}

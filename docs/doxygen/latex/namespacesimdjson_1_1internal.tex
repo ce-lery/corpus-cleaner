@@ -1,0 +1,374 @@
+\doxysection{simdjson\+::internal Namespace Reference}
+\hypertarget{namespacesimdjson_1_1internal}{}\label{namespacesimdjson_1_1internal}\index{simdjson::internal@{simdjson::internal}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacesimdjson_1_1internal_1_1dtoa__impl}{dtoa\+\_\+impl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsimdjson_1_1internal_1_1adjusted__mantissa}{adjusted\+\_\+mantissa}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1atomic__ptr}{atomic\+\_\+ptr}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1available__implementation__list}{available\+\_\+implementation\+\_\+list}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1base__formatter}{base\+\_\+formatter}}
+\item 
+struct \mbox{\hyperlink{structsimdjson_1_1internal_1_1binary__format}{binary\+\_\+format}}
+\item 
+struct \mbox{\hyperlink{structsimdjson_1_1internal_1_1decimal}{decimal}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1dom__parser__implementation}{dom\+\_\+parser\+\_\+implementation}}
+\item 
+struct \mbox{\hyperlink{structsimdjson_1_1internal_1_1error__code__info}{error\+\_\+code\+\_\+info}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1escape__json__string}{escape\+\_\+json\+\_\+string}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1pretty__formatter}{pretty\+\_\+formatter}}
+\item 
+struct \mbox{\hyperlink{structsimdjson_1_1internal_1_1simdjson__result__base}{simdjson\+\_\+result\+\_\+base}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1string__builder}{string\+\_\+builder}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1tape__ref}{tape\+\_\+ref}}
+\item 
+class \mbox{\hyperlink{classsimdjson_1_1internal_1_1unsupported__implementation}{unsupported\+\_\+implementation}}
+\item 
+struct \mbox{\hyperlink{structsimdjson_1_1internal_1_1value128}{value128}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a6d836810254089db404b509822d89326}\label{namespacesimdjson_1_1internal_a6d836810254089db404b509822d89326} 
+enum {\bfseries instruction\+\_\+set} \{ \newline
+{\bfseries DEFAULT} = 0x0
+, {\bfseries NEON} = 0x1
+, {\bfseries AVX2} = 0x4
+, {\bfseries SSE42} = 0x8
+, \newline
+{\bfseries PCLMULQDQ} = 0x10
+, {\bfseries BMI1} = 0x20
+, {\bfseries BMI2} = 0x40
+, {\bfseries ALTIVEC} = 0x80
+, \newline
+{\bfseries AVX512F} = 0x100
+, {\bfseries AVX512\+DQ} = 0x200
+, {\bfseries AVX512\+IFMA} = 0x400
+, {\bfseries AVX512\+PF} = 0x800
+, \newline
+{\bfseries AVX512\+ER} = 0x1000
+, {\bfseries AVX512\+CD} = 0x2000
+, {\bfseries AVX512\+BW} = 0x4000
+, {\bfseries AVX512\+VL} = 0x8000
+, \newline
+{\bfseries AVX512\+VBMI2} = 0x10000
+, {\bfseries DEFAULT} = 0x0
+, {\bfseries NEON} = 0x1
+, {\bfseries AVX2} = 0x4
+, \newline
+{\bfseries SSE42} = 0x8
+, {\bfseries PCLMULQDQ} = 0x10
+, {\bfseries BMI1} = 0x20
+, {\bfseries BMI2} = 0x40
+, \newline
+{\bfseries ALTIVEC} = 0x80
+, {\bfseries AVX512F} = 0x100
+, {\bfseries AVX512\+DQ} = 0x200
+, {\bfseries AVX512\+IFMA} = 0x400
+, \newline
+{\bfseries AVX512\+PF} = 0x800
+, {\bfseries AVX512\+ER} = 0x1000
+, {\bfseries AVX512\+CD} = 0x2000
+, {\bfseries AVX512\+BW} = 0x4000
+, \newline
+{\bfseries AVX512\+VL} = 0x8000
+, {\bfseries AVX512\+VBMI2} = 0x10000
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d}{tape\+\_\+type}} \{ \newline
+{\bfseries ROOT} = \textquotesingle{}r\textquotesingle{}
+, {\bfseries START\+\_\+\+ARRAY} = \textquotesingle{}\mbox{[}\textquotesingle{}
+, {\bfseries START\+\_\+\+OBJECT} = \textquotesingle{}\{\textquotesingle{}
+, {\bfseries END\+\_\+\+ARRAY} = \textquotesingle{}\mbox{]}\textquotesingle{}
+, \newline
+{\bfseries END\+\_\+\+OBJECT} = \textquotesingle{}\}\textquotesingle{}
+, {\bfseries STRING} = \textquotesingle{}"{}\textquotesingle{}
+, {\bfseries INT64} = \textquotesingle{}l\textquotesingle{}
+, {\bfseries UINT64} = \textquotesingle{}u\textquotesingle{}
+, \newline
+{\bfseries DOUBLE} = \textquotesingle{}d\textquotesingle{}
+, {\bfseries TRUE\+\_\+\+VALUE} = \textquotesingle{}t\textquotesingle{}
+, {\bfseries FALSE\+\_\+\+VALUE} = \textquotesingle{}f\textquotesingle{}
+, {\bfseries NULL\+\_\+\+VALUE} = \textquotesingle{}n\textquotesingle{}
+, \newline
+{\bfseries ROOT} = \textquotesingle{}r\textquotesingle{}
+, {\bfseries START\+\_\+\+ARRAY} = \textquotesingle{}\mbox{[}\textquotesingle{}
+, {\bfseries START\+\_\+\+OBJECT} = \textquotesingle{}\{\textquotesingle{}
+, {\bfseries END\+\_\+\+ARRAY} = \textquotesingle{}\mbox{]}\textquotesingle{}
+, \newline
+{\bfseries END\+\_\+\+OBJECT} = \textquotesingle{}\}\textquotesingle{}
+, {\bfseries STRING} = \textquotesingle{}"{}\textquotesingle{}
+, {\bfseries INT64} = \textquotesingle{}l\textquotesingle{}
+, {\bfseries UINT64} = \textquotesingle{}u\textquotesingle{}
+, \newline
+{\bfseries DOUBLE} = \textquotesingle{}d\textquotesingle{}
+, {\bfseries TRUE\+\_\+\+VALUE} = \textquotesingle{}t\textquotesingle{}
+, {\bfseries FALSE\+\_\+\+VALUE} = \textquotesingle{}f\textquotesingle{}
+, {\bfseries NULL\+\_\+\+VALUE} = \textquotesingle{}n\textquotesingle{}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d}{tape\+\_\+type}} \{ \newline
+{\bfseries ROOT} = \textquotesingle{}r\textquotesingle{}
+, {\bfseries START\+\_\+\+ARRAY} = \textquotesingle{}\mbox{[}\textquotesingle{}
+, {\bfseries START\+\_\+\+OBJECT} = \textquotesingle{}\{\textquotesingle{}
+, {\bfseries END\+\_\+\+ARRAY} = \textquotesingle{}\mbox{]}\textquotesingle{}
+, \newline
+{\bfseries END\+\_\+\+OBJECT} = \textquotesingle{}\}\textquotesingle{}
+, {\bfseries STRING} = \textquotesingle{}"{}\textquotesingle{}
+, {\bfseries INT64} = \textquotesingle{}l\textquotesingle{}
+, {\bfseries UINT64} = \textquotesingle{}u\textquotesingle{}
+, \newline
+{\bfseries DOUBLE} = \textquotesingle{}d\textquotesingle{}
+, {\bfseries TRUE\+\_\+\+VALUE} = \textquotesingle{}t\textquotesingle{}
+, {\bfseries FALSE\+\_\+\+VALUE} = \textquotesingle{}f\textquotesingle{}
+, {\bfseries NULL\+\_\+\+VALUE} = \textquotesingle{}n\textquotesingle{}
+, \newline
+{\bfseries ROOT} = \textquotesingle{}r\textquotesingle{}
+, {\bfseries START\+\_\+\+ARRAY} = \textquotesingle{}\mbox{[}\textquotesingle{}
+, {\bfseries START\+\_\+\+OBJECT} = \textquotesingle{}\{\textquotesingle{}
+, {\bfseries END\+\_\+\+ARRAY} = \textquotesingle{}\mbox{]}\textquotesingle{}
+, \newline
+{\bfseries END\+\_\+\+OBJECT} = \textquotesingle{}\}\textquotesingle{}
+, {\bfseries STRING} = \textquotesingle{}"{}\textquotesingle{}
+, {\bfseries INT64} = \textquotesingle{}l\textquotesingle{}
+, {\bfseries UINT64} = \textquotesingle{}u\textquotesingle{}
+, \newline
+{\bfseries DOUBLE} = \textquotesingle{}d\textquotesingle{}
+, {\bfseries TRUE\+\_\+\+VALUE} = \textquotesingle{}t\textquotesingle{}
+, {\bfseries FALSE\+\_\+\+VALUE} = \textquotesingle{}f\textquotesingle{}
+, {\bfseries NULL\+\_\+\+VALUE} = \textquotesingle{}n\textquotesingle{}
+ \}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a6d836810254089db404b509822d89326}\label{namespacesimdjson_1_1internal_a6d836810254089db404b509822d89326} 
+enum {\bfseries instruction\+\_\+set} \{ \newline
+{\bfseries DEFAULT} = 0x0
+, {\bfseries NEON} = 0x1
+, {\bfseries AVX2} = 0x4
+, {\bfseries SSE42} = 0x8
+, \newline
+{\bfseries PCLMULQDQ} = 0x10
+, {\bfseries BMI1} = 0x20
+, {\bfseries BMI2} = 0x40
+, {\bfseries ALTIVEC} = 0x80
+, \newline
+{\bfseries AVX512F} = 0x100
+, {\bfseries AVX512\+DQ} = 0x200
+, {\bfseries AVX512\+IFMA} = 0x400
+, {\bfseries AVX512\+PF} = 0x800
+, \newline
+{\bfseries AVX512\+ER} = 0x1000
+, {\bfseries AVX512\+CD} = 0x2000
+, {\bfseries AVX512\+BW} = 0x4000
+, {\bfseries AVX512\+VL} = 0x8000
+, \newline
+{\bfseries AVX512\+VBMI2} = 0x10000
+, {\bfseries DEFAULT} = 0x0
+, {\bfseries NEON} = 0x1
+, {\bfseries AVX2} = 0x4
+, \newline
+{\bfseries SSE42} = 0x8
+, {\bfseries PCLMULQDQ} = 0x10
+, {\bfseries BMI1} = 0x20
+, {\bfseries BMI2} = 0x40
+, \newline
+{\bfseries ALTIVEC} = 0x80
+, {\bfseries AVX512F} = 0x100
+, {\bfseries AVX512\+DQ} = 0x200
+, {\bfseries AVX512\+IFMA} = 0x400
+, \newline
+{\bfseries AVX512\+PF} = 0x800
+, {\bfseries AVX512\+ER} = 0x1000
+, {\bfseries AVX512\+CD} = 0x2000
+, {\bfseries AVX512\+BW} = 0x4000
+, \newline
+{\bfseries AVX512\+VL} = 0x8000
+, {\bfseries AVX512\+VBMI2} = 0x10000
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_aa2d993487fa9a71c688c7890316599d3}\label{namespacesimdjson_1_1internal_aa2d993487fa9a71c688c7890316599d3} 
+double {\bfseries from\+\_\+chars} (const char \texorpdfstring{$\ast$}{*}first, const char \texorpdfstring{$\ast$}{*}end) noexcept
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a500b0c235596034521d1b80eba199d35}\label{namespacesimdjson_1_1internal_a500b0c235596034521d1b80eba199d35} 
+bool {\bfseries is\+\_\+integer} (char c) noexcept
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a586851c45c703b3f961a6b1a3d7da431}\label{namespacesimdjson_1_1internal_a586851c45c703b3f961a6b1a3d7da431} 
+\mbox{\hyperlink{structsimdjson_1_1internal_1_1decimal}{decimal}} {\bfseries parse\+\_\+decimal} (const char \texorpdfstring{$\ast$}{*}\&p) noexcept
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_ae164b96b06c7e24a9e86cd922ced014d}\label{namespacesimdjson_1_1internal_ae164b96b06c7e24a9e86cd922ced014d} 
+\mbox{\hyperlink{structsimdjson_1_1internal_1_1decimal}{decimal}} {\bfseries parse\+\_\+decimal} (const char \texorpdfstring{$\ast$}{*}\&p, const char \texorpdfstring{$\ast$}{*}end) noexcept
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a730bce9ac28e8ef19a79741351a2c35f}\label{namespacesimdjson_1_1internal_a730bce9ac28e8ef19a79741351a2c35f} 
+uint64\+\_\+t {\bfseries round} (\mbox{\hyperlink{structsimdjson_1_1internal_1_1decimal}{decimal}} \&h)
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a16dd4632456b7d0c74b4711bc1385de7}\label{namespacesimdjson_1_1internal_a16dd4632456b7d0c74b4711bc1385de7} 
+void {\bfseries decimal\+\_\+left\+\_\+shift} (\mbox{\hyperlink{structsimdjson_1_1internal_1_1decimal}{decimal}} \&h, uint32\+\_\+t shift)
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a7a65709745e48bc193ac6c4df838a58e}\label{namespacesimdjson_1_1internal_a7a65709745e48bc193ac6c4df838a58e} 
+void {\bfseries decimal\+\_\+right\+\_\+shift} (\mbox{\hyperlink{structsimdjson_1_1internal_1_1decimal}{decimal}} \&h, uint32\+\_\+t shift)
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_ab7b0000f55e5031d01094cd2c4528ec8}\label{namespacesimdjson_1_1internal_ab7b0000f55e5031d01094cd2c4528ec8} 
+{\footnotesize template$<$typename binary $>$ }\\\mbox{\hyperlink{structsimdjson_1_1internal_1_1adjusted__mantissa}{adjusted\+\_\+mantissa}} {\bfseries compute\+\_\+float} (\mbox{\hyperlink{structsimdjson_1_1internal_1_1decimal}{decimal}} \&d)
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_af6cf4b75a559f05cee850edf3c7108de}\label{namespacesimdjson_1_1internal_af6cf4b75a559f05cee850edf3c7108de} 
+{\footnotesize template$<$typename binary $>$ }\\\mbox{\hyperlink{structsimdjson_1_1internal_1_1adjusted__mantissa}{adjusted\+\_\+mantissa}} {\bfseries parse\+\_\+long\+\_\+mantissa} (const char \texorpdfstring{$\ast$}{*}first)
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a63e5a3f2649ec45d289ed5002580954f}\label{namespacesimdjson_1_1internal_a63e5a3f2649ec45d289ed5002580954f} 
+{\footnotesize template$<$typename binary $>$ }\\\mbox{\hyperlink{structsimdjson_1_1internal_1_1adjusted__mantissa}{adjusted\+\_\+mantissa}} {\bfseries parse\+\_\+long\+\_\+mantissa} (const char \texorpdfstring{$\ast$}{*}first, const char \texorpdfstring{$\ast$}{*}end)
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_aae709100174138872da809cfe7e11fad}\label{namespacesimdjson_1_1internal_aae709100174138872da809cfe7e11fad} 
+const \mbox{\hyperlink{classsimdjson_1_1internal_1_1unsupported__implementation}{unsupported\+\_\+implementation}} \texorpdfstring{$\ast$}{*} {\bfseries get\+\_\+unsupported\+\_\+singleton} ()
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a599ef532d9ae51812dbe9751160a54fe}\label{namespacesimdjson_1_1internal_a599ef532d9ae51812dbe9751160a54fe} 
+char \texorpdfstring{$\ast$}{*} {\bfseries allocate\+\_\+padded\+\_\+buffer} (size\+\_\+t length) noexcept
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_ab8d494fb8689853cd3d1aa003a217cd4}\label{namespacesimdjson_1_1internal_ab8d494fb8689853cd3d1aa003a217cd4} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&out, const \mbox{\hyperlink{classsimdjson_1_1internal_1_1escape__json__string}{escape\+\_\+json\+\_\+string}} \&str)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const bool \mbox{\hyperlink{namespacesimdjson_1_1internal_ad1180c99bd250bf0ba11b33c98a033c6}{structural\+\_\+or\+\_\+whitespace\+\_\+negated}} \mbox{[}256\mbox{]}
+\item 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const bool \mbox{\hyperlink{namespacesimdjson_1_1internal_abedd1c3508e934f323e61626c6ea2a39}{structural\+\_\+or\+\_\+whitespace}} \mbox{[}256\mbox{]}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_afe48fd86af87366d6c4b1d8d7db452c1}\label{namespacesimdjson_1_1internal_afe48fd86af87366d6c4b1d8d7db452c1} 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const uint32\+\_\+t {\bfseries digit\+\_\+to\+\_\+val32} \mbox{[}886\mbox{]}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a58725b092be18b8d60317e3b5f733be0}\label{namespacesimdjson_1_1internal_a58725b092be18b8d60317e3b5f733be0} 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const \mbox{\hyperlink{structsimdjson_1_1internal_1_1error__code__info}{error\+\_\+code\+\_\+info}} {\bfseries error\+\_\+codes} \mbox{[}$\,$\mbox{]}
+\item 
+constexpr int \mbox{\hyperlink{namespacesimdjson_1_1internal_ae6998eff0940a75a4a5523230d9f3ebd}{smallest\+\_\+power}} = -\/342
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_ad528baf398ad627c948128979d672009}\label{namespacesimdjson_1_1internal_ad528baf398ad627c948128979d672009} 
+constexpr int {\bfseries largest\+\_\+power} = 308
+\item 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const double \mbox{\hyperlink{namespacesimdjson_1_1internal_adc90b10160318d1590a23fbfbc16612a}{power\+\_\+of\+\_\+ten}} \mbox{[}$\,$\mbox{]}
+\item 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const uint64\+\_\+t \mbox{\hyperlink{namespacesimdjson_1_1internal_ac9426e7690f10edb5665f6682b87cd63}{power\+\_\+of\+\_\+five\+\_\+128}} \mbox{[}$\,$\mbox{]}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_aba6f0c6b33488a2cf7904d7d273a0bef}\label{namespacesimdjson_1_1internal_aba6f0c6b33488a2cf7904d7d273a0bef} 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const unsigned char {\bfseries Bits\+Set\+Table256mul2} \mbox{[}256\mbox{]}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a9ab20a89d56e70ea582451998262cfe2}\label{namespacesimdjson_1_1internal_a9ab20a89d56e70ea582451998262cfe2} 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const uint8\+\_\+t {\bfseries pshufb\+\_\+combine\+\_\+table} \mbox{[}272\mbox{]}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a156f59354d1f9564e217438888552ea5}\label{namespacesimdjson_1_1internal_a156f59354d1f9564e217438888552ea5} 
+SIMDJSON\+\_\+\+DLLIMPORTEXPORT const uint64\+\_\+t {\bfseries thintable\+\_\+epi8} \mbox{[}256\mbox{]}
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_ab8b92655f9519bf105dc261529cee600}\label{namespacesimdjson_1_1internal_ab8b92655f9519bf105dc261529cee600} 
+constexpr const uint64\+\_\+t {\bfseries JSON\+\_\+\+VALUE\+\_\+\+MASK} = 0x00\+FFFFFFFFFFFFFF
+\item 
+\Hypertarget{namespacesimdjson_1_1internal_a4e859be54b19d8e78a2ad1d675830d30}\label{namespacesimdjson_1_1internal_a4e859be54b19d8e78a2ad1d675830d30} 
+constexpr const uint32\+\_\+t {\bfseries JSON\+\_\+\+COUNT\+\_\+\+MASK} = 0x\+FFFFFF
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classsimdjson_1_1internal_1_1string__builder}{string\+\_\+builder} template and mini\+\_\+formatter class are not part of our public API and are subject to change at any time! 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d}\label{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d} 
+\index{simdjson::internal@{simdjson::internal}!tape\_type@{tape\_type}}
+\index{tape\_type@{tape\_type}!simdjson::internal@{simdjson::internal}}
+\doxysubsubsection{\texorpdfstring{tape\_type}{tape\_type}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d}{simdjson\+::internal\+::tape\+\_\+type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+The possible types in the tape. \Hypertarget{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d}\label{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d} 
+\index{simdjson::internal@{simdjson::internal}!tape\_type@{tape\_type}}
+\index{tape\_type@{tape\_type}!simdjson::internal@{simdjson::internal}}
+\doxysubsubsection{\texorpdfstring{tape\_type}{tape\_type}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacesimdjson_1_1internal_a82c41388fdba919602baa017ce336b3d}{simdjson\+::internal\+::tape\+\_\+type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+The possible types in the tape. 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacesimdjson_1_1internal_ac9426e7690f10edb5665f6682b87cd63}\label{namespacesimdjson_1_1internal_ac9426e7690f10edb5665f6682b87cd63} 
+\index{simdjson::internal@{simdjson::internal}!power\_of\_five\_128@{power\_of\_five\_128}}
+\index{power\_of\_five\_128@{power\_of\_five\_128}!simdjson::internal@{simdjson::internal}}
+\doxysubsubsection{\texorpdfstring{power\_of\_five\_128}{power\_of\_five\_128}}
+{\footnotesize\ttfamily SIMDJSON\+\_\+\+DLLIMPORTEXPORT const uint64\+\_\+t simdjson\+::internal\+::power\+\_\+of\+\_\+five\+\_\+128\hspace{0.3cm}{\ttfamily [extern]}}
+
+When mapping numbers from decimal to binary, we go from w \texorpdfstring{$\ast$}{*} 10\texorpdfstring{$^\wedge$}{\string^}q to m \texorpdfstring{$\ast$}{*} 2\texorpdfstring{$^\wedge$}{\string^}p but we have 10\texorpdfstring{$^\wedge$}{\string^}q = 5\texorpdfstring{$^\wedge$}{\string^}q \texorpdfstring{$\ast$}{*} 2\texorpdfstring{$^\wedge$}{\string^}q, so effectively we are trying to match w \texorpdfstring{$\ast$}{*} 2\texorpdfstring{$^\wedge$}{\string^}q \texorpdfstring{$\ast$}{*} 5\texorpdfstring{$^\wedge$}{\string^}q to m \texorpdfstring{$\ast$}{*} 2\texorpdfstring{$^\wedge$}{\string^}p. Thus the powers of two are not a concern since they can be represented exactly using the binary notation, only the powers of five affect the binary significand. \Hypertarget{namespacesimdjson_1_1internal_adc90b10160318d1590a23fbfbc16612a}\label{namespacesimdjson_1_1internal_adc90b10160318d1590a23fbfbc16612a} 
+\index{simdjson::internal@{simdjson::internal}!power\_of\_ten@{power\_of\_ten}}
+\index{power\_of\_ten@{power\_of\_ten}!simdjson::internal@{simdjson::internal}}
+\doxysubsubsection{\texorpdfstring{power\_of\_ten}{power\_of\_ten}}
+{\footnotesize\ttfamily SIMDJSON\+\_\+\+DLLIMPORTEXPORT const double simdjson\+::internal\+::power\+\_\+of\+\_\+ten\hspace{0.3cm}{\ttfamily [extern]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ 1e0,\ \ 1e1,\ \ 1e2,\ \ 1e3,\ \ 1e4,\ \ 1e5,\ \ 1e6,\ \ 1e7,\ \ 1e8,\ \ 1e9,\ \ 1e10,\ 1e11,}
+\DoxyCodeLine{\ \ \ \ 1e12,\ 1e13,\ 1e14,\ 1e15,\ 1e16,\ 1e17,\ 1e18,\ 1e19,\ 1e20,\ 1e21,\ 1e22\}}
+
+\end{DoxyCode}
+\Hypertarget{namespacesimdjson_1_1internal_ae6998eff0940a75a4a5523230d9f3ebd}\label{namespacesimdjson_1_1internal_ae6998eff0940a75a4a5523230d9f3ebd} 
+\index{simdjson::internal@{simdjson::internal}!smallest\_power@{smallest\_power}}
+\index{smallest\_power@{smallest\_power}!simdjson::internal@{simdjson::internal}}
+\doxysubsubsection{\texorpdfstring{smallest\_power}{smallest\_power}}
+{\footnotesize\ttfamily constexpr int simdjson\+::internal\+::smallest\+\_\+power = -\/342\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+The smallest non-\/zero float (binary64) is 2\texorpdfstring{$^\wedge$}{\string^}-\/1074. We take as input numbers of the form w x 10\texorpdfstring{$^\wedge$}{\string^}q where w \texorpdfstring{$<$}{<} 2\texorpdfstring{$^\wedge$}{\string^}64. We have that w \texorpdfstring{$\ast$}{*} 10\texorpdfstring{$^\wedge$}{\string^}-\/343 \texorpdfstring{$<$}{<} 2\texorpdfstring{$^\wedge$}{\string^}(64-\/344) 5\texorpdfstring{$^\wedge$}{\string^}-\/343 \texorpdfstring{$<$}{<} 2\texorpdfstring{$^\wedge$}{\string^}-\/1076. However, we have that (2\texorpdfstring{$^\wedge$}{\string^}64-\/1) \texorpdfstring{$\ast$}{*} 10\texorpdfstring{$^\wedge$}{\string^}-\/342 = (2\texorpdfstring{$^\wedge$}{\string^}64-\/1) \texorpdfstring{$\ast$}{*} 2\texorpdfstring{$^\wedge$}{\string^}-\/342 \texorpdfstring{$\ast$}{*} 5\texorpdfstring{$^\wedge$}{\string^}-\/342 \texorpdfstring{$>$}{>} 2\texorpdfstring{$^\wedge$}{\string^}-\/1074. Thus it is possible for a number of the form w \texorpdfstring{$\ast$}{*} 10\texorpdfstring{$^\wedge$}{\string^}-\/342 where w is a 64-\/bit value to be a non-\/zero floating-\/point number.
+
+Any number of form w \texorpdfstring{$\ast$}{*} 10\texorpdfstring{$^\wedge$}{\string^}309 where w\texorpdfstring{$>$}{>}= 1 is going to be infinite in binary64 so we never need to worry about powers of 5 greater than 308. \Hypertarget{namespacesimdjson_1_1internal_abedd1c3508e934f323e61626c6ea2a39}\label{namespacesimdjson_1_1internal_abedd1c3508e934f323e61626c6ea2a39} 
+\index{simdjson::internal@{simdjson::internal}!structural\_or\_whitespace@{structural\_or\_whitespace}}
+\index{structural\_or\_whitespace@{structural\_or\_whitespace}!simdjson::internal@{simdjson::internal}}
+\doxysubsubsection{\texorpdfstring{structural\_or\_whitespace}{structural\_or\_whitespace}}
+{\footnotesize\ttfamily SIMDJSON\+\_\+\+DLLIMPORTEXPORT const bool simdjson\+::internal\+::structural\+\_\+or\+\_\+whitespace}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1,\ 1,\ 0,\ 0,\ 1,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,}
+\DoxyCodeLine{\ \ \ \ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0\}}
+
+\end{DoxyCode}
+\Hypertarget{namespacesimdjson_1_1internal_ad1180c99bd250bf0ba11b33c98a033c6}\label{namespacesimdjson_1_1internal_ad1180c99bd250bf0ba11b33c98a033c6} 
+\index{simdjson::internal@{simdjson::internal}!structural\_or\_whitespace\_negated@{structural\_or\_whitespace\_negated}}
+\index{structural\_or\_whitespace\_negated@{structural\_or\_whitespace\_negated}!simdjson::internal@{simdjson::internal}}
+\doxysubsubsection{\texorpdfstring{structural\_or\_whitespace\_negated}{structural\_or\_whitespace\_negated}}
+{\footnotesize\ttfamily SIMDJSON\+\_\+\+DLLIMPORTEXPORT const bool simdjson\+::internal\+::structural\+\_\+or\+\_\+whitespace\+\_\+negated}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 0,\ 0,\ 1,\ 1,\ 0,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 0,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 0,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 0,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 0,\ 1,\ 0,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 0,\ 1,\ 0,\ 1,\ 1,}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,}
+\DoxyCodeLine{\ \ \ \ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1,\ 1\}}
+
+\end{DoxyCode}

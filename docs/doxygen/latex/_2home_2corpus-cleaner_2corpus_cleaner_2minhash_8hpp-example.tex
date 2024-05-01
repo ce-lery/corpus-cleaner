@@ -1,0 +1,75 @@
+\doxysection{/home/corpus-\/cleaner/corpus\+\_\+cleaner/minhash.\+hpp}
+\hypertarget{_2home_2corpus-cleaner_2corpus_cleaner_2minhash_8hpp-example}{}\label{_2home_2corpus-cleaner_2corpus_cleaner_2minhash_8hpp-example}Deduplication with Minhash LSH.
+
+Deduplication with Minhash LSH string input\+\_\+path = "{}../data/input/test\+\_\+\+URLRemover.\+txt"{}; double elapsed\+\_\+time = 11.\+56; string process\+\_\+name = "{}\+URLRemover"{}; Stats stats = Make\+Stats(process\+\_\+name,input\+\_\+path,elapsed\+\_\+time); 
+\begin{DoxyParams}{Parameters}
+{\em string} & process\+\_\+name\+: Cleaning filter name. \\
+\hline
+{\em string} & output\+\_\+path\+: Path of file for statistics. \\
+\hline
+{\em double} & elapsed\+\_\+time\+: elapsed process time. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stats\+: statistics \href{https://github.com/HojiChar/HojiChar/blob/v0.9.0/hojichar/filters/deduplication.py}{\texttt{ https\+://github.\+com/\+Hoji\+Char/\+Hoji\+Char/blob/v0.\+9.\+0/hojichar/filters/deduplication.\+py}} 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+
+\begin{DoxyCodeInclude}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <bits/stdc++.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ INF\ 1L<<30;}}
+\DoxyCodeLine{\textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{class\ }\mbox{\hyperlink{classGenerateDedupLSH}{GenerateDedupLSH}}}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\textcolor{keyword}{private}:}
+\DoxyCodeLine{\ \ \ \ uint32\_t\ n\_gram\ =\ 5;}
+\DoxyCodeLine{\ \ \ \ uint32\_t\ n\_minhash\ =\ 200;}
+\DoxyCodeLine{\ \ \ \ uint32\_t\ n\_buckets=20;}
+\DoxyCodeLine{\ \ \ \ uint32\_t\ bucket\_size=10;}
+\DoxyCodeLine{\textcolor{keyword}{public}:}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ /***constructor***/}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{classGenerateDedupLSH}{GenerateDedupLSH}}(uint32\_t\ n\_gram,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ n\_minhash,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ n\_buckets,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ bucket\_size);}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ /***destructor***/}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{classGenerateDedupLSH}{\string~GenerateDedupLSH}}();}
+\DoxyCodeLine{\ \ \ \ vector<wstring>\ \ \mbox{\hyperlink{classGenerateDedupLSH_aff3164d589098328afb3b2258a2b12e7}{NGramTokenize}}(wstring\ text,\ int32\_t\ n);}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ int32\_t\ HashfuncSigned32FromSeed(int32\_t\ seed);}}
+\DoxyCodeLine{\ \ \ \ uint64\_t\ \mbox{\hyperlink{classGenerateDedupLSH_ab41b764b5fc3d82e375bac9af3290334}{GetMinhash}}(vector<wstring>\ *tokens,uint32\_t\ seed);}
+\DoxyCodeLine{\ \ \ \ vector<string>\ \mbox{\hyperlink{classGenerateDedupLSH_a595391eddb3d3e37ab3e2e0c4d35bde3}{CalculateLSH}}(wstring\ text);}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ wstring\ Apply(wstring\ document);//TODO}}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{class\ }\mbox{\hyperlink{classLSHDeduplicator}{LSHDeduplicator}}}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\textcolor{keyword}{private}:}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ online\_dedup;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{string}\ blacklist\_path;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ store\_blacklist;}
+\DoxyCodeLine{\ \ \ \ set<string>\ seen,blacklist;\ \textcolor{comment}{//\ TODO:\ unordered\_set\ is\ faster\ than\ set.}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{size\_t}\ total\_backet\_size\_mb=5000;}
+\DoxyCodeLine{\textcolor{keyword}{public}:}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ /***constructor***/}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{classLSHDeduplicator}{LSHDeduplicator}}(\textcolor{keywordtype}{bool}\ onlin\_dedupe,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ blacklist\_path,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ store\_blacklist,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ total\_backet\_size\_mb);}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ /***destructor***/}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{classLSHDeduplicator}{\string~LSHDeduplicator}}();}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLSHDeduplicator_a74b28771fcac6f0827e1a3d57d15077c}{Apply}}(\textcolor{keyword}{const}\ vector<string>\ *lshs);\textcolor{comment}{//TODO}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classLSHDeduplicator_a63ba5d735e5907bba228d27d1eba78ad}{SizeOfSeen}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classLSHDeduplicator_a2d1049e62118fbef5af639e2a9f1e1f0}{SizeOfBlacklist}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_a0c92e2a7937901849e32c61c64f64350}{InitializeSeen}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_aeefe98b7ef2a504691ce70ca18e9fd7f}{StoreBlacklist}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_ae46ce3d4a5bda70fcaed1817d31c8dab}{LoadBlacklistToSeen}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classLSHDeduplicator_a0c41faad843855f924f2cce561b047d9}{GetTotalBucketSize}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLSHDeduplicator_a3bdaf9d05243c84367d54571a5584866}{InitializeBlacklist}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\};}
+
+\end{DoxyCodeInclude}
+ 

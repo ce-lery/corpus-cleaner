@@ -1,0 +1,180 @@
+\doxysection{/home/corpus-\/cleaner/corpus\+\_\+cleaner/normalizer.cpp File Reference}
+\hypertarget{normalizer_8cpp}{}\label{normalizer_8cpp}\index{/home/corpus-\/cleaner/corpus\_cleaner/normalizer.cpp@{/home/corpus-\/cleaner/corpus\_cleaner/normalizer.cpp}}
+{\ttfamily \#include "{}normalizer.\+hpp"{}}\newline
+{\ttfamily \#include "{}util.\+hpp"{}}\newline
+{\ttfamily \#include $<$unicode/datefmt.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/dtfmtsym.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/gregocal.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/timezone.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/unistr.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/ustring.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/dtptngen.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/dtitvfmt.\+h$>$}\newline
+{\ttfamily \#include $<$unicode/normalizer2.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+wstring \mbox{\hyperlink{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852}{Unicode\+Normalize}} (wregex word\+\_\+pattern, wstring sentence\+\_\+w)
+\begin{DoxyCompactList}\small\item\em nfkc normalize sentence by icu\+::\+Normalizer2 \end{DoxyCompactList}\item 
+wstring \mbox{\hyperlink{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0}{Translate\+To\+Fullwidth}} (const wstring \&sentence\+\_\+w)
+\begin{DoxyCompactList}\small\item\em Replace a specific string from half-\/width to full-\/width. \end{DoxyCompactList}\item 
+wstring \mbox{\hyperlink{normalizer_8cpp_a4c0f72b0be09d01ba904f6573193c475}{Remove\+Extra\+Spaces}} (const wstring \&sentence)
+\begin{DoxyCompactList}\small\item\em remove half-\/width spaces that meet the conditions \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{normalizer_8cpp_a0f78ec665e0f4e39a28b51e94d865ccc}{Normalize\+Neologd}} (string sentence)
+\begin{DoxyCompactList}\small\item\em Neologd Normalized function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{normalizer_8cpp_a0f78ec665e0f4e39a28b51e94d865ccc}\label{normalizer_8cpp_a0f78ec665e0f4e39a28b51e94d865ccc} 
+\index{normalizer.cpp@{normalizer.cpp}!NormalizeNeologd@{NormalizeNeologd}}
+\index{NormalizeNeologd@{NormalizeNeologd}!normalizer.cpp@{normalizer.cpp}}
+\doxysubsubsection{\texorpdfstring{NormalizeNeologd()}{NormalizeNeologd()}}
+{\footnotesize\ttfamily string Normalize\+Neologd (\begin{DoxyParamCaption}\item[{string}]{sentence }\end{DoxyParamCaption})}
+
+
+
+Neologd Normalized function. 
+
+Perform the normalization process described in the link below. ~\newline
+ \href{https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja}{\texttt{ https\+://github.\+com/neologd/mecab-\/ipadic-\/neologd/wiki/\+Regexp.\+ja}} ~\newline
+
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ sentence=\ \textcolor{stringliteral}{"{}検索\ エンジン\ 自作\ 入門\ を\ 買い\ ました!!!"{}};\ \ }
+\DoxyCodeLine{sentence\ =\ \mbox{\hyperlink{normalizer_8cpp_a0f78ec665e0f4e39a28b51e94d865ccc}{NormalizeNeologd}}(sentence);\ \textcolor{comment}{//"{}検索エンジン自作入門を買いました"{}\ \ }}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em const} & string\& sentence\+: text sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+wstring\+: sentence has been processed 
+\end{DoxyReturn}
+\begin{DoxyAttention}{Attention}
+This process is for Japanese text. Do not use English text or code in your corpus. ~\newline
+ For example, in English text, spaces between words will be removed. ~\newline
+ 
+\end{DoxyAttention}
+
+
+Definition at line \mbox{\hyperlink{normalizer_8cpp_source_l00174}{174}} of file \mbox{\hyperlink{normalizer_8cpp_source}{normalizer.\+cpp}}.
+
+\Hypertarget{normalizer_8cpp_a4c0f72b0be09d01ba904f6573193c475}\label{normalizer_8cpp_a4c0f72b0be09d01ba904f6573193c475} 
+\index{normalizer.cpp@{normalizer.cpp}!RemoveExtraSpaces@{RemoveExtraSpaces}}
+\index{RemoveExtraSpaces@{RemoveExtraSpaces}!normalizer.cpp@{normalizer.cpp}}
+\doxysubsubsection{\texorpdfstring{RemoveExtraSpaces()}{RemoveExtraSpaces()}}
+{\footnotesize\ttfamily wstring Remove\+Extra\+Spaces (\begin{DoxyParamCaption}\item[{const wstring \&}]{sentence }\end{DoxyParamCaption})}
+
+
+
+remove half-\/width spaces that meet the conditions 
+
+Replace one or more half-\/width spaces with one half-\/width space. ~\newline
+ And Remove half-\/width spaces included in the following conditions. ~\newline
+
+\begin{DoxyItemize}
+\item Half-\/width spaces included between "{}hiragana, full-\/width katakana,  $<$br$>$    half-\/width katakana, kanji, and full-\/width symbols"{} ~\newline
+
+\item Half-\/width space included between "{}hiragana, full-\/width katakana,  $<$br$>$    half-\/width katakana, kanji,  $<$br$>$    full-\/width symbols"{} and "{}half-\/width alphanumeric characters"{} ~\newline
+
+\end{DoxyItemize}
+
+Example\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{wstring\ sentence=\ \textcolor{stringliteral}{"{}（）"{}};\ \ }
+\DoxyCodeLine{sentence\ \ =\ \mbox{\hyperlink{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0}{TranslateToFullwidth}}(sentence);\ \textcolor{comment}{//"{}()"{}\ \ }}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em const} & string\& sentence\+: text sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+wstring\+: sentence has been processed 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{normalizer_8cpp_source_l00135}{135}} of file \mbox{\hyperlink{normalizer_8cpp_source}{normalizer.\+cpp}}.
+
+\Hypertarget{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0}\label{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0} 
+\index{normalizer.cpp@{normalizer.cpp}!TranslateToFullwidth@{TranslateToFullwidth}}
+\index{TranslateToFullwidth@{TranslateToFullwidth}!normalizer.cpp@{normalizer.cpp}}
+\doxysubsubsection{\texorpdfstring{TranslateToFullwidth()}{TranslateToFullwidth()}}
+{\footnotesize\ttfamily wstring Translate\+To\+Fullwidth (\begin{DoxyParamCaption}\item[{const wstring \&}]{sentence\+\_\+w }\end{DoxyParamCaption})}
+
+
+
+Replace a specific string from half-\/width to full-\/width. 
+
+Replace the following full-\/width symbols with half-\/width symbols ~\newline
+ /！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝ ~\newline
+
+
+Example\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{wstring\ sentence=\ \textcolor{stringliteral}{"{}（）"{}};\ \ }
+\DoxyCodeLine{sentence\ \ =\ \mbox{\hyperlink{normalizer_8cpp_a39c4ccefff369c538e4e37dda2340ad0}{TranslateToFullwidth}}(sentence);\ \textcolor{comment}{//"{}()"{}\ \ }}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em const} & string\& sentence\+: text sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+wstring\+: sentence has been processed 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{normalizer_8cpp_source_l00091}{91}} of file \mbox{\hyperlink{normalizer_8cpp_source}{normalizer.\+cpp}}.
+
+\Hypertarget{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852}\label{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852} 
+\index{normalizer.cpp@{normalizer.cpp}!UnicodeNormalize@{UnicodeNormalize}}
+\index{UnicodeNormalize@{UnicodeNormalize}!normalizer.cpp@{normalizer.cpp}}
+\doxysubsubsection{\texorpdfstring{UnicodeNormalize()}{UnicodeNormalize()}}
+{\footnotesize\ttfamily wstring Unicode\+Normalize (\begin{DoxyParamCaption}\item[{wregex}]{word\+\_\+pattern,  }\item[{wstring}]{sentence\+\_\+w }\end{DoxyParamCaption})}
+
+
+
+nfkc normalize sentence by icu\+::\+Normalizer2 
+
+Search for words that match the word\+\_\+pattern regular expression in the sentence and perform NFKC normalization using icu\+::\+Normalizer2. ~\newline
+
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{wstring\ sentence\ =\ L\textcolor{stringliteral}{"{}０１２３４５６７８９"{}};\ \ }
+\DoxyCodeLine{\textcolor{keyword}{static}\ wregex\ word\_pattern(L\textcolor{stringliteral}{"{}(([０-\/９]+))"{}});\ \ }
+\DoxyCodeLine{wstring\ normalized\_sentence\ =\ \mbox{\hyperlink{normalizer_8cpp_a7d2b96157bd86c81061abee358b41852}{UnicodeNormalize}}(word\_pattern,\ sentence)\ \ }
+\DoxyCodeLine{\textcolor{comment}{//\ normalized\_sentence\ ==\ L"{}0123456789"{}\ \ }}
+
+\end{DoxyCode}
+ 
+\begin{DoxyParams}{Parameters}
+{\em wregex} & word\+\_\+pattern\+: Regular expression for string to be normalized \\
+\hline
+{\em wstring} & sentence \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+wstring\+: normalized sentence \href{https://ja.wikipedia.org/wiki/Unicode}{\texttt{ https\+://ja.\+wikipedia.\+org/wiki/\+Unicode}}E4B8\%80E8A6A7\+\_\+0000-\/0FFF 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{normalizer_8cpp_source_l00038}{38}} of file \mbox{\hyperlink{normalizer_8cpp_source}{normalizer.\+cpp}}.
+

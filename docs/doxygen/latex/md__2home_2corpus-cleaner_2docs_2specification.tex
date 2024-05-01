@@ -1,0 +1,220 @@
+\chapter{Specification}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification}{}\label{md__2home_2corpus-cleaner_2docs_2specification}\index{Specification@{Specification}}
+\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md0}%
+\Hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md0}%
+ \hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md1}{}\doxysection{\texorpdfstring{Contents}{Contents}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md1}
+
+\begin{DoxyItemize}
+\item Contents
+\item Folder Structure
+\item File Format
+\item Corpus Cleaner Feature
+\item Multi\+Process Cleaning
+\item Test
+\item Documentation
+\end{DoxyItemize}\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md2}{}\doxysection{\texorpdfstring{Folder Structure}{Folder Structure}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md2}
+This tool assumes the following folder structure.\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md3}{}\doxysubsection{\texorpdfstring{Input Structure}{Input Structure}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md3}
+Please place the dataset files to "{}/results/dataset/original/"{}.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{corpus-\/cleaner}
+\DoxyCodeLine{|-\/-\/\ results}
+\DoxyCodeLine{|\ \ \ \`{}-\/-\/\ dataset}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \`{}-\/-\/\ original}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ |-\/-\/\ sample\_dataset\_train.txt\ \ \ \#\ This\ file\ is\ to\ be\ cleaned.}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \`{}-\/-\/\ sample\_dataset\_test.txt\ \ \ \ \#\ This\ file\ is\ to\ be\ cleaned.}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md4}{}\doxysubsection{\texorpdfstring{Intermediate Structure}{Intermediate Structure}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md4}
+The contents of each number folder are as follows. ~\newline
+ After running this tool, the files in the "{}results/dataset/original"{} folder will be divided into multiple parts (in the example below, 8 parts from 0 to 7) and each will be copied to the "{}dataset/i/input"{} folder. ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{corpus-\/cleaner}
+\DoxyCodeLine{|-\/-\/\ results}
+\DoxyCodeLine{|\ \ \ |-\/-\/\ dataset}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ 0}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ input}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ output}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ 1}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ input}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ output}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \string~\ ommit\ \string~\ }
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ 7}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ input}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ output}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ cleaned}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \`{}-\/-\/\ original}
+
+\end{DoxyCode}
+
+
+The breakdown of the numbered folders is as follows. ~\newline
+ First, the contents of the input folder are copied to the intermediate folder. ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{corpus-\/cleaner}
+\DoxyCodeLine{|-\/-\/\ results}
+\DoxyCodeLine{|\ \ \ |-\/-\/\ dataset}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ 0}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ |-\/-\/\ input}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ sample\_dataset\_train.txt}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ 　　|\ \ \ \`{}-\/-\/\ sample\_dataset\_test.txt\ \ \ }
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \`{}-\/-\/\ output}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |-\/-\/\ cleaned}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ sample\_dataset\_train.jsonl}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |-\/-\/\ exception}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ exception.txt}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |-\/-\/\ intermediate}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ sample\_dataset\_train.txt}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ sample\_dataset\_test.txt\ \ \ }
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \`{}-\/-\/\ rejected}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \`{}-\/-\/\ sample\_dataset\_train.jsonl}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md5}{}\doxysubsection{\texorpdfstring{Output Structure}{Output Structure}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md5}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{corpus-\/cleaner}
+\DoxyCodeLine{|-\/-\/\ results}
+\DoxyCodeLine{|\ \ \ |-\/-\/\ dataset}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ 0}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ input}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ output}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ 1}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ input}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ output}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \string~\ ommit\ \string~\ }
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ 7}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ |-\/-\/\ input}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |\ \ \ \`{}-\/-\/\ output}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ |-\/-\/\ cleaned}
+\DoxyCodeLine{|\ \ \ \ \ \ \ \ \ \`{}-\/-\/\ original}
+
+\end{DoxyCode}
+
+
+Note that if the cleaned file already exists, processing after the constructor of the \doxylink{classCorpusCleaner}{Corpus\+Cleaner} class will not proceed to prevent it from being overwritten. ~\newline
+ The following warning appears on the console, so move or delete the relevant file to another directory, and then try the process again. ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ERROR:\ output\_path\ or\ rejected\_path\ folder\ already\ exists.\ Please\ RENAME\ to\ delete\ the\ selection.}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md6}{}\doxysection{\texorpdfstring{File Format}{File Format}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md6}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md7}{}\doxysubsection{\texorpdfstring{Input File}{Input File}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md7}
+This tool takes a .txt file as input. Each .txt file is expected to contain one data series per line. ~\newline
+ The each line format is following.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{東洋史(とうようし)は、東洋を広く扱った歴史であり東洋学の歴史分野のことであり「東洋史学」(とうようしがく)とも称される。ヨーロッパ語の「東洋史」(たとえば英語の「Oriental\ History」)の訳語であり、現在の日本語の慣例ではおおむねマグリブから日本にかけての北アフリカ、ユーラシア大陸(ただしヨーロッパ地域を除く)および周辺諸島の歴史を扱う。}
+\DoxyCodeLine{趣味はバイク。MARVELも大好きでキャプテンアメリカと同じハーレーダビッドソンを所有している。}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md8}{}\doxysubsection{\texorpdfstring{Output File}{Output File}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md8}
+This tool is output cleaned file that is jsonl format. ~\newline
+ The each line format is following. ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}text"{}:"{}\ <cleaned\ data>"{},}
+\DoxyCodeLine{\ \ "{}id"{}:"{}<original\ file\ name>\_<the\ line\ number\ of\ original\ file>"{},}
+\DoxyCodeLine{\ \ "{}is\_rejected"{}:"{}<0\ or\ 1\ (0:\ data\ that\ is\ to\ be\ remained,\ 1:\ data\ that\ is\ to\ be\ removed)>"{},\ \ }
+\DoxyCodeLine{\ \ "{}metadata"{}:"{}<the\ function\ name\ list\ that\ processes\ tesxt>"{},}
+\DoxyCodeLine{\ \ "{}language"{}:"{}<language\ classification\ by\ fasttext.\ \_\_label\_\_ja\ is\ Japanese,\ \_\_label\_\_en\ is\ English,\ etc.>"{},}
+\DoxyCodeLine{\ \ "{}language\_score"{}:"{}<language\ classification\ score\ by\ fasttext.>"{},}
+\DoxyCodeLine{\ \ "{}perplexity"{}:"{}<perplexity\ value\ by\ kenlm\ model.>"{}\ \ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{"{}text"{}:"{}東洋史(とうようし)は、東洋を広く扱った歴史であり東洋学の歴史分野のことであり「東洋史学」(とうようしがく)とも称される。ヨーロッパ語の「東洋史」(たとえば英語の「Oriental\ History」)の訳語であり、現在の日本語の慣例ではおおむねマグリブから日本にかけての北アフリカ、ユーラシア大陸(ただしヨーロッパ地域を除く)および周辺諸島の歴史を扱う。"{},"{}id"{}:"{}wiki\_test\_27"{},"{}is\_rejected"{}:"{}0"{},"{}metadata"{}:"{}Normalizer,"{},"{}language"{}:"{}\_\_label\_\_ja"{},"{}language\_score"{}:"{}0.999781"{},"{}perplexity"{}:"{}6298.67"{}\}}
+\DoxyCodeLine{\{"{}text"{}:"{}趣味はバイク。MARVELも大好きでキャプテンアメリカと同じハーレーダビッドソンを所有している。"{},"{}id"{}:"{}wiki\_test\_2934"{},"{}is\_rejected"{}:"{}1"{},"{}metadata"{}:"{}Normalizer,PerplexityFilter,"{},"{}language"{}:"{}\_\_label\_\_ja"{},"{}language\_score"{}:"{}1.00005"{},"{}perplexity"{}:"{}179648"{}\}}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md9}{}\doxysection{\texorpdfstring{Corpus Cleaner Feature}{Corpus Cleaner Feature}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md9}
+In this chapter, I explain corpus cleaner feature that is \doxylink{classCorpusCleaner}{Corpus\+Cleaner} class.\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md10}{}\doxysubsection{\texorpdfstring{Flow}{Flow}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md10}
+TODO\+: write about ~\newline
+ TODO\+: write about using memory resource ~\newline
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md11}{}\doxysubsection{\texorpdfstring{List of Filtering Feature}{List of Filtering Feature}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md11}
+For usage examples of each function, please refer to the API specifications. ~\newline
+
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Features   }&\cellcolor{\tableheadbgcolor}\textbf{ Details   }&\cellcolor{\tableheadbgcolor}\textbf{ Remarks    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Features   }&\cellcolor{\tableheadbgcolor}\textbf{ Details   }&\cellcolor{\tableheadbgcolor}\textbf{ Remarks    }\\\cline{1-3}
+\endhead
+Normalizer   &Perform the normalization process described in the \href{https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja}{\texttt{ link}} below. ~\newline
+ Neologdn\textquotesingle{}s normalization contents include, for example, "{}replace half-\/width katakana with full-\/width"{} and "{}replace full-\/width spaces with half-\/width spaces."{}   &See \href{https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja}{\texttt{ here}} for details on normalization contents.    \\\cline{1-3}
+URLRemover   &Remove URLs matching regular expression that is "{}(https?\textbackslash{}\texorpdfstring{$\vert$}{|}ftp)(\+:\textbackslash{}/\textbackslash{}/\mbox{[}-\/\+\_\+\textbackslash{}.!\texorpdfstring{$\sim$}{\string~}\texorpdfstring{$\ast$}{*}\textbackslash{}\textquotesingle{}()a-\/z\+A-\/\+Z0-\/9;\textbackslash{}/?\+:\textbackslash{}@\&=\textbackslash{}+\textbackslash{}\$,\%\#\mbox{]}+)"{}.   &\\\cline{1-3}
+Special\+Characters\+Remover   &Remove special character.~\newline
+ For example, ☀, ♡, ☆, and so on.~\newline
+Removes special characters within a specific Unicode range.   &Please refer \href{https://guppy.eng.kagawa-u.ac.jp/OpenCampus/unicode.html}{\texttt{ this URL}}.~\newline
+Special characters to be removed include some emojis.    \\\cline{1-3}
+Emoji\+Remover   &Remove emoji characters that is \textbackslash{}\+U0001\+F300(🌀) to \textbackslash{}\+U0001\+F9\+FF(🧿).   &\\\cline{1-3}
+Quotes\+Remover   &Remove quotes. For example, \mbox{[}1\mbox{]}, \{245\}, and so on.   &\\\cline{1-3}
+Length\+Filter   &Remove too long sentence and too short sentence.   &\\\cline{1-3}
+Language\+Filter   &Classify sentence composition language and quality using fast\+Text.~\newline
+ This function is applied to japanese and english.   &This function uses fast\+Text. About fast\+Text, please refer \href{https://fasttext.cc/docs/en/crawl-vectors.html}{\texttt{ here}}.    \\\cline{1-3}
+Minhash\+Deduplicater   &Deduplicate sentence using minhash.~\newline
+Sentence\+Piece is used when tokenizing sentences.   &\\\cline{1-3}
+Zero\+Punctuation\+Filter   &Remove sentence without punctuation that is "{}、"{},"{}､"{},"{}。"{},"{}｡"{},"{}．"{},"{}."{},"{}？"{},"{}?"{},"{}！"{},"{}!"{}.   &\\\cline{1-3}
+Perplexity\+Filter   &Ken\+LM\textquotesingle{}s Perplexity Quality filtering.   &\\\cline{1-3}
+Sentence\+Segmenter   &Execute Rule-\/based sentence separation (sentence segmentation) using \href{https://github.com/wwwcojp/ja_sentence_segmenter}{\texttt{ ja\+\_\+sentence\+\_\+segmenter}}.   &Please refer this \href{https://qiita.com/heimaru1231/items/b6ed09d4787e4e28175a}{\texttt{ article}}.   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md12}{}\doxysection{\texorpdfstring{Multi\+Process Cleaning}{Multi\+Process Cleaning}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md12}
+In main.\+cc, we create 8 (fixed value) processes and each process processes a different file to speed it up.\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md13}{}\doxysection{\texorpdfstring{Test}{Test}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md13}
+In this repository, I do test using \href{https://github.com/google/googletest}{\texttt{ Google\+Test}}. Test folder is tests/, and test file is \href{./tests/CorpusCleaner_test.cpp}{\texttt{ Corpus\+Cleaner\+\_\+test.\+cpp}}.
+
+If you want to do test, Please execute following command.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ echo\ \$PWD\ }
+\DoxyCodeLine{\#\ /path/to/corpus-\/cleanaer/}
+\DoxyCodeLine{bash\ scripts/test.sh}
+
+\end{DoxyCode}
+
+
+When you do the command, the results of test is output.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{+\ ./test\_corpus\_cleaner-\/googletest}
+\DoxyCodeLine{Running\ main()\ from\ /home/corpus-\/cleaner/tests/build/\_deps/googletest-\/src/googletest/src/gtest\_main.cc}
+\DoxyCodeLine{[==========]\ Running\ 24\ tests\ from\ 1\ test\ suite.}
+\DoxyCodeLine{\string~\ omission\ \string~}
+\DoxyCodeLine{[\ RUN\ \ \ \ \ \ ]\ CorpusCleanerTest.ExceptionReadDocumentFromJsonlOneLine}
+\DoxyCodeLine{[\ \ \ \ \ \ \ OK\ ]\ CorpusCleanerTest.ExceptionReadDocumentFromJsonlOneLine\ (209\ ms)}
+\DoxyCodeLine{[-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/]\ 24\ tests\ from\ CorpusCleanerTest\ (3140\ ms\ total)}
+\DoxyCodeLine{}
+\DoxyCodeLine{[-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/]\ Global\ test\ environment\ tear-\/down}
+\DoxyCodeLine{[==========]\ 24\ tests\ from\ 1\ test\ suite\ ran.\ (3140\ ms\ total)}
+\DoxyCodeLine{[\ \ PASSED\ \ ]\ 24\ tests.}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md14}{}\doxysection{\texorpdfstring{Documentation}{Documentation}}\label{md__2home_2corpus-cleaner_2docs_2specification_autotoc_md14}

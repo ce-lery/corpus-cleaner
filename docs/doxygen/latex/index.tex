@@ -1,0 +1,193 @@
+\chapter{Corpus Cleaner}
+\hypertarget{index}{}\label{index}\index{Corpus Cleaner@{Corpus Cleaner}}
+\hypertarget{index_autotoc_md37}{}\doxysection{\texorpdfstring{Overview}{Overview}}\label{index_autotoc_md37}
+Welcome to my repository! ~\newline
+ This repository is a C++ library includes quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus. ~\newline
+ The features are following.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Normalizer}}\+: Sentence normalization created by \href{https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja}{\texttt{ mecab-\/neologd}}
+\item {\bfseries{URL Remover}}\+: Remove URLs matching regular expression
+\item {\bfseries{Special Characters Remover}}\+: Remove certain special characters (☀, ♡, ☆, etc.)
+\item {\bfseries{Emoji Remover}}\+: Remove emoji characters that is \textbackslash{}\+U0001\+F300 to \textbackslash{}\+U0001\+F9\+FF.
+\item {\bfseries{Quotes Remover}}\+: Remove quotes (\mbox{[}1\mbox{]}, \{245\})
+\item {\bfseries{Length Filter}}\+: Remove too long sentence and too short sentence
+\item {\bfseries{Language Filter}}\+: Determine whether it is a Japanese document
+\item {\bfseries{Minhash Deduplicator}}\+: Deduplication using Minhash
+\item {\bfseries{Zero\+Punctuation\+Filter}}\+: Delete documents without punctuation
+\item {\bfseries{Sentence Segmenter}}\+: Divide the corpus into sentences based on rules
+\item {\bfseries{Perplexity Filter}}\+: Perplexity filter using k\+ENLM
+\end{DoxyItemize}\hypertarget{index_autotoc_md39}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{index_autotoc_md39}
+\hypertarget{index_autotoc_md40}{}\doxysubsection{\texorpdfstring{Clone Repository}{Clone Repository}}\label{index_autotoc_md40}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/ce-\/lery/corpus-\/cleaner.git}
+\DoxyCodeLine{cd\ corpus-\/cleaner}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md41}{}\doxysubsection{\texorpdfstring{Install Step}{Install Step}}\label{index_autotoc_md41}
+\hypertarget{index_autotoc_md42}{}\doxysubsubsection{\texorpdfstring{Docker}{Docker}}\label{index_autotoc_md42}
+Build a python environment using Docker files.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker\ build\ -\/t\ corpus-\/cleaner-\/image\ ./}
+\DoxyCodeLine{docker\ run\ -\/v\ ./:/home/corpus-\/cleaner/\ -\/it\ -\/-\/gpus\ all\ corpus-\/cleaner-\/image}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md43}{}\doxysubsubsection{\texorpdfstring{Other (Local Install)}{Other (Local Install)}}\label{index_autotoc_md43}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt\ upgrade}
+\DoxyCodeLine{sudo\ apt-\/get\ install\ cmake\ gdb\ libboost-\/system-\/dev\ libboost-\/thread-\/dev\ libboost-\/program-\/options-\/dev\ libboost-\/test-\/dev\ libeigen3-\/dev\ zlib1g-\/dev\ libbz2-\/dev\ liblzma-\/dev\ \ pkg-\/config\ \ libgoogle-\/perftools-\/dev\ curl\ wget\ build-\/essential\ nano\ flex\ bison}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md44}{}\doxysubsection{\texorpdfstring{Common Step}{Common Step}}\label{index_autotoc_md44}
+Run the shell script with the following command. ~\newline
+ In this script, you install third party library.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/setup.sh}
+
+\end{DoxyCode}
+
+
+Build source code of corpus-\/cleaner.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/build.sh}
+
+\end{DoxyCode}
+
+
+Please place the files to be cleaned in "{}./results/data/original"{}. The file format is "{}.\+txt"{}. For example, "{}wiki.\+txt"{}, "{}cc100\+\_\+train.\+txt"{}, and so on.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ -\/p\ results/data/original/}
+\DoxyCodeLine{\#\ Please\ place\ the\ files\ to\ be\ cleaned\ in\ "{}./results/data/original"{}.}
+
+\end{DoxyCode}
+
+
+Run corpus\+\_\+cleaner. Please wait a minute. ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/run.sh}
+
+\end{DoxyCode}
+
+
+The cleaning result files will be created in "{}results/data/cleaned"{}. ~\newline
+ The file format is jsonl. ~\newline
+\hypertarget{index_autotoc_md45}{}\doxysection{\texorpdfstring{Specification}{Specification}}\label{index_autotoc_md45}
+If you want to see this tool\textquotesingle{}s specification and API references, please refer \doxysectlink{md__2home_2corpus-cleaner_2docs_2specification}{here}{0}.\hypertarget{index_autotoc_md46}{}\doxysection{\texorpdfstring{Usage}{Usage}}\label{index_autotoc_md46}
+\hypertarget{index_autotoc_md47}{}\doxysubsection{\texorpdfstring{Basic Usage}{Basic Usage}}\label{index_autotoc_md47}
+The basic usage of corpus-\/cleaner is same as Getting Started.\hypertarget{index_autotoc_md48}{}\doxysubsection{\texorpdfstring{Select Filtering Feature}{Select Filtering Feature}}\label{index_autotoc_md48}
+If you want to disable Sentence Segmenter, please set "{}bool sentence\+\_\+segment=false"{}, and create instance of \doxylink{classCorpusCleaner}{Corpus\+Cleaner} class.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classCorpusCleaner}{CorpusCleaner}}\ corpus\_cleaner(input\_folder\_path,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output\_folder\_path,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min\_length,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ max\_length,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ accept\_language,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ store\_rejected,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ execute\_sentence\_segment,\ \textcolor{comment}{//\ <-\/-\/-\/-\/-\/-\/-\/-\/-\/\ switch\ here\ to\ false}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ language\_threshold,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ perplexity\_threshold,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&generate\_dedup\_lsh,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&deduplicator);}
+
+\end{DoxyCode}
+
+
+If you want to disable filter, please Comment out the corresponding filter function in the variable TODO\+:.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{int32\_t\ \mbox{\hyperlink{classCorpusCleaner_a53c08cd06810612e46afd2b55f845578}{CorpusCleaner::CleanPipeline}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Set\ CorpusCleaner\ process\ that\ will\ be\ executed.}}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ They\ will\ be\ executed\ in\ the\ order\ you\ set\ them.}}
+\DoxyCodeLine{\ \ \ \ vector<void\ (\mbox{\hyperlink{classCorpusCleaner}{CorpusCleaner}}::*)(\mbox{\hyperlink{struct__DOCUMENT}{Document}}\ \&)>\ cleaner\_list\ =\ \{\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_a028fdb141f2b92da54429677f0abb154}{CorpusCleaner::Normalizer}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_afb2e7e32b845c6d937a6ba39aedbb3ef}{CorpusCleaner::URLRemover}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_a945760c19bee2920cc4410b39d063d9c}{CorpusCleaner::EmojiRemover}},\ }
+\DoxyCodeLine{\textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#\ \&CorpusCleaner::SpecialCharacterRemover,}}
+\DoxyCodeLine{\textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#\ \&CorpusCleaner::QuotesRemover,\ \ \ }\textcolor{comment}{//\ <-\/\ If\ you\ comment\ or\ exclude\ function\ of\ }}
+\DoxyCodeLine{\textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#\ \&CorpusCleaner::LengthFilter,\ \ \ \ }\textcolor{comment}{//\ <-\/\ cleaner\_list,\ the\ functions\ are\ disabled.}}
+\DoxyCodeLine{\textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#\ \&CorpusCleaner::ZeroPunctuationFilter,}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_a72054e52aa4d162a33b7069483a6f6be}{CorpusCleaner::LanguageFilter}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_a48075612da853cba90b97e11c92b7c50}{CorpusCleaner::MinhashDeduplication}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \&\mbox{\hyperlink{classCorpusCleaner_a45f781beefb1ccda6eee48daeee198af}{CorpusCleaner::PerplexityFilter}},}
+\DoxyCodeLine{\ \ \ \ \};\ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ \string~\ ommit\ \string~}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Maybe, this step will be changed in the future.\hypertarget{index_autotoc_md49}{}\doxysection{\texorpdfstring{License}{License}}\label{index_autotoc_md49}
+This repository is licensed under the Apache License, Version2.\+0. ~\newline
+ Please refer \mbox{[}LICENSE\mbox{]}(LICENSE) file.\hypertarget{index_autotoc_md50}{}\doxysection{\texorpdfstring{Third Party Library}{Third Party Library}}\label{index_autotoc_md50}
+In this repository, I use following third party library. ~\newline
+ Please note the lisence. ~\newline
+
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Library   }&\cellcolor{\tableheadbgcolor}\textbf{ License   }&\cellcolor{\tableheadbgcolor}\textbf{ Purpose    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Library   }&\cellcolor{\tableheadbgcolor}\textbf{ License   }&\cellcolor{\tableheadbgcolor}\textbf{ Purpose    }\\\cline{1-3}
+\endhead
+\href{https://github.com/unicode-org/icu?tab=readme-ov-file}{\texttt{ icu}}   &\href{https://github.com/unicode-org/icu?tab=License-1-ov-file\#readme}{\texttt{ UNICODE LICENSE V3}}   &For NFKC normalization of Normalizer.    \\\cline{1-3}
+\href{https://github.com/kpu/kenlm?tab=readme-ov-file}{\texttt{ kenlm}}   &{\bfseries{LGPL license}}   &For perplexity filtering.~\newline
+Since I have not embedded this tool in this repository (installed it when I use it), ~\newline
+I think that this repository is not covered by the LGPL license.    \\\cline{1-3}
+\href{https://github.com/google/sentencepiece}{\texttt{ Sentence\+Piece}}   &Apache-\/2.\+0 license   &For tokenization in perplexity filtering.    \\\cline{1-3}
+\href{https://github.com/rurban/smhasher}{\texttt{ smhasher}}   &MIT licensed.   &For hash value generation for Mihash processing.    \\\cline{1-3}
+\href{https://github.com/simdjson/simdjson}{\texttt{ simdjson}}   &Apache-\/2.\+0 license   &For jsonl parsing.    \\\cline{1-3}
+\href{https://github.com/facebookresearch/fastText}{\texttt{ fast\+Text}}   &MIT license   &For language filtering.    \\\cline{1-3}
+\href{https://github.com/google/googletest}{\texttt{ Google\+Test}}   &BSD-\/3-\/\+Clause license   &For test.    \\\cline{1-3}
+\href{https://github.com/doxygen/doxygen}{\texttt{ doxygen}}   &(GPL-\/2.\+0 license)   &For Documentation.~\newline
+This license does not apply to works produced by doxygen   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{index_autotoc_md51}{}\doxysection{\texorpdfstring{Test}{Test}}\label{index_autotoc_md51}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ scripts/test.sh}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md52}{}\doxysection{\texorpdfstring{Contribution}{Contribution}}\label{index_autotoc_md52}
+We welcome your contributions to this repository. To contribute, please see \doxysectlink{md__2home_2corpus-cleaner_2CONTRIBUTING}{CONTRIBUTING.md}{0}.\hypertarget{index_autotoc_md53}{}\doxysection{\texorpdfstring{TODO}{TODO}}\label{index_autotoc_md53}
+\hypertarget{index_autotoc_md54}{}\doxysubsection{\texorpdfstring{ver.\+0.\+1.\+0}{ver.\+0.\+1.\+0}}\label{index_autotoc_md54}
+
+\begin{DoxyItemize}
+\item \mbox{[} \mbox{]} Write document \& create doxygen
+\end{DoxyItemize}\hypertarget{index_autotoc_md55}{}\doxysubsection{\texorpdfstring{ver.\+0.\+2.\+0}{ver.\+0.\+2.\+0}}\label{index_autotoc_md55}
+
+\begin{DoxyItemize}
+\item \mbox{[} \mbox{]} Set Github Action\textquotesingle{}s CI/\+CD（build）
+\item \mbox{[} \mbox{]} Implement pybind \& python code
+\item \mbox{[} \mbox{]} Implement loader json \& jsonl
+\item \mbox{[} \mbox{]} Morphological analysis (by jagger)
+\item \mbox{[} \mbox{]} Remove ad header and footer
+\item \mbox{[} \mbox{]} Remove HTML mark
+\item \mbox{[} \mbox{]} Implement dump .txt format file(only is\+\_\+removed=false).
+\item \mbox{[} \mbox{]} Remove repeated expressions
+\end{DoxyItemize}\hypertarget{index_autotoc_md56}{}\doxysubsection{\texorpdfstring{ver.\+0.\+3.\+0}{ver.\+0.\+3.\+0}}\label{index_autotoc_md56}
+
+\begin{DoxyItemize}
+\item \mbox{[} \mbox{]} Speedup? 
+\end{DoxyItemize}

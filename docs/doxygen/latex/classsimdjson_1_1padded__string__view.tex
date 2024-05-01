@@ -1,0 +1,127 @@
+\doxysection{simdjson\+::padded\+\_\+string\+\_\+view Class Reference}
+\hypertarget{classsimdjson_1_1padded__string__view}{}\label{classsimdjson_1_1padded__string__view}\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+
+
+{\ttfamily \#include $<$simdjson.\+h$>$}
+
+Inheritance diagram for simdjson\+::padded\+\_\+string\+\_\+view\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsimdjson_1_1padded__string__view}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsimdjson_1_1padded__string__view_aa338ad56304bc79e6ca1fab64af41de0}{padded\+\_\+string\+\_\+view}} () noexcept=default
+\item 
+\mbox{\hyperlink{classsimdjson_1_1padded__string__view_a47ac0063f7dd0ffd832c5e4439f2de30}{padded\+\_\+string\+\_\+view}} (const char \texorpdfstring{$\ast$}{*}s, size\+\_\+t len, size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1padded__string__view_a9d98e1984b893116d8bb7123d84d75b8}{capacity}}) noexcept
+\item 
+\mbox{\hyperlink{classsimdjson_1_1padded__string__view_a184b54acd28046a9c4f2a6cfa5419779}{padded\+\_\+string\+\_\+view}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}s, size\+\_\+t len, size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1padded__string__view_a9d98e1984b893116d8bb7123d84d75b8}{capacity}}) noexcept
+\item 
+\mbox{\hyperlink{classsimdjson_1_1padded__string__view_aae57856a217294ac218b6372a5e37d9a}{padded\+\_\+string\+\_\+view}} (const std\+::string \&s) noexcept
+\item 
+\mbox{\hyperlink{classsimdjson_1_1padded__string__view_a12b33830793e7ab1953b961088a83c3d}{padded\+\_\+string\+\_\+view}} (std\+::string\+\_\+view s, size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1padded__string__view_a9d98e1984b893116d8bb7123d84d75b8}{capacity}}) noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1padded__string__view_a9d98e1984b893116d8bb7123d84d75b8}{capacity}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classsimdjson_1_1padded__string__view_a572beea549bf5a58d62ffe4e768c1e82}{remove\+\_\+utf8\+\_\+bom}} () noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{classsimdjson_1_1padded__string__view_a934e7272d22d6024383eafe07b06773c}{padding}} () const noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+User-\/provided string that promises it has extra padded bytes at the end for use with parser\+::parse(). 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classsimdjson_1_1padded__string__view_aa338ad56304bc79e6ca1fab64af41de0}\label{classsimdjson_1_1padded__string__view_aa338ad56304bc79e6ca1fab64af41de0} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!padded\_string\_view@{padded\_string\_view}}
+\index{padded\_string\_view@{padded\_string\_view}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{padded\_string\_view()}{padded\_string\_view()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily simdjson\+::padded\+\_\+string\+\_\+view\+::padded\+\_\+string\+\_\+view (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+Create an empty \doxylink{classsimdjson_1_1padded__string__view}{padded\+\_\+string\+\_\+view}. \Hypertarget{classsimdjson_1_1padded__string__view_a47ac0063f7dd0ffd832c5e4439f2de30}\label{classsimdjson_1_1padded__string__view_a47ac0063f7dd0ffd832c5e4439f2de30} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!padded\_string\_view@{padded\_string\_view}}
+\index{padded\_string\_view@{padded\_string\_view}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{padded\_string\_view()}{padded\_string\_view()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily simdjson\+::padded\+\_\+string\+\_\+view\+::padded\+\_\+string\+\_\+view (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s,  }\item[{size\+\_\+t}]{len,  }\item[{size\+\_\+t}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}, {\ttfamily [noexcept]}}
+
+Promise the given buffer has at least SIMDJSON\+\_\+\+PADDING extra bytes allocated to it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The string. \\
+\hline
+{\em len} & The length of the string (not including padding). \\
+\hline
+{\em capacity} & The allocated length of the string, including padding. If the capacity is less than the length, the capacity will be set to the length. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1padded__string__view_a184b54acd28046a9c4f2a6cfa5419779}\label{classsimdjson_1_1padded__string__view_a184b54acd28046a9c4f2a6cfa5419779} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!padded\_string\_view@{padded\_string\_view}}
+\index{padded\_string\_view@{padded\_string\_view}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{padded\_string\_view()}{padded\_string\_view()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily simdjson\+::padded\+\_\+string\+\_\+view\+::padded\+\_\+string\+\_\+view (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{s,  }\item[{size\+\_\+t}]{len,  }\item[{size\+\_\+t}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}, {\ttfamily [noexcept]}}
+
+overload explicit inline padded\+\_\+string\+\_\+view(const char\texorpdfstring{$\ast$}{*} s, size\+\_\+t len) noexcept \Hypertarget{classsimdjson_1_1padded__string__view_aae57856a217294ac218b6372a5e37d9a}\label{classsimdjson_1_1padded__string__view_aae57856a217294ac218b6372a5e37d9a} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!padded\_string\_view@{padded\_string\_view}}
+\index{padded\_string\_view@{padded\_string\_view}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{padded\_string\_view()}{padded\_string\_view()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily simdjson\+::padded\+\_\+string\+\_\+view\+::padded\+\_\+string\+\_\+view (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}, {\ttfamily [noexcept]}}
+
+Promise the given string has at least SIMDJSON\+\_\+\+PADDING extra bytes allocated to it.
+
+The capacity of the string will be used to determine its padding.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The string. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classsimdjson_1_1padded__string__view_a12b33830793e7ab1953b961088a83c3d}\label{classsimdjson_1_1padded__string__view_a12b33830793e7ab1953b961088a83c3d} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!padded\_string\_view@{padded\_string\_view}}
+\index{padded\_string\_view@{padded\_string\_view}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{padded\_string\_view()}{padded\_string\_view()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily simdjson\+::padded\+\_\+string\+\_\+view\+::padded\+\_\+string\+\_\+view (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{s,  }\item[{size\+\_\+t}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}, {\ttfamily [noexcept]}}
+
+Promise the given string\+\_\+view has at least SIMDJSON\+\_\+\+PADDING extra bytes allocated to it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The string. \\
+\hline
+{\em capacity} & The allocated length of the string, including padding. If the capacity is less than the length, the capacity will be set to the length. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsimdjson_1_1padded__string__view_a9d98e1984b893116d8bb7123d84d75b8}\label{classsimdjson_1_1padded__string__view_a9d98e1984b893116d8bb7123d84d75b8} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!capacity@{capacity}}
+\index{capacity@{capacity}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
+{\footnotesize\ttfamily size\+\_\+t simdjson\+::padded\+\_\+string\+\_\+view\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+The number of allocated bytes. \Hypertarget{classsimdjson_1_1padded__string__view_a934e7272d22d6024383eafe07b06773c}\label{classsimdjson_1_1padded__string__view_a934e7272d22d6024383eafe07b06773c} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!padding@{padding}}
+\index{padding@{padding}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{padding()}{padding()}}
+{\footnotesize\ttfamily size\+\_\+t simdjson\+::padded\+\_\+string\+\_\+view\+::padding (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+The amount of padding on the string (\doxylink{classsimdjson_1_1padded__string__view_a9d98e1984b893116d8bb7123d84d75b8}{capacity()} -\/ length()) \Hypertarget{classsimdjson_1_1padded__string__view_a572beea549bf5a58d62ffe4e768c1e82}\label{classsimdjson_1_1padded__string__view_a572beea549bf5a58d62ffe4e768c1e82} 
+\index{simdjson::padded\_string\_view@{simdjson::padded\_string\_view}!remove\_utf8\_bom@{remove\_utf8\_bom}}
+\index{remove\_utf8\_bom@{remove\_utf8\_bom}!simdjson::padded\_string\_view@{simdjson::padded\_string\_view}}
+\doxysubsubsection{\texorpdfstring{remove\_utf8\_bom()}{remove\_utf8\_bom()}}
+{\footnotesize\ttfamily bool simdjson\+::padded\+\_\+string\+\_\+view\+::remove\+\_\+utf8\+\_\+bom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Remove the UTF-\/8 Byte Order Mark (BOM) if it exists.
+
+\begin{DoxyReturn}{Returns}
+whether a BOM was found and removed 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/corpus-\/cleaner/corpus\+\_\+cleaner/simdjson.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,32 @@
+\doxysection{util.\+hpp}
+\hypertarget{util_8hpp_source}{}\label{util_8hpp_source}\index{/home/corpus-\/cleaner/corpus\_cleaner/util.hpp@{/home/corpus-\/cleaner/corpus\_cleaner/util.hpp}}
+\mbox{\hyperlink{util_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <bits/stdc++.h>}}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <sys/stat.h>}}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00004}00004\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00005}00005\ \textcolor{keyword}{namespace\ }fs\ =\ filesystem;}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00007}00007\ uint32\_t\ \mbox{\hyperlink{util_8hpp_a6bc660d7b9d776f3c25a133636659ea8}{strlen\_utf8}}(\textcolor{keywordtype}{string}\ input);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00008}\mbox{\hyperlink{util_8hpp_a43e9c521fe4f3652e63cba4b50b6a3f5}{00008}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_a43e9c521fe4f3652e63cba4b50b6a3f5}{RemoveFolder}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00009}00009\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8hpp_a914d894241e9433a27d901a8fc485c2c}{CalculateNextEmoji}}(\textcolor{keywordtype}{string}\ pre\_emoji);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00010}00010\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_a19002ef5be3294a7352124d99aed072b}{GetFileNameListWithoutExtention}}(\textcolor{keywordtype}{string}\ folder\_path,\ vector<string>\ *file\_list);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00011}00011\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_a0005164f6617c1970b5db8d477be9f2b}{GetFileLineNumberList}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ folder\_path,\ }
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ vector<string>\ *file\_list,\ }
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ file\_extention,}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vector<uint64\_t>\ *file\_line\_number\_list);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00015}00015\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_a41c565fcc77e48108d014d8ac9e45890}{CopyFolder}}(\textcolor{keywordtype}{string}\ source\_folder,\ \textcolor{keywordtype}{string}\ target\_folder);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00016}00016\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_aa550fb657da58cba8680f1d677917a36}{CopyFile}}(\textcolor{keywordtype}{string}\ source\_path,\ \textcolor{keywordtype}{string}\ target\_path);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00017}00017\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_ae51e8495f5c619ea6f22cd335fe9b5c6}{MoveFolder}}(\textcolor{keywordtype}{string}\ source\_folder,\ \textcolor{keywordtype}{string}\ target\_folder);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00018}00018\ wstring\ \mbox{\hyperlink{util_8hpp_ac088f18042a7b17c0d2f54634a159972}{ConvertUTF8ToWstring}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sentence);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00019}00019\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8hpp_a01370cacb171f76080f5c02559c9c811}{ConvertWstringToUTF8}}(\textcolor{keyword}{const}\ wstring\&\ sentence);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00020}00020\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_ae0caaaa1f454216238c3f8c6d755ec5f}{SegmentSentence}}(\textcolor{keywordtype}{string}\ sentence,\ vector<string>\ \&segments);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00021}00021\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8hpp_acdaaaceb1f0b5c0a1c8ad84843dbec1e}{Strip}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ sentence);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00022}00022\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_a9772b111e567abe841a78bbc1389e73d}{ReplaceSubstring}}(\textcolor{keywordtype}{string}\&\ sentence,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ target,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ replacement);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00023}00023\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{util_8hpp_ae54568cb0ecde1a21dfeda85bff0a988}{EscapeWord}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ input);}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00024}00024\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{util_8hpp_a1f8884b4712b238d89d94c729e58a2fc}{ProceedProgressBar}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ line\_count,}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ file\_line\_number,}
+\DoxyCodeLine{\Hypertarget{util_8hpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ elapsed\_time\_ms);}
+
+\end{DoxyCode}

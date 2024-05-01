@@ -9,8 +9,7 @@
 ## Overview
 
 Welcome to my repository!   
-This repository is a C++ library for quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus. 
-
+This repository is a C++ library includes quality filtering, deduplication, and unnecessary vocabulary removal for Japanese corpus.  
 The features are following.
 
 - **Normalizer**: Sentence normalization created by [mecab-neologd](https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja)
@@ -92,7 +91,7 @@ The file format is jsonl.
 
 ## Specification
 
-If you want to see this tool's specification and API references, please refer [here]().
+If you want to see this tool's specification and API references, please refer [here](./docs/specification.md).
 
 ## Usage
 
