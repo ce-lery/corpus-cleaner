@@ -16,4 +16,6 @@ bash scripts/setup_murmurhash.sh
 bash scripts/setup_sentencepiece.sh
 bash scripts/setup_sigmdjson.sh
 
+touch scripts/setup_completed
+
 set +x

@@ -6,17 +6,28 @@ log=results/log/$(basename "$0" .sh)/$(date +%Y%m%d_%H%M%S).log
 exec &> >(tee -a $log)
 set -x
 
-# make & activate venv
+
+if [ ! -f "scripts/setup_completed" ];then
+    bash scripts/setup.sh
+fi
+
 if [ ! -d "tests/googletest" ];then
     bash scripts/setup_googletest.sh
 fi
 
 cd tests
-mkdir -p build & cd build
+mkdir -p build 
+cd build
 
-if [ ! -f "lid.176.bin" ];then
-    wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
-fi
+# if [ ! -f "lid.176.bin" ];then
+#     wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+# fi
+# if [ ! -f "ja.arpa.bin" ];then
+#     wget http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
+# fi
+# if [ ! -f "ja.sp.model" ];then
+#     wget wget http://dl.fbaipublicfiles.com/cc_net/lm/ja.sp.model
+# fi
 
 cmake ..
 make all
