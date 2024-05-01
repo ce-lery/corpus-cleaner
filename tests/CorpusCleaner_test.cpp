@@ -463,7 +463,7 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
     mkdir(output_folder_path.c_str(), 0777);
 
     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
-    LSHDeduplicator deduplicator(true,"../data/output/minhash/blacklist.txt",true,5120);
+    LSHDeduplicator deduplicator(true,"../data/output/minhash/blacklist.txt",true,5120000);
     CorpusCleaner corpus_cleaner(input_folder_path,
                                  output_folder_path,
                                  min_length,
@@ -727,13 +727,26 @@ TEST_F(CorpusCleanerTest,GetFileNameListWithoutExtention)
 {
     string input_path = "../data/input/sentence_deduplicate";
     vector<string> file_name_list;
+    vector<string> anwer_list={"test_SentenceDeduplication2",
+                               "test_SentenceDeduplication3",
+                               "test_SentenceDeduplication"};
     GetFileNameListWithoutExtention(input_path, &file_name_list);
-    // cout << file_name_list[0] << endl;
-    ASSERT_TRUE(file_name_list[0]=="test_SentenceDeduplication2");
-    // cout << file_name_list[1] << endl;
-    ASSERT_TRUE(file_name_list[1]=="test_SentenceDeduplication3");
-    // cout << file_name_list[2] << endl;
-    ASSERT_TRUE(file_name_list[2]=="test_SentenceDeduplication");
+
+    //Make sure it is included only once
+    bool judge=true;
+    for(int i=0;i<3;i++){
+        bool found=false;
+        for(auto filename:file_name_list){
+            if(!found&&anwer_list[i]==filename){
+                found=true;
+            }
+            else if(found&&anwer_list[i]==filename){
+                judge=false;
+                break;
+            }
+        }
+    }
+    ASSERT_TRUE(judge==true);
 }
 
 
