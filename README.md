@@ -2,6 +2,8 @@
 
 @mainpage  
 ![doxygen deploy](https://github.com/ce-lery/corpus-cleaner/actions/workflows/doxygen-gh-pages.yml/badge.svg)
+![Build](https://github.com/ce-lery/corpus-cleaner/actions/workflows/build.yml/badge.svg)
+![Test](https://github.com/ce-lery/corpus-cleaner/actions/workflows/test.yml/badge.svg)
 <!--  -->
 <!-- ![](image/comparison.png) -->
 <!-- <img src="image/comparison.png" width="500"> -->
@@ -219,7 +221,7 @@ Please note the lisence.
 |Library|License|Purpose|
 |:--|:--|:--|
 |[icu](https://github.com/unicode-org/icu?tab=readme-ov-file)|[UNICODE LICENSE V3](https://github.com/unicode-org/icu?tab=License-1-ov-file#readme)|For NFKC normalization of Normalizer.|
-|[kenlm](https://github.com/kpu/kenlm?tab=readme-ov-file)|**LGPL license**|For perplexity filtering.<br>Since I have not embedded this tool in this repository (installed it when I use it), <br>I think that this repository is not covered by the LGPL license.|
+|[kenlm](https://github.com/kpu/kenlm?tab=readme-ov-file)|**LGPL license**|For perplexity filtering.<br>Since I have not embedded this tool in this repository (installed it when I use it), <br>I think that this repository is not covered by the LGPL license.<br>Judging from the fact that [cc_net](https://github.com/facebookresearch/cc_net), which also uses KENLM, is under the MIT license|
 |[SentencePiece](https://github.com/google/sentencepiece)|Apache-2.0 license|For tokenization in perplexity filtering.|
 |[smhasher](https://github.com/rurban/smhasher)|MIT licensed.|For hash value generation for Mihash processing.|
 |[simdjson](https://github.com/simdjson/simdjson)|Apache-2.0 license|For jsonl parsing.|
@@ -246,7 +248,7 @@ To contribute, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### ver.0.2.0
 
-- [ ] Set Github Action's CI/CD（build）
+- [x] Set Github Action's CI/CD（build）
 - [ ] Implement pybind & python code
 - [ ] Implement loader json & jsonl
 - [ ] Morphological analysis (by jagger)

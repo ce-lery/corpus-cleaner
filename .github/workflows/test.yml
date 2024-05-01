@@ -1,0 +1,20 @@
+name: Test
+
+# https://qiita.com/toppy-luna/items/8358c19bbfb2aee4e848
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: test
+      run: | 
+        sudo apt-get update
+        sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  curl wget build-essential nano flex bison
+        bash scripts/test.sh
