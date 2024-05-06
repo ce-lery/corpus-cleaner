@@ -5,16 +5,6 @@ cmake_minimum_required(VERSION 3.22)
 # set project name
 project(corpus_cleaner CXX)
 
-#include(FetchContent)
-#FetchContent_Declare(
-#  googletest
-#  # Specify the commit you depend on and update it regularly.
-#  URL https://github.com/google/googletest/archive/#609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
-#)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-#set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-#FetchContent_MakeAvailable(googletest)
-
 add_subdirectory(kenlm)
 
 # include_directories(${CMAKE_SOURCE_DIR}/../corpus_cleaner/)
@@ -27,8 +17,9 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/build/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/src) 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/sentencepiece/build/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/sentencepiece/src) 
-# add_subdirectory(corpus_cleaner)
-# add_subdirectory(tests)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/jagger-extension/jagger-2023-02-18/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/jagger-extension/jagger-2023-02-18)
+
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
 add_executable(${PROJECT_NAME}
                main.cpp 
@@ -42,6 +33,8 @@ add_executable(${PROJECT_NAME}
                minhash.hpp
                ../scripts/smhasher/src/MurmurHash3.cpp
                ../scripts/smhasher/src/MurmurHash3.h
+               ../scripts/jagger-extension/jagger-2023-02-18/src/jagger.cc
+               ../scripts/jagger-extension/jagger-2023-02-18/src/ccedar_core.cc
                language_filter.cpp
                language_filter.hpp
                perplexity_filter.cc
@@ -50,7 +43,7 @@ add_executable(${PROJECT_NAME}
                simdjson.h
               )
 # Option of optimization , warning, ...etc.
-target_compile_options(${PROJECT_NAME} PUBLIC -O2 -Wall -pthread)
+target_compile_options(${PROJECT_NAME} PUBLIC -O2 -Wall -pthread -g)
 # Create an executable file called ${PROJECT_NAME}.out from main.cpp
 target_link_libraries(${PROJECT_NAME} PUBLIC
                       icuio 
@@ -67,6 +60,3 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC -DKENLM_MAX_ORDER=${KENLM_MAX_
 
 # Link lib${CMAKE_CURRENT_SOURCE_DIR}.a when creating ${PROJECT_NAME}-googletes.out
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-#add_test(NAME test COMMAND ${PROJECT_NAME}-googletest)
-#enable_testing()

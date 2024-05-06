@@ -15,6 +15,7 @@ bash scripts/setup_kenlm.sh
 bash scripts/setup_murmurhash.sh
 bash scripts/setup_sentencepiece.sh
 bash scripts/setup_sigmdjson.sh
+bash scripts/setup_jagger.sh
 
 touch scripts/setup_completed
 

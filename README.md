@@ -80,12 +80,12 @@ Build source code of corpus-cleaner.
 bash scripts/build.sh
 ```
 
-Please place the files to be cleaned in "./results/data/original".
+Please place the files to be cleaned in "./results/dataset/original".
 The file format is ".txt". For example, "wiki.txt", "cc100_train.txt", and so on.
 
 ```bash
-mkdir -p results/data/original/
-# Please place the files to be cleaned in "./results/data/original".
+mkdir -p results/dataset/original/
+# Please place the files to be cleaned in "./results/dataset/original".
 ```
 
 Run corpus_cleaner. Please wait a minute.  
@@ -250,19 +250,19 @@ To contribute, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### ver.0.1.0
 
+- [x] Set Github Action's CI/CD（build）
+- [x] Morphological analysis (by jagger)
 - [ ] Write document & create doxygen
 
 ### ver.0.2.0
 
-- [x] Set Github Action's CI/CD（build）
-- [ ] Implement pybind & python code
-- [ ] Implement loader json & jsonl
-- [ ] Morphological analysis (by jagger)
-- [ ] Remove ad header and footer
-- [ ] Remove HTML mark
-- [ ] Implement dump .txt format file(only is_removed=false).
-- [ ] Remove repeated expressions
 - [ ] Remove blacklist of minhash
+- [ ] (Implement pybind & python code)
+- [ ] (Implement loader json & jsonl)
+- [ ] (Remove ad header and footer)
+- [ ] (Remove HTML mark)
+- [ ] (Implement dump .txt format file(only is_removed=false).)
+- [ ] (Remove repeated expressions)
 
 ### ver.0.3.0
 
