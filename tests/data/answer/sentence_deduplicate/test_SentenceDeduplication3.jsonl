@@ -1,4 +1,0 @@
-{"text":"おはようございます。","id":"test_SentenceDeduplication3_0","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
-{"text":"おはよう","id":"test_SentenceDeduplication3_1","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
-{"text":"Hello.","id":"test_SentenceDeduplication3_2","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}
-{"text":"こんにちわ。","id":"test_SentenceDeduplication3_3","is_rejected":"0","metadata":"","language":"","language_score":"-1","perplexity":"-1"}

@@ -2,9 +2,10 @@
 #include "language_filter.hpp"
 #include "perplexity_filter.hh"
 #include "minhash.hpp"
+#include "jagger.h"
+
 using namespace std;
 namespace fs = filesystem;
-
 
 /**
  * @brief   Structure for storing statistical information for each process of CorpusCleaner
@@ -27,6 +28,7 @@ typedef struct _DOCUMENT {
     set<string> metadata;
     string language;
     float language_score=0;
+    double noun_ratio=0;
     double perplexity=999999;
 } Document;
 
@@ -82,6 +84,7 @@ private:
     //TODO: add vecter of result's file size of each cleaning process. At the end, analysys it.
     GenerateDedupLSH *generate_dedup_lsh;  
     LSHDeduplicator *deduplicator; 
+    Jagger jagger_parser;
 
 public:
     /***constructor***/
@@ -109,6 +112,7 @@ public:
     void PerplexityFilter(Document &document);
     void MinhashDeduplication(Document &document);
     void ZeroPunctuationFilter(Document &document);
+    void NounRatioFilter(Document &document);
     void SentenceSegmenter(string input_folder_path,string output_folder_path);
     Stats PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &));
     int32_t CleanPipeline(void);

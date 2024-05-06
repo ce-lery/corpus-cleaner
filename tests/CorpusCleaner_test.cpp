@@ -160,6 +160,55 @@ TEST_F(CorpusCleanerTest, ZeroPunctuationFilter) {
     ASSERT_TRUE(document.is_rejected==false);
 }
 
+TEST_F(CorpusCleanerTest, NounRatioFilter) {
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+
+    document.is_rejected=false;
+    document.text = "東京　大阪　名古屋　横浜";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    // with Normalizer, "　" is convert to " ", and " " is recognized as a noun. 
+    document.is_rejected=false;
+    document.text = "東京　大阪　名古屋　横浜";
+    corpus_cleaner.Normalizer(document);
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "おまえは今まで食ったパンの枚数をおぼえているのか？";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    document.is_rejected=false;
+    document.text = "総延長:約0.3 km";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "第5巻(1993年12月30日発行)-秘宝篇、ベルサの呪いISBN 4-4036-1338-1";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "正室:光曜院-土井利房の養女、土井利隆の娘";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+}
+
 TEST_F(CorpusCleanerTest, URLRemover) {
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
@@ -801,6 +850,7 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
     // document.metadata;
     document.language="__label__ja";
     document.language_score=0.003;
+    document.noun_ratio=0.56;
     document.perplexity=1.692;
     WriteDocumentToJsonl(document,"../data/output/write_document_to_jsonl.jsonl");
     
@@ -809,9 +859,10 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
     getline(input,line);
     // cout << "{\"text\":\"こんにちは。私はceleryです。\",\"id\":\"input_0\",\"is_rejected\":\"0\",\"metadata\":\"\",\"language\":\"\",\"language_score\":\"-1\",\"perplexity\":\"-1\"}" << endl;
     // cout << line << endl;
-    ASSERT_TRUE(line==string("{\"text\":\"こんにちは。私はceleryです。\",\"id\":\"input_0\",\"is_rejected\":\"0\",\"metadata\":\"\",\"language\":\"\",\"language_score\":\"-1\",\"perplexity\":\"-1\"}")); 
+    ASSERT_TRUE(line==string("{\"text\":\"こんにちは。私はceleryです。\",\"id\":\"input_0\",\"is_rejected\":\"0\",\"metadata\":\"\",\"language\":\"\",\"language_score\":\"-1\",\"noun_ratio\":\"-1\",\"perplexity\":\"-1\"}")); 
     getline(input,line);
-    ASSERT_TRUE(line=="{\"text\":\"いいかい! もっとも『むずかしい事』は! 『自分を乗り越える事』さ!\",\"id\":\"rohan_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"perplexity\":\"1.692\"}" );    
+    // cout << line << endl;
+    ASSERT_TRUE(line=="{\"text\":\"いいかい! もっとも『むずかしい事』は! 『自分を乗り越える事』さ!\",\"id\":\"rohan_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"noun_ratio\":\"0.56\",\"perplexity\":\"1.692\"}" );    
     input.close();
 }
 

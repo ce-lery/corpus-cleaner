@@ -25,6 +25,7 @@ results/*
 scripts/icu/*
 scripts/doxygen-1.10.0/*
 scripts/setup_completed
+scripts/jagger-extension
 
 ## src
 corpus_cleaner/lid.176.bin
