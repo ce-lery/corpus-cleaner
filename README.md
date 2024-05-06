@@ -3,7 +3,12 @@
 @mainpage  
 ![doxygen deploy](https://github.com/ce-lery/corpus-cleaner/actions/workflows/doxygen-gh-pages.yml/badge.svg)
 ![Build](https://github.com/ce-lery/corpus-cleaner/actions/workflows/build.yml/badge.svg)
-![Test](https://github.com/ce-lery/corpus-cleaner/actions/workflows/test.yml/badge.svg)
+![Test](https://github.com/ce-lery/corpus-cleaner/actions/workflows/test.yml/badge.svg)  
+[![Apache-2.0](https://custom-icon-badges.herokuapp.com/badge/license-Apache%202.0-8BB80A.svg?logo=law&logoColor=white)](LICENSE)
+![C++](https://custom-icon-badges.herokuapp.com/badge/C++-f34b7d.svg?logo=Cplusplus&logoColor=white)
+![Linux](https://custom-icon-badges.herokuapp.com/badge/Linux-F6CE18.svg?logo=Linux&logoColor=white)
+<!-- ![semver](https://camo.githubusercontent.com/5acbfd548781920051a4d95ea12a0586ced8e92c2294dd5c33d23e0db14240dd/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f73656d7665722d322e302e302d626c7565) -->
+
 <!--  -->
 <!-- ![](image/comparison.png) -->
 <!-- <img src="image/comparison.png" width="500"> -->
@@ -22,7 +27,8 @@ The features are following.
 - **Length Filter**: Remove too long sentence and too short sentence
 - **Language Filter**: Determine whether it is a Japanese document
 - **Minhash Deduplicator**: Deduplication using Minhash
-- **ZeroPunctuationFilter**: Delete documents without punctuation
+- **ZeroPunctuationFilter**: Remove documents without punctuation
+- **NounRatioFilter**: Remove documents with more than 80% nouns by morphological analysis.
 - **Sentence Segmenter**: Divide the corpus into sentences based on rules
 - **Perplexity Filter**: Perplexity filter using kENLM
 
@@ -56,7 +62,7 @@ docker run -v ./:/home/corpus-cleaner/ -it --gpus all corpus-cleaner-image
 
 ```bash
 sudo apt-get update
-sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  libgoogle-perftools-dev curl wget build-essential nano flex bison
+sudo apt-get install cmake gdb libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev  pkg-config  curl wget build-essential nano flex bison
 ```
 
 ### Common Step
@@ -210,8 +216,7 @@ The complete scripts are [normalizer.py](corpus_cleaner/normalizer.py) and [exam
 
 ## License
 
-This repository is licensed under the Apache License, Version2.0.  
-Please refer [LICENSE](LICENSE) file.
+This repository is licensed under the [Apache License, Version2.0](LICENSE) . 
 
 ## Third Party Library
 
@@ -225,6 +230,7 @@ Please note the lisence.
 |[SentencePiece](https://github.com/google/sentencepiece)|Apache-2.0 license|For tokenization in perplexity filtering.|
 |[smhasher](https://github.com/rurban/smhasher)|MIT licensed.|For hash value generation for Mihash processing.|
 |[simdjson](https://github.com/simdjson/simdjson)|Apache-2.0 license|For jsonl parsing.|
+|[jagger](https://github.com/ce-lery/jagger-extension)|BSD 2-Clause License|For japanese morphological analysis. |
 |[fastText](https://github.com/facebookresearch/fastText)|MIT license|For language filtering.|
 |[GoogleTest](https://github.com/google/googletest)|BSD-3-Clause license|For test.|
 |[doxygen](https://github.com/doxygen/doxygen)|(GPL-2.0 license)|For Documentation.<br>This license does not apply to works produced by doxygen|
@@ -256,6 +262,7 @@ To contribute, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 - [ ] Remove HTML mark
 - [ ] Implement dump .txt format file(only is_removed=false).
 - [ ] Remove repeated expressions
+- [ ] Remove blacklist of minhash
 
 ### ver.0.3.0
 

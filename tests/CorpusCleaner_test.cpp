@@ -160,6 +160,55 @@ TEST_F(CorpusCleanerTest, ZeroPunctuationFilter) {
     ASSERT_TRUE(document.is_rejected==false);
 }
 
+TEST_F(CorpusCleanerTest, NounRatioFilter) {
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner("../data/input/",
+                                 "../data/output/",
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+
+    document.is_rejected=false;
+    document.text = "東京　大阪　名古屋　横浜";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    // with Normalizer, "　" is convert to " ", and " " is recognized as a noun. 
+    document.is_rejected=false;
+    document.text = "東京　大阪　名古屋　横浜";
+    corpus_cleaner.Normalizer(document);
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "おまえは今まで食ったパンの枚数をおぼえているのか？";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==false);
+
+    document.is_rejected=false;
+    document.text = "総延長:約0.3 km";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "第5巻(1993年12月30日発行)-秘宝篇、ベルサの呪いISBN 4-4036-1338-1";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+    document.is_rejected=false;
+    document.text = "正室:光曜院-土井利房の養女、土井利隆の娘";
+    corpus_cleaner.NounRatioFilter(document);
+    ASSERT_TRUE(document.is_rejected==true);
+
+}
+
 TEST_F(CorpusCleanerTest, URLRemover) {
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);

@@ -264,6 +264,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->generate_dedup_lsh=generate_dedup_lsh;
     this->deduplicator=deduplicator;
 
+    this->jagger_parser.read_model("../../scripts/jagger-extension/jagger-2023-02-18/model/kwdlc/patterns");
+
     if(filesystem::exists(this->output_path) | 
        filesystem::exists(this->rejected_path)) {
         cout << "ERROR: output_path or rejected_path folder already exists. ";
@@ -526,6 +528,50 @@ void CorpusCleaner::ZeroPunctuationFilter(Document &document)
     if(document.is_rejected)    document.metadata.insert(__func__);
 }
 
+
+/**
+ * @brief Remove documents with more than 80% nouns by Jagger's morphological analysis.
+ * @details 
+ *  Follow the steps.  
+ *  1. Get the morpheme list of document.text using Jagger::DivideMorpheme.  
+ *  2. Count noun of morpheme.
+ *  3. Calcurate noun ratio of morpheme.
+ *  4. If noun ratio is more than 0.8, the document text is rejected.  
+ * 
+ * Example:
+ * 
+ * @param Document &document: single line text to be cleaned
+ * @return void: None
+ * @note 
+**/
+void CorpusCleaner::NounRatioFilter(Document &document)
+{
+    string sentence = document.text;
+
+    //Get the morpheme list of document.text using Jagger::DivideMorpheme.  
+    vector<string> morpheme, morpheme_form;
+    this->jagger_parser.DivideMorpheme(sentence,morpheme,morpheme_form);
+
+    //Count noun of morpheme.
+    uint32_t noun_count=0;
+    for(auto part: morpheme_form){
+        if(part.substr(0,6)=="名詞")    noun_count++;
+        else if(part.substr(0,16)=="接頭辞,名詞")   noun_count++;  //"約"
+        else if(part.substr(0,16)=="接尾辞,名詞")   noun_count++;  //"年","月"
+        // else if(part.substr(0,22)=="接頭辞,ナ形容詞")   noun_count++;  //"超"
+    }
+
+    //Calcurate noun ratio of morpheme.
+    double noun_ratio = (double)noun_count/(double)morpheme_form.size();
+    cout << "noun_ratio: "<< noun_ratio << endl;
+
+    //If noun ratio is more than 0.8, the document text is rejected.  
+    document.is_rejected = false;
+    if(noun_ratio>=0.8) document.is_rejected = true;
+
+    if(document.is_rejected)    document.metadata.insert(__func__);
+}
+
 /**
  * @brief Neologd Normalize sentence
  * @details 
@@ -761,6 +807,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
         &CorpusCleaner::LengthFilter, 
         &CorpusCleaner::ZeroPunctuationFilter,
         &CorpusCleaner::LanguageFilter,
+        &CorpusCleaner::NounRatioFilter,
         &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,
     }; 

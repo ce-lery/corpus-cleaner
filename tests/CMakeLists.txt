@@ -27,6 +27,9 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/build/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/fastText/src) 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/sentencepiece/build/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/sentencepiece/src) 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/jagger-extension/jagger-2023-02-18/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/jagger-extension/jagger-2023-02-18)
+
 # add_subdirectory(corpus_cleaner)
 # add_subdirectory(tests)
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
@@ -48,9 +51,12 @@ add_executable(${PROJECT_NAME}-googletest
                ../corpus_cleaner/perplexity_filter.hh
                ../corpus_cleaner/simdjson.cpp
                ../corpus_cleaner/simdjson.h
+               ../scripts/smhasher/src/MurmurHash3.cpp
+               ../scripts/jagger-extension/jagger-2023-02-18/src/jagger.cc
+               ../scripts/jagger-extension/jagger-2023-02-18/src/ccedar_core.cc
               )
 # Option of optimization , warning, ...etc.
-target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall)
+target_compile_options(${PROJECT_NAME}-googletest PUBLIC -O2 -Wall -g)
 # Create an executable file called ${PROJECT_NAME}-googletes.out from main.cpp
 target_link_libraries(${PROJECT_NAME}-googletest PUBLIC gtest_main 
                       icuio 
