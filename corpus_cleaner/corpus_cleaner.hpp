@@ -28,6 +28,7 @@ typedef struct _DOCUMENT {
     set<string> metadata;
     string language;
     float language_score=0;
+    double noun_ratio=0;
     double perplexity=999999;
 } Document;
 

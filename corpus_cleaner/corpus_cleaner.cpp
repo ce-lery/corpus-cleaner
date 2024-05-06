@@ -54,7 +54,10 @@ void ReadDocumentFromJsonlOneLine(Document &document,
 
         jsonl_line["language_score"].get(line_view);
         document.language_score=stod(string(line_view));
-        
+
+        jsonl_line["noun_ratio"].get(line_view);
+        document.noun_ratio=stod(string(line_view));
+
         jsonl_line["perplexity"].get(line_view);
         document.perplexity=stod(string(line_view));    
     }
@@ -89,6 +92,7 @@ void WriteDocumentToJsonl(Document &document,
         output_file << "\",";
         output_file << "\"language\":\"" <<document.language << "\",";
         output_file << "\"language_score\":\"" <<document.language_score << "\",";
+        output_file << "\"noun_ratio\":\"" <<document.noun_ratio << "\",";
         output_file << "\"perplexity\":\"" <<document.perplexity << "\"";
         output_file <<"}"<< endl;
     }
@@ -121,6 +125,7 @@ void ConvertTextToDocument(string sentence,
     // document.metadata;
     document.language="";
     document.language_score=-1;
+    document.noun_ratio=-1;
     document.perplexity=-1;
 }
 
@@ -133,7 +138,7 @@ void ConvertTextToDocument(string sentence,
  * @note 
 **/
 void ConvertInputFilesToJsonl(const string input_folder_path,
-                                             const string output_folder_path)
+                              const string output_folder_path)
 {
 
     string target_line="",source_line="";
@@ -553,7 +558,7 @@ void CorpusCleaner::NounRatioFilter(Document &document)
     this->jagger_parser.DivideMorpheme(sentence,morpheme,morpheme_form);
 
     //Count noun of morpheme.
-    uint32_t noun_count=0;
+    uint32_t noun_count = 0;
     for(auto part: morpheme_form){
         if(part.substr(0,6)=="名詞")    noun_count++;
         else if(part.substr(0,16)=="接頭辞,名詞")   noun_count++;  //"約"
@@ -562,12 +567,12 @@ void CorpusCleaner::NounRatioFilter(Document &document)
     }
 
     //Calcurate noun ratio of morpheme.
-    double noun_ratio = (double)noun_count/(double)morpheme_form.size();
-    cout << "noun_ratio: "<< noun_ratio << endl;
+    document.noun_ratio = (double)noun_count/(double)morpheme_form.size();
+    // cout << "noun_ratio: "<< document.noun_ratio << endl;
 
     //If noun ratio is more than 0.8, the document text is rejected.  
     document.is_rejected = false;
-    if(noun_ratio>=0.8) document.is_rejected = true;
+    if(document.noun_ratio >=0.8) document.is_rejected = true;
 
     if(document.is_rejected)    document.metadata.insert(__func__);
 }

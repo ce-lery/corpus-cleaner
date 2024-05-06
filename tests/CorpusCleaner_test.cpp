@@ -850,6 +850,7 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
     // document.metadata;
     document.language="__label__ja";
     document.language_score=0.003;
+    document.noun_ratio=0.56;
     document.perplexity=1.692;
     WriteDocumentToJsonl(document,"../data/output/write_document_to_jsonl.jsonl");
     
@@ -858,9 +859,10 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
     getline(input,line);
     // cout << "{\"text\":\"こんにちは。私はceleryです。\",\"id\":\"input_0\",\"is_rejected\":\"0\",\"metadata\":\"\",\"language\":\"\",\"language_score\":\"-1\",\"perplexity\":\"-1\"}" << endl;
     // cout << line << endl;
-    ASSERT_TRUE(line==string("{\"text\":\"こんにちは。私はceleryです。\",\"id\":\"input_0\",\"is_rejected\":\"0\",\"metadata\":\"\",\"language\":\"\",\"language_score\":\"-1\",\"perplexity\":\"-1\"}")); 
+    ASSERT_TRUE(line==string("{\"text\":\"こんにちは。私はceleryです。\",\"id\":\"input_0\",\"is_rejected\":\"0\",\"metadata\":\"\",\"language\":\"\",\"language_score\":\"-1\",\"noun_ratio\":\"-1\",\"perplexity\":\"-1\"}")); 
     getline(input,line);
-    ASSERT_TRUE(line=="{\"text\":\"いいかい! もっとも『むずかしい事』は! 『自分を乗り越える事』さ!\",\"id\":\"rohan_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"perplexity\":\"1.692\"}" );    
+    // cout << line << endl;
+    ASSERT_TRUE(line=="{\"text\":\"いいかい! もっとも『むずかしい事』は! 『自分を乗り越える事』さ!\",\"id\":\"rohan_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"noun_ratio\":\"0.56\",\"perplexity\":\"1.692\"}" );    
     input.close();
 }
 
