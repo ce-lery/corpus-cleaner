@@ -1,5 +1,4 @@
 
-
 #include "corpus_cleaner.hpp"
 
 
@@ -18,7 +17,10 @@ uint64_t ConutLines(const string& filename)
     ifstream file(filename);
     uint64_t line_count = 0;
     string line="";
-    while (getline(file, line))    line_count++;
+    while (getline(file, line)) {
+        line_count++;
+        // cout << line_count << endl;
+    }
     file.close();
     return line_count;
 }
@@ -37,6 +39,7 @@ void SplitFiles(const vector<string>& output_files, const string& input_file)
     // get file name of input
     filesystem::path path_string(input_file);
     string filename=path_string.filename();
+    cout << "### Split Files ###" << endl;
     cout << filename << endl;
     cout << input_file<<endl;
     for (int i = 0; i < (int)output_files.size(); i++) {
@@ -51,6 +54,10 @@ void SplitFiles(const vector<string>& output_files, const string& input_file)
 
     string line="";
     uint64_t chunk_count=(ConutLines(input_file)+(uint64_t)output_files.size())/(uint64_t)output_files.size();
+    cout << ConutLines(input_file) << endl;
+    cout << (uint64_t)output_files.size()<< endl;
+
+    cout << "file lines:" << chunk_count << endl;
     uint64_t file_index = 0;
     uint64_t line_count = 0;
     while (getline(input, line)) {
@@ -201,7 +208,7 @@ int main(void)
 
 // int main(void)
 // {
-//     string input_folder_path = "../../results/dataset/input/";
+//     string input_folder_path = "../../results/dataset/original/";
 //     string output_folder_path = "../../results/dataset/output/";
 //     uint32_t min_length= 5;
 //     uint32_t max_length = 5000;

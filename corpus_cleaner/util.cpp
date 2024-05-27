@@ -269,7 +269,7 @@ void GetFileLineNumberList(const string folder_path,
 **/
 wstring ConvertUTF8ToWstring(const string& sentence)
 {
-  	wstring_convert<codecvt_utf8_utf16<wchar_t>> converter;
+  	wstring_convert<std::codecvt_utf8<wchar_t>>  converter;
   	return converter.from_bytes(sentence);
 }
 
@@ -285,7 +285,7 @@ wstring ConvertUTF8ToWstring(const string& sentence)
 **/
 string ConvertWstringToUTF8(const wstring& sentence)
 {
-  	wstring_convert<codecvt_utf8<wchar_t> > converter;
+  	wstring_convert<std::codecvt_utf8<wchar_t>>  converter;
   	return converter.to_bytes(sentence);
 }
 
@@ -479,6 +479,7 @@ string EscapeWord(const string& input)
         else if(word == '\t') output+="\\t";
         else if(word == '\\') output+="\\\\";
         else output+=word;
+        // else if(word == '\n') output+="\\n";
         // else if(word == '\'') output+="\\\'";
         // else if(word == '\t') output+="\\\t";
     } 

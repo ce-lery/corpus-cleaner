@@ -102,6 +102,7 @@ public:
     /***destructor***/
     ~CorpusCleaner();
     /***member function***/
+    void ControlCharacterRemover(Document &document);
     void Normalizer(Document &document);
     void URLRemover(Document &document);
     void SpecialCharacterRemover(Document &document);
