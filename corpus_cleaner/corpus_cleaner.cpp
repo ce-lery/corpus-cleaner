@@ -299,7 +299,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     CopyFolder(this->input_path,this->intermediate_path);
 
     // set locale for utf-8 string
-    std::locale::global(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
+    //std::locale::global(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
 }
 
 /***destructor***/

@@ -12,6 +12,7 @@
 #include <unicode/dtitvfmt.h>
 #include <unicode/normalizer2.h>
 #include <unicode/unistr.h>
+#include <unicode/uclean.h> // u_cleanup()
 
 
 using namespace std;
@@ -33,6 +34,7 @@ using namespace std;
  * @param wstring: sentence
  * @return wstring: normalized sentence
  * @ref https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
+ * https://www.nslabs.jp/icu-normalization.rhtml
  * @note
 **/
 wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
@@ -67,6 +69,8 @@ wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
     }
 
     sentence_w = regex_replace(sentence_w,hyphen_pattern,L"-");
+
+    u_cleanup();
     return sentence_w;
 }
 
