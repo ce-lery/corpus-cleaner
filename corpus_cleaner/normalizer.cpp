@@ -12,7 +12,7 @@
 #include <unicode/dtitvfmt.h>
 #include <unicode/normalizer2.h>
 #include <unicode/unistr.h>
-#include <unicode/uclean.h> // u_cleanup()
+// #include <unicode/uclean.h> // u_cleanup()
 
 
 using namespace std;
@@ -70,7 +70,7 @@ wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
 
     sentence_w = regex_replace(sentence_w,hyphen_pattern,L"-");
 
-    u_cleanup();
+    // u_cleanup();
     return sentence_w;
 }
 
@@ -174,6 +174,8 @@ wstring RemoveExtraSpaces(const wstring& sentence)
  * @attention
  *  This process is for Japanese text. Do not use English text or code in your corpus.  
  *  For example, in English text, spaces between words will be removed.  
+ * 
+ * Please run "u_cleanup();" at the end of main.c.
 **/
 string NormalizeNeologd(string sentence)
 {

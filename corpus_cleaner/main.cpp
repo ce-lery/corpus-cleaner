@@ -1,5 +1,6 @@
 
 #include "corpus_cleaner.hpp"
+#include <unicode/uclean.h> // u_cleanup()
 
 
 
@@ -154,7 +155,11 @@ int main(void)
     const string original_folder_path = "../../results/dataset/original/";
     const string base_folder_path = "../../results/dataset/";
     const string results_folder_path = "../../results/dataset/cleaned/";
+    const string rejected_folder_path = "../../results/dataset/rejected/";
+    const string blacklist_folder_path = "../../results/dataset/blacklist/";
     filesystem::create_directories(fs::path(results_folder_path));
+    filesystem::create_directories(fs::path(rejected_folder_path));
+    filesystem::create_directories(fs::path(blacklist_folder_path));
 
     // get file list
     vector<string> filelist;
@@ -195,10 +200,25 @@ int main(void)
     // merging all results files and make them into one
     for(auto file:filelist){
         vector<string> splited_filelist;
+        // Merge cleaned
         for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/cleaned/"+file+".jsonl");
         MergeFiles(splited_filelist,results_folder_path+file+".jsonl");
-        // for(int i=0;i<num_threads;i++)    RemoveFolder(base_folder_path+to_string(i)+"/output/cleaned/");
+        for(int i=0;i<num_threads;i++)        filesystem::remove(base_folder_path+to_string(i)+"/output/cleaned/"+file+".txt");
+        
+        //Merge rejected
+        for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/rejected/"+file+".jsonl");
+        MergeFiles(splited_filelist,rejected_folder_path+file+".jsonl");
+        for(int i=0;i<num_threads;i++)        filesystem::remove(base_folder_path+to_string(i)+"/output/rejected/"+file+".txt");
+
+        // Merge blacklist
+        for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/blacklist.txt");
+        MergeFiles(splited_filelist,blacklist_folder_path+"/blacklist_"+file+".txt");
     }
+
+    for(int i=0;i<num_threads;i++)    RemoveFolder(base_folder_path+to_string(i));
+
+    //
+    u_cleanup();
     return 0;
 }
 
