@@ -1,6 +1,5 @@
 #include "corpus_cleaner.hpp"
 #include "util.hpp"
-#include "normalizer.hpp"
 #include "simdjson.h"
 #include <locale>
 using namespace simdjson;
@@ -658,7 +657,7 @@ void CorpusCleaner::Normalizer(Document &document)
         this->LengthFilter(document);
         if(document.is_rejected==true) return;
 
-        string sentence = NormalizeNeologd(document.text);
+        string sentence = string_normalizer.NormalizeNeologd(document.text);
         if(sentence!=document.text) document.metadata.insert(__func__);
         document.text = sentence; 
     }
