@@ -1,0 +1,3 @@
+{"text":"こんにちは、こん鐃 OS墾んにちは、こんばんわ。私はAです","id":"test_null_remover_0","is_rejected":"0","metadata":"ControlCharacterRemover,","language":"","language_score":"-1","noun_ratio":"-1","perplexity":"-1"}
+{"text":"3.壅軟? ｽ[鐃 OS墾ｹﾈ こんにちは、こんばんわ。私はAです。あいうえお。","id":"test_null_remover_1","is_rejected":"0","metadata":"ControlCharacterRemover,","language":"","language_score":"-1","noun_ratio":"-1","perplexity":"-1"}
+{"text":"吾輩は猫である。名前はまだない。","id":"test_null_remover_2","is_rejected":"0","metadata":"","language":"","language_score":"-1","noun_ratio":"-1","perplexity":"-1"}
