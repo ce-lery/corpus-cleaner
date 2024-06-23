@@ -148,7 +148,7 @@ LSHDeduplicator::LSHDeduplicator(bool online_dedup=true,
     string line="";
     this->total_backet_size_mb=total_backet_size_mb;
     if(this->blacklist_path!="")    this->LoadBlacklistToSeen();
-    if(this->store_blacklist)     this->blacklist=this->seen;
+    // if(this->store_blacklist)     this->blacklist=this->seen;
 }
 
 /***destructor***/
@@ -212,7 +212,6 @@ bool LSHDeduplicator::Apply(const vector<string> *lshs)
         // if lsh in this->seen,
         if (this->seen.find(lsh) != this->seen.end()){
             is_duplicated = true;
-            if(this->store_blacklist)   this->blacklist.insert(lsh);
         }
         if(this->online_dedup)  this->seen.insert(lsh);
     }
@@ -232,7 +231,6 @@ bool LSHDeduplicator::Apply(const vector<string> *lshs)
 size_t LSHDeduplicator::SizeOfSeen(void)
 {
     // Get first element of seen
-
     size_t element_size=0;  
     if(this->seen.empty())element_size=0;
     else{
@@ -242,44 +240,12 @@ size_t LSHDeduplicator::SizeOfSeen(void)
         string seen_first_element = *itr;
         size_t element_unit_size = seen_first_element.length();//TODO:check this size
         // All elements of seen are same size.
-        size_t element_size = element_unit_size * this->seen.size();
+        element_size = element_unit_size * this->seen.size();
     }
     // overhead of node
     size_t node_overhead = sizeof(void*) * 2 * this->seen.size();
     // overhead of std::string
     size_t string_overhead = sizeof(std::string) * this->seen.size();
-    // overhead of container structure (rough estimate)
-    size_t container_overhead = 64;
-    size_t total_size = element_size + node_overhead + string_overhead + container_overhead;
-
-    return total_size;
-}
-
-/**
- * @brief Calculate size of blacklist (rough estimate)
- * @details
- * @param void: None
- * @return size_t : size of  blacklist
- * @note
-**/
-size_t LSHDeduplicator::SizeOfBlacklist(void)
-{
-    // Get first element of blacklist
-    size_t element_size=0;  
-    if(this->blacklist.empty())element_size=0;
-    else{
-        auto itr = this->blacklist.begin();
-        // cout << *itr<<endl;
-
-        string blacklist_first_element = *itr;
-        size_t element_unit_size = blacklist_first_element.length();//TODO:check this size
-        // All elements of seen are same size.
-        size_t element_size = element_unit_size * this->blacklist.size();
-    }
-    // overhead of node
-    size_t node_overhead = sizeof(void*) * 2 * this->blacklist.size();
-    // overhead of std::string
-    size_t string_overhead = sizeof(std::string) * this->blacklist.size();
     // overhead of container structure (rough estimate)
     size_t container_overhead = 64;
     size_t total_size = element_size + node_overhead + string_overhead + container_overhead;
@@ -299,40 +265,12 @@ size_t LSHDeduplicator::SizeOfBlacklist(void)
 **/
 void LSHDeduplicator::InitializeSeen(void)
 {
-
     if(this->store_blacklist)   this->StoreBlacklist();
+    // this->seen = unordered_set<string>();
     this->seen.clear();
-    this->blacklist.clear();
-
-    if(this->blacklist_path!="")    this->LoadBlacklistToSeen();
-    if(this->store_blacklist)     this->blacklist=this->seen;
-
-    // this->seen is include this->blacklist. 
-    // So blacklist size is more than total_bucket_size_mb,
-    // seen size is also more than total_bucket_size_mb.
-
     cout << this->SizeOfSeen() <<endl;
     cout << this->total_backet_size_mb <<endl;
-
-    if(this->SizeOfSeen()>=this->total_backet_size_mb){
-        this->seen.clear();
-        this->blacklist.clear();
-    }
 }
-
-/**
- * @brief Initialize blacklist parameter
- * @details
- * Example:
- * @param void: None
- * @return size_t : size of  seen
- * @note
-**/
-void LSHDeduplicator::InitializeBlacklist(void)
-{
-    if(this->store_blacklist)   this->StoreBlacklist();
-    this->blacklist.clear();
-}   
 
 /**
  * @brief Save Blacklist to file
@@ -346,7 +284,7 @@ void LSHDeduplicator::StoreBlacklist(void)
     if(this->store_blacklist){
         // output blacklist
         ofstream blacklist_file(this->blacklist_path);
-        for(auto lsh: this->blacklist)   blacklist_file<<lsh<<endl;
+        for(auto lsh: this->seen)   blacklist_file<<lsh<<endl;
         blacklist_file.close();
     }
 }   

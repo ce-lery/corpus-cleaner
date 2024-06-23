@@ -18,7 +18,7 @@ StringNormalizer::StringNormalizer()
 /***destructor***/
 StringNormalizer::~StringNormalizer()
 {
-    u_cleanup();
+    //u_cleanup();
 }
 
 

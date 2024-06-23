@@ -4,8 +4,7 @@
 using namespace std;
 // using namespace ;
 lm::ngram::Model model("ja.arpa.bin"); //TODO: Refactor. Don't use global parameter.	
-
-
+const lm::ngram::Vocabulary &vocab = model.GetVocabulary();
 
 /**
  * @brief Score sentence by KenLM.
@@ -61,19 +60,18 @@ double KenLMFilter::Score(const wstring sentence)
 	string word_w ="";
 
 	lm::ngram::State state(model.BeginSentenceState()), out_state;
-	const lm::ngram::Vocabulary &vocab = model.GetVocabulary();
 	for (int i=0;i<(int)sentence.size();i++) {
 		// Split sentence into single characters.
-		wstring word_w=sentence.substr(i,1);
-		string word=ConvertWstringToUTF8(word_w);
+		wstring word_w = sentence.substr(i,1);
+		string word = ConvertWstringToUTF8(word_w);
 		// cout << word << endl;
-		score=model.BaseScore(&state, vocab.Index(word), &out_state);
+		score = model.BaseScore(&state, vocab.Index(word), &out_state);
 		// cout << score << endl;
 		total_score += score;
 		state = out_state;
   	}
 	//eos
-	score=model.BaseScore(&state, vocab.EndSentence(), &out_state);
+	score = model.BaseScore(&state, vocab.EndSentence(), &out_state);
 	total_score += score;
 
   	return total_score;
@@ -109,11 +107,10 @@ double KenLMFilter::ScoreWithSentencePiece(const wstring sentence)
 	processor.Encode(ConvertWstringToUTF8(sentence), &pieces);
 
 	lm::ngram::State state(model.BeginSentenceState()), out_state;
-	const lm::ngram::Vocabulary &vocab = model.GetVocabulary();
 	for (auto piece:pieces) {
 		//string word = pieces[i];
 		// cout << piece << endl;
-		score=model.BaseScore(&state, vocab.Index(piece), &out_state);
+		score = model.BaseScore(&state, vocab.Index(piece), &out_state);
 		// cout << score << endl;
 		total_score += score;
 		state = out_state;
@@ -187,35 +184,3 @@ double KenLMFilter::PerplexityWithSentencePiece(const wstring sentence)
 	return pow(10.0,(-this->ScoreWithSentencePiece(sentence) / words));
 }
 
-/*
-int main() {
-	vector<wstring> sentence_list;
-	sentence_list.push_back(L"東京はッ晴れ");
-	sentence_list.push_back(L"東京は元気です");
-	sentence_list.push_back(L"吾輩は猫である。名前はまだない。");
-	sentence_list.push_back(L"東京は晴れ");
-	sentence_list.push_back(L"東京 大阪 名古屋 秋田 千葉");
-	sentence_list.push_back(L"あああああああ");
-	chrono::system_clock::time_point start, end;
-	start = chrono::system_clock::now();
-
-	#pragma omp parallel
-	{
-	#pragma omp for nowait ordered
-	for (wstring sentence:sentence_list) {
-		#pragma omp ordered 
-		{
-		// cout << ConvertWstringToUTF8(sentence) <<endl;
-		// cout << ConvertWstringToUTF8(sentence) << KenLMScore(sentence) <<endl;
-		
-		cout << ConvertWstringToUTF8(sentence) <<" perplexity:"<<KenLMPerplexity(sentence)<<endl;}
-	}
-	}
-
-	end = chrono::system_clock::now(); 
-	double elapsed = chrono::duration_cast<chrono::duration<double>>(end - start).count(); 
-	cout << "passed time[s]"<< elapsed <<endl;
-
-	return 0;
-}
-*/

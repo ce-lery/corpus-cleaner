@@ -30,12 +30,12 @@ class LSHDeduplicator
 private:
     bool online_dedup;
     string blacklist_path;
-    bool store_blacklist;
-    set<string> seen,blacklist; // TODO: unordered_set is faster than set.
+    bool store_blacklist=false;
+    unordered_set<string> seen; // TODO: unordered_set is faster than set.
     size_t total_backet_size_mb=5000;
 public:
     /***constructor***/
-    LSHDeduplicator(bool onlin_dedupe,
+    LSHDeduplicator(bool online_dedupe,
                     string blacklist_path,
                     bool store_blacklist,
                     size_t total_backet_size_mb);
@@ -43,10 +43,10 @@ public:
     ~LSHDeduplicator();
     bool Apply(const vector<string> *lshs);//TODO
     size_t SizeOfSeen(void);
-    size_t SizeOfBlacklist(void);
+    // size_t SizeOfBlacklist(void);
     void InitializeSeen(void);
     void StoreBlacklist(void);
     void LoadBlacklistToSeen(void);
     size_t GetTotalBucketSize(void);
-    void InitializeBlacklist(void);
+    // void InitializeBlacklist(void);
 };

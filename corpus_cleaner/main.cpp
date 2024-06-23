@@ -110,10 +110,9 @@ void MergeFiles(const vector<string>& input_files, const string& output_file)
 
 
 void MultiProcessCorpusClean(const string input_folder_path,             
-                             const string output_folder_path)
+                             const string output_folder_path,
+                             const bool store_blacklist)
 {
-    //const string input_folder_path=;
-    //const string output_folder_path=;
 
     //string input_folder_path = "../../results/dataset/input/";
     //string output_folder_path = "../../results/dataset/output/";
@@ -129,8 +128,7 @@ void MultiProcessCorpusClean(const string input_folder_path,
     const string blacklist_file_path = output_folder_path+"/blacklist.txt";
 
     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
-    //LSHDeduplicator deduplicator(true,"../../results/dataset/blacklist.txt",true,5120000000);
-    LSHDeduplicator deduplicator(true,blacklist_file_path,true,1280000000);
+    LSHDeduplicator deduplicator(true,blacklist_file_path,store_blacklist,1280000000);
     
     // create instance
     CorpusCleaner corpus_cleaner(input_folder_path,
@@ -161,6 +159,7 @@ int main(void)
     filesystem::create_directories(fs::path(rejected_folder_path));
     filesystem::create_directories(fs::path(blacklist_folder_path));
 
+    const bool store_blacklist = false;
     // get file list
     vector<string> filelist;
     GetFileNameListWithoutExtention(original_folder_path,&filelist);
@@ -189,7 +188,8 @@ int main(void)
         string output_folder_path = base_folder_path+to_string(i)+"/output/";
         threads.emplace_back(MultiProcessCorpusClean,
                              input_folder_path,
-                             output_folder_path);
+                             output_folder_path,
+                             store_blacklist);
     }    
 
     // call each thread
@@ -211,13 +211,15 @@ int main(void)
         for(int i=0;i<num_threads;i++)        filesystem::remove(base_folder_path+to_string(i)+"/output/rejected/"+file+".txt");
 
         // Merge blacklist
-        for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/blacklist.txt");
-        MergeFiles(splited_filelist,blacklist_folder_path+"/blacklist_"+file+".txt");
+        if(store_blacklist){
+            for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/blacklist.txt");
+            MergeFiles(splited_filelist,blacklist_folder_path+"/blacklist_"+file+".txt");
+        }
     }
 
     for(int i=0;i<num_threads;i++)    RemoveFolder(base_folder_path+to_string(i));
 
-    //
+    //cleanup normalizer
     u_cleanup();
     return 0;
 }
