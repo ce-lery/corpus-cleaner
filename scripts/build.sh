@@ -6,7 +6,6 @@ log=results/log/$(basename "$0" .sh)/$(date +%Y%m%d_%H%M%S).log
 exec &> >(tee -a $log)
 set -x
 
-
 cd corpus_cleaner
 mkdir -p build 
 cd build

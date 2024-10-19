@@ -3,6 +3,7 @@
 #include "perplexity_filter.hh"
 #include "minhash.hpp"
 #include "jagger.h"
+#include "normalizer.hpp"
 
 using namespace std;
 namespace fs = filesystem;
@@ -85,6 +86,7 @@ private:
     GenerateDedupLSH *generate_dedup_lsh;  
     LSHDeduplicator *deduplicator; 
     Jagger jagger_parser;
+    StringNormalizer string_normalizer;
 
 public:
     /***constructor***/
@@ -102,6 +104,7 @@ public:
     /***destructor***/
     ~CorpusCleaner();
     /***member function***/
+    void ControlCharacterRemover(Document &document);
     void Normalizer(Document &document);
     void URLRemover(Document &document);
     void SpecialCharacterRemover(Document &document);

@@ -20,6 +20,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/sentencepiece/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/jagger-extension/jagger-2023-02-18/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/jagger-extension/jagger-2023-02-18)
 
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/lib)
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/lib)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../scripts/icu/usr/local/include)
+
 # Compile sample.cpp and sample_test.cpp to create static library libgreetings.a
 add_executable(${PROJECT_NAME}
                main.cpp 

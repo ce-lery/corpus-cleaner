@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../corpus_cleaner/corpus_cleaner.hpp"
 #include "../corpus_cleaner/util.hpp"
-#include "../corpus_cleaner/normalizer.hpp"
+// #include "../corpus_cleaner/normalizer.hpp"
 
 // namespace {
 
@@ -382,33 +382,34 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
 
 
 TEST_F(CorpusCleanerTest, Normalizer) {
+    StringNormalizer string_normalizer;
     //original
-    ASSERT_TRUE("Hello,C++!" == NormalizeNeologd("   Hello, C++!   "));// TODO: Write the comment that this normalizer is don't applied for English text. Because spaces are removed.
-    ASSERT_TRUE("-" == NormalizeNeologd("˗֊‐‑‒–⁃⁻₋−"));
-    ASSERT_TRUE("-" == NormalizeNeologd("－"));
-    ASSERT_TRUE("ー" == NormalizeNeologd("﹣—―─━ーｰ"));
-    ASSERT_TRUE("＝" == NormalizeNeologd("="));
-    ASSERT_TRUE("0123456789" == NormalizeNeologd("０１２３４５６７８９"));
-    ASSERT_TRUE("ABCDEFGHIJKLMNOPQRSTUVWXYZ" == NormalizeNeologd("ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"));
-    ASSERT_TRUE("abcdefghijklmnopqrstuvwxyz" == NormalizeNeologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"));
-    ASSERT_TRUE("!\"#$%&\'()*+,-./:;<>?@[¥]^_`{|}" == NormalizeNeologd("！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝"));
-    ASSERT_TRUE("＝。、・「」" == NormalizeNeologd("＝。、・「」"));
-    ASSERT_TRUE("ハンカク" == NormalizeNeologd("ﾊﾝｶｸ"));
-    ASSERT_TRUE("o-o" == NormalizeNeologd("o₋o"));
-    ASSERT_TRUE("majikaー" == NormalizeNeologd("majika━"));
-    ASSERT_TRUE("わい" == NormalizeNeologd("わ〰い"));
-    ASSERT_TRUE("スーパー" == NormalizeNeologd("スーパーーーー"));
-    ASSERT_TRUE("!#" == NormalizeNeologd("!#"));
-    ASSERT_TRUE("ゼンカクスペース" == NormalizeNeologd("ゼンカク　スペース"));
-    ASSERT_TRUE("おお" == NormalizeNeologd("お             お"));
-    ASSERT_TRUE("おお" == NormalizeNeologd("      おお"));
-    ASSERT_TRUE("おお" == NormalizeNeologd("おお      "));
-    ASSERT_TRUE("検索エンジン自作入門を買いました!!!" ==NormalizeNeologd("検索 エンジン 自作 入門 を 買い ました!!!"));
-    ASSERT_TRUE("アルゴリズムC" == NormalizeNeologd("アルゴリズム C"));
-    ASSERT_TRUE("PRML副読本" == NormalizeNeologd("　　　ＰＲＭＬ　　副　読　本　　　"));
-    ASSERT_TRUE("Coding the Matrix" == NormalizeNeologd("Coding the Matrix"));
-    ASSERT_TRUE("南アルプスの天然水Sparking Lemonレモン一絞り" == NormalizeNeologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"));
-    ASSERT_TRUE("南アルプスの天然水-Sparking*Lemon+レモン一絞り" == NormalizeNeologd("南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"));
+    ASSERT_TRUE("Hello,C++!" == string_normalizer.NormalizeNeologd("   Hello, C++!   "));// TODO: Write the comment that this normalizer is don't applied for English text. Because spaces are removed.
+    ASSERT_TRUE("-" == string_normalizer.NormalizeNeologd("˗֊‐‑‒–⁃⁻₋−"));
+    ASSERT_TRUE("-" == string_normalizer.NormalizeNeologd("－"));
+    ASSERT_TRUE("ー" == string_normalizer.NormalizeNeologd("﹣—―─━ーｰ"));
+    ASSERT_TRUE("＝" == string_normalizer.NormalizeNeologd("="));
+    ASSERT_TRUE("0123456789" == string_normalizer.NormalizeNeologd("０１２３４５６７８９"));
+    ASSERT_TRUE("ABCDEFGHIJKLMNOPQRSTUVWXYZ" == string_normalizer.NormalizeNeologd("ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"));
+    ASSERT_TRUE("abcdefghijklmnopqrstuvwxyz" == string_normalizer.NormalizeNeologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"));
+    ASSERT_TRUE("!\"#$%&\'()*+,-./:;<>?@[¥]^_`{|}" == string_normalizer.NormalizeNeologd("！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝"));
+    ASSERT_TRUE("＝。、・「」" == string_normalizer.NormalizeNeologd("＝。、・「」"));
+    ASSERT_TRUE("ハンカク" == string_normalizer.NormalizeNeologd("ﾊﾝｶｸ"));
+    ASSERT_TRUE("o-o" == string_normalizer.NormalizeNeologd("o₋o"));
+    ASSERT_TRUE("majikaー" == string_normalizer.NormalizeNeologd("majika━"));
+    ASSERT_TRUE("わい" == string_normalizer.NormalizeNeologd("わ〰い"));
+    ASSERT_TRUE("スーパー" == string_normalizer.NormalizeNeologd("スーパーーーー"));
+    ASSERT_TRUE("!#" == string_normalizer.NormalizeNeologd("!#"));
+    ASSERT_TRUE("ゼンカクスペース" == string_normalizer.NormalizeNeologd("ゼンカク　スペース"));
+    ASSERT_TRUE("おお" == string_normalizer.NormalizeNeologd("お             お"));
+    ASSERT_TRUE("おお" == string_normalizer.NormalizeNeologd("      おお"));
+    ASSERT_TRUE("おお" == string_normalizer.NormalizeNeologd("おお      "));
+    ASSERT_TRUE("検索エンジン自作入門を買いました!!!" ==string_normalizer.NormalizeNeologd("検索 エンジン 自作 入門 を 買い ました!!!"));
+    ASSERT_TRUE("アルゴリズムC" == string_normalizer.NormalizeNeologd("アルゴリズム C"));
+    ASSERT_TRUE("PRML副読本" == string_normalizer.NormalizeNeologd("　　　ＰＲＭＬ　　副　読　本　　　"));
+    ASSERT_TRUE("Coding the Matrix" == string_normalizer.NormalizeNeologd("Coding the Matrix"));
+    ASSERT_TRUE("南アルプスの天然水Sparking Lemonレモン一絞り" == string_normalizer.NormalizeNeologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"));
+    ASSERT_TRUE("南アルプスの天然水-Sparking*Lemon+レモン一絞り" == string_normalizer.NormalizeNeologd("南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"));
 	// cout << "Normalizing Text is completed." << endl;
 }
 
@@ -912,4 +913,58 @@ TEST_F(CorpusCleanerTest,ExceptionReadDocumentFromJsonlOneLine)
     // jsonl_line without data
     string jsonl_line = "{}";
     EXPECT_ANY_THROW(ReadDocumentFromJsonlOneLine(document,jsonl_line));
+}
+
+TEST_F(CorpusCleanerTest,ControlCharacterRemover) 
+{
+    string input_folder_path = "../data/input/null_remover/";
+    string output_folder_path = "../data/output/null_remover/";
+    string intermediate_folder_path = "../data/output/null_remover/intermediate/";
+    string answer_folder_path = "../data/answer/null_remover/";
+
+    RemoveFolder(intermediate_folder_path);
+    RemoveFolder(output_folder_path);
+    mkdir(output_folder_path.c_str(), 0777);
+
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    CorpusCleaner corpus_cleaner(input_folder_path,
+                                 output_folder_path,
+                                 min_length,
+                                 max_length,
+                                 accept_language,
+                                 true,
+                                 true,
+                                 0.3,
+                                 15000,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+
+    mkdir(intermediate_folder_path.c_str(), 0777);
+
+    vector<string> filename_list={"test_null_remover"};
+
+    for (auto filename: filename_list){
+        // load data
+        ifstream input_file(output_folder_path+"/intermediate/"+"/"+filename+".txt");
+        string  output_file_path(output_folder_path+"/cleaned/"+"/"+filename+".jsonl");
+        string line="";
+        uint64_t line_count=0;
+        while (getline(input_file, line)) {
+            Document document;
+            ConvertTextToDocument(line,filename,to_string(line_count),document);
+            // Loop processing as many times as cleaner_list
+            corpus_cleaner.ControlCharacterRemover(document);
+            // dump data
+            WriteDocumentToJsonl(document,output_file_path);
+            line_count++;
+        }
+        input_file.close();   
+    }
+
+    vector<string> file_list;
+    GetFileNameListWithoutExtention(answer_folder_path,&file_list);
+    for (int i=0;i<(int)file_list.size();i++){
+        ASSERT_TRUE(CompareFiles(output_folder_path+"/cleaned/"+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
+    }
 }

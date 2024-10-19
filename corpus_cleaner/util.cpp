@@ -269,7 +269,7 @@ void GetFileLineNumberList(const string folder_path,
 **/
 wstring ConvertUTF8ToWstring(const string& sentence)
 {
-  	wstring_convert<codecvt_utf8_utf16<wchar_t>> converter;
+  	wstring_convert<std::codecvt_utf8<wchar_t>>  converter;
   	return converter.from_bytes(sentence);
 }
 
@@ -285,7 +285,7 @@ wstring ConvertUTF8ToWstring(const string& sentence)
 **/
 string ConvertWstringToUTF8(const wstring& sentence)
 {
-  	wstring_convert<codecvt_utf8<wchar_t> > converter;
+  	wstring_convert<std::codecvt_utf8<wchar_t>>  converter;
   	return converter.to_bytes(sentence);
 }
 
@@ -479,6 +479,7 @@ string EscapeWord(const string& input)
         else if(word == '\t') output+="\\t";
         else if(word == '\\') output+="\\\\";
         else output+=word;
+        // else if(word == '\n') output+="\\n";
         // else if(word == '\'') output+="\\\'";
         // else if(word == '\t') output+="\\\t";
     } 
@@ -497,12 +498,15 @@ string EscapeWord(const string& input)
 **/
 void ProceedProgressBar(unsigned long long line_count,unsigned long long file_line_number,uint32_t elapsed_time_ms)
 {
+    // Run this function each 100 iter.
+    if(line_count!=file_line_number && line_count%200!=0)   return;
+
     //Division by 0 occurs
     if(file_line_number==0) return; 
     if(line_count==0) return;
 
     // clear terminal
-    // cout << "\033[2J\033[1;1H";
+    //cout << "\033[2J\033[1;1H";
     // cout << "\033[1;1H\033[2K";
     cout.fill('0');
     cout << "\033[2K";
@@ -520,7 +524,7 @@ void ProceedProgressBar(unsigned long long line_count,unsigned long long file_li
     uint32_t minutes = (elapsed_time_ms / (1000 * 60)) % 60;
     uint32_t seconds = (elapsed_time_ms / (1000)) % 60;
     //printf(" [%02d:%02d:%02d",hours,minutes,seconds);
-    cout << setw(2) << "[" << hours << ":" << minutes << ":"<< seconds;
+    cout << "[" << setw(2) << hours << ":" << setw(2) << minutes << ":"<< setw(2) << seconds;
  
     //Remaining time
     uint32_t remaining_time = uint32_t(double(elapsed_time_ms)/line_count*(file_line_number-line_count));
@@ -528,7 +532,7 @@ void ProceedProgressBar(unsigned long long line_count,unsigned long long file_li
     minutes = (remaining_time / (1000 * 60)) % 60;
     seconds = (remaining_time / (1000)) % 60;
     //printf("<%02d:%02d:%02d",hours,minutes,seconds);
-    cout << setw(2)  << "<"<<hours << ":" << minutes << ":" <<seconds;
+    cout << "<" << setw(2) << hours << ":" << setw(2) << minutes << ":"<< setw(2) << seconds;
 
     //second per iteration
     double msecond_per_iter = double(elapsed_time_ms)/line_count;

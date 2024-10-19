@@ -2,40 +2,47 @@
 #include "util.hpp"
 // #include "util.cpp"
 
-#include <unicode/datefmt.h>
-#include <unicode/dtfmtsym.h>
-#include <unicode/gregocal.h>
-#include <unicode/timezone.h>
-#include <unicode/unistr.h>
-#include <unicode/ustring.h>
-#include <unicode/dtptngen.h>
-#include <unicode/dtitvfmt.h>
-#include <unicode/normalizer2.h>
-#include <unicode/unistr.h>
-
-
 using namespace std;
+
+
+/***constructor***/
+StringNormalizer::StringNormalizer()
+{
+    UErrorCode errc = U_ZERO_ERROR;
+    errc = U_ZERO_ERROR;
+
+	// generate NFKC normalizer instance
+    this->normalizer = icu::Normalizer2::getNFKCInstance(errc);   
+}
+
+/***destructor***/
+StringNormalizer::~StringNormalizer()
+{
+    //u_cleanup();
+}
+
 
 /**
  * @brief nfkc normalize sentence by icu::Normalizer2
  * @details
- *  Search for words that match the word_pattern regular expression in the sentence 
- *  and perform NFKC normalization using icu::Normalizer2.  
+ *  Search for words that match the word_pattern regular expression in the sentence
+ *  and perform NFKC normalization using icu::Normalizer2.
  * 
  * Example:
  * ```cpp
- *   wstring sentence = L"０１２３４５６７８９";  
- *   static wregex word_pattern(L"(([０-９]+))");  
- *   wstring normalized_sentence = UnicodeNormalize(word_pattern, sentence)  
- *   // normalized_sentence == L"0123456789"  
+ *   wstring sentence = L"０１２３４５６７８９";
+ *   static wregex word_pattern(L"(([０-９]+))");
+ *   wstring normalized_sentence = UnicodeNormalize(word_pattern, sentence)
+ *   // normalized_sentence == L"0123456789"
  * ```
  * @param wregex word_pattern: Regular expression for string to be normalized
  * @param wstring: sentence
  * @return wstring: normalized sentence
  * @ref https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
+ * https://www.nslabs.jp/icu-normalization.rhtml
  * @note
 **/
-wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
+wstring StringNormalizer::UnicodeNormalize(wregex word_pattern,wstring sentence_w)
 {
     static wregex hyphen_pattern(L"－");
 
@@ -45,16 +52,12 @@ wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
         // cout <<"matches.str():"<<ConvertWstringToUTF8(matches.str())<<endl;
 		//caution: must initialization of errc
         UErrorCode errc = U_ZERO_ERROR;
-        errc = U_ZERO_ERROR;
-
-		// generate NFKC normalizer instance
-        const icu::Normalizer2* normalizer = icu::Normalizer2::getNFKCInstance(errc);
 
 		// convert matching part of sentence to UnicodeString
         icu::UnicodeString match(ConvertWstringToUTF8(matches.str()).c_str(), "UTF-8");
 		// Normalize the matching part of sentence
         icu::UnicodeString match_morph;
-        normalizer->normalize(match,match_morph,errc);
+        this->normalizer->normalize(match,match_morph,errc);
 
 		// convert normalized sentence to string
         string normalizedMatch_temp;
@@ -64,9 +67,13 @@ wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
         wstring normalizedMatch = ConvertUTF8ToWstring(normalizedMatch_temp);
 		// replace original text to normalized text
         sentence_w.replace(matches.position(), matches.length(), normalizedMatch);
+        
+        match.remove();
+        match_morph.remove();
     }
 
     sentence_w = regex_replace(sentence_w,hyphen_pattern,L"-");
+
     return sentence_w;
 }
 
@@ -76,19 +83,19 @@ wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w)
 /**
  * @brief Replace a specific string from half-width to full-width
  * @details
- *  Replace the following full-width symbols with half-width symbols  
- *  /！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝  
+ *  Replace the following full-width symbols with half-width symbols
+ *  /！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝
  * 
  * Example:  
  * ```cpp
- *   wstring sentence= "（）";  
- *   sentence  = TranslateToFullwidth(sentence); //"()"  
+ *   wstring sentence= "（）";
+ *   sentence  = TranslateToFullwidth(sentence); //"()"
  * ```
  * @param const string& sentence: text sentence
  * @return wstring: sentence has been processed
  * @note
 **/
-wstring TranslateToFullwidth(const wstring& sentence_w)
+wstring StringNormalizer::TranslateToFullwidth(const wstring& sentence_w)
 {
     unordered_map<wchar_t, wchar_t> conversion_map = {
         {u'!', u'！'}, {u'"', u'”'},  {u'#', u'＃'}, {u'$', u'＄'}, {u'%', u'％'},
@@ -115,24 +122,24 @@ wstring TranslateToFullwidth(const wstring& sentence_w)
 /**
  * @brief remove half-width spaces that meet the conditions
  * @details
- *  Replace one or more half-width spaces with one half-width space.  
- *  And Remove half-width spaces included in the following conditions.  
- *  - Half-width spaces included between "hiragana, full-width katakana,  
- *    half-width katakana, kanji, and full-width symbols"  
- *  - Half-width space included between "hiragana, full-width katakana,  
- *    half-width katakana, kanji,  
- *    full-width symbols" and "half-width alphanumeric characters"  
+ *  Replace one or more half-width spaces with one half-width space.
+ *  And Remove half-width spaces included in the following conditions.
+ *  - Half-width spaces included between "hiragana, full-width katakana, 
+ *    half-width katakana, kanji, and full-width symbols"
+ *  - Half-width space included between "hiragana, full-width katakana, 
+ *    half-width katakana, kanji, 
+ *    full-width symbols" and "half-width alphanumeric characters"
  * 
  * Example:  
  * ```cpp
- *   wstring sentence= "（）";  
- *   sentence  = TranslateToFullwidth(sentence); //"()"  
+ *   wstring sentence= "（）";
+ *   sentence  = TranslateToFullwidth(sentence); //"()"
  * ```
  * @param const string& sentence: text sentence
  * @return wstring: sentence has been processed
  * @note
 **/
-wstring RemoveExtraSpaces(const wstring& sentence)
+wstring StringNormalizer::RemoveExtraSpaces(const wstring& sentence)
 {
     wstring result = regex_replace(sentence, wregex(L"[ 　]+"), L" ");
 
@@ -157,21 +164,21 @@ wstring RemoveExtraSpaces(const wstring& sentence)
 /**
  * @brief Neologd Normalized function
  * @details
- * Perform the normalization process described in the link below.  
+ * Perform the normalization process described in the link below.
  * https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja  
  * 
  * Example:
  * ```cpp
- *   string sentence= "検索 エンジン 自作 入門 を 買い ました!!!";  
- *   sentence = NormalizeNeologd(sentence); //"検索エンジン自作入門を買いました"  
+ *   string sentence= "検索 エンジン 自作 入門 を 買い ました!!!";
+ *   sentence = NormalizeNeologd(sentence); //"検索エンジン自作入門を買いました"
  * ```
  * @param const string& sentence: text sentence
  * @return wstring: sentence has been processed
  * @attention
- *  This process is for Japanese text. Do not use English text or code in your corpus.  
- *  For example, in English text, spaces between words will be removed.  
+ *  This process is for Japanese text. Do not use English text or code in your corpus.
+ *  For example, in English text, spaces between words will be removed.
 **/
-string NormalizeNeologd(string sentence)
+string StringNormalizer::NormalizeNeologd(string sentence)
 {
     static wregex word_pattern(L"(([０-９Ａ-Ｚａ-ｚ｡-ﾟ]+))");
 
@@ -180,7 +187,7 @@ string NormalizeNeologd(string sentence)
 
 	// Normalize full-width alphanumeric characters
 	wstring sentence_w = ConvertUTF8ToWstring(sentence);
-    sentence_w = UnicodeNormalize(word_pattern,sentence_w);
+    sentence_w = this->UnicodeNormalize(word_pattern,sentence_w);
 
 	//Normalize hyphens
 	static wregex small_hyhpen_pattern(L"([˗֊‐‑‒–⁃⁻₋−]+)");
@@ -192,12 +199,12 @@ string NormalizeNeologd(string sentence)
 	static wregex tilde_pattern(L"[~∼∾〜〰～]");
 	sentence_w =  regex_replace(sentence_w,tilde_pattern,L"");
 
-    sentence_w =TranslateToFullwidth(sentence_w);
-    sentence_w = RemoveExtraSpaces(sentence_w);
+    sentence_w = this->TranslateToFullwidth(sentence_w);
+    sentence_w = this->RemoveExtraSpaces(sentence_w);
 
     static wregex special_word_pattern(L"(([！＃＄％＆（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝〜]+))");
 
-    sentence_w = UnicodeNormalize(special_word_pattern,sentence_w);
+    sentence_w = this->UnicodeNormalize(special_word_pattern,sentence_w);
     static wregex quotation_pattern(L"[’]");
     sentence_w =  regex_replace(sentence_w,quotation_pattern,L"\'");
     static wregex wquotation_pattern(L"[”]");

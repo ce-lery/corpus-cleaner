@@ -1,7 +1,7 @@
 #include "corpus_cleaner.hpp"
 #include "util.hpp"
-#include "normalizer.hpp"
 #include "simdjson.h"
+#include <locale>
 using namespace simdjson;
 
 /**
@@ -78,7 +78,7 @@ void WriteDocumentToJsonl(Document &document,
                           string output_file_path)
 {
     document.text = EscapeWord(document.text);
-    ofstream output_file(output_file_path, ios::app);
+    ofstream output_file(output_file_path, ios::binary | ios::app);
 
     try{
         output_file << "{" ;
@@ -273,9 +273,14 @@ CorpusCleaner::CorpusCleaner(string input_path,
 
     if(filesystem::exists(this->output_path) | 
        filesystem::exists(this->rejected_path)) {
-        cout << "ERROR: output_path or rejected_path folder already exists. ";
-        cout << "Please RENAME to delete the selection." << endl;
-        exit(EXIT_FAILURE);
+        // cout << "ERROR: output_path or rejected_path folder already exists. ";
+        // cout << "Please RENAME to delete the selection." << endl;
+        // exit(EXIT_FAILURE);
+        // TODO: Fix
+
+        RemoveFolder(this->output_path);
+        RemoveFolder(this->rejected_path);
+
     }
 
     RemoveFolder(this->intermediate_path);
@@ -291,6 +296,9 @@ CorpusCleaner::CorpusCleaner(string input_path,
     // TODO: uncommentout next line
     // ConvertInputFilesToJsonl(this->input_path,this->output_path);
     CopyFolder(this->input_path,this->intermediate_path);
+
+    // set locale for utf-8 string
+    //std::locale::global(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
 }
 
 /***destructor***/
@@ -303,6 +311,54 @@ CorpusCleaner::~CorpusCleaner()
 
 
 /***member function***/
+/**
+ * @brief Remove control characters in text
+ * @details 
+ * Control characters are characters that is less than 0x1f, \u2028 and \u2029, and 0x7f.
+ * 0x0a(LF) and 0x0d(CR) are not deleted by this function.
+ * @param Document &document: single line text to clean be cleaned
+ * @return void: None
+ * @note 
+ * @ref 
+ * https://learn.microsoft.com/ja-jp/visualstudio/ide/encodings-and-line-breaks?view=vs-2022
+ * https://scrapbox.io/bbr-program-memo/U+2028%E3%81%A8U+2029%E3%81%AE%E5%8F%96%E3%82%8A%E6%89%B1%E3%81%84
+**/
+void CorpusCleaner::ControlCharacterRemover(Document &document)
+{  
+    // cout << strlen_utf8(document.text) << endl;
+    // cout << document.text.size() << endl;
+
+    bool is_converted = false;
+    wstring document_text_w_converted = L"";
+    wstring document_text_w = ConvertUTF8ToWstring(document.text);
+
+    for(int i=0;i<(int)document_text_w.size();i++){
+        if(document_text_w[i] == '\0')    is_converted = true;
+        else if(document_text_w[i] == U'\u2028'||document_text_w[i] == U'\u2029') 
+        {
+            is_converted = true;
+            document_text_w_converted += LR"( )";
+        }
+        else if(document_text_w[i]<=0x1f)
+        {
+            // TODO: deal with CRLF
+            is_converted = true;
+            document_text_w_converted += LR"( )";
+        }
+        else if(document_text_w[i]==0x7f)
+        {
+            // "Del" chacacter
+            is_converted = true;
+            document_text_w_converted += LR"( )";
+        }
+        else    document_text_w_converted += document_text_w[i];
+    }
+    document.text = ConvertWstringToUTF8(document_text_w_converted);
+    // cout << strlen_utf8(document.text) << endl;    // cout << document.text.size() << endl;
+
+    if (is_converted)   document.metadata.insert(__func__);
+}
+
 /**
  * @brief Remove too long sentence and too short sentence.
  * @details 
@@ -392,13 +448,13 @@ void CorpusCleaner::LanguageFilter(Document &document)
                 document.is_rejected=false;
             }
         }
+        if(document.is_rejected)    document.metadata.insert(__func__);
     }
     catch(...){
         cout << "Exception:LanguageFilter" << endl;
         throw;
     }
 
-    if(document.is_rejected)    document.metadata.insert(__func__);
 }
 
 
@@ -553,28 +609,34 @@ void CorpusCleaner::NounRatioFilter(Document &document)
 {
     string sentence = document.text;
 
-    //Get the morpheme list of document.text using Jagger::DivideMorpheme.  
-    vector<string> morpheme, morpheme_form;
-    this->jagger_parser.DivideMorpheme(sentence,morpheme,morpheme_form);
+    try{
+        //Get the morpheme list of document.text using Jagger::DivideMorpheme.  
+        vector<string> morpheme, morpheme_form;
+        this->jagger_parser.DivideMorpheme(sentence,morpheme,morpheme_form);
 
-    //Count noun of morpheme.
-    uint32_t noun_count = 0;
-    for(auto part: morpheme_form){
-        if(part.substr(0,6)=="名詞")    noun_count++;
-        else if(part.substr(0,16)=="接頭辞,名詞")   noun_count++;  //"約"
-        else if(part.substr(0,16)=="接尾辞,名詞")   noun_count++;  //"年","月"
-        // else if(part.substr(0,22)=="接頭辞,ナ形容詞")   noun_count++;  //"超"
+        //Count noun of morpheme.
+        uint32_t noun_count = 0;
+        for(auto part: morpheme_form){
+            if(part.substr(0,6)=="名詞")    noun_count++;
+            else if(part.substr(0,16)=="接頭辞,名詞")   noun_count++;  //"約"
+            else if(part.substr(0,16)=="接尾辞,名詞")   noun_count++;  //"年","月"
+            // else if(part.substr(0,22)=="接頭辞,ナ形容詞")   noun_count++;  //"超"
+        }
+
+        //Calcurate noun ratio of morpheme.
+        document.noun_ratio = (double)noun_count/(double)morpheme_form.size();
+        // cout << "noun_ratio: "<< document.noun_ratio << endl;
+
+        //If noun ratio is more than 0.8, the document text is rejected.  
+        document.is_rejected = false;
+        if(document.noun_ratio >=0.8) document.is_rejected = true;
+
+        if(document.is_rejected)    document.metadata.insert(__func__);
     }
-
-    //Calcurate noun ratio of morpheme.
-    document.noun_ratio = (double)noun_count/(double)morpheme_form.size();
-    // cout << "noun_ratio: "<< document.noun_ratio << endl;
-
-    //If noun ratio is more than 0.8, the document text is rejected.  
-    document.is_rejected = false;
-    if(document.noun_ratio >=0.8) document.is_rejected = true;
-
-    if(document.is_rejected)    document.metadata.insert(__func__);
+    catch(...){
+        cout << "Exception:NounRatioFilter" << endl;
+        throw;
+    }
 }
 
 /**
@@ -590,11 +652,19 @@ void CorpusCleaner::NounRatioFilter(Document &document)
 **/
 void CorpusCleaner::Normalizer(Document &document)
 {
-    string sentence = NormalizeNeologd(document.text);
+    try{
+        // If the sentence is too long, regular expression errors may occur, so take measures.
+        this->LengthFilter(document);
+        if(document.is_rejected==true) return;
 
-    if(sentence!=document.text) document.metadata.insert(__func__);
-    document.text = sentence; 
-
+        string sentence = string_normalizer.NormalizeNeologd(document.text);
+        if(sentence!=document.text) document.metadata.insert(__func__);
+        document.text = sentence; 
+    }
+    catch(...){
+        cout << "Exception:Normalizer" << endl;
+        throw;
+    }
 }
 
 
@@ -632,13 +702,6 @@ void CorpusCleaner::MinhashDeduplication(Document &document)
             cout << "MinhashDeduplicator: The size of Seen is more than total_bucket_size." << endl;
             cout << "Now, clear seen and blacklist." << endl;
             this->deduplicator->InitializeSeen();
-        }
-
-        //If seen is greater than or equal to bucket_size, clear seen to 0
-        if(this->deduplicator->SizeOfBlacklist()>=this->deduplicator->GetTotalBucketSize()){
-            cout << "MinhashDeduplicator: The size of blacklist is more than total_bucket_size." << endl;
-            cout << "Now, clear blacklist." << endl;
-            this->deduplicator->InitializeBlacklist();
         }
 
     }
@@ -719,6 +782,10 @@ void CorpusCleaner::SentenceSegmenter(string input_folder_path, string output_fo
  * @param Document &document: document is to be filtered
  * @param void (CorpusCleaner::*cleaner)(Document &): filter function list
  * @return Stats: statics imformation of this function.
+ * @note TODO: Implement following contents.
+ * 1. add cleaner_list's number to getting parameter.
+ * 2. 
+ * 3. At the end of corpus_cleaner, output the stats to file.
  * @ref 
 **/
 Stats CorpusCleaner::PipelineStep(Document &document, void (CorpusCleaner::*cleaner)(Document &))
@@ -804,6 +871,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
     vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
+        &CorpusCleaner::ControlCharacterRemover,
         &CorpusCleaner::Normalizer,
         &CorpusCleaner::URLRemover,
         &CorpusCleaner::EmojiRemover, 
@@ -845,22 +913,31 @@ int32_t CorpusCleaner::CleanPipeline(void)
         uint64_t file_line_number = file_line_number_list[i];
         cout << "Start Cleaning "+this->intermediate_path+filename+extention << endl;
 
+        // ifstream input_file(this->intermediate_path+filename+extention,ios::binary);
         ifstream input_file(this->intermediate_path+filename+extention);
         string  output_file_path(this->output_path+filename+".jsonl"); 
         string  rejected_file_path(this->rejected_path+filename+".jsonl"); 
-        string line="";
-        uint64_t line_count=-1; // The fist incrementation is overflow.
+        string line = "";
+        uint64_t line_count = 0; // The fist incrementation is overflow.
         uint64_t removed_line_count = 0;
         chrono::system_clock::time_point start, end;
         start = chrono::system_clock::now();
     
-        while (getline(input_file, line)) {
-            Document document;
+        while (!input_file.eof()) {
             line_count++;   
+
+            try {getline(input_file, line);} 
+            catch (const std::ios_base::failure& e) {
+                std::cerr << "getline error: " << e.what() << std::endl;
+                // input_file.clear();// clear the stream state
+                input_file.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // ignore current line
+                continue;
+            }
+            Document document;
             // load data
             end = std::chrono::system_clock::now();
             uint32_t elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-            ProceedProgressBar(line_count+1,file_line_number,elapsed_time);
+            ProceedProgressBar(line_count,file_line_number,elapsed_time);
             if(this->sentence_segment==true){
                 try{ReadDocumentFromJsonlOneLine(document,line);}
                 catch(...){
@@ -880,12 +957,15 @@ int32_t CorpusCleaner::CleanPipeline(void)
                 }
             }
 
-
             // Loop processing as many times as cleaner_list
             for (const auto& cleaner : cleaner_list) {     
-                try{Stats stats = PipelineStep(document,(cleaner));}
+                try{
+                    Stats stats = PipelineStep(document,(cleaner));
+                    // TODO: store stats
+                    // store number of execute function count
+                }
                 catch(...){continue;}
-                //OutputStats(stats);
+                // OutputStats(stats);
                 // if rejected, break and turn to next line.
                 if(document.is_rejected){
                     removed_line_count++;
@@ -914,6 +994,9 @@ int32_t CorpusCleaner::CleanPipeline(void)
         printf("Removed ratio: %.2f%%\n",double(removed_line_count) / file_line_number * 100);
         printf("Remaining ratio: %.2f%%\n",100 - double(removed_line_count) / file_line_number * 100);
         input_file.close();   
+
+        // TODO: calculate each filter's process time by (process_time/execute_count)
+        // TODO: output stats to file
     }
     
     return 0;
