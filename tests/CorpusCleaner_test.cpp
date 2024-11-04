@@ -8,11 +8,9 @@
 class CorpusCleanerTest : public ::testing::Test {
 protected:
     // You can freely delete empty functions in the following functions.
-    uint32_t min_length=5;
-    uint32_t max_length = 1000;
-    set<string> accept_language{"__label__ja"};
     Document document;
     string sentence="";
+    string config_path = "../data/input/config.json";
     const string output_path = "../data/output/";
     const string intermediate_path = "../data/intermediate/"; 
     CorpusCleanerTest() {
@@ -71,13 +69,7 @@ TEST_F(CorpusCleanerTest, LengthFilter) {
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
@@ -119,13 +111,7 @@ TEST_F(CorpusCleanerTest, ZeroPunctuationFilter) {
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
@@ -165,13 +151,7 @@ TEST_F(CorpusCleanerTest, NounRatioFilter) {
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
@@ -206,7 +186,6 @@ TEST_F(CorpusCleanerTest, NounRatioFilter) {
     document.text = "正室:光曜院-土井利房の養女、土井利隆の娘";
     corpus_cleaner.NounRatioFilter(document);
     ASSERT_TRUE(document.is_rejected==true);
-
 }
 
 TEST_F(CorpusCleanerTest, URLRemover) {
@@ -214,13 +193,7 @@ TEST_F(CorpusCleanerTest, URLRemover) {
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     document.is_rejected=false;
@@ -259,20 +232,12 @@ TEST_F(CorpusCleanerTest, MakeStats) {
 }
 
 TEST_F(CorpusCleanerTest, SpecialCharacterRemover) {
-    uint32_t min_length = 10;
-    uint32_t max_length = 1000;
     set<string> accept_language{"__label__ja"};
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
                                  
@@ -310,13 +275,7 @@ TEST_F(CorpusCleanerTest, EmojiRemover) {
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     document.text = "よろしくお願いします😎";
@@ -358,13 +317,7 @@ TEST_F(CorpusCleanerTest, SentenceSegmenter) {
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner(input_folder_path,
                                  output_folder_path,
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
@@ -516,13 +469,7 @@ TEST_F(CorpusCleanerTest, MinhashDeduplication) {
     LSHDeduplicator deduplicator(true,"../data/output/minhash/blacklist.txt",true,5120000);
     CorpusCleaner corpus_cleaner(input_folder_path,
                                  output_folder_path,
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 false,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
@@ -568,13 +515,7 @@ TEST_F(CorpusCleanerTest,LanguageFilter)
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     document.text = "吾輩は猫である。名前はまだ無い。";
@@ -595,25 +536,19 @@ TEST_F(CorpusCleanerTest,LanguageFilter2)
 {
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
-    CorpusCleaner corpus_cleaner("../data/input/",
+    CorpusCleaner corpus_cleaner2("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 {"__label__en"},
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 "../data/input/config2.json",
                                  &generate_dedup_lsh,
                                  &deduplicator);
     document.text = "I am a cat. No name yet.";
-    corpus_cleaner.LanguageFilter(document);
+    corpus_cleaner2.LanguageFilter(document);
     ASSERT_TRUE(document.language=="__label__en");
     ASSERT_TRUE(document.is_rejected==false);
 
     //under.threshold
     document.text = "ぎぎgugu";
-    corpus_cleaner.LanguageFilter(document);
+    corpus_cleaner2.LanguageFilter(document);
     ASSERT_TRUE(document.language=="__label__en");
     ASSERT_TRUE(document.language_score<0.3);
     ASSERT_TRUE(document.is_rejected==true);
@@ -625,13 +560,7 @@ TEST_F(CorpusCleanerTest,QuotesRemover)
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     document.text = "自己教師あり学習または半教師あり学習（英語版）によって訓練が行われる[1]。";
@@ -719,18 +648,11 @@ TEST_F(CorpusCleanerTest,KenLMPerplexityWithSentencePiece)
 
 TEST_F(CorpusCleanerTest,PerplexityFilter) 
 {
-
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     Document document;
@@ -773,8 +695,6 @@ TEST_F(CorpusCleanerTest,PerplexityFilter)
     corpus_cleaner.PerplexityFilter(document);
     ASSERT_TRUE(document.perplexity<15000);
     ASSERT_TRUE(document.is_rejected==false);
-
-
 }
 
 TEST_F(CorpusCleanerTest,GetFileNameListWithoutExtention) 
@@ -834,13 +754,7 @@ TEST_F(CorpusCleanerTest,WriteDocumentToJsonl)
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     WriteDocumentToJsonl(document,"../data/output/write_document_to_jsonl.jsonl");
@@ -873,13 +787,7 @@ TEST_F(CorpusCleanerTest,ReadDocumentFromJsonlOneLine)
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     Document document;
@@ -900,13 +808,7 @@ TEST_F(CorpusCleanerTest,ExceptionReadDocumentFromJsonlOneLine)
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     Document document;
@@ -930,13 +832,7 @@ TEST_F(CorpusCleanerTest,ControlCharacterRemover)
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
     CorpusCleaner corpus_cleaner(input_folder_path,
                                  output_folder_path,
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 true,
-                                 true,
-                                 0.3,
-                                 15000,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
 
@@ -968,3 +864,79 @@ TEST_F(CorpusCleanerTest,ControlCharacterRemover)
         ASSERT_TRUE(CompareFiles(output_folder_path+"/cleaned/"+"/"+file_list[i]+".jsonl",answer_folder_path+"/"+file_list[i]+".jsonl"));
     }
 }
+
+TEST_F(CorpusCleanerTest,SpecificPhrasesRemover) 
+{
+    string input_folder_path = "../data/input/null_remover/";
+    string output_folder_path = "../data/output/null_remover/";
+    string intermediate_folder_path = "../data/output/null_remover/intermediate/";
+    string answer_folder_path = "../data/answer/null_remover/";
+
+    RemoveFolder(intermediate_folder_path);
+    RemoveFolder(output_folder_path);
+    mkdir(output_folder_path.c_str(), 0777);
+
+    GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
+    LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
+    vector<string> specific_phrases = {"このページは曖昧さ回避のためのページです。一つの語句が複数の意味・職能を有する場合の水先案内のために、異なる用法を一覧にしてあります。お探しの用語に一番近い記事を選んで下さい。このページへリンクしているページを見つけたら、リンクを適切な項目に張り替えて下さい。",
+                                       "これはテストです。"};
+    CorpusCleaner corpus_cleaner(input_folder_path,
+                                 output_folder_path,
+                                 config_path,
+                                 &generate_dedup_lsh,
+                                 &deduplicator);
+
+    Document document;
+    string jsonl_line = "{\"text\":\"おはようございます。これはテストです。こんにちは。このページは曖昧さ回避のためのページです。一つの語句が複数の意味・職能を有する場合の水先案内のために、異なる用法を一覧にしてあります。お探しの用語に一番近い記事を選んで下さい。このページへリンクしているページを見つけたら、リンクを適切な項目に張り替えて下さい。\",\"id\":\"jorno_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"perplexity\":\"1.692\"}";
+    ReadDocumentFromJsonlOneLine(document,jsonl_line);
+    corpus_cleaner.SpecificPhrasesRemover(document);
+    // cout << document.text << endl;
+    ASSERT_TRUE(document.text=="おはようございます。こんにちは。");
+    
+    jsonl_line = "{\"text\":\"おはようございます。このページは曖昧さ回避のためのページです。一つの語句が複数の意味・職能を有する場合の水先案内のために、異なる用法を一覧にしてあります。お探しの用語に一番近い記事を選んで下さい。このページへリンクしているページを見つけたら、リンクを適切な項目に張り替えて下さい。こんにちは。\",\"id\":\"jorno_0\",\"is_rejected\":\"1\",\"metadata\":\"\",\"language\":\"__label__ja\",\"language_score\":\"0.003\",\"perplexity\":\"1.692\"}";
+    ReadDocumentFromJsonlOneLine(document,jsonl_line);
+    corpus_cleaner.SpecificPhrasesRemover(document);
+    // cout << document.text << endl;
+    ASSERT_TRUE(document.text=="おはようございます。こんにちは。");
+}
+
+#include "../corpus_cleaner/simdjson.h"
+#include <locale>
+using namespace simdjson;
+
+TEST_F(CorpusCleanerTest,ReadConfig)
+{
+    simdjson::ondemand::parser parser;
+    padded_string json = padded_string::load("../data/config.json");
+    simdjson::ondemand::document config = parser.iterate(json);
+    
+    ASSERT_TRUE(config["original_folder_path"]=="../../results/dataset/original/");
+    ASSERT_TRUE(config["base_folder_path"]=="../../results/dataset/");
+    ASSERT_TRUE(config["results_folder_path"]=="../../results/dataset/cleaned/");
+    ASSERT_TRUE(config["rejected_folder_path"]=="../../results/dataset/rejected/");
+    ASSERT_TRUE(config["blacklist_folder_path"]=="../../results/dataset/blacklist/");
+    ASSERT_TRUE(bool(config["store_blacklist"])==false);
+    ASSERT_TRUE(uint64_t(config["min_length"])==5);
+    ASSERT_TRUE(uint64_t(config["max_length"])==500000);
+    ASSERT_TRUE(config["accept_language"].at(0)=="__label__ja");
+    ASSERT_TRUE(config["accept_language"].at(1)=="__label__en");
+    ASSERT_TRUE(config["specific_phrases"].at(0)=="ああ");
+    ASSERT_TRUE(config["specific_phrases"].at(1)=="いい");
+    ASSERT_TRUE(config["specific_phrases"].at(2)=="うう");
+    ASSERT_TRUE(bool(config["store_rejected"])==true);
+    ASSERT_TRUE(double(config["language_threshold"])==0.3);
+    ASSERT_TRUE(uint64_t(config["perplexity_threshold"])==80000);
+    ASSERT_TRUE(bool(config["execute_sentence_segment"])==false);
+    ASSERT_TRUE(bool(config["execute_control_character_remover"])==true);
+    ASSERT_TRUE(bool(config["execute_normalizer"])==true);
+    ASSERT_TRUE(bool(config["execute_url_remover"])==true);
+    ASSERT_TRUE(bool(config["execute_emoji_remover"])==true);
+    ASSERT_TRUE(bool(config["execute_special_character_remover"])==true);
+    ASSERT_TRUE(bool(config["execute_quotes_remover"])==true);
+    ASSERT_TRUE(bool(config["execute_length_filter"])==true);
+    ASSERT_TRUE(bool(config["execute_zero_punctuation_filter"])==true);
+    ASSERT_TRUE(bool(config["execute_language_filter"])==true);
+    ASSERT_TRUE(bool(config["execute_noun_ratio_filter"])==true);
+    ASSERT_TRUE(bool(config["execute_minhash_filter"])==false);
+    ASSERT_TRUE(bool(config["execute_perplexity_filter"])==true);
+} 

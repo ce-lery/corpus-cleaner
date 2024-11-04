@@ -1,7 +1,8 @@
 
 #include "corpus_cleaner.hpp"
 #include <unicode/uclean.h> // u_cleanup()
-
+#include "simdjson.h"
+using namespace simdjson;
 
 
 /**
@@ -109,37 +110,38 @@ void MergeFiles(const vector<string>& input_files, const string& output_file)
 }
 
 
-void MultiProcessCorpusClean(const string input_folder_path,             
-                             const string output_folder_path,
-                             const bool store_blacklist)
+void CorpusClean(const string input_folder_path,             
+                 const string output_folder_path,
+                 const string config_path)
 {
 
     //string input_folder_path = "../../results/dataset/input/";
     //string output_folder_path = "../../results/dataset/output/";
-    uint32_t min_length= 5;
-    uint32_t max_length = 5000;
-    set<string> accept_language{"__label__ja"};
-//  RemoveFolder(output_folder_path);
-    bool store_rejected = true; 
-    bool execute_sentence_segment = false; // TODO: switch true
-    double language_threshold = 0.3;
-    double perplexity_threshold = 40000;
+//     uint32_t min_length= 5;
+//     uint32_t max_length = 500000;
+//     set<string> accept_language{"__label__ja"};
+// //  RemoveFolder(output_folder_path);
+//     bool store_rejected = true; 
+//     bool execute_sentence_segment = false; // TODO: switch true
+//     double language_threshold = 0.3;
+//     double perplexity_threshold = 80000;
+//     vector<string> specific_phrases = {"このページは曖昧さ回避のためのページです。一つの語句が複数の意味・職能を有する場合の水先案内のために、異なる用法を一覧にしてあります。お探しの用語に一番近い記事を選んで下さい。このページへリンクしているページを見つけたら、リンクを適切な項目に張り替えて下さい。",
+//                               };
 
-    const string blacklist_file_path = output_folder_path+"/blacklist.txt";
+    simdjson::ondemand::parser parser;
+    padded_string json = padded_string::load("../data/config.json");
+    simdjson::ondemand::document config = parser.iterate(json);
 
     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
-    LSHDeduplicator deduplicator(true,blacklist_file_path,store_blacklist,1280000000);
+    LSHDeduplicator deduplicator(true,
+                                 output_folder_path+"/blacklist.txt",
+                                 bool(config["store_blacklist"]),
+                                 1280000000);
     
     // create instance
     CorpusCleaner corpus_cleaner(input_folder_path,
                                  output_folder_path,
-                                 min_length,
-                                 max_length,
-                                 accept_language,
-                                 store_rejected,
-                                 execute_sentence_segment,
-                                 language_threshold,
-                                 perplexity_threshold,
+                                 config_path,
                                  &generate_dedup_lsh,
                                  &deduplicator);
     
@@ -147,25 +149,25 @@ void MultiProcessCorpusClean(const string input_folder_path,
     corpus_cleaner.CleanPipeline(); 
 }  
 
-int main(void)
+int MultiProcessCorpusClean(string config_file_path)
 {
     // Please put the original .txt file in the original folder
-    const string original_folder_path = "../../results/dataset/original/";
-    const string base_folder_path = "../../results/dataset/";
-    const string results_folder_path = "../../results/dataset/cleaned/";
-    const string rejected_folder_path = "../../results/dataset/rejected/";
-    const string blacklist_folder_path = "../../results/dataset/blacklist/";
+    // const string original_folder_path = "../../results/dataset/original/";
+    // const string base_folder_path = "../../results/dataset/";
+    // const string results_folder_path = "../../results/dataset/cleaned/";
+    // const string rejected_folder_path = "../../results/dataset/rejected/";
+    // const string blacklist_folder_path = "../../results/dataset/blacklist/";
     filesystem::create_directories(fs::path(results_folder_path));
     filesystem::create_directories(fs::path(rejected_folder_path));
     filesystem::create_directories(fs::path(blacklist_folder_path));
 
-    const bool store_blacklist = false;
+    // const bool store_blacklist = false;
     // get file list
     vector<string> filelist;
     GetFileNameListWithoutExtention(original_folder_path,&filelist);
 
     // Get the number of CPU threads and define it as thread_number = cpu thread count - 4; (value of 1 or more)
-    int32_t num_threads = std::thread::hardware_concurrency() - 4;
+    int32_t num_threads = std::thread::hardware_concurrency() - 2;
     num_threads = (num_threads>0) ? num_threads : 1;
     // num_threads=1;
     cout << "Multi Process Number: "<< num_threads << endl;
@@ -186,10 +188,10 @@ int main(void)
     for(int i=0;i<num_threads;i++){
         string input_folder_path = base_folder_path+to_string(i)+"/input/";
         string output_folder_path = base_folder_path+to_string(i)+"/output/";
-        threads.emplace_back(MultiProcessCorpusClean,
+        threads.emplace_back(CorpusClean,
                              input_folder_path,
                              output_folder_path,
-                             store_blacklist);
+                             config_file_path);
     }    
 
     // call each thread
@@ -197,7 +199,7 @@ int main(void)
         process.join();
     }
     
-    // merging all results files and make them into one
+    //merging all results files and make them into one
     for(auto file:filelist){
         vector<string> splited_filelist;
         // Merge cleaned
@@ -206,24 +208,36 @@ int main(void)
         for(int i=0;i<num_threads;i++)        filesystem::remove(base_folder_path+to_string(i)+"/output/cleaned/"+file+".txt");
         
         //Merge rejected
+        splited_filelist.clear();
         for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/rejected/"+file+".jsonl");
         MergeFiles(splited_filelist,rejected_folder_path+file+".jsonl");
         for(int i=0;i<num_threads;i++)        filesystem::remove(base_folder_path+to_string(i)+"/output/rejected/"+file+".txt");
 
         // Merge blacklist
+        splited_filelist.clear();
         if(store_blacklist){
             for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/blacklist.txt");
             MergeFiles(splited_filelist,blacklist_folder_path+"/blacklist_"+file+".txt");
         }
     }
 
-    for(int i=0;i<num_threads;i++)    RemoveFolder(base_folder_path+to_string(i));
+    // for(int i=0;i<num_threads;i++)    RemoveFolder(base_folder_path+to_string(i));
 
     //cleanup normalizer
     u_cleanup();
     return 0;
 }
 
+int main(int argc, char *argv[])
+{
+    if(argc > 3) {
+        cout << "Argument Error. Please input 1 option."
+        return -1;
+    }
+    string config_path = argv[1];
+    MultiProcessCorpusClean(config_path); 
+    return 0;
+}
 
 
 // #include "corpus_cleaner.hpp"
