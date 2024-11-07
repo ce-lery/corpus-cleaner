@@ -129,7 +129,7 @@ void CorpusClean(const string input_folder_path,
 //                               };
 
     simdjson::ondemand::parser parser;
-    padded_string json = padded_string::load("../data/config.json");
+    padded_string json = padded_string::load(config_path);
     simdjson::ondemand::document config = parser.iterate(json);
 
     GenerateDedupLSH generate_dedup_lsh(4,200,20,10);
@@ -149,19 +149,23 @@ void CorpusClean(const string input_folder_path,
     corpus_cleaner.CleanPipeline(); 
 }  
 
-int MultiProcessCorpusClean(string config_file_path)
+int MultiProcessCorpusClean(string config_path)
 {
+    simdjson::ondemand::parser parser;
+    padded_string json = padded_string::load(config_path);
+    simdjson::ondemand::document config = parser.iterate(json);
+
     // Please put the original .txt file in the original folder
-    // const string original_folder_path = "../../results/dataset/original/";
-    // const string base_folder_path = "../../results/dataset/";
-    // const string results_folder_path = "../../results/dataset/cleaned/";
-    // const string rejected_folder_path = "../../results/dataset/rejected/";
-    // const string blacklist_folder_path = "../../results/dataset/blacklist/";
+    const string original_folder_path = string(string_view(config["original_folder_path"]));
+    const string base_folder_path = string(string_view(config["base_folder_path"]));
+    const string results_folder_path = string(string_view(config["results_folder_path"]));
+    const string rejected_folder_path = string(string_view(config["rejected_folder_path"]));
+    const string blacklist_folder_path = string(string_view(config["blacklist_folder_path"]));
+    const bool store_blacklist = bool(config["store_blacklist"]);
     filesystem::create_directories(fs::path(results_folder_path));
     filesystem::create_directories(fs::path(rejected_folder_path));
     filesystem::create_directories(fs::path(blacklist_folder_path));
 
-    // const bool store_blacklist = false;
     // get file list
     vector<string> filelist;
     GetFileNameListWithoutExtention(original_folder_path,&filelist);
@@ -191,7 +195,7 @@ int MultiProcessCorpusClean(string config_file_path)
         threads.emplace_back(CorpusClean,
                              input_folder_path,
                              output_folder_path,
-                             config_file_path);
+                             config_path);
     }    
 
     // call each thread
@@ -231,10 +235,11 @@ int MultiProcessCorpusClean(string config_file_path)
 int main(int argc, char *argv[])
 {
     if(argc > 3) {
-        cout << "Argument Error. Please input 1 option."
+        cout << "Argument Error. Please input 1 option." << endl;
         return -1;
     }
     string config_path = argv[1];
+    cout << ">>> config_path: "<< config_path << endl;
     MultiProcessCorpusClean(config_path); 
     return 0;
 }

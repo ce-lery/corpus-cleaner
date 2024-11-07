@@ -137,10 +137,10 @@ int32_t CorpusCleaner::CleanPipeline(void)
         &CorpusCleaner::Normalizer,
         &CorpusCleaner::URLRemover,
         &CorpusCleaner::EmojiRemover, 
-        # &CorpusCleaner::SpecialCharacterRemover,
-        # &CorpusCleaner::QuotesRemover,   // <- If you comment or exclude function of 
-        # &CorpusCleaner::LengthFilter,    // <- cleaner_list, the functions are disabled.
-        # &CorpusCleaner::ZeroPunctuationFilter,
+        // &CorpusCleaner::SpecialCharacterRemover,
+        // &CorpusCleaner::QuotesRemover,   // <- If you comment or exclude function of 
+        // &CorpusCleaner::LengthFilter,    // <- cleaner_list, the functions are disabled.
+        // &CorpusCleaner::ZeroPunctuationFilter,
         &CorpusCleaner::LanguageFilter,
         &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,

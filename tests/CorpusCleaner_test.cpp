@@ -536,19 +536,19 @@ TEST_F(CorpusCleanerTest,LanguageFilter2)
 {
     GenerateDedupLSH generate_dedup_lsh(5,200,20,10);
     LSHDeduplicator deduplicator(true,"../data/output/blacklist.txt",true,5120);
-    CorpusCleaner corpus_cleaner2("../data/input/",
+    CorpusCleaner corpus_cleaner("../data/input/",
                                  "../data/output/",
                                  "../data/input/config2.json",
                                  &generate_dedup_lsh,
                                  &deduplicator);
     document.text = "I am a cat. No name yet.";
-    corpus_cleaner2.LanguageFilter(document);
+    corpus_cleaner.LanguageFilter(document);
     ASSERT_TRUE(document.language=="__label__en");
     ASSERT_TRUE(document.is_rejected==false);
 
     //under.threshold
     document.text = "ぎぎgugu";
-    corpus_cleaner2.LanguageFilter(document);
+    corpus_cleaner.LanguageFilter(document);
     ASSERT_TRUE(document.language=="__label__en");
     ASSERT_TRUE(document.language_score<0.3);
     ASSERT_TRUE(document.is_rejected==true);
@@ -907,7 +907,7 @@ using namespace simdjson;
 TEST_F(CorpusCleanerTest,ReadConfig)
 {
     simdjson::ondemand::parser parser;
-    padded_string json = padded_string::load("../data/config.json");
+    padded_string json = padded_string::load("../data/input/config2.json");
     simdjson::ondemand::document config = parser.iterate(json);
     
     ASSERT_TRUE(config["original_folder_path"]=="../../results/dataset/original/");
@@ -917,7 +917,7 @@ TEST_F(CorpusCleanerTest,ReadConfig)
     ASSERT_TRUE(config["blacklist_folder_path"]=="../../results/dataset/blacklist/");
     ASSERT_TRUE(bool(config["store_blacklist"])==false);
     ASSERT_TRUE(uint64_t(config["min_length"])==5);
-    ASSERT_TRUE(uint64_t(config["max_length"])==500000);
+    ASSERT_TRUE(uint64_t(config["max_length"])==1000);
     ASSERT_TRUE(config["accept_language"].at(0)=="__label__ja");
     ASSERT_TRUE(config["accept_language"].at(1)=="__label__en");
     ASSERT_TRUE(config["specific_phrases"].at(0)=="ああ");
@@ -925,8 +925,8 @@ TEST_F(CorpusCleanerTest,ReadConfig)
     ASSERT_TRUE(config["specific_phrases"].at(2)=="うう");
     ASSERT_TRUE(bool(config["store_rejected"])==true);
     ASSERT_TRUE(double(config["language_threshold"])==0.3);
-    ASSERT_TRUE(uint64_t(config["perplexity_threshold"])==80000);
-    ASSERT_TRUE(bool(config["execute_sentence_segment"])==false);
+    ASSERT_TRUE(uint64_t(config["perplexity_threshold"])==15000);
+    ASSERT_TRUE(bool(config["execute_sentence_segment"])==true);
     ASSERT_TRUE(bool(config["execute_control_character_remover"])==true);
     ASSERT_TRUE(bool(config["execute_normalizer"])==true);
     ASSERT_TRUE(bool(config["execute_url_remover"])==true);

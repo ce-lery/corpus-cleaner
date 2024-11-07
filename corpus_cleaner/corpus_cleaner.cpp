@@ -316,7 +316,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     mkdir(this->exception_path.c_str(), 0777);
     mkdir(this->rejected_path.c_str(), 0777);
 
-    //Read from input_path's files, and write to output_path in jsonl format.
+    // Read from input_path's files, and write to output_path in jsonl format.
     // TODO: uncommentout next line
     // ConvertInputFilesToJsonl(this->input_path,this->output_path);
     CopyFolder(this->input_path,this->intermediate_path);
@@ -925,7 +925,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
     if(this->quotes_remover)            cleaner_list.push_back(&CorpusCleaner::QuotesRemover);
     if(this->length_filter)             cleaner_list.push_back(&CorpusCleaner::LengthFilter);
     if(this->zero_punctuation_filter)   cleaner_list.push_back(&CorpusCleaner::ZeroPunctuationFilter);
-    if(this->language_identify)           cleaner_list.push_back(&CorpusCleaner::LanguageFilter);
+    if(this->language_identify)         cleaner_list.push_back(&CorpusCleaner::LanguageFilter);
     if(this->noun_ratio_filter)         cleaner_list.push_back(&CorpusCleaner::NounRatioFilter);
     if(this->minhash_filter)            cleaner_list.push_back(&CorpusCleaner::MinhashDeduplication);
     if(this->perplexity_filter)         cleaner_list.push_back(&CorpusCleaner::PerplexityFilter);

@@ -4,7 +4,7 @@
     "results_folder_path":"../../results/dataset/cleaned/",
     "rejected_folder_path":"../../results/dataset/rejected/",
     "blacklist_folder_path":"../../results/dataset/blacklist/",
-    "store_blacklist":true,
+    "store_blacklist":false,
     "min_length":5,
     "max_length":1000,
     "accept_language":["__label__ja","__label__en"],

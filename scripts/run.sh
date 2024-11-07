@@ -16,7 +16,7 @@ export CPLUS_INCLUDE_PATH=$ICUPATH/include
 export LIBRARY_PATH=$ICUPATH/lib
 export LD_LIBRARY_PATH=$ICUPATH/lib
 
-./corpus_cleaner
+./corpus_cleaner config.json
 # valgrind --leak-check=full --show-leak-kinds=all ./corpus_cleaner
 
 cd ../../
