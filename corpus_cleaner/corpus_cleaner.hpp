@@ -76,7 +76,7 @@ private:
     uint32_t min_length=5;
     uint32_t max_length=1000;
     set<string> accept_language{"__label__ja"};
-    bool sentence_segment=true;
+    vector<string> specific_phrases;
     bool store_rejected=true;
     float language_threshold=0.3;
     double perplexity_threshold=999999;
@@ -87,18 +87,25 @@ private:
     LSHDeduplicator *deduplicator; 
     Jagger jagger_parser;
     StringNormalizer string_normalizer;
+    bool sentence_segment=true;
+    bool control_character_remover=true;
+    bool normalizer=true;
+    bool url_remover=true;
+    bool emoji_remover=true;
+    bool special_character_remover=true;
+    bool quotes_remover=true;
+    bool length_filter=true;
+    bool zero_punctuation_filter=true;
+    bool language_identify=true;
+    bool noun_ratio_filter=true;
+    bool minhash_filter=true;
+    bool perplexity_filter=true;
 
 public:
     /***constructor***/
     CorpusCleaner(string input_path,
                   string output_path,
-                  uint32_t min_length,
-                  uint32_t max_length,
-                  set<string> accept_language,
-                  bool store_rejected,
-                  bool sentence_segment,
-                  float language_threshold,
-                  double perplexity_threshold,
+                  string config_path,
                   GenerateDedupLSH *generate_dedup_lsh,
                   LSHDeduplicator *deduplicator);
     /***destructor***/
@@ -110,6 +117,7 @@ public:
     void SpecialCharacterRemover(Document &document);
     void EmojiRemover(Document &document);
     void QuotesRemover(Document &document);
+    void SpecificPhrasesRemover(Document &document);
     void LengthFilter(Document &document);
     void LanguageFilter(Document &document);
     void PerplexityFilter(Document &document);

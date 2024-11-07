@@ -243,13 +243,7 @@ void CorpusCleaner::StoreException(string function_name, string reference)
 /***constructor***/
 CorpusCleaner::CorpusCleaner(string input_path,
                              string output_path,
-                             uint32_t min_length,
-                             uint32_t max_length,
-                             set<string> accept_language,
-                             bool store_rejected,
-                             bool sentence_segment,
-                             float language_threshold,
-                             double perplexity_threshold,
+                             string config_path,
                              GenerateDedupLSH *generate_dedup_lsh,
                              LSHDeduplicator *deduplicator)
 {
@@ -259,15 +253,47 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->rejected_path = output_path+"/rejected/";
     this->exception_path = output_path+"/exception/";
 
-    this->min_length = min_length;
-    this->max_length = max_length;
-    this->accept_language = accept_language;
-    this->store_rejected = store_rejected;
-    this->sentence_segment = sentence_segment;
-    this->language_threshold = language_threshold;
-    this->perplexity_threshold = perplexity_threshold;
+    simdjson::ondemand::parser parser;
+    padded_string json = padded_string::load(config_path);
+    simdjson::ondemand::document config = parser.iterate(json);
+
+    this->min_length = uint64_t(config["min_length"]);
+    this->max_length = uint64_t(config["max_length"]);
+    uint32_t cnt = 0;
+    while(1){
+        string_view label;
+        auto error = config["accept_language"].at(cnt).get(label);
+        if(error) break;
+        this->accept_language.insert(string(label));
+        cnt++;
+    }
+    this->store_rejected = bool(config["store_rejected"]);
+    this->language_threshold = double(config["language_threshold"]);
+    this->perplexity_threshold = uint64_t(config["perplexity_threshold"]);
+
+    cnt = 0;
+    while(1){
+        string_view specific_phrase;
+        auto error = config["specific_phrases"].at(cnt).get(specific_phrase);
+        if(error) break;
+        this->specific_phrases.push_back(string(specific_phrase));
+        cnt++;
+    }
     this->generate_dedup_lsh=generate_dedup_lsh;
     this->deduplicator=deduplicator;
+    this->sentence_segment = bool(config["execute_sentence_segment"]);
+    this->control_character_remover = bool(config["execute_control_character_remover"]);
+    this->normalizer = bool(config["execute_normalizer"]);
+    this->url_remover = bool(config["execute_url_remover"]);
+    this->emoji_remover = bool(config["execute_emoji_remover"]);
+    this->special_character_remover = bool(config["execute_special_character_remover"]);
+    this->quotes_remover = bool(config["execute_quotes_remover"]);
+    this->length_filter = bool(config["execute_length_filter"]);
+    this->zero_punctuation_filter = bool(config["execute_zero_punctuation_filter"]);
+    this->language_identify = bool(config["execute_language_filter"]);
+    this->noun_ratio_filter = bool(config["execute_noun_ratio_filter"]);
+    this->minhash_filter = bool(config["execute_minhash_filter"]);
+    this->perplexity_filter = bool(config["execute_perplexity_filter"]);
 
     this->jagger_parser.read_model("../../scripts/jagger-extension/jagger-2023-02-18/model/kwdlc/patterns");
 
@@ -277,10 +303,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
         // cout << "Please RENAME to delete the selection." << endl;
         // exit(EXIT_FAILURE);
         // TODO: Fix
-
         RemoveFolder(this->output_path);
         RemoveFolder(this->rejected_path);
-
     }
 
     RemoveFolder(this->intermediate_path);
@@ -292,7 +316,7 @@ CorpusCleaner::CorpusCleaner(string input_path,
     mkdir(this->exception_path.c_str(), 0777);
     mkdir(this->rejected_path.c_str(), 0777);
 
-    //Read from input_path's files, and write to output_path in jsonl format.
+    // Read from input_path's files, and write to output_path in jsonl format.
     // TODO: uncommentout next line
     // ConvertInputFilesToJsonl(this->input_path,this->output_path);
     CopyFolder(this->input_path,this->intermediate_path);
@@ -555,6 +579,28 @@ void CorpusCleaner::QuotesRemover(Document &document)
     static regex remaks_pattern(R"((\[([0-9]+)\]|\{([0-9]+)\}))");
     string sentence =  regex_replace(document.text,remaks_pattern,"");
 
+    if(sentence!=document.text) document.metadata.insert(__func__);
+    document.text = sentence;
+}
+
+/**
+ * @brief Remove specific phrase.
+ * @details 
+ *  Remove certain frequently occurring phrases, such as advertising text in web articles.
+ * @param Document &document: single line text to be cleaned
+ * @return void: None
+ * @attention Don't use this on corpus that contain formulas or programs.
+**/
+void CorpusCleaner::SpecificPhrasesRemover(Document &document)
+{
+    string sentence = document.text;
+    for(auto phrase:this->specific_phrases) {
+        size_t pos = 0;
+        while ((pos = sentence.find(phrase, pos)) != string::npos) {
+            sentence.erase(pos, phrase.length());
+        }
+    }       
+    
     if(sentence!=document.text) document.metadata.insert(__func__);
     document.text = sentence;
 }
@@ -870,21 +916,20 @@ int32_t CorpusCleaner::CleanPipeline(void)
 {
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
-    vector<void (CorpusCleaner::*)(Document &)> cleaner_list = { 
-        &CorpusCleaner::ControlCharacterRemover,
-        &CorpusCleaner::Normalizer,
-        &CorpusCleaner::URLRemover,
-        &CorpusCleaner::EmojiRemover, 
-        &CorpusCleaner::SpecialCharacterRemover, 
-        &CorpusCleaner::QuotesRemover, 
-        &CorpusCleaner::LengthFilter, 
-        &CorpusCleaner::ZeroPunctuationFilter,
-        &CorpusCleaner::LanguageFilter,
-        &CorpusCleaner::NounRatioFilter,
-        &CorpusCleaner::MinhashDeduplication,
-        &CorpusCleaner::PerplexityFilter,
-    }; 
-    
+    vector<void (CorpusCleaner::*)(Document &)> cleaner_list = {}; 
+    if(this->control_character_remover) cleaner_list.push_back(&CorpusCleaner::ControlCharacterRemover);
+    if(this->normalizer)                cleaner_list.push_back(&CorpusCleaner::Normalizer);
+    if(this->url_remover)               cleaner_list.push_back(&CorpusCleaner::URLRemover);
+    if(this->emoji_remover)             cleaner_list.push_back(&CorpusCleaner::EmojiRemover);
+    if(this->special_character_remover) cleaner_list.push_back(&CorpusCleaner::SpecialCharacterRemover);
+    if(this->quotes_remover)            cleaner_list.push_back(&CorpusCleaner::QuotesRemover);
+    if(this->length_filter)             cleaner_list.push_back(&CorpusCleaner::LengthFilter);
+    if(this->zero_punctuation_filter)   cleaner_list.push_back(&CorpusCleaner::ZeroPunctuationFilter);
+    if(this->language_identify)         cleaner_list.push_back(&CorpusCleaner::LanguageFilter);
+    if(this->noun_ratio_filter)         cleaner_list.push_back(&CorpusCleaner::NounRatioFilter);
+    if(this->minhash_filter)            cleaner_list.push_back(&CorpusCleaner::MinhashDeduplication);
+    if(this->perplexity_filter)         cleaner_list.push_back(&CorpusCleaner::PerplexityFilter);
+
     cout << "### Start Clean Pipeline. ###" << endl;
     if(this->sentence_segment==true){
         cout << "### Execute Sentence Segmenter. ###" << endl;
