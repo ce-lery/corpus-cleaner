@@ -881,7 +881,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
         &CorpusCleaner::ZeroPunctuationFilter,
         &CorpusCleaner::LanguageFilter,
         &CorpusCleaner::NounRatioFilter,
-        &CorpusCleaner::MinhashDeduplication,
+        // &CorpusCleaner::MinhashDeduplication,
         &CorpusCleaner::PerplexityFilter,
     }; 
     
