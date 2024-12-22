@@ -1,6 +1,7 @@
 
 #include "corpus_cleaner.hpp"
 #include <unicode/uclean.h> // u_cleanup()
+// #include <vector>
 
 
 
@@ -17,6 +18,24 @@ uint64_t ConutLines(const string& filename)
 {
     ifstream file(filename);
     uint64_t line_count = 0;
+    // constexpr size_t buffer_size = 1024*1024*1024; // 1GB
+    // vector<char> buffer(buffer_size);
+
+    // while (file) {
+    //     file.read(buffer.data(),buffer_size);
+    //     streamsize chars_read = file.gcount();
+    //     cout << chars_read << endl;
+    //     for(int i=0; i<chars_read; i++) {
+    //         // cout << buffer[i] << endl;
+    //         if (buffer[i] == '\n') line_count++;
+    //     }
+    //     cout << "partial line_count: "<< line_count << endl;
+    // }
+    // // if without \n at end of file
+    // file.clear();
+    // file.seekg(-1, ios::end);
+    // char lastChar=0;
+    // if (file.get(lastChar) && lastChar != '\n') line_count++;
     string line="";
     while (getline(file, line)) {
         line_count++;
@@ -67,6 +86,7 @@ void SplitFiles(const vector<string>& output_files, const string& input_file)
         line_count++;
         if (line_count % chunk_count == 0) {
             file_index++;
+            // outputs[file_index].close();
         }
     }
     // cout << "split completed."<<endl;
@@ -206,11 +226,13 @@ int main(void)
         for(int i=0;i<num_threads;i++)        filesystem::remove(base_folder_path+to_string(i)+"/output/cleaned/"+file+".txt");
         
         //Merge rejected
+        splited_filelist.clear();
         for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/rejected/"+file+".jsonl");
         MergeFiles(splited_filelist,rejected_folder_path+file+".jsonl");
         for(int i=0;i<num_threads;i++)        filesystem::remove(base_folder_path+to_string(i)+"/output/rejected/"+file+".txt");
 
         // Merge blacklist
+        splited_filelist.clear();
         if(store_blacklist){
             for(int i=0;i<num_threads;i++)    splited_filelist.push_back(base_folder_path+to_string(i)+"/output/blacklist.txt");
             MergeFiles(splited_filelist,blacklist_folder_path+"/blacklist_"+file+".txt");
