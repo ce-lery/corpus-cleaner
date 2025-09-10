@@ -916,6 +916,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
 {
     // Set CorpusCleaner process that will be executed.
     // They will be executed in the order you set them.
+
     vector<void (CorpusCleaner::*)(Document &)> cleaner_list = {}; 
     if(this->control_character_remover) cleaner_list.push_back(&CorpusCleaner::ControlCharacterRemover);
     if(this->normalizer)                cleaner_list.push_back(&CorpusCleaner::Normalizer);
@@ -929,6 +930,7 @@ int32_t CorpusCleaner::CleanPipeline(void)
     if(this->noun_ratio_filter)         cleaner_list.push_back(&CorpusCleaner::NounRatioFilter);
     if(this->minhash_filter)            cleaner_list.push_back(&CorpusCleaner::MinhashDeduplication);
     if(this->perplexity_filter)         cleaner_list.push_back(&CorpusCleaner::PerplexityFilter);
+
 
     cout << "### Start Clean Pipeline. ###" << endl;
     if(this->sentence_segment==true){
