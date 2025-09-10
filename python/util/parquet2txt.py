@@ -5,7 +5,12 @@ import csv
 # create dataset for training tokenizer
 dataset = load_dataset("wikipedia/data/20230901/ja/", data_files= "train-*-of-0016.parquet",split="train")
 # Export the text column of the dataset to wiki.txt
-dataset.to_csv("wiki.txt", columns=["text"], sep="\t", index=False, header=False, quoting=csv.QUOTE_NONE, escapechar=" ")
+dataset.to_csv("./results/dataset/original/wiki.txt", columns=["text"], sep="\t", index=False, header=False, quoting=csv.QUOTE_NONE, escapechar=" ")
+
+# # create dataset for training tokenizer
+# dataset = load_dataset("wikipedia-ja-20230720/data", data_files= "train-*-of-00008-*.parquet",split="train")
+# # Export the text column of the dataset to wiki.txt
+# dataset.to_csv("./results/dataset/original/wiki.txt", columns=["text"], sep="\t", index=False, header=False, quoting=csv.QUOTE_NONE, escapechar=" ")
 
 # # create dataset for training tokenizer
 # dataset = load_dataset("wikipedia-utils/corpus-jawiki-20230403/", data_files= "train-*-of-00008.parquet",split="train")

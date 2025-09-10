@@ -30,7 +30,7 @@ The features are following.
 - **ZeroPunctuationFilter**: Remove documents without punctuation
 - **NounRatioFilter**: Remove documents with more than 80% nouns by morphological analysis.
 - **Sentence Segmenter**: Divide the corpus into sentences based on rules
-- **Perplexity Filter**: Perplexity filter using kENLM
+- **Perplexity Filter**: Perplexity filter using KenLM
 
 <!-- 
 ## Quick Started
@@ -252,7 +252,12 @@ To contribute, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 - [x] Set Github Action's CI/CD（build）
 - [x] Morphological analysis (by jagger)
+- [ ] Fix Doxygen's action
+- [ ] Implement Stat for inspecting process time
+- [x] Deal with oscar2109_ja_test.txt 's L1894117 (Paragraph Separator, Line Separator?: because of PS and LS)
+- [x] Deal with utf-8 codec error
 - [ ] Write document & create doxygen
+- [x] Fix regex error for L305424 of oscar2109_ja_text_2.txt（debug pipeline step）
 
 ### ver.0.2.0
 
