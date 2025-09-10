@@ -137,7 +137,7 @@ void MultiProcessCorpusClean(const string input_folder_path,
     //string input_folder_path = "../../results/dataset/input/";
     //string output_folder_path = "../../results/dataset/output/";
     uint32_t min_length= 5;
-    uint32_t max_length = 5000;
+    uint32_t max_length = 50000;
     set<string> accept_language{"__label__ja"};
 //  RemoveFolder(output_folder_path);
     bool store_rejected = true; 
