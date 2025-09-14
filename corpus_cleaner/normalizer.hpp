@@ -24,8 +24,11 @@ public:
     /***destructor**/
     ~StringNormalizer();
     wstring UnicodeNormalize(wregex word_pattern,wstring sentence_w);
+    wstring NormalizeChunk(const wregex& word_pattern, wstring chunk, const wregex& hyphen_pattern);
     wstring TranslateToFullwidth(const wstring& sentence_w);
     wstring RemoveExtraSpaces(const wstring& sentence);
-    string NormalizeNeologd(string sentence);
+    wstring RemoveExtraSpacesChunk(const wstring& chunk);
+    wstring FinalSpaceCleanup(const wstring& text);
+     string NormalizeNeologd(string sentence);
     int Normalizer(string input_path,string output_path);
 };

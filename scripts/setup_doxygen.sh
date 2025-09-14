@@ -13,6 +13,7 @@ tar xf doxygen-1.10.0.src.tar
 cd doxygen-1.10.0
 mkdir build
 cd build
+export CMAKE_POLICY_VERSION_MINIMUM=3.5
 cmake ..
 make
 make install

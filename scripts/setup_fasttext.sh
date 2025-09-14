@@ -9,7 +9,8 @@ set -x
 cd scripts
 git clone https://github.com/facebookresearch/fastText.git
 cd fastText
-mkdir build && cd build && cmake ..
+export CMAKE_POLICY_VERSION_MINIMUM=3.5
+mkdir -p build && cd build && cmake ..
 make && make install
 cd ../../../
 

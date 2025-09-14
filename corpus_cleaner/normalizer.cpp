@@ -41,40 +41,84 @@ StringNormalizer::~StringNormalizer()
  * @ref https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
  * https://www.nslabs.jp/icu-normalization.rhtml
  * @note
+ * regex_search sometimes causes segmentation fault when the sentence if over 15kB.
+ * So, in this function, split sentence to chunk and apply regex_search to every chunk.
+ * https://stackoverflow.com/questions/56333295/regex-segmentation-fault
+ * https://stackoverflow.com/questions/56905134/c-stdregex-segmentation-fault
 **/
 wstring StringNormalizer::UnicodeNormalize(wregex word_pattern,wstring sentence_w)
 {
     static wregex hyphen_pattern(L"－");
+    const size_t chunk_size = 500;
+    const size_t overlap = 100; 
+    
+    // if sentence_w length is less than chunk_size, do usually normalization.
+    if (sentence_w.length() <= chunk_size) \
+        return NormalizeChunk(word_pattern, sentence_w, hyphen_pattern);
+    
+    wstring result;
+    size_t pos = 0;
+    
+    while (pos < sentence_w.length()) {
+        // calculate the termination of chunk
+        size_t end = min(pos + chunk_size, sentence_w.length());
+        wstring chunk = sentence_w.substr(pos, end - pos);
+        
+        // If the chunk isn't the last, add overlap
+        if (end < sentence_w.length() && end + overlap <= sentence_w.length()) \
+            chunk += sentence_w.substr(end, overlap);
+        
+        // normalize per chunk
+        wstring normalizedChunk = NormalizeChunk(word_pattern, chunk, hyphen_pattern);
+        
+        // add chuk to result(without overlap part)
+        if (pos == 0) {
+            if (end < sentence_w.length())  result = normalizedChunk.substr(0, chunk_size);
+            else                            result = normalizedChunk;
+        } else {
+            size_t actualChunkSize = min(chunk_size, sentence_w.length() - pos);
+            if (end < sentence_w.length())  result += normalizedChunk.substr(0, actualChunkSize);
+            else                            result += normalizedChunk;
+        }
+        pos += chunk_size;
+    }
+    return result;
+}
 
-	//object for stock the part of matchinng string
+
+wstring StringNormalizer::NormalizeChunk(const wregex& word_pattern, wstring chunk, const wregex& hyphen_pattern)
+{
     wsmatch matches;
-    while (regex_search(sentence_w, matches, word_pattern)) {
+    while (regex_search(chunk, matches, word_pattern)) {
         // cout <<"matches.str():"<<ConvertWstringToUTF8(matches.str())<<endl;
 		//caution: must initialization of errc
         UErrorCode errc = U_ZERO_ERROR;
 
-		// convert matching part of sentence to UnicodeString
+        // convert matching part of sentence to UnicodeString
         icu::UnicodeString match(ConvertWstringToUTF8(matches.str()).c_str(), "UTF-8");
-		// Normalize the matching part of sentence
+        // Normalize the matching part of sentence
         icu::UnicodeString match_morph;
         this->normalizer->normalize(match,match_morph,errc);
 
-		// convert normalized sentence to string
+        // add error check
+        if (U_FAILURE(errc))    continue;
+
+        // convert normalized sentence to string
         string normalizedMatch_temp;
         match_morph.toUTF8String(normalizedMatch_temp);
         // cout <<"normalizedMatch_temp:"<<normalizedMatch_temp<<endl;
 
         wstring normalizedMatch = ConvertUTF8ToWstring(normalizedMatch_temp);
-		// replace original text to normalized text
-        sentence_w.replace(matches.position(), matches.length(), normalizedMatch);
+        // replace original text to normalized text
+        chunk.replace(matches.position(), matches.length(), normalizedMatch);
         
         match.remove();
         match_morph.remove();
     }
 
-    sentence_w = regex_replace(sentence_w,hyphen_pattern,L"-");
+    chunk = regex_replace(chunk,hyphen_pattern,L"-");
 
-    return sentence_w;
+    return chunk;
 }
 
 
@@ -141,26 +185,82 @@ wstring StringNormalizer::TranslateToFullwidth(const wstring& sentence_w)
 **/
 wstring StringNormalizer::RemoveExtraSpaces(const wstring& sentence)
 {
-    wstring result = regex_replace(sentence, wregex(L"[ 　]+"), L" ");
-
-    wstring blocks = LR"(\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F\uFF00-\uFFEF)";
-    wstring basicLatin = LR"(\u0000-\u007F)";
-
-    auto removeSpaceBetween = [](const wstring& cls1, const wstring& cls2, wstring str) {
-        wregex pattern(L"([" + cls1 + L"]) ([" + cls2 + L"])");
-        while (regex_search(str, pattern)) {
-            str = regex_replace(str, pattern, L"$1$2");
+    const size_t CHUNK_SIZE = 500;
+    const size_t OVERLAP = 10;
+    
+    if (sentence.length() <= CHUNK_SIZE) {
+        return RemoveExtraSpacesChunk(sentence);
+    }
+    
+    wstring result;
+    result.reserve(sentence.length());
+    
+    for (size_t pos = 0; pos < sentence.length(); pos += CHUNK_SIZE) {
+        size_t end = min(pos + CHUNK_SIZE + OVERLAP, sentence.length());
+        wstring chunk = sentence.substr(pos, end - pos);
+        
+        wstring processedChunk = RemoveExtraSpacesChunk(chunk);
+        
+        // treal with overlap
+        size_t appendSize = min(CHUNK_SIZE, processedChunk.length());
+        if (pos + CHUNK_SIZE >= sentence.length()) {
+            appendSize = processedChunk.length();
         }
-        return str;
+        
+        result.append(processedChunk, 0, appendSize);
+    }
+    
+    return FinalSpaceCleanup(result);
+}
+
+wstring StringNormalizer::RemoveExtraSpacesChunk(const wstring& chunk)
+{
+    static const wregex spacePattern(L"[ 　]+");
+    static const wstring blocks = LR"(\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F\uFF00-\uFFEF)";
+    static const wstring basicLatin = LR"(\u0000-\u007F)";
+    static const wregex blockToBlockPattern(L"([" + blocks + L"]) ([" + blocks + L"])");
+    static const wregex blockToLatinPattern(L"([" + blocks + L"]) ([" + basicLatin + L"])");
+    static const wregex latinToBlockPattern(L"([" + basicLatin + L"]) ([" + blocks + L"])");
+    
+    // convert consecutive spaces to single spaces
+    wstring result = regex_replace(chunk, spacePattern, L" ");
+    
+    // remove spaces between each character class
+    auto removeSpaceBetweenClasses = [&](const wregex& pattern) {
+        while (regex_search(result, pattern)) {
+            result = regex_replace(result, pattern, L"$1$2");
+        }
     };
-
-    result = removeSpaceBetween(blocks, blocks, result);
-    result = removeSpaceBetween(blocks, basicLatin, result);
-    result = removeSpaceBetween(basicLatin, blocks, result);
-
+    
+    removeSpaceBetweenClasses(blockToBlockPattern);
+    removeSpaceBetweenClasses(blockToLatinPattern);
+    removeSpaceBetweenClasses(latinToBlockPattern);
+    
     return result;
 }
 
+wstring StringNormalizer::FinalSpaceCleanup(const wstring& text)
+{
+    static const wstring blocks = LR"(\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F\uFF00-\uFFEF)";
+    static const wstring basicLatin = LR"(\u0000-\u007F)";
+    static const wregex blockToBlockPattern(L"([" + blocks + L"]) ([" + blocks + L"])");
+    static const wregex blockToLatinPattern(L"([" + blocks + L"]) ([" + basicLatin + L"])");
+    static const wregex latinToBlockPattern(L"([" + basicLatin + L"]) ([" + blocks + L"])");
+    
+    wstring result = text;
+    
+    auto removeSpaceBetweenClasses = [&](const wregex& pattern) {
+        while (regex_search(result, pattern)) {
+            result = regex_replace(result, pattern, L"$1$2");
+        }
+    };
+    
+    removeSpaceBetweenClasses(blockToBlockPattern);
+    removeSpaceBetweenClasses(blockToLatinPattern);
+    removeSpaceBetweenClasses(latinToBlockPattern);
+    
+    return result;
+}
 /**
  * @brief Neologd Normalized function
  * @details

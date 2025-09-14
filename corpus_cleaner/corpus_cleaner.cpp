@@ -269,6 +269,8 @@ CorpusCleaner::CorpusCleaner(string input_path,
     this->generate_dedup_lsh=generate_dedup_lsh;
     this->deduplicator=deduplicator;
 
+    cout << "max_length: " <<this->max_length << endl;
+
     this->jagger_parser.read_model("../../scripts/jagger-extension/jagger-2023-02-18/model/kwdlc/patterns");
 
     if(filesystem::exists(this->output_path) | 

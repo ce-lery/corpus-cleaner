@@ -10,6 +10,7 @@ cd corpus_cleaner
 mkdir -p build 
 cd build
 
+export CMAKE_POLICY_VERSION_MINIMUM=3.5
 cmake ..
 make all
 

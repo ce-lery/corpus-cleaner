@@ -29,6 +29,7 @@ cd build
 #     wget wget http://dl.fbaipublicfiles.com/cc_net/lm/ja.sp.model
 # fi
 
+export CMAKE_POLICY_VERSION_MINIMUM=3.5
 cmake ..
 make all
 

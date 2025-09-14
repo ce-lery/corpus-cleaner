@@ -16,6 +16,7 @@ git clone https://github.com/google/sentencepiece.git
 cd sentencepiece
 mkdir build
 cd build
+export CMAKE_POLICY_VERSION_MINIMUM=3.5
 cmake ..
 make -j $(nproc)
 make install
